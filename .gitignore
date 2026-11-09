@@ -1,0 +1,3 @@
+# Worktrees của AI: không commit nội dung; giữ lại thư mục bằng .gitkeep
+.ai/worktrees/*
+!.ai/worktrees/.gitkeep
