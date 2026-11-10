@@ -1,147 +1,65 @@
 ---
 name: unit-testing
-description: Design, implement and execute isolated unit tests for business logic, functions, services and components using the project's approved testing framework.
+description: Thiết kế, viết và chạy unit test cô lập cho logic nghiệp vụ, hàm, service và component, truy vết về AC, báo cáo bằng TEST-REPORT-TEMPLATE.
 ---
 
 # Unit Testing Skill
 
-## 1. Objective
+## 1. Mục tiêu
 
-Verify that individual units behave correctly
-under expected and unexpected conditions.
+Chứng minh từng đơn vị code chạy đúng ở điều kiện bình thường, biên và lỗi, mỗi test truy vết được về một AC.
 
-## 2. Required Inputs
+## 2. Cổng vào
 
-- Functional Requirements
-- Business Rules
-- Acceptance Criteria
-- Source Code
-- Existing Test Structure
-- Testing Standards
-- Approved Test Framework
+- Task có AC (ID dạng `<FR>-AC<N>`) và mức rủi ro; thiếu thì dừng và hỏi.
+- Đã xác định framework test của dự án; chưa có thì ghi câu hỏi mở, không tự chọn.
 
-## 3. Testing Workflow
+## 3. Đầu vào
 
-### Step 1: Identify Test Targets
+- Task và AC (acceptance-criteria), FR/BR liên quan
+- testing-strategy (tầng, công cụ, ngưỡng coverage của dự án)
+- Rules: testing-rules, coding-rules
+- Mã nguồn cần test và cấu trúc test hiện có
 
-Identify:
-- Pure functions
-- Business services
-- Validation functions
-- Utility functions
-- Components
-- State transformations
+## 4. Quy trình
 
-### Step 2: Identify Test Scenarios
+1. **Xác định đối tượng test** từ AC: hàm thuần, service nghiệp vụ, validation, biến đổi trạng thái, component.
+2. **Liệt kê kịch bản** cho từng đối tượng: bình thường, biên, đầu vào sai/rỗng/null, lỗi, vi phạm quy tắc nghiệp vụ, ca bị từ chối quyền (nếu logic có kiểm quyền).
+3. **Thiết kế test** theo Arrange / Act / Assert: một mục đích, tên mô tả, xác định, độc lập, kiểm hành vi quan sát được. Tên hoặc chú thích test ghi ID AC.
+4. **Mock** chỉ phần phụ thuộc ngoài (mạng, dịch vụ ngoài, thời gian, CSDL trong unit test). Không mock chính hành vi đang test.
+5. **Viết test** theo quy ước, vị trí file, tiện ích dùng chung của dự án.
+6. **Chạy**: test nhắm mục tiêu, bộ test liên quan, rồi toàn bộ unit khi cần. Chưa có CI thì chạy tại máy và ghi miễn trừ có thời hạn.
+7. **Coverage**: đối chiếu với ngưỡng trong testing-strategy; không hạ ngưỡng. Ưu tiên phủ hành vi/quy tắc nghiệp vụ hơn con số.
+8. **Sửa lỗi (regression test)**: viết test tái hiện, chạy thấy đỏ trước khi sửa, sửa rồi chạy xanh; ghi output cả hai lần.
 
-For each target identify:
-- Normal cases
-- Boundary cases
-- Invalid inputs
-- Empty inputs
-- Null or undefined values
-- Error cases
-- Business rule violations
+## 5. Checklist
 
-### Step 3: Design Test Cases
+- [ ] Mỗi AC trong phạm vi có test, test mang ID AC.
+- [ ] Có ca bình thường, biên, đầu vào sai, lỗi, từ chối quyền (nếu áp dụng).
+- [ ] Test độc lập, xác định, không phụ thuộc thứ tự.
+- [ ] Assertion kiểm hành vi thật, không kiểm chi tiết cài đặt.
+- [ ] Coverage đạt ngưỡng của dự án.
+- [ ] Kết quả có lệnh và output thật.
 
-Use Arrange / Act / Assert.
+## 6. Việc không được làm
 
-Each test should:
-- Have one clear purpose.
-- Use descriptive names.
-- Be deterministic.
-- Be independent.
-- Verify observable behavior.
+- Sửa code production chỉ để test sai được qua.
+- Xoá, tắt, làm yếu assertion hoặc hạ ngưỡng coverage để qua cổng.
+- Bỏ qua test lỗi mà không ghi lý do; để skipped không báo.
+- Khẳng định pass khi chưa chạy.
+- Lạm dụng mock đến mức test không còn kiểm gì.
 
-### Step 4: Mock Dependencies
+## 7. Tiêu chí hoàn thành (DoD)
 
-Mock external dependencies when necessary.
+- Mọi AC trong phạm vi có test đạt; AC chưa có test ghi vào "Còn thiếu" của báo cáo.
+- Test đã chạy, lỗi đã điều tra, coverage không dưới ngưỡng.
+- Không có test skipped nào chưa được báo cáo.
 
-Examples:
-- Network calls
-- External services
-- Time-dependent operations
-- Database access in isolated unit tests
+## 8. Báo cáo bàn giao
 
-Do not mock the actual business logic under test.
-
-### Step 5: Implement Tests
-
-Follow:
-- Existing test conventions
-- Naming conventions
-- Test file locations
-- Shared test utilities
-
-Avoid unnecessary test duplication.
-
-### Step 6: Execute Tests
-
-Run:
-- Targeted unit tests
-- Related test suite
-- Full unit test suite when appropriate
-
-Capture actual execution results.
-
-### Step 7: Evaluate Coverage
-
-Review:
-- Statement coverage
-- Branch coverage
-- Function coverage
-- Critical business rule coverage
-
-Prioritize meaningful behavior coverage over arbitrary percentages.
-
-## 4. Output Format
-
-Produce:
-1. Test Target
-2. Test Scenarios
-3. Test Cases
-4. Test Files
-5. Execution Results
-6. Coverage Information
-7. Failed Tests
-8. Remaining Gaps
-
-## 5. Quality Checklist
-
-- [ ] Normal cases are tested.
-- [ ] Boundary cases are tested.
-- [ ] Invalid inputs are tested.
-- [ ] Error scenarios are tested.
-- [ ] Business rules are covered.
-- [ ] Tests are isolated.
-- [ ] Tests are deterministic.
-- [ ] Assertions verify actual behavior.
-- [ ] Tests are maintainable.
-- [ ] Execution results are recorded.
-
-## 6. Restrictions
-
-- Do not modify production code merely to satisfy incorrect tests.
-- Do not weaken assertions to make tests pass.
-- Do not skip failing tests without justification.
-- Do not claim tests passed without execution.
-- Do not overuse mocks.
-
-## 7. Definition of Done
-
-- Relevant test cases implemented.
-- Tests executed successfully.
-- Failures investigated.
-- Coverage gaps documented.
-- No unreported skipped tests.
-
-## 8. Delivery Report
-
-Report:
-- Test files created or modified
-- Test scenarios
-- Tests executed
-- Passed / Failed / Skipped
-- Coverage results
-- Remaining gaps
+Điền TEST-REPORT-TEMPLATE, gồm:
+- Test đã thêm/sửa (file::tên) và AC tương ứng
+- Lệnh đã chạy và output thật; trạng thái pass / fail / skipped / not-run, mỗi mục skipped/not-run kèm lý do
+- Coverage so với ngưỡng
+- Với regression: output đỏ trước và xanh sau
+- Còn thiếu và rủi ro còn lại

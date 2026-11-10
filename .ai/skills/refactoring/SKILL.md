@@ -1,165 +1,60 @@
 ---
 name: refactoring
-description: Improve internal code structure, readability, modularity and maintainability while preserving existing externally observable behavior.
+description: Cải thiện cấu trúc nội bộ của code (dễ đọc, dễ bảo trì) mà giữ nguyên hành vi quan sát được; có baseline test trước và so sánh sau, không đổi schema/contract/API.
 ---
 
 # Refactoring Skill
 
-## 1. Objective
+## 1. Mục tiêu
 
-Improve code quality and maintainability without
-changing approved business behavior.
+Cải thiện cấu trúc code mà không đổi hành vi nghiệp vụ đã duyệt.
 
-## 2. Required Inputs
+## 2. Cổng vào
 
-- Refactoring Task
-- Existing Source Code
-- Architecture Documents
-- Coding Standards
-- Business Requirements
-- Existing Test Suite
-- Known Technical Debt
+- Có Task refactor nêu rõ phạm vi, mức rủi ro và mức tự chủ. Thiếu thì dừng và hỏi.
+- Task **lai** (refactor kèm sửa lỗi hoặc thêm tính năng): tách thành Task riêng, không làm chung.
+- Refactor lớn cần plan được duyệt trước khi sửa; ngưỡng "lớn" do plan chốt.
 
-## 3. Refactoring Workflow
+## 3. Đầu vào
 
-### Step 1: Understand Existing Behavior
+Task, mã nguồn và bộ test hiện có, thiết kế/ranh giới module đã duyệt, chuẩn code của dự án, nợ kỹ thuật đã biết.
 
-Identify:
-- Current functionality
-- Public interfaces
-- Business rules
-- Dependencies
-- Existing test coverage
-- Known edge cases
+## 4. Quy trình
 
-### Step 2: Identify Refactoring Targets
+1. **Hiểu hành vi hiện tại:** giao diện công khai, quy tắc nghiệp vụ, phụ thuộc, vùng được test.
+2. **Baseline:** chạy test liên quan trước (dùng unit-testing để bổ sung test mô tả hành vi cho chỗ chưa có), ghi lại lỗi có sẵn. Không đổ lỗi có sẵn cho refactor.
+3. **Xác định mục tiêu:** chỉ những mùi code ảnh hưởng thực sự tới Task (lặp, hàm/lớp quá lớn, điều kiện rối, phụ thuộc chặt hoặc vòng, đặt tên khó hiểu, khó test).
+4. **Kiểm tra ràng buộc:** refactor **không đổi schema, contract hay API**; cần đổi thì chuyển database-design hoặc api-development và cần duyệt (ADR nếu thuộc diện). Cần đổi ranh giới module hay kiến trúc đã duyệt thì **dừng xin duyệt**.
+5. **Plan** (refactor lớn): vấn đề, cấu trúc mong muốn, file, rủi ro, test; chờ duyệt.
+6. **Refactor từng bước nhỏ**, chạy test sau mỗi bước; tối đa 3 vòng sửa–chạy khi test đỏ, quá thì dừng và báo.
+7. **So sánh với baseline:** đầu vào/ra, lỗi, quyền truy cập, thứ tự hiệu ứng phụ không đổi. Không khẳng định cải thiện hiệu năng khi chưa đo.
+8. **Cập nhật tài liệu** nếu cấu trúc đã ghi ở tài liệu thiết kế bị đổi (skill documentation).
+9. **Bàn giao** cho code-review ở phiên khác.
 
-Consider:
-- Duplicated code
-- Large functions
-- Large components
-- High coupling
-- Low cohesion
-- Complex conditional logic
-- Poor naming
-- Unclear responsibilities
-- Circular dependencies
-- Difficult-to-test code
+## 5. Checklist
 
-### Step 3: Establish Baseline
+- [ ] Task không lai; phạm vi rõ.
+- [ ] Baseline test đã chạy và ghi lại trước khi sửa.
+- [ ] Thay đổi nhỏ, tăng dần; không đổi schema/contract/API.
+- [ ] Test sau refactor đạt và khớp baseline; test không bị xoá hay làm yếu.
+- [ ] Không thêm tính năng; quyền truy cập không đổi.
 
-Before changing code:
-- Run relevant tests.
-- Record existing failures.
-- Review current behavior.
-- Identify compatibility constraints.
+## 6. Việc không được làm
 
-Do not attribute pre-existing failures to refactoring.
+- Không thêm tính năng, không đổi hành vi nghiệp vụ, không gộp sửa lỗi vào refactor.
+- Không đổi schema, contract, API, ranh giới module khi chưa được duyệt.
+- Không viết lại quy mô lớn khi chưa có plan được duyệt.
+- Không xoá hay làm yếu test cho dễ qua.
+- Không tối ưu hiệu năng khi thiếu số đo.
+- Không tự duyệt refactor của mình.
 
-### Step 4: Create Refactoring Plan
+## 7. Tiêu chí hoàn thành (DoD)
 
-Specify:
-- Problem
-- Desired structure
-- Files affected
-- Expected benefits
-- Potential risks
-- Tests required
+- Mục tiêu refactor đạt, hành vi giữ nguyên (so với baseline).
+- Cổng kiểm tra của dự án đạt, có bằng chứng.
+- Đã bàn giao cho code-review ở phiên khác, không tự duyệt.
+- Nợ kỹ thuật còn lại được ghi.
 
-### Step 5: Refactor Incrementally
+## 8. Báo cáo bàn giao
 
-Apply small, controlled changes.
-
-Examples:
-- Extract function
-- Extract component
-- Extract service
-- Simplify conditions
-- Remove duplication
-- Improve naming
-- Separate responsibilities
-- Reduce coupling
-
-### Step 6: Preserve Behavior
-
-Verify:
-- Inputs remain compatible.
-- Outputs remain compatible.
-- Business rules remain unchanged.
-- Error behavior remains compatible.
-- Permission boundaries remain unchanged.
-
-### Step 7: Run Tests
-
-Run:
-- Existing unit tests
-- Integration tests
-- Relevant E2E tests
-- Regression tests
-- Static checks
-
-### Step 8: Evaluate Improvements
-
-Compare:
-- Complexity
-- Duplication
-- Maintainability
-- Dependency structure
-- Testability
-
-Do not claim performance improvement without measurement.
-
-## 4. Output Format
-
-Produce:
-
-1. Existing Problems
-2. Refactoring Objectives
-3. Proposed Changes
-4. Files Changed
-5. Behavior Preservation Assessment
-6. Tests Executed
-7. Quality Improvements
-8. Remaining Technical Debt
-
-## 5. Quality Checklist
-
-- [ ] Existing behavior is understood.
-- [ ] Refactoring scope is clear.
-- [ ] Baseline tests are recorded.
-- [ ] Changes are incremental.
-- [ ] Business rules are preserved.
-- [ ] Public interfaces remain compatible.
-- [ ] Permissions are unchanged.
-- [ ] Regression tests pass.
-- [ ] No unrelated feature is added.
-- [ ] Documentation is updated if needed.
-
-## 6. Restrictions
-
-- Do not introduce new features.
-- Do not change business behavior.
-- Do not combine large refactoring with unrelated bug fixes.
-- Do not remove tests simply because they are inconvenient.
-- Do not perform large-scale rewrites without approval.
-- Do not optimize performance without evidence.
-
-## 7. Definition of Done
-
-- Refactoring objectives achieved.
-- Existing behavior preserved.
-- Relevant tests passed.
-- No new critical defects.
-- Code review completed.
-- Technical debt documented.
-
-## 8. Delivery Report
-
-Report:
-- Refactoring targets
-- Problems addressed
-- Files changed
-- Behavior preservation
-- Tests executed
-- Quality improvements
-- Remaining technical debt
+Điền DELIVERY-REPORT-TEMPLATE, nêu thêm: vấn đề đã xử lý, file đã sửa, kết quả baseline so với sau refactor, đánh giá giữ nguyên hành vi, cải thiện đạt được, nợ kỹ thuật còn lại.

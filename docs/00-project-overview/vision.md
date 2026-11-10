@@ -6,9 +6,13 @@
 | Người phụ trách |  |
 | Người duyệt |  |
 | Phiên bản · Ngày | 0.1 ·  |
-| Tài liệu liên quan | scope.md, glossary.md |
+| Tài liệu liên quan | scope.md, glossary.md, open-questions.md, ../01-requirements/BRD.md |
 
-> **Mục đích.** Vì sao dự án tồn tại, cho ai, thành công trông như thế nào. Đầu ra giai đoạn 1; **Người quyết: PO.** Điều kiện duyệt: Vision và Scope ở trạng thái Approved, các câu hỏi mở được ghi lại (`Open`/`Assumption`). Chưa đạt thì chưa sang giai đoạn Requirements.
+> **Mục đích.** Dự án giải quyết vấn đề gì, dành cho ai, đầu ra giai đoạn 1.
+>
+> **Người quyết định:** PO.
+>
+> **Điều kiện sang 01-requirements:** vision, scope trạng thái Approved; câu hỏi mở chặn phạm vi đã được xử lý (xem open-questions.md).
 
 ## 1. Vấn đề cần giải quyết
 <!-- Điền theo từng dự án -->
@@ -22,9 +26,8 @@
 <!-- Điền theo từng dự án -->
 
 ## 4. Outcome đo được
-| Outcome | Chỉ số | Mục tiêu | Cách đo |
-| --- | --- | --- | --- |
-|  | | | |
+Mỗi Outcome nên có mã `OUT-<NN>` để BRD (Tiêu chí thành công) tham chiếu, không chép lại.
 
-## 5. Câu hỏi mở
-Ghi trạng thái `Open` / `Assumption` (xem mục 6 trong PROJECT.md).
+| Mã | Outcome | Chỉ số | Mục tiêu | Cách đo |
+| --- | --- | --- | --- | --- |
+| OUT-01 | | | | |

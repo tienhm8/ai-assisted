@@ -1,196 +1,67 @@
 ---
 name: frontend-development
-description: Develop and maintain frontend applications, pages, components, forms, state management and user interactions following approved UI/UX, architecture and security standards.
+description: Cài đặt trang, component, form, state và tích hợp API ở frontend theo yêu cầu Approved, thiết kế UI/UX và API contract, kèm test và báo cáo bàn giao.
 ---
 
 # Frontend Development Skill
 
-## 1. Objective
+## 1. Mục tiêu
 
-Build user-friendly, accessible, responsive, maintainable
-and testable frontend applications.
+Hiện thực giao diện đúng FR/AC, UI/UX và API contract; xử lý đủ trạng thái tải/lỗi, truy cập được và có test.
 
-## 2. Required Inputs
+## 2. Cổng vào
 
-- Functional Requirements
-- UI/UX Design
-- Design System
-- API Specification
-- Architecture Documents
-- Authentication and RBAC Requirements
-- Existing Frontend Code
-- Coding Rules
+Dừng và ghi `open-questions.md` (OQ-<NN>) nếu thiếu:
+- FR có AC đã duyệt.
+- Tài liệu UI/UX và Design System: nếu dự án chưa có, dừng và ghi OQ.
+- API contract Approved trong api-design.md. Chỉ chạy song song với `api-development` khi contract đã Approved.
 
-## 3. Development Workflow
+## 3. Đầu vào
 
-### Step 1: Analyze Requirements
+- FR, acceptance-criteria.md
+- Tài liệu UI/UX, Design System (nếu có)
+- api-design.md, system-architecture.md, coding-standards.md, security-standards.md
+- Mã frontend hiện có
 
-Identify:
-- Target users
-- User journeys
-- Pages and screens
-- UI components
-- Form requirements
-- Data displayed
-- User interactions
-- Loading and error states
-- Permission-dependent UI behavior
+## 4. Quy trình
 
-### Step 2: Inspect Existing Frontend
+1. **Phân tích**: người dùng, màn hình, dữ liệu hiển thị, tương tác, trạng thái tải/lỗi/rỗng, hành vi phụ thuộc quyền.
+2. **Khảo sát mã hiện có**: cấu trúc, routing, component dùng chung, cách gọi API; tái dùng trước khi tạo mới.
+3. **Hiện thực**: component theo coding-standards.md (kiểu dữ liệu theo coding standards; ranh giới render nếu framework có khái niệm này).
+4. **Form**: validate phía client chỉ để hỗ trợ người dùng, không thay backend; xử lý lỗi validation từ server, chặn gửi trùng, phản hồi thành công.
+5. **Tích hợp API**: đúng contract; xử lý lỗi HTTP, mất mạng, tải; không lộ secret.
+6. **Quyền hiển thị**: lấy từ backend/session; ẩn UI không phải kiểm quyền. Xử lý phiên hết hạn và phản hồi từ chối theo `authentication-rbac`.
+7. **Truy cập và đáp ứng**: theo Design System và coding-standards.md.
+8. **Test**: gọi `unit-testing` (component/form) và `e2e-testing` (luồng chính theo AC).
+9. **Bàn giao**: theo mục 8.
 
-Review:
-- Framework and version
-- Application structure
-- Routing
-- Component conventions
-- Styling approach
-- State management
-- API client
-- Existing reusable components
+## 5. Checklist
 
-Reuse existing components where appropriate.
+- [ ] Khớp UI/UX và AC.
+- [ ] Tái dùng component/Design System sẵn có.
+- [ ] Trạng thái tải, lỗi, rỗng được xử lý.
+- [ ] Quyền hiển thị lấy từ backend/session.
+- [ ] Không lộ secret.
 
-### Step 3: Plan UI Structure
+## 6. Việc không được làm
 
-Define:
-- Page structure
-- Layout
-- Shared components
-- Feature components
-- Data flow
-- State boundaries
-- Responsive behavior
+- Không bịa hành vi nghiệp vụ.
+- Không coi ẩn UI là phân quyền; không bỏ qua phân quyền backend.
+- Không thêm thư viện UI không cần thiết hay nhân đôi component dùng chung.
+- Không đổi quy ước giao diện toàn cục khi chưa được duyệt.
+- Không đặt logic nghiệp vụ nhạy cảm chỉ ở frontend.
 
-### Step 4: Implement Components
+## 7. Tiêu chí hoàn thành (DoD)
 
-Follow:
-- Single responsibility
-- Reusability
-- Consistent naming
-- Clear component interfaces
-- Typed props
-- Appropriate composition
+- Cổng vào thoả; giao diện và tích hợp API hoàn tất đúng AC.
+- Test đã chạy có bằng chứng; skip/fail ghi rõ.
+- Checklist đạt; review hoàn tất.
+- Tài liệu bị ảnh hưởng đã cập nhật hoặc ghi lại cần cập nhật.
 
-Avoid unnecessarily large components.
+## 8. Báo cáo bàn giao
 
-### Step 5: Implement Forms
-
-Every form should consider:
-- Input validation
-- Required fields
-- Error messages
-- Loading state
-- Submission state
-- Duplicate submission prevention
-- Success feedback
-- Server-side validation errors
-
-Client-side validation must not replace backend validation.
-
-### Step 6: Integrate APIs
-
-- Follow API specifications.
-- Use typed request and response models.
-- Handle HTTP errors.
-- Handle network failures.
-- Handle loading states.
-- Avoid duplicate requests where inappropriate.
-- Do not expose secrets.
-
-### Step 7: Handle Authentication and Permissions
-
-- Follow approved authentication flows.
-- Display actions according to permissions.
-- Handle expired sessions.
-- Handle unauthorized responses.
-- Never treat hidden UI as backend authorization.
-
-### Step 8: Accessibility and Responsive Design
-
-Consider:
-- Semantic HTML
-- Keyboard navigation
-- Focus management
-- Accessible labels
-- Contrast
-- Mobile layouts
-- Tablet layouts
-- Desktop layouts
-
-### Step 9: Performance Optimization
-
-Evaluate:
-- Unnecessary re-renders
-- Bundle size
-- Image optimization
-- Lazy loading
-- Server/client rendering boundaries
-- Data fetching strategy
-
-### Step 10: Test
-
-Write appropriate:
-- Component tests
-- Form tests
-- Interaction tests
-- Responsive tests
-- Accessibility checks
-- E2E tests where applicable
-
-## 4. Output Format
-
-Produce:
-1. Pages and Components
-2. Component Structure
-3. API Integrations
-4. State Management
-5. Form Validation
-6. Permission Handling
-7. Responsive Behavior
-8. Error and Loading States
-9. Tests
-10. Documentation Updates
-
-## 5. Quality Checklist
-
-- [ ] UI matches approved requirements.
-- [ ] Existing design system is reused.
-- [ ] Components are maintainable.
-- [ ] TypeScript types are defined.
-- [ ] Forms are validated.
-- [ ] API errors are handled.
-- [ ] Loading states are handled.
-- [ ] Permission-dependent actions are handled.
-- [ ] Responsive layouts work.
-- [ ] Accessibility is considered.
-- [ ] No secrets are exposed.
-- [ ] Tests pass.
-
-## 6. Restrictions
-
-- Do not invent business behavior.
-- Do not bypass backend authorization.
-- Do not introduce unnecessary UI libraries.
-- Do not duplicate shared components.
-- Do not change global design conventions without approval.
-- Do not put sensitive business logic only in the frontend.
-
-## 7. Definition of Done
-
-- UI implementation completed.
-- API integration completed.
-- Validation implemented.
-- Loading and error states implemented.
-- Responsive behavior verified.
-- Relevant tests passed.
-- Code review completed.
-
-## 8. Delivery Report
-
-Report:
-- Pages created or modified
-- Components created or modified
-- APIs integrated
-- State management changes
-- Tests executed
-- Known limitations
+- Trang/component tạo hoặc sửa
+- API đã tích hợp
+- Test đã chạy và kết quả
+- OQ còn mở, quyết định cần duyệt
+- Giới hạn đã biết

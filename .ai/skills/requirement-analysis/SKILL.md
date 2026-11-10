@@ -1,184 +1,64 @@
 ---
 name: requirement-analysis
-description: Analyze business needs and transform them into structured, traceable software requirements, including functional requirements, business rules, user stories and acceptance criteria.
+description: Phân tích nhu cầu nghiệp vụ thành yêu cầu phần mềm có thể truy vết (BRQ, FR, business rules, NFR, acceptance criteria) và ghi vào đúng tài liệu yêu cầu; điểm chưa rõ ghi vào open-questions.
 ---
 
 # Requirement Analysis Skill
 
-## 1. Objective
+## 1. Mục tiêu
 
-Analyze business requirements and produce clear, complete,
-consistent and implementable software requirements.
+Biến nhu cầu nghiệp vụ thành yêu cầu rõ ràng, kiểm thử được, truy vết được, đủ cho kiến trúc sư, developer và QA dùng. AI chỉ soạn ở trạng thái Draft; không tự chuyển Approved.
 
-The output must be understandable by:
-- Product Owner
-- Business Analyst
-- Software Architect
-- Frontend Developer
-- Backend Developer
-- QA Engineer
+## 2. Cổng vào
 
-## 2. Required Inputs
+- Có mục tiêu nghiệp vụ và phạm vi (vision, scope) ở trạng thái Approved, hoặc nguồn từ stakeholder đã duyệt. Thiếu thì dừng và hỏi; nếu chưa có vision/scope thì chuyển product-discovery.
+- Điểm chưa rõ chặn phạm vi: ghi `OQ-NN`, không tự trả lời.
 
-- Business objectives
-- Existing business documentation
-- Project scope
-- Stakeholder requirements
-- Existing FR and BR documents
-- Existing system behavior
-- Relevant architecture documents
+## 3. Đầu vào
 
-## 3. Analysis Workflow
+Đọc trước: mục tiêu nghiệp vụ, phạm vi, BRD, FR/business-rules/NFR/acceptance-criteria hiện có, glossary, open-questions.md, và nguồn từ stakeholder (tài liệu, quyết định đã duyệt).
 
-### Step 1: Understand Business Context
+## 4. Quy trình
 
-- Identify the business problem.
-- Identify business objectives.
-- Identify target users.
-- Identify stakeholders.
-- Identify expected business outcomes.
-- Identify project scope and constraints.
+**Quy ước ID và truy vết**
 
-### Step 2: Identify Actors
+- ID: `BRQ-NN`, `FR-<MODULE>-NN`, `BR-<MODULE>-NN`, `NFR-NN`, `<FR>-AC<N>`, `OQ-NN`.
+- Truy vết một chiều: FR giữ liên kết tới BRQ và BR; AC trỏ tới FR (và BR nó kiểm chứng). Không khai báo chiều ngược lại ở BRD hay business-rules.md. Không lập Traceability Matrix riêng.
 
-For each actor, identify:
-- Actor name
-- Responsibilities
-- Permissions
-- Business objectives
-- Interactions with the system
+**Các bước**
 
-Do not assume all actors have the same access.
+1. **Bối cảnh:** vấn đề, mục tiêu, người dùng, stakeholder, phạm vi và ngoài phạm vi, ràng buộc. Ghi mục tiêu vào BRD (BRQ).
+2. **Actor:** vai trò, trách nhiệm, quyền; không giả định mọi actor có quyền như nhau.
+3. **FR:** tách nhu cầu thành FR, ghi vào bảng FR của `FR/FR-<MODULE>.md`. Mô tả một câu. Chỉ FR rủi ro cao hoặc mơ hồ mới thêm chi tiết (điều kiện tiên quyết, luồng chính, luồng lỗi) dưới bảng.
+4. **Business rule:** chỉ ghi vào business-rules.md khi có nguồn đã duyệt (ghi rõ nguồn). Chưa có nguồn thì ghi thành OQ, không tự đặt.
+5. **NFR:** ghi vào NFR.md, mỗi NFR đo được (chỉ số + cách đo); không đo được thì ghi OQ.
+6. **Acceptance criteria:** ghi vào acceptance-criteria.md, dạng Given / When / Then, kết quả quan sát được; gồm luồng lỗi và giá trị biên.
+7. **Phụ thuộc:** giữa FR, module, API, thực thể dữ liệu, dịch vụ ngoài, vai trò; ghi tại FR liên quan.
+8. **Điểm chưa rõ:** mơ hồ, thiếu quyết định, mâu thuẫn, giả định, mục ngoài phạm vi đều ghi vào open-questions.md (`OQ-NN`). Giả định phải có hạn rà soát. Không tự giải quyết ngầm.
 
-### Step 3: Identify Functional Requirements
+## 5. Checklist
 
-Break business needs into functional requirements.
+- [ ] Mỗi FR có nguồn BRQ; mỗi BR có nguồn đã duyệt.
+- [ ] Mỗi FR có AC dạng Given / When / Then, gồm luồng lỗi và giá trị biên.
+- [ ] NFR có chỉ số và cách đo.
+- [ ] Mọi điểm chưa rõ đã thành `OQ-NN`; giả định có hạn rà soát.
+- [ ] Thuật ngữ khớp glossary.
 
-Each requirement must include:
-- Requirement ID
-- Requirement name
-- Description
-- Actor
-- Preconditions
-- Main flow
-- Alternative flows
-- Exception flows
-- Expected result
+## 6. Việc không được làm
 
-### Step 4: Identify Business Rules
+- Không bịa yêu cầu hay quy tắc nghiệp vụ; không tự quyết thay stakeholder.
+- Không trộn FR với chi tiết triển khai kỹ thuật.
+- Không đánh dấu Approved. Sửa FR đã Approved phải ghi lịch sử thay đổi (ngày, FR, thay đổi, lý do, người duyệt), không sửa lặng lẽ.
+- Quyết định ảnh hưởng lớn đến triển khai mà chưa rõ thì dừng và hỏi.
 
-Identify explicit business rules.
+## 7. Tiêu chí hoàn thành (DoD)
 
-Examples:
-- Account eligibility
-- Ownership of core entities
-- Approval of core entities
-- Status transitions
-- Data visibility
-- Assignment restrictions
+- Mọi FR trong phạm vi có AC kiểm thử được (gồm luồng lỗi, biên); mọi BR có AC.
+- NFR đo được.
+- Mọi ID duy nhất, liên kết FR→BRQ/BR đầy đủ.
+- Điểm chưa rõ và giả định đã ghi vào open-questions.md.
+- Sẵn sàng chuyển requirement-review.
 
-See [examples.md](examples.md) for project-specific examples.
+## 8. Báo cáo bàn giao
 
-Never invent business rules.
-
-### Step 5: Identify Non-functional Requirements
-
-Consider:
-- Performance
-- Scalability
-- Availability
-- Security
-- Privacy
-- Accessibility
-- Maintainability
-- Compatibility
-- Auditability
-
-### Step 6: Define Acceptance Criteria
-
-Write testable acceptance criteria.
-
-Prefer Given / When / Then format.
-
-Each criterion must describe an observable outcome.
-
-### Step 7: Identify Dependencies
-
-Identify dependencies between:
-- Requirements
-- Modules
-- APIs
-- Database entities
-- External services
-- User roles
-
-### Step 8: Identify Open Questions
-
-Record:
-- Ambiguous requirements
-- Missing business decisions
-- Conflicting requirements
-- Assumptions
-- Out-of-scope items
-
-Do not silently resolve unresolved decisions.
-
-## 4. Output Format
-
-Produce:
-
-1. Business Context
-2. Scope and Out of Scope
-3. Actors and Roles
-4. Functional Requirements
-5. Business Rules
-6. Non-functional Requirements
-7. User Stories / Use Cases
-8. Acceptance Criteria
-9. Dependencies
-10. Assumptions
-11. Open Questions
-12. Traceability Matrix
-
-## 5. Quality Checklist
-
-- [ ] Every requirement has a unique ID.
-- [ ] Requirements are specific and understandable.
-- [ ] Requirements are testable.
-- [ ] Business rules are explicit.
-- [ ] Actors are identified.
-- [ ] Permission boundaries are considered.
-- [ ] Dependencies are documented.
-- [ ] Open questions are recorded.
-- [ ] No unsupported assumptions are presented as facts.
-- [ ] Requirements are traceable to business objectives.
-
-## 6. Restrictions
-
-- Do not invent missing business requirements.
-- Do not make unapproved business decisions.
-- Do not change approved requirements.
-- Do not mix functional requirements with technical implementation.
-- Do not mark draft requirements as approved.
-- Ask for clarification when a decision materially affects implementation.
-
-## 7. Definition of Done
-
-The analysis is complete when:
-- Requirements are documented.
-- Business rules are identified.
-- Acceptance criteria are testable.
-- Dependencies are identified.
-- Open questions are recorded.
-- Stakeholder review is possible.
-
-## 8. Delivery Report
-
-Report:
-- Requirements analyzed
-- Requirements created or updated
-- Business rules identified
-- Dependencies found
-- Open questions
-- Assumptions
-- Items requiring approval
+Nêu: yêu cầu đã tạo/sửa (theo ID và file), BR ghi và nguồn, OQ mới, giả định và hạn rà soát, mục cần người duyệt. Không lặp lại nội dung đã nằm trong tài liệu.

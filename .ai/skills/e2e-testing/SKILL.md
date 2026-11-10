@@ -1,155 +1,61 @@
 ---
 name: e2e-testing
-description: Design and execute end-to-end tests that verify complete user journeys and critical business workflows across the application.
+description: Thiết kế và chạy test end-to-end cho các hành trình người dùng quan trọng, truy vết về AC loại E2E, báo cáo bằng TEST-REPORT-TEMPLATE.
 ---
 
 # E2E Testing Skill
 
-## 1. Objective
+## 1. Mục tiêu
 
-Verify that complete user journeys work correctly
-from the user's perspective.
+Chứng minh các hành trình quan trọng chạy đúng từ góc nhìn người dùng.
 
-## 2. Required Inputs
+## 2. Cổng vào
 
-- User Stories
-- Acceptance Criteria
-- Business Workflows
-- UI/UX Specifications
-- API Specifications
-- RBAC Matrix
-- Test Environment
-- Existing browser automation configuration
+- Task có AC (`<FR>-AC<N>`); journey quan trọng lấy từ AC loại E2E. Thiếu thì dừng và hỏi.
+- Chạy tại máy với dữ liệu giả. Không có môi trường chạy thì ghi not-run kèm lý do và miễn trừ có thời hạn.
 
-## 3. Testing Workflow
+## 3. Đầu vào
 
-### Step 1: Identify User Journeys
+- Task, acceptance-criteria (AC loại E2E), user story
+- testing-strategy, api-design, tài liệu kiến trúc (vai trò/ma trận phân quyền)
+- Rules: testing-rules, security-rules
+- Cấu hình tự động hoá trình duyệt hiện có
 
-Identify critical workflows such as:
-- User registration and email verification
-- Login and logout
-- Creating, updating and approving core business entities
-- Search
-- Customer request or contact flows
-- Internal management workflows
+## 4. Quy trình
 
-See [examples.md](examples.md) for project-specific journeys.
+1. **Xác định journey**: các journey quan trọng lấy từ AC loại E2E. Ví dụ xem examples.md (chỉ minh hoạ).
+2. **Xác định persona**: một tài khoản test cho mỗi vai trò trong ma trận phân quyền, cộng khách chưa đăng nhập; chỉ dùng quyền đã được duyệt.
+3. **Mô tả kịch bản** cho mỗi journey: tiền điều kiện, thao tác, hành vi UI mong đợi, phản hồi hệ thống, thay đổi dữ liệu, hành vi khi lỗi. Test mang ID AC.
+4. **Viết test** bằng công cụ tự động hoá của dự án; selector ổn định (role, label, test id), không gắn với bố cục.
+5. **Ca âm**: đầu vào sai, truy cập trái phép, hành động bị cấm, phiên hết hạn, chuyển trạng thái sai, lỗi mạng, gửi trùng.
+6. **Dữ liệu**: dữ liệu giả xác định, không dùng chung bản ghi có thể sửa, cô lập khi chạy song song, dọn an toàn. Không dùng dữ liệu D3 thật.
+7. **Chạy**: test nhắm mục tiêu, bộ journey quan trọng, hồi quy. Khi lỗi thu ảnh chụp, trace, log. Chưa có CI thì chạy tại máy và ghi miễn trừ có thời hạn.
+8. **Phân tích lỗi**: lỗi ứng dụng, timing UI, môi trường, dữ liệu test, flaky. Không tăng timeout để che lỗi.
 
-### Step 2: Define Test Personas
+## 5. Checklist
 
-Define test accounts representing each role in the RBAC matrix,
-plus an unauthenticated visitor.
+- [ ] Mỗi journey từ AC E2E có test, mang ID AC.
+- [ ] Mọi vai trò liên quan và khách chưa đăng nhập được đại diện.
+- [ ] Có luồng dương và luồng âm; ranh giới quyền được kiểm.
+- [ ] Dữ liệu cô lập, selector ổn định, test lặp lại được.
+- [ ] Có bằng chứng khi lỗi; flaky được điều tra.
 
-Use only approved permissions for each persona.
+## 6. Việc không được làm
 
-See [examples.md](examples.md) for project-specific personas.
+- Chạy test phá huỷ trên production; dùng thông tin đăng nhập hay dữ liệu D3 thật.
+- Làm yếu assertion, xoá hay tắt test, hạ ngưỡng để che lỗi.
+- Bỏ qua xác thực/phân quyền trong test.
+- Viết E2E cho từng hàm nhỏ (thuộc unit/integration).
 
-### Step 3: Define Test Scenarios
+## 7. Tiêu chí hoàn thành (DoD)
 
-For each journey include:
-- Preconditions
-- User actions
-- Expected UI behavior
-- Expected system response
-- Expected data changes
-- Failure behavior
+- Mọi journey trong phạm vi có test đạt; AC chưa có test ghi vào "Còn thiếu".
+- Lỗi đã điều tra; không có skipped chưa báo; có bằng chứng chạy.
 
-### Step 4: Implement E2E Tests
+## 8. Báo cáo bàn giao
 
-Use the project's approved browser automation framework.
-
-Prefer stable selectors:
-- Accessible roles
-- Labels
-- Test IDs where appropriate
-
-Avoid fragile selectors tied to visual layout.
-
-### Step 5: Test Negative Scenarios
-
-Test:
-- Invalid input
-- Unauthorized access
-- Forbidden actions
-- Expired sessions
-- Invalid state transitions
-- Network failures
-- Duplicate submissions
-
-### Step 6: Manage Test Data
-
-- Create deterministic test data.
-- Avoid shared mutable test records.
-- Isolate parallel tests.
-- Clean up test data safely.
-- Avoid production environments.
-
-### Step 7: Execute Tests
-
-Run:
-- Targeted E2E tests
-- Critical workflow suite
-- Regression suite
-
-Capture screenshots, traces and logs when failures occur.
-
-### Step 8: Analyze Failures
-
-Distinguish:
-- Application bugs
-- UI timing issues
-- Environment problems
-- Test data problems
-- Flaky tests
-
-Do not blindly increase timeouts to hide failures.
-
-## 4. Output Format
-
-Produce:
-1. User Journeys
-2. Personas
-3. Test Scenarios
-4. E2E Test Files
-5. Test Data Strategy
-6. Execution Results
-7. Failure Evidence
-8. Regression Coverage
-
-## 5. Quality Checklist
-
-- [ ] Critical user journeys are covered.
-- [ ] All relevant roles are represented.
-- [ ] Positive and negative flows are tested.
-- [ ] Permission boundaries are verified.
-- [ ] Test data is isolated.
-- [ ] Selectors are stable.
-- [ ] Tests are reproducible.
-- [ ] Failure evidence is captured.
-- [ ] Flaky tests are investigated.
-
-## 6. Restrictions
-
-- Never execute destructive E2E tests on production.
-- Never use real customer credentials.
-- Never weaken assertions to hide failures.
-- Never bypass authentication or authorization in tests.
-- Do not create unnecessary end-to-end tests for every small function.
-
-## 7. Definition of Done
-
-- Critical workflows are covered.
-- E2E tests execute successfully.
-- Failures are investigated.
-- Regression tests are maintained.
-- Test evidence is available.
-
-## 8. Delivery Report
-
-Report:
-- User journeys tested
-- Roles tested
-- Tests passed / failed / skipped
-- Screenshots and traces
-- Known flaky tests
-- Remaining gaps
+Điền TEST-REPORT-TEMPLATE, gồm:
+- Journey và vai trò đã test, AC tương ứng (file::tên)
+- Lệnh đã chạy và output thật; pass / fail / skipped / not-run kèm lý do
+- Ảnh chụp/trace khi lỗi, test flaky đã biết
+- Còn thiếu và rủi ro còn lại

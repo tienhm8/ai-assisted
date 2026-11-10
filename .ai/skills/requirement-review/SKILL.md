@@ -1,154 +1,52 @@
 ---
 name: requirement-review
-description: Review software requirements for completeness, consistency, clarity, feasibility, testability and traceability before implementation.
+description: Rà soát yêu cầu về tính đầy đủ, rõ ràng, nhất quán, kiểm thử được và truy vết được trước khi thiết kế/triển khai; chỉ khuyến nghị, không đổi trạng thái hay sửa tài liệu.
 ---
 
 # Requirement Review Skill
 
-## 1. Objective
+## 1. Mục tiêu
 
-Evaluate the quality of existing requirements and identify
-gaps, contradictions, ambiguities and implementation risks.
+Tìm lỗ hổng, mâu thuẫn, điểm mơ hồ và rủi ro trong yêu cầu. Skill chỉ **đề xuất trong báo cáo**: không sửa trực tiếp file yêu cầu, không đổi trạng thái, không duyệt thay stakeholder.
 
-## 2. Required Inputs
+## 2. Cổng vào
 
-- BRD
-- Functional Requirements
-- Non-functional Requirements
-- Business Rules
-- User Stories
-- Acceptance Criteria
-- Scope documentation
-- Related architecture documents
+- Có tài liệu yêu cầu cần rà (BRD, bảng FR, AC) ở trạng thái Draft hoặc In Review. Thiếu thì dừng và hỏi.
 
-## 3. Review Workflow
+## 3. Đầu vào
 
-### Step 1: Completeness Review
+BRD, bảng FR, business-rules.md, NFR.md, acceptance-criteria.md, phạm vi, glossary, open-questions.md, và tài liệu kiến trúc liên quan (nếu có).
 
-Check whether requirements cover:
-- Main business flows
-- Alternative flows
-- Exception flows
-- Input validation
-- Output behavior
-- User permissions
-- Data ownership
-- State transitions
-- Error handling
+## 4. Quy trình
 
-### Step 2: Clarity Review
+1. **Đầy đủ:** luồng chính, thay thế, lỗi; validate đầu vào; kết quả đầu ra; quyền; sở hữu dữ liệu; chuyển trạng thái; xử lý lỗi.
+2. **Rõ ràng:** câu không mơ hồ, thuật ngữ khớp glossary, actor rõ, ràng buộc đo được.
+3. **Nhất quán:** FR với BR, FR với NFR, với phạm vi, với phân quyền, với quyết định đã có, giữa các FR.
+4. **Kiểm thử được:** AC quan sát được, có điều kiện đầu và kết quả, có biên và luồng lỗi.
+5. **Truy vết (một chiều):** mỗi FR có liên kết BRQ/BR; mỗi AC trỏ FR; mọi BR có AC. Báo lỗi nếu tài liệu khai báo liên kết hai chiều.
+6. **Open-questions:** OQ trạng thái Open chặn phạm vi nào; giả định đã hết hạn rà soát; điểm mơ hồ phát hiện được mà chưa có OQ.
+7. **Khả thi:** chỉ đánh dấu rủi ro (kỹ thuật, tích hợp, dữ liệu, hiệu năng, bảo mật) rồi chuyển architecture-design; không quyết định kiến trúc.
+8. **Phân loại:** Critical (chặn triển khai) · High (thiếu/mâu thuẫn lớn) · Medium (chưa rõ) · Low (cải thiện tài liệu).
 
-Check whether:
-- Statements are unambiguous.
-- Terms are consistently defined.
-- Actors are explicitly identified.
-- Expected outcomes are clear.
-- Constraints are measurable.
+## 5. Checklist
 
-### Step 3: Consistency Review
+- [ ] Đầy đủ, rõ ràng, nhất quán, kiểm thử được, truy vết một chiều (xem các bước ở mục 4).
+- [ ] Mọi FR có AC; mọi BR có AC.
+- [ ] Không còn OQ Open chặn phạm vi chưa được nêu trong báo cáo.
 
-Compare:
-- FR against BR
-- FR against NFR
-- Requirements against project scope
-- Requirements against RBAC
-- Requirements against existing decisions
-- Related requirements against each other
+## 6. Việc không được làm
 
-### Step 4: Testability Review
+- Không viết lại yêu cầu đã Approved, không biến giả định thành yêu cầu, không bịa hành vi nghiệp vụ.
+- Giữ nguyên ID yêu cầu.
 
-Verify:
-- Acceptance criteria are observable.
-- Expected results are defined.
-- Preconditions are specified.
-- Boundary cases are considered.
-- Failure scenarios are testable.
+## 7. Tiêu chí hoàn thành (DoD)
 
-### Step 5: Feasibility Review
+Mọi mục ở §3 đã được kiểm, mọi finding đủ trường ở §5, báo cáo nêu rõ khuyến nghị và điều kiện chưa đạt.
 
-Evaluate:
-- Technical feasibility
-- Integration dependencies
-- Data availability
-- Performance constraints
-- Security implications
-- Implementation complexity
+## 8. Báo cáo bàn giao (báo cáo rà soát)
 
-Do not make architecture decisions without authorization.
+Một báo cáo duy nhất gồm: tóm tắt (số yêu cầu đã rà, số finding theo mức), danh sách finding, vấn đề chặn, khuyến nghị duyệt.
 
-### Step 6: Traceability Review
+Mỗi finding: mã finding `FND-NN` (chỉ dùng trong báo cáo này), mức độ, ID yêu cầu liên quan (FR/BR/AC/NFR/OQ), mô tả, tác động, đề xuất sửa.
 
-Check whether each requirement has:
-- Unique ID
-- Business objective
-- Related business rules
-- Related modules
-- Acceptance criteria
-- Planned test coverage
-
-### Step 7: Risk Assessment
-
-Classify findings:
-
-- Critical: Blocks implementation or creates serious risk.
-- High: Major requirement gap or conflict.
-- Medium: Incomplete or unclear behavior.
-- Low: Documentation improvement.
-
-## 4. Output Format
-
-Produce a review report:
-
-1. Review Summary
-2. Completeness Findings
-3. Ambiguity Findings
-4. Inconsistency Findings
-5. Missing Requirements
-6. Missing Acceptance Criteria
-7. Traceability Findings
-8. Risks
-9. Recommended Corrections
-10. Approval Recommendation
-
-## 5. Review Checklist
-
-- [ ] Scope is clear.
-- [ ] All actors are identified.
-- [ ] Main flows are documented.
-- [ ] Exception flows are documented.
-- [ ] Business rules are complete.
-- [ ] Permissions are specified.
-- [ ] Data requirements are clear.
-- [ ] Acceptance criteria are testable.
-- [ ] Requirements do not contradict each other.
-- [ ] Dependencies are documented.
-- [ ] Open decisions remain explicitly open.
-
-## 6. Restrictions
-
-- Do not silently rewrite approved requirements.
-- Do not convert assumptions into approved requirements.
-- Do not invent missing business behavior.
-- Do not approve requirements on behalf of stakeholders.
-- Preserve original requirement IDs where possible.
-
-## 7. Definition of Done
-
-Every finding must include:
-- Finding ID
-- Severity
-- Related requirement
-- Problem description
-- Impact
-- Recommended correction
-
-## 8. Delivery Report
-
-Report:
-- Total requirements reviewed
-- Critical findings
-- High findings
-- Medium findings
-- Low findings
-- Blocking issues
-- Approval recommendation
+**Khuyến nghị duyệt** dựa trên điều kiện: mọi FR có AC; QA đã rà; OQ đã ghi đầy đủ và không còn OQ Open chặn phạm vi. Đây chỉ là khuyến nghị; người có thẩm quyền mới duyệt.

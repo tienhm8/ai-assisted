@@ -1,69 +1,66 @@
 ---
 name: api-development
-description: Develop or modify backend APIs following project architecture, business requirements, security and testing standards.
+description: Cài đặt hoặc sửa endpoint API backend đúng contract đã Approved trong api-design.md, gồm validation, guard phân quyền, ánh xạ lỗi, test và báo cáo bàn giao.
 ---
 
 # API Development Skill
 
-## Objective
+## 1. Mục tiêu
 
-Implement backend APIs that satisfy approved business
-requirements and comply with project standards.
+Hiện thực endpoint đúng contract đã Approved: validate đầu vào, áp guard phân quyền, trả lỗi theo ánh xạ chuẩn, có test và bằng chứng. Không tự tạo hay đổi contract.
 
-## Required Inputs
+## 2. Cổng vào
 
-- Feature requirement
-- Business rules
-- API specification
-- Database schema
-- Authorization requirements
+Dừng và ghi `open-questions.md` (OQ-<NN>) nếu thiếu một trong các điều kiện:
+- FR có AC (acceptance-criteria.md) đã duyệt.
+- Contract endpoint ở trạng thái Approved trong api-design.md.
+- Schema liên quan đã có (database-design.md); chưa có thì chuyển skill `database-design`.
 
-## Execution Workflow
+## 3. Đầu vào
 
-### Step 1: Analyze
-- Read relevant requirements.
-- Identify business rules.
-- Identify user roles and permissions.
-- Identify input and output data.
+- FR, acceptance-criteria.md, business-rules.md
+- api-design.md (contract), database-design.md, module-design.md
+- error-handling.md (ánh xạ lỗi), security-standards.md
+- Mã nguồn API hiện có
 
-### Step 2: Design
-- Define endpoint and HTTP method.
-- Define request and response schemas.
-- Define validation rules.
-- Define error responses.
+## 4. Quy trình
 
-### Step 3: Implement
-- Implement validation.
-- Implement business service.
-- Implement API handler.
-- Implement authorization.
-- Follow existing project conventions.
+1. **Đọc**: FR/AC, business rule, contract; xác định actor và yêu cầu quyền.
+2. **Đối chiếu contract**: so khớp yêu cầu với contract Approved trong api-design.md. Thiếu hoặc mâu thuẫn thì dừng, ghi OQ. Đổi contract là việc cần duyệt, không tự chế.
+3. **Hiện thực**: validation đầu vào → handler mỏng gọi service → trả response/lỗi theo error-handling.md. Logic nghiệp vụ trong service thuộc `backend-development`. Theo quy ước hiện có của dự án.
+4. **Phân quyền**: áp guard theo `authentication-rbac`; không tự định nghĩa quyền.
+5. **Test**: gọi `unit-testing` / `integration-testing` (và `e2e-testing` nếu AC yêu cầu). Phủ: thành công, đầu vào sai, chưa xác thực, sai quyền, truy cập tài nguyên người khác, vi phạm business rule.
+6. **Tự review**: chuyển `code-review`; vùng bảo mật chuyển `security-review`.
+7. **Bàn giao**: theo mục 8.
 
-### Step 4: Test
-- Test successful requests.
-- Test invalid inputs.
-- Test unauthorized requests.
-- Test forbidden requests.
-- Test business rule violations.
-- Test database interactions.
+## 5. Checklist
 
-### Step 5: Review
-- Check security.
-- Check error handling.
-- Check performance.
-- Check duplicated logic.
+- [ ] Endpoint khớp từng chi tiết contract Approved.
+- [ ] Mọi đầu vào ngoài hệ thống được validate ở backend.
+- [ ] Guard phân quyền ở backend, không tin client.
+- [ ] Mã lỗi/định dạng lỗi theo error-handling.md; không lộ stack trace hay dữ liệu nhạy cảm.
+- [ ] Không hardcode secret.
+- [ ] Đổi schema có migration và đã qua `database-design`.
 
-### Step 6: Deliver
-- List changed files.
-- Report implementation details.
-- Report tests executed and results.
-- Report remaining risks.
-- Update documentation if necessary.
+## 6. Việc không được làm
 
-## Restrictions
+- Không bịa business rule hoặc contract.
+- Không bỏ qua hay nới phân quyền.
+- Không sửa module không liên quan.
+- Không đổi schema khi chưa có migration được duyệt.
+- Yêu cầu mâu thuẫn thì dừng và hỏi.
 
-- Do not invent business rules.
-- Do not bypass authorization.
-- Do not change unrelated modules.
-- Do not modify database schema without migration.
-- Ask for clarification when requirements conflict.
+## 7. Tiêu chí hoàn thành (DoD)
+
+- Cổng vào thoả; endpoint khớp contract.
+- Test đã chạy có bằng chứng; test skip/fail được ghi rõ.
+- Checklist đạt; review hoàn tất.
+- Tài liệu bị ảnh hưởng đã cập nhật hoặc ghi lại cần cập nhật.
+
+## 8. Báo cáo bàn giao
+
+- Endpoint đã làm/sửa và contract tham chiếu
+- File thay đổi
+- Test đã chạy và kết quả
+- Quyết định cần duyệt, OQ còn mở
+- Rủi ro còn lại

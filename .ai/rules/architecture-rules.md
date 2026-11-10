@@ -1,10 +1,10 @@
-# ARCHITECTURE RULES
+# Architecture Rules
 
-1. Follow the approved system architecture.
-2. Follow module boundaries.
-3. Do not bypass the service layer.
-4. Do not access database directly from UI components.
-5. Keep business logic outside presentation components.
-6. Use shared services for common functionality.
-7. Avoid circular dependencies.
-8. All API endpoints must follow the API specification.
+> Trạng thái: **Draft**. Rule bắt buộc, trung lập về kiến trúc.
+
+1. Chỉ triển khai theo thiết kế Approved. Mục liên quan còn Draft hoặc trống: dừng và hỏi, không tự giả định tầng, phong cách hay công nghệ.
+2. Tôn trọng các tầng và ranh giới module đã khai báo: không bỏ qua tầng, không truy cập trực tiếp dữ liệu hay nội bộ của module khác, không tạo phụ thuộc vòng.
+3. Cần ngoại lệ so với ranh giới hoặc đổi quyết định kiến trúc: AI chỉ soạn ADR nháp (trạng thái Proposed); Kiến trúc sư duyệt trước khi code.
+4. Không để logic nghiệp vụ trong lớp trình bày, và lớp trình bày không truy cập dữ liệu trực tiếp (nếu dự án có lớp trình bày).
+5. API khớp đặc tả đã duyệt; thay đổi phá vỡ tương thích cần ADR.
+6. Thay đổi ảnh hưởng hiệu năng, sẵn sàng hoặc bảo mật phải đối chiếu yêu cầu phi chức năng (NFR).

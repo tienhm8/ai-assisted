@@ -1,178 +1,67 @@
 ---
 name: backend-development
-description: Implement backend business logic, services, data processing, integrations and background operations following approved architecture and security requirements.
+description: Cài đặt logic nghiệp vụ backend, service, truy cập dữ liệu, tích hợp và tác vụ nền trong ranh giới module và thiết kế đã Approved, kèm test và báo cáo bàn giao.
 ---
 
 # Backend Development Skill
 
-## 1. Objective
+## 1. Mục tiêu
 
-Build reliable, secure, maintainable and testable
-backend components.
+Hiện thực logic nghiệp vụ, truy cập dữ liệu và tích hợp ở backend: đúng business rule, an toàn, dễ test, đúng ranh giới module.
 
-## 2. Required Inputs
+## 2. Cổng vào
 
-- Functional Requirements
-- Business Rules
-- Architecture Documents
-- Database Schema
-- API Specifications
-- Security Requirements
-- Existing Backend Code
-- Relevant Skills and Rules
+Dừng và ghi `open-questions.md` (OQ-<NN>) nếu thiếu:
+- FR có AC và business rule đã duyệt.
+- Thiết kế Approved (module-design.md, database-design.md; contract trong api-design.md nếu có endpoint).
 
-## 3. Development Workflow
+## 3. Đầu vào
 
-### Step 1: Analyze Business Logic
+- FR, acceptance-criteria.md, business-rules.md
+- module-design.md, system-architecture.md, database-design.md
+- api-design.md (spec tích hợp), error-handling.md, security-standards.md
+- Mã backend hiện có; skill `authentication-rbac` cho phân quyền
 
-Identify:
-- Business operations
-- Actors
-- Preconditions
-- Business constraints
-- State transitions
-- Expected results
-- Failure scenarios
+## 4. Quy trình
 
-### Step 2: Inspect Existing Backend
+1. **Phân tích**: thao tác nghiệp vụ, actor, tiền điều kiện, ràng buộc, chuyển trạng thái, kịch bản lỗi.
+2. **Khảo sát mã hiện có**: cấu trúc, service, data access, tiện ích dùng chung, cách xử lý lỗi và log.
+3. **Thiết kế service**: trách nhiệm, đầu vào/ra, phụ thuộc, ranh giới transaction. Ranh giới module theo module-design.md; không gọi chéo module trái thiết kế.
+4. **Hiện thực**: theo business rule; tái dùng service sẵn có; chuyển trạng thái tường minh; kiểm bất biến quan trọng; truy vấn an toàn, tránh N+1.
+5. **Lỗi**: theo error-handling.md; không lộ stack trace ra client.
+6. **Log**: ghi sự kiện nghiệp vụ, thất bại, bảo mật; không ghi mật khẩu, token, dữ liệu nhạy cảm.
+7. **Tích hợp ngoài**: giới hạn (timeout, retry, idempotency, rate limit) theo spec trong api-design.md; thiếu spec thì dừng, ghi OQ.
+8. **Test**: gọi `unit-testing` và `integration-testing`; phủ business rule, kịch bản lỗi, transaction.
+9. **Bàn giao**: theo mục 8.
 
-Review:
-- Framework
-- Application structure
-- Service layer
-- Repository/data access layer
-- Shared utilities
-- Existing integrations
-- Error handling
-- Logging conventions
+## 5. Checklist
 
-### Step 3: Design Service Responsibilities
+- [ ] Business rule được hiện thực đúng, không tự bịa.
+- [ ] Không vượt ranh giới module.
+- [ ] Transaction và truy vấn phù hợp.
+- [ ] Phân quyền áp theo `authentication-rbac`.
+- [ ] Lỗi xử lý tường minh; không lộ nội bộ.
+- [ ] Không log dữ liệu nhạy cảm.
 
-Define:
-- Service responsibilities
-- Input and output
-- Dependencies
-- Business validation
-- Transaction boundaries
-- Error behavior
+## 6. Việc không được làm
 
-Keep business logic independent from presentation
-and transport layers where appropriate.
+- Không bịa business rule.
+- Không bỏ qua phân quyền.
+- Không truy cập dữ liệu production khi chưa được duyệt.
+- Cần đổi schema thì dừng và chuyển `database-design` (cần duyệt); không tự đổi.
+- Không thêm service/abstraction không cần thiết.
 
-### Step 4: Implement Business Logic
+## 7. Tiêu chí hoàn thành (DoD)
 
-- Follow approved business rules.
-- Use existing services where appropriate.
-- Keep responsibilities focused.
-- Avoid duplicated logic.
-- Handle state transitions explicitly.
-- Validate critical business invariants.
+- Cổng vào thoả; logic đúng AC.
+- Test đã chạy có bằng chứng; skip/fail ghi rõ.
+- Checklist đạt; review hoàn tất.
+- Tài liệu bị ảnh hưởng đã cập nhật hoặc ghi lại cần cập nhật.
 
-### Step 5: Implement Data Access
+## 8. Báo cáo bàn giao
 
-- Follow approved database schema.
-- Use parameterized queries or safe ORM methods.
-- Handle transactions appropriately.
-- Avoid N+1 queries.
-- Respect data ownership.
-- Avoid unnecessary data retrieval.
-
-### Step 6: Handle Errors
-
-Distinguish:
-- Validation errors
-- Business rule violations
-- Authentication errors
-- Authorization errors
-- Resource not found
-- Conflict errors
-- External service failures
-- Unexpected system errors
-
-Do not expose internal stack traces to clients.
-
-### Step 7: Logging and Observability
-
-Log relevant events:
-- Business operations
-- Failed operations
-- Integration failures
-- Security-relevant events
-- Performance anomalies
-
-Never log passwords, tokens or unnecessary sensitive data.
-
-### Step 8: External Integrations
-
-Consider:
-- Timeouts
-- Retry policies
-- Idempotency
-- Rate limits
-- Circuit breaking where appropriate
-- Failure recovery
-- Data consistency
-
-### Step 9: Testing
-
-Write:
-- Unit tests
-- Integration tests
-- Business rule tests
-- Failure scenario tests
-- Transaction tests
-
-## 4. Output Format
-
-Produce:
-1. Business Logic Summary
-2. Services Implemented
-3. Data Access Changes
-4. Transaction Handling
-5. Error Handling
-6. Integrations
-7. Logging
-8. Tests
-9. Documentation Updates
-
-## 5. Quality Checklist
-
-- [ ] Business rules are implemented correctly.
-- [ ] Service responsibilities are clear.
-- [ ] Database access is safe.
-- [ ] Transactions are appropriate.
-- [ ] Errors are handled explicitly.
-- [ ] Permissions are enforced.
-- [ ] Sensitive information is protected.
-- [ ] External failures are handled.
-- [ ] No unnecessary queries.
-- [ ] Tests pass.
-
-## 6. Restrictions
-
-- Do not invent business rules.
-- Do not bypass authorization.
-- Do not access production data without approval.
-- Do not expose internal errors.
-- Do not silently change database schema.
-- Do not introduce unnecessary services or abstractions.
-
-## 7. Definition of Done
-
-- Business logic implemented.
-- Data integrity preserved.
-- Error handling implemented.
-- Security requirements satisfied.
-- Tests executed.
-- Documentation updated.
-- Changes reviewed.
-
-## 8. Delivery Report
-
-Report:
-- Services created or modified
-- Business logic implemented
-- Database interactions
-- Integrations
-- Tests executed
-- Risks and limitations
+- Service tạo/sửa và logic đã làm
+- Tương tác DB, tích hợp ngoài
+- Test đã chạy và kết quả
+- Quyết định cần duyệt, OQ còn mở
+- Rủi ro và giới hạn

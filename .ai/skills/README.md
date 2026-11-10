@@ -5,28 +5,18 @@ Skill là **kỹ năng chuyên môn và quy trình làm việc của AI**. Khác
 - **Rule** trả lời: AI phải tuân thủ điều gì?
 - **Skill** trả lời: AI phải thực hiện một loại công việc như thế nào?
 
-Ví dụ, khi yêu cầu AI tạo API, không nên chỉ nói "hãy code API". Phải có Skill hướng dẫn AI từng bước:
+Yêu cầu AI "hãy code API" là chưa đủ: Skill hướng dẫn AI từng bước (đọc yêu cầu, kiểm tra thiết kế đã duyệt, xác định quyền, viết, kiểm thử, cập nhật tài liệu, báo cáo kết quả).
 
-1. Đọc yêu cầu nghiệp vụ.
-2. Kiểm tra API specification.
-3. Kiểm tra database schema.
-4. Xác định quyền truy cập.
-5. Thiết kế request/response.
-6. Viết validation.
-7. Viết service.
-8. Viết API handler/controller.
-9. Viết test.
-10. Cập nhật tài liệu.
-11. Báo cáo kết quả.
-
-## Danh mục Skill nên xây dựng
+## Danh mục Skill
 
 | Skill | Nhiệm vụ |
 | --- | --- |
+| product-discovery | Biến brief của PO thành vision, scope, glossary, câu hỏi mở |
 | requirement-analysis | Phân tích yêu cầu |
 | requirement-review | Kiểm tra tính đầy đủ của yêu cầu |
 | architecture-design | Thiết kế kiến trúc |
 | database-design | Thiết kế database |
+| task-planning | Lập plan và chia Task từ FR/thiết kế đã duyệt |
 | api-development | Phát triển API |
 | frontend-development | Phát triển giao diện |
 | backend-development | Phát triển backend |
@@ -39,54 +29,33 @@ Ví dụ, khi yêu cầu AI tạo API, không nên chỉ nói "hãy code API". P
 | bug-fixing | Điều tra và sửa lỗi |
 | refactoring | Tái cấu trúc |
 | documentation | Cập nhật tài liệu |
-| deployment | Triển khai hệ thống |
+| deployment | Chuẩn bị và kiểm tra phát hành |
+| incident-analysis | Phân tích log và sự cố |
+| continuous-improvement | Tổng hợp KPI, đề xuất cải tiến rule/skill |
 
-Không cần xây dựng tất cả ngay lập tức. Nên xây dựng các Skill phục vụ công việc thực tế trước.
-
-Đã tạo đủ 17 Skill trong danh mục (bản nháp, làm rõ dần theo Task thật): [requirement-analysis](requirement-analysis/SKILL.md), [requirement-review](requirement-review/SKILL.md), [architecture-design](architecture-design/SKILL.md), [database-design](database-design/SKILL.md), [api-development](api-development/SKILL.md), [frontend-development](frontend-development/SKILL.md), [backend-development](backend-development/SKILL.md), [authentication-rbac](authentication-rbac/SKILL.md), [unit-testing](unit-testing/SKILL.md), [integration-testing](integration-testing/SKILL.md), [e2e-testing](e2e-testing/SKILL.md), [code-review](code-review/SKILL.md), [security-review](security-review/SKILL.md), [bug-fixing](bug-fixing/SKILL.md), [refactoring](refactoring/SKILL.md), [documentation](documentation/SKILL.md), [deployment](deployment/SKILL.md).
+Các Skill ở trạng thái Draft, làm rõ dần theo Task thật. Chỉ thêm Skill mới khi quy trình đã ổn định.
 
 ## Cách tổ chức
 
 - **Mỗi Skill một thư mục riêng**, `SKILL.md` là file bắt buộc. Không gộp nhiều Skill vào một file lớn.
-- Khi cần, bổ sung vào thư mục của Skill đó: `checklist.md`, `examples.md`, `references/` (tài liệu tham chiếu), `scripts/` (script hỗ trợ). Chỉ thêm khi thực sự dùng.
+- Khi cần, bổ sung vào thư mục của Skill đó: `examples.md` (ví dụ minh hoạ), `references/`, `scripts/`. Chỉ thêm khi thực sự dùng; checklist nằm trong `SKILL.md`, không tách file.
 - `SKILL.md` giữ quy trình **tổng quát**. Ví dụ và chi tiết gắn với dự án (vai trò, thực thể, công cụ cụ thể) nằm trong `examples.md`; ví dụ không phải nghiệp vụ chính thức.
 - `SKILL.md` là nguồn chính của quy trình; file bổ sung không được mâu thuẫn với nó.
-- Việc chọn và phối hợp nhiều Skill nằm ở [workflows/](../workflows/README.md), không nằm trong từng Skill.
-
-## Ví dụ cấu trúc Skill
-
-Một Skill có thể được lưu dưới dạng thư mục chứa `SKILL.md` và các tài liệu tham chiếu.
-
-```text
-.ai/
-└── skills/
-    ├── api-development/
-    │   ├── SKILL.md
-    │   ├── checklist.md
-    │   └── examples.md
-    │
-    ├── database-design/
-    │   ├── SKILL.md
-    │   └── checklist.md
-    │
-    └── code-review/
-        ├── SKILL.md
-        └── review-checklist.md
-```
-
-Cấu trúc trên đã được tạo ở dạng bản nháp (Draft); nội dung sẽ được làm rõ dần theo Task thật.
+- Việc chọn và phối hợp nhiều Skill nằm ở workflow, không nằm trong từng Skill.
+- Skill chỉ nêu **cách làm**: không chép chuẩn, ngưỡng, mã lỗi hay quy tắc từ `docs/` hoặc `rules/`, và không trỏ link đi đâu; chỉ `docs/` trỏ sang Skill.
 
 ## Một Skill tốt phải có đủ
 
 > Lưu ý: thiếu bất kỳ mục nào dưới đây thì Skill chưa đạt, chưa được chuyển sang Approved.
 
 - Mục tiêu.
-- Điều kiện đầu vào.
-- Điều kiện đầu ra.
+- Cổng vào (điều kiện bắt đầu; thiếu thì dừng và hỏi).
+- Đầu vào.
 - Quy trình thực hiện.
 - Checklist.
+- Việc không được phép làm.
 - Tiêu chí hoàn thành.
-- Những việc không được phép làm.
+- Báo cáo bàn giao (đầu ra).
 
 ## Skill không đồng nghĩa với Prompt
 
@@ -95,10 +64,10 @@ Cấu trúc trên đã được tạo ở dạng bản nháp (Draft); nội dung
 
 | Thành phần | Ví dụ |
 | --- | --- |
-| Prompt | Tạo API đăng tin bất động sản. |
+| Prompt | Tạo API cho chức năng X. |
 | Skill | Quy trình chuẩn để phát triển API. |
 | Rule | API phải kiểm tra quyền ở backend. |
-| Documentation | Mô tả nghiệp vụ đăng tin và phân quyền. |
+| Documentation | Mô tả nghiệp vụ của chức năng X và phân quyền. |
 
 Bốn thành phần này phối hợp với nhau để tạo ra kết quả nhất quán.
 
@@ -106,23 +75,23 @@ Bốn thành phần này phối hợp với nhau để tạo ra kết quả nh�
 
 ### Chọn và phối hợp Skill
 
-Không yêu cầu AI đọc và dùng cả 17 Skill trong mọi Task; chọn theo loại công việc. Một Task có thể cần nhiều Skill phối hợp: có Skill chạy song song, có Skill được kích hoạt lặp lại khi phát hiện lỗi.
+Không yêu cầu AI đọc và dùng toàn bộ Skill trong mọi Task; chọn theo loại công việc. Một Task có thể cần nhiều Skill phối hợp: có Skill chạy song song, có Skill được kích hoạt lặp lại khi phát hiện lỗi.
 
-Quy trình chi tiết nằm ở [.ai/workflows/](../workflows/README.md):
+Quy trình chi tiết nằm ở workflow:
 
-- [skill-selection.md](../workflows/skill-selection.md): bảng "công việc → Skill" và chuỗi Skill theo loại Task (T1–T13).
-- [skill-orchestration.md](../workflows/skill-orchestration.md): nhận diện Task, lập chuỗi Skill, cổng vào/ra, vòng lặp khi lỗi, bàn giao.
+- `skill-selection`: bảng "công việc → Skill" và chuỗi Skill theo loại Task (T1–T15).
+- `skill-orchestration`: nhận diện Task, lập chuỗi Skill, cổng vào/ra, vòng lặp khi lỗi, bàn giao.
 
 ### Năm nguyên tắc kỹ thuật khi đưa Skill vào thực tế
 
 1. **Skill không thay thế Rule.**
    - `authentication-rbac` hướng dẫn cách triển khai phân quyền.
-   - [security-rules.md](../rules/security-rules.md) quy định mọi ERP API phải được bảo vệ ở backend.
+   - Rule bảo mật quy định mọi API đặc quyền phải kiểm tra quyền ở backend.
 2. **Skill không thay thế tài liệu nghiệp vụ.** AI phải đọc FR/BR trước khi triển khai. Không được lấy ví dụ trong Skill làm nghiệp vụ chính thức.
 3. **Skill phải có phiên bản và được kiểm thử.** Khi cập nhật Skill, kiểm tra bằng một số Task thực tế để xác định AI có làm đúng hướng dẫn không.
-4. **Skill có thể gọi Skill khác.** Ví dụ `backend-development` có thể yêu cầu sử dụng `unit-testing` và `security-review` khi cần. Quan hệ này được khai báo trong [skill-orchestration.md](../workflows/skill-orchestration.md) (mục "Skill gọi Skill khác"), không chép vào từng `SKILL.md`.
+4. **Skill có thể gọi Skill khác.** Ví dụ `backend-development` có thể yêu cầu sử dụng `unit-testing` và `security-review` khi cần. Quan hệ này được khai báo trong workflow `skill-orchestration` (mục "Skill gọi Skill khác"), không chép vào từng `SKILL.md`.
 5. **Không phải Skill nào cũng được phép tự thực hiện hành động.**
-   - `deployment` chỉ chuẩn bị và kiểm tra release; deploy production vẫn phải có phê duyệt.
+   - `deployment` chỉ chuẩn bị và kiểm tra release; AI không deploy production, người có quyền thực hiện sau khi được duyệt.
    - `database-design` được tạo migration; chạy migration trên production phải tuân thủ quy trình phê duyệt.
 
 ## Nguyên tắc tạo Skill

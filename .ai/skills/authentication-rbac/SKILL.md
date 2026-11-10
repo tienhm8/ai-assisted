@@ -1,181 +1,69 @@
 ---
 name: authentication-rbac
-description: Implement and review authentication, authorization, role-based access control, session management and resource-level permissions according to approved security policies.
+description: Cài đặt và rà soát xác thực, phân quyền, RBAC, quản lý phiên và kiểm quyền theo tài nguyên theo chính sách truy cập đã Approved; mặc định từ chối, kiểm ở backend.
 ---
 
 # Authentication & RBAC Skill
 
-## 1. Objective
+## 1. Mục tiêu
 
-Implement secure authentication and authorization
-while preserving approved role and permission boundaries.
+Hiện thực xác thực và phân quyền đúng chính sách đã duyệt, thực thi ở backend, mặc định từ chối.
 
-## 2. Required Inputs
+## 2. Cổng vào
 
-- Authentication Requirements
-- RBAC Specification
-- User Roles
-- Permission Matrix
-- Session Policy
-- API Specification
-- Security Rules
-- Existing Authentication Implementation
+Dừng và ghi `open-questions.md` (OQ-<NN>) nếu thiếu:
+- FR có AC và thiết kế Approved: RBAC, Permission Matrix, Session Policy.
+- Chính sách chưa chốt: coi là OQ, không tự suy diễn.
 
-## 3. Development Workflow
+Việc **đổi mô hình vai trò, quyền hoặc chính sách phiên** thì dừng: cần Tech Lead + Security duyệt. Trước khi sửa file auth, kiểm bản đồ vùng 🟢🟡🔴 của dự án.
 
-### Step 1: Read Approved Access Policies
+Mặc định mức rủi ro R3: bắt buộc chạy `security-review`.
 
-Identify:
-- Authentication methods
-- User roles
-- Permissions
-- Resource ownership
-- Access scope
-- Session boundaries
-- Account lifecycle
-- Approval workflows
+## 3. Đầu vào
 
-Treat unresolved policies as open questions.
+- Tài liệu kiến trúc và bảo mật của dự án (RBAC, Permission Matrix, Session Policy)
+- Đặc tả API, quy ước xử lý lỗi, FR/AC
+- Mã xác thực/phân quyền hiện có
 
-### Step 2: Design Authentication
+## 4. Quy trình
 
-Consider:
-- Registration
-- Email verification
-- Login
-- Logout
-- Password handling
-- Session creation
-- Session expiration
-- Session revocation
-- Account status
+1. **Đọc chính sách đã duyệt**: phương thức xác thực, vai trò, quyền, phạm vi tài nguyên, ranh giới phiên, vòng đời tài khoản.
+2. **Thiết kế xác thực** theo kiến trúc đã duyệt (đăng ký, đăng nhập, đăng xuất, mật khẩu, trạng thái tài khoản).
+3. **Phân quyền ở backend**: kiểm vai trò, quyền, sở hữu, phạm vi; mặc định từ chối; không dựa vào hiển thị UI.
+4. **Ranh giới ứng dụng**: nếu hệ thống có nhiều ứng dụng, giữ ranh giới truy cập và chính sách phiên theo spec; chặn truy cập chéo trái phép.
+5. **Truy cập theo tài nguyên**: người dùng chỉ truy cập tài nguyên được cấp; không giả định vai trò nào có quyền tuyệt đối.
+6. **Phiên**: theo security-standards.md; không tự đặt chính sách phiên chưa chốt.
+7. **Test ranh giới quyền**: gọi `integration-testing` (và `e2e-testing` nếu cần). Phủ: chưa xác thực, sai vai trò, sai chủ sở hữu, ngoài phạm vi, phiên hết hạn/thu hồi, vai trò giả từ client, truy cập chéo ứng dụng. Mã 401/403/404 theo error-handling.md.
+8. **Rà soát**: gọi `security-review`.
+9. **Bàn giao**: theo mục 8.
 
-Follow the approved authentication architecture.
+## 5. Checklist
 
-### Step 3: Implement Authorization
+- [ ] Xác thực thực thi đúng; mật khẩu xử lý an toàn.
+- [ ] Phân quyền ở backend, default-deny.
+- [ ] Kiểm sở hữu và phạm vi.
+- [ ] Thu hồi phiên được xét.
+- [ ] Không chính sách chưa chốt nào bị ngầm giả định.
 
-Implement:
-- Role checks
-- Permission checks
-- Resource ownership checks
-- Scope checks
-- Backend authorization
-- Default-deny behavior
+## 6. Việc không được làm
 
-Do not rely on frontend role visibility.
+- Không bỏ qua phân quyền backend.
+- Không tin vai trò do client gửi.
+- Không tự gán quyền ngầm; không mặc định Admin có mọi quyền.
+- Không đổi vai trò/quyền/chính sách phiên đã duyệt khi chưa có duyệt.
+- Không nới xác thực để test qua.
 
-### Step 4: Enforce Application Boundaries
+## 7. Tiêu chí hoàn thành (DoD)
 
-For systems with more than one application
-(for example a public web app and an internal management app):
-- Preserve application access boundaries.
-- Enforce independent session policies where specified.
-- Prevent unauthorized cross-application access.
-- Validate all internal-application APIs on the backend.
+- Cổng vào thoả; phân quyền thực thi ở backend và đã test ranh giới.
+- `security-review` hoàn tất; phát hiện nghiêm trọng đã xử lý.
+- Thay đổi nhạy cảm đã được duyệt.
+- Tài liệu bị ảnh hưởng đã cập nhật hoặc ghi lại cần cập nhật.
 
-See [examples.md](examples.md) for a project-specific example.
+## 8. Báo cáo bàn giao
 
-### Step 5: Implement Resource-Level Access
-
-Examples:
-- A user can access only permitted resources.
-- A role with limited scope can access only resources within approved scope.
-- A role tied to assignment can access only assigned data where required.
-- Administrative access follows explicit permissions.
-
-See [examples.md](examples.md) for concrete roles. Examples are not
-the official permission matrix.
-
-Do not assume a role has unrestricted access.
-
-### Step 6: Handle Session Security
-
-Consider:
-- Secure cookies
-- HttpOnly
-- SameSite
-- Secure flag
-- CSRF protection where applicable
-- Session revocation
-- Concurrent sessions
-- Session invalidation after security events
-
-### Step 7: Test Authorization Boundaries
-
-Test:
-- Unauthenticated access
-- Authenticated but unauthorized access
-- Wrong role
-- Wrong resource owner
-- Out-of-scope resource
-- Revoked session
-- Expired session
-- Forged client-side role
-- Cross-application access
-
-### Step 8: Audit
-
-Review:
-- Privilege escalation
-- Insecure direct object references
-- Missing permission checks
-- Inconsistent access policies
-- Session management weaknesses
-
-## 4. Output Format
-
-Produce:
-1. Authentication Flow
-2. Role and Permission Matrix
-3. Authorization Rules
-4. Session Management
-5. API Protection
-6. Resource Access Rules
-7. Test Cases
-8. Security Findings
-9. Documentation Updates
-
-## 5. Quality Checklist
-
-- [ ] Authentication is correctly enforced.
-- [ ] Passwords are securely handled.
-- [ ] Backend authorization is enforced.
-- [ ] Default-deny behavior is applied.
-- [ ] Resource ownership is verified.
-- [ ] Scope restrictions are enforced.
-- [ ] Session revocation is considered.
-- [ ] Cross-application boundaries are preserved.
-- [ ] Privilege escalation is tested.
-- [ ] No unresolved policy is silently assumed.
-
-## 6. Restrictions
-
-- Never bypass backend authorization.
-- Never trust client-provided role information.
-- Never grant permissions implicitly.
-- Never assume Admin has unrestricted access.
-- Never change approved role definitions without approval.
-- Never weaken authentication to make tests pass.
-- Never invent unresolved session policies.
-
-## 7. Definition of Done
-
-- Authentication behavior verified.
-- Authorization enforced at backend.
-- Resource boundaries tested.
-- Session behavior tested.
-- Security tests passed.
-- Documentation updated.
-- Sensitive changes approved.
-
-## 8. Delivery Report
-
-Report:
-- Authentication changes
-- Role/permission changes
-- APIs protected
-- Resource scope enforcement
-- Session changes
-- Authorization tests
-- Security risks
-- Decisions requiring approval
+- Thay đổi xác thực, vai trò/quyền, phiên
+- API/tài nguyên được bảo vệ
+- Test ranh giới quyền đã chạy và kết quả
+- Phát hiện từ security-review, rủi ro còn lại
+- Quyết định cần duyệt, OQ còn mở

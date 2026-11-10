@@ -3,7 +3,7 @@
 > Trạng thái: **Draft**. Quy trình **bắt buộc** áp dụng cho mọi Task giao cho AI.
 > Sửa file này thuộc vùng 🔴 (luật chơi của AI): cần Task riêng và người duyệt.
 
-Task được giao theo mẫu ở [task-breakdown.md](../../docs/04-project-management/task-breakdown.md). Việc chọn và phối hợp Skill ở các bước 1–8 xem [skill-orchestration.md](skill-orchestration.md).
+Task được giao theo mẫu Task của dự án. Việc chọn và phối hợp Skill ở các bước 1–8 xem skill-orchestration.md.
 
 | Bước | Tên | Nội dung | Đầu ra |
 | --- | --- | --- | --- |
@@ -15,14 +15,14 @@ Task được giao theo mẫu ở [task-breakdown.md](../../docs/04-project-mana
 | 6 | Run Tests | Chạy lint, typecheck, unit, integration và E2E phù hợp | Bằng chứng (output thật) |
 | 7 | Self Review | AI kiểm tra lại code, diff, quyền truy cập, lỗi và yêu cầu | Diff đã rà |
 | 8 | Human Review | Developer/Reviewer kiểm tra và phê duyệt Pull Request | PR được duyệt |
-| 9 | Merge & Deploy | Merge và triển khai theo quyền được cấp | Bản phát hành |
+| 9 | Merge & Deploy | Người merge sau khi PR được duyệt; triển khai theo release-workflow.md. AI chỉ chuẩn bị, không tự merge hay deploy production | Bản phát hành |
 | 10 | Update Knowledge | Cập nhật tài liệu, Skill, Rule khi phát hiện quy tắc mới có giá trị lâu dài | Truy vết đóng |
 
 Bước 4 và các điều kiện dừng: AI dừng và hỏi khi thiếu thông tin, mâu thuẫn tài liệu, hoặc việc vượt Scope của Task. Bước 10: sửa Rule/Skill/workflow thuộc vùng 🔴, nên đề xuất thay vì tự sửa.
 
 ## Prompt mẫu giao Task cho AI
 
-Thay `[TASK-ID]` bằng ID Task. Task phải có đủ nội dung theo mẫu ở [task-breakdown.md](../../docs/04-project-management/task-breakdown.md). Làm việc trên nhánh riêng theo [coding-standards](../../docs/03-engineering/coding-standards.md) §5.1.
+Thay `[TASK-ID]` bằng ID Task. Task phải có đủ nội dung theo mẫu Task; làm việc trên nhánh riêng.
 
 ```text
 You are working as a Senior Software Engineer.

@@ -1,182 +1,55 @@
 ---
 name: database-design
-description: Design, evaluate and modify relational database schemas, relationships, constraints, indexes and migrations based on approved business requirements.
+description: Thiết kế, đánh giá và thay đổi lược đồ cơ sở dữ liệu (thực thể, quan hệ, ràng buộc, index, migration) dựa trên yêu cầu và kiến trúc đã duyệt; ghi vào database-design.md.
 ---
 
 # Database Design Skill
 
-## 1. Objective
+## 1. Mục tiêu
 
-Design reliable, consistent, performant and maintainable
-database structures.
+Thiết kế cấu trúc dữ liệu đúng, nhất quán, hiệu năng đủ dùng và bảo trì được. AI chỉ soạn ở trạng thái Draft/Proposed.
 
-## 2. Required Inputs
+## 2. Cổng vào
 
-- Approved Functional Requirements
-- Business Rules
-- Existing Database Schema
-- Data Model
-- Architecture Documents
-- API Data Requirements
-- Data Retention Requirements
+Cần FR đã qua cổng (có AC) và kiến trúc liên quan đã Approved. Chưa đạt thì dừng, ghi open-questions.md (`OQ-NN`).
 
-## 3. Design Workflow
+## 3. Đầu vào
 
-### Step 1: Identify Data Entities
+FR và BR đã duyệt, schema hiện có, kiến trúc, nhu cầu dữ liệu của API, yêu cầu lưu trữ dữ liệu, mức dữ liệu D0–D3 (theo quy định của dự án).
 
-Identify:
-- Main entities
-- Supporting entities
-- Lookup entities
-- Transaction entities
-- Relationship entities
-- Audit entities
+## 4. Quy trình
 
-### Step 2: Define Attributes
+1. **Thực thể:** chính, hỗ trợ, tra cứu, giao dịch, quan hệ, audit; mỗi thực thể truy ra FR/BR.
+2. **Thuộc tính:** tên, kiểu, nullability, mặc định, ràng buộc, ý nghĩa, mức dữ liệu D0–D3. Bảng đơn giản không cần mô tả lặp từng cột: schema/migration trong mã nguồn là nguồn chuẩn; database-design.md chỉ giữ ERD, quan hệ, ràng buộc và quyết định đáng chú ý.
+3. **Quan hệ:** 1-1, 1-n, n-n; khoá chính, khoá ngoại, hành vi tham chiếu, unique.
+4. **Toàn vẹn:** NOT NULL, UNIQUE, CHECK, FK, mặc định, ranh giới transaction; không chỉ dựa vào validate phía giao diện.
+5. **Chuẩn hoá:** mặc định đạt 1NF–3NF; chỉ phi chuẩn hoá khi có số liệu đo hoặc yêu cầu kiến trúc, và ghi lý do.
+6. **Index:** theo truy vấn thực tế (lọc, join, sắp xếp, composite, unique); tránh index thừa.
+7. **Migration:** mỗi thay đổi schema có migration, trạng thái DB mong đợi, biến đổi dữ liệu (nếu có), lưu ý triển khai; theo database rules.
+8. **Hiệu năng:** mẫu truy vấn, N+1, quét bảng lớn, phân trang, thời lượng transaction.
+9. **Bảo mật:** quyền tối thiểu, dữ liệu nhạy cảm (D2–D3), thời gian lưu, sao lưu, audit.
 
-For every attribute specify:
-- Name
-- Data type
-- Nullability
-- Default value
-- Validation constraints
-- Business meaning
-- Sensitivity classification
+## 5. Checklist
 
-### Step 3: Define Relationships
+- [ ] Đầu ra ghi vào database-design.md; file migration nằm trong mã nguồn; không tạo báo cáo schema song song.
+- [ ] Mọi thực thể ánh xạ tới yêu cầu.
+- [ ] Khoá chính, khoá ngoại, unique, nullability, kiểu dữ liệu phù hợp.
+- [ ] Index có truy vấn hỗ trợ.
+- [ ] Đã đánh giá tác động lên dữ liệu hiện có và mức dữ liệu D0–D3.
+- [ ] Đã cập nhật database-design.md.
 
-Identify:
-- One-to-one
-- One-to-many
-- Many-to-many
+## 6. Việc không được làm
 
-Define:
-- Primary keys
-- Foreign keys
-- Referential actions
-- Unique constraints
+- Theo database rules (migration, dữ liệu production). AI không chạy migration trên production.
+- Không xoá cột khi chưa phân tích tác động; không bỏ ràng buộc để lách lỗi; không bịa quan hệ; không để lộ dữ liệu nhạy cảm không cần thiết.
+- Dữ liệu lịch sử nghiệp vụ không xoá khi chưa có chính sách lưu trữ.
 
-### Step 4: Apply Data Integrity Rules
+## 7. Tiêu chí hoàn thành (DoD)
 
-Consider:
-- NOT NULL
-- UNIQUE
-- CHECK
-- FOREIGN KEY
-- Appropriate defaults
-- Transaction boundaries
+- ERD và ràng buộc đã ghi; index có lý do; migration đã chuẩn bị.
+- Đã kiểm: chạy migration thử trên DB sạch (không phải production) và kiểm ràng buộc hoạt động đúng.
+- Người duyệt: Kiến trúc sư; thêm Security khi có migration, tiền hoặc dữ liệu cá nhân. Chỉ họ chuyển sang Approved.
 
-Do not rely only on frontend validation.
+## 8. Báo cáo bàn giao
 
-### Step 5: Evaluate Normalization
-
-Evaluate:
-- First Normal Form
-- Second Normal Form
-- Third Normal Form
-
-Use denormalization only when justified by measured
-performance or explicit architectural requirements.
-
-### Step 6: Design Indexes
-
-Consider:
-- Frequently filtered columns
-- Join columns
-- Sorting columns
-- Composite indexes
-- Unique indexes
-
-Avoid unnecessary indexes.
-
-### Step 7: Design Migrations
-
-Every schema change must include:
-- Migration script
-- Expected database state
-- Data transformation if required
-- Deployment considerations
-- Rollback strategy where feasible
-
-Consider backward compatibility during deployment.
-
-### Step 8: Evaluate Performance
-
-Review:
-- Query patterns
-- N+1 query risks
-- Large table scans
-- Pagination
-- Index utilization
-- Transaction duration
-
-### Step 9: Review Security
-
-Consider:
-- Least privilege
-- Sensitive data
-- Access boundaries
-- Data retention
-- Backup requirements
-- Auditability
-
-## 4. Output Format
-
-Produce:
-
-1. Entity List
-2. ERD
-3. Table Definitions
-4. Column Definitions
-5. Relationships
-6. Constraints
-7. Index Strategy
-8. Migration Scripts
-9. Data Integrity Rules
-10. Performance Considerations
-11. Security Considerations
-
-## 5. Quality Checklist
-
-- [ ] All entities map to requirements.
-- [ ] Primary keys are defined.
-- [ ] Foreign keys are defined.
-- [ ] Unique constraints are appropriate.
-- [ ] Nullability is correct.
-- [ ] Data types are appropriate.
-- [ ] Indexes support query patterns.
-- [ ] Migration is included.
-- [ ] Existing data is protected.
-- [ ] Sensitive data is handled appropriately.
-- [ ] Rollback or recovery strategy is considered.
-
-## 6. Restrictions
-
-- Never modify production data directly.
-- Never delete existing columns without impact analysis.
-- Never change schema without migration.
-- Never remove constraints to bypass errors.
-- Do not invent relationships.
-- Do not expose sensitive data unnecessarily.
-
-## 7. Definition of Done
-
-The design is complete when:
-- ERD is documented.
-- Schema is reviewed.
-- Constraints are defined.
-- Index strategy is justified.
-- Migration is prepared.
-- Data integrity is verified.
-- Changes are approved.
-
-## 8. Delivery Report
-
-Report:
-- Entities created or modified
-- Schema changes
-- Constraints
-- Indexes
-- Migration files
-- Data migration risks
-- Performance considerations
+Nêu: thực thể và schema thay đổi, migration, rủi ro dữ liệu, ảnh hưởng hiệu năng, người cần duyệt.

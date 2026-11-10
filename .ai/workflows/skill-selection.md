@@ -1,30 +1,34 @@
 # Chọn Skill theo loại Task
 
-> Trạng thái: **Draft**. Chuỗi Skill là **mặc định đề xuất**; plan của từng Task có thể bỏ hoặc thêm Skill nhưng phải nêu lý do. Quy trình điều phối: [skill-orchestration.md](skill-orchestration.md).
+> Trạng thái: **Draft**. Chuỗi Skill là **mặc định đề xuất**; plan của từng Task có thể bỏ hoặc thêm Skill nhưng phải nêu lý do. Quy trình điều phối: skill-orchestration.md.
 
 ## 1. Công việc → Skill chính
 
-Không yêu cầu AI đọc cả 17 Skill. Chọn theo loại công việc:
+Không yêu cầu AI đọc toàn bộ Skill. Chọn theo loại công việc:
 
 | Công việc | Skill chính |
 | --- | --- |
-| Phân tích chức năng mới | [requirement-analysis](../skills/requirement-analysis/SKILL.md) |
-| Kiểm tra tài liệu FR/BR | [requirement-review](../skills/requirement-review/SKILL.md) |
-| Thiết kế hệ thống | [architecture-design](../skills/architecture-design/SKILL.md) |
-| Thiết kế bảng dữ liệu | [database-design](../skills/database-design/SKILL.md) |
-| Xây dựng API | [api-development](../skills/api-development/SKILL.md) |
-| Xây dựng giao diện | [frontend-development](../skills/frontend-development/SKILL.md) |
-| Xây dựng business logic | [backend-development](../skills/backend-development/SKILL.md) |
-| Đăng nhập, phân quyền | [authentication-rbac](../skills/authentication-rbac/SKILL.md) |
-| Kiểm thử hàm | [unit-testing](../skills/unit-testing/SKILL.md) |
-| Kiểm thử tích hợp | [integration-testing](../skills/integration-testing/SKILL.md) |
-| Kiểm thử hành trình người dùng | [e2e-testing](../skills/e2e-testing/SKILL.md) |
-| Review Pull Request | [code-review](../skills/code-review/SKILL.md) |
-| Kiểm tra bảo mật | [security-review](../skills/security-review/SKILL.md) |
-| Sửa lỗi | [bug-fixing](../skills/bug-fixing/SKILL.md) |
-| Tối ưu cấu trúc code | [refactoring](../skills/refactoring/SKILL.md) |
-| Cập nhật tài liệu | [documentation](../skills/documentation/SKILL.md) |
-| Triển khai hệ thống | [deployment](../skills/deployment/SKILL.md) |
+| Làm rõ ý tưởng, tầm nhìn, phạm vi | product-discovery |
+| Phân tích chức năng mới | requirement-analysis |
+| Kiểm tra tài liệu FR/BR | requirement-review |
+| Thiết kế hệ thống | architecture-design |
+| Thiết kế bảng dữ liệu | database-design |
+| Lập plan, chia Task | task-planning |
+| Xây dựng API | api-development |
+| Xây dựng giao diện | frontend-development |
+| Xây dựng business logic | backend-development |
+| Đăng nhập, phân quyền | authentication-rbac |
+| Kiểm thử hàm | unit-testing |
+| Kiểm thử tích hợp | integration-testing |
+| Kiểm thử hành trình người dùng | e2e-testing |
+| Review Pull Request | code-review |
+| Kiểm tra bảo mật | security-review |
+| Sửa lỗi | bug-fixing |
+| Tối ưu cấu trúc code | refactoring |
+| Cập nhật tài liệu | documentation |
+| Chuẩn bị phát hành | deployment |
+| Phân tích log, sự cố | incident-analysis |
+| Tổng hợp KPI, cải tiến rule/skill | continuous-improvement |
 
 ## 2. Loại Task → chuỗi Skill
 
@@ -32,7 +36,7 @@ Ký hiệu: `→` tuần tự · `∥` có thể chạy song song · `[ ]` có �
 
 | # | Loại Task | Chuỗi Skill mặc định |
 | --- | --- | --- |
-| T1 | **Tính năng mới** (chưa có FR/AC) | requirement-analysis → requirement-review → *(chờ PO/BA duyệt: mọi FR có AC)* → architecture-design ∥ database-design → *(chờ Kiến trúc sư duyệt: thiết kế Approved)* → T2 |
+| T1 | **Tính năng mới** (chưa có FR/AC) | [product-discovery nếu chưa có vision/scope] → requirement-analysis → requirement-review → *(chờ PO/BA duyệt: mọi FR có AC)* → architecture-design ∥ database-design → *(chờ Kiến trúc sư duyệt: thiết kế Approved)* → task-planning → *(Tech Lead duyệt plan)* → T2 |
 | T2 | **Cài đặt tính năng** (đã có FR, AC, thiết kế) | [authentication-rbac] → backend-development → api-development ∥ frontend-development → unit-testing → integration-testing → [e2e-testing] → [security-review] → code-review → documentation |
 | T3 | **Sửa lỗi** | bug-fixing (gồm regression test) → [integration-testing / e2e-testing] → [security-review nếu liên quan bảo mật] → code-review → [documentation] |
 | T4 | **Refactor** | unit-testing (baseline) → refactoring → unit-testing / integration-testing (so sánh) → code-review |
@@ -45,6 +49,8 @@ Ký hiệu: `→` tuần tự · `∥` có thể chạy song song · `[ ]` có �
 | T11 | **Chỉ viết test** | unit-testing / integration-testing / e2e-testing (theo tầng) |
 | T12 | **Chỉ cập nhật tài liệu** | documentation |
 | T13 | **Phát hành** | security-review (nếu chưa có) → deployment *(chuẩn bị)* → *(phê duyệt phát hành)* → deployment *(thực thi do người có quyền)* → documentation (release record) |
+| T14 | **Sự cố production** | incident-analysis *(từ log do người xuất, đã che D3)* → bug-fixing / [security-review] → code-review → documentation → continuous-improvement |
+| T15 | **Rà soát định kỳ** (theo mốc roadmap) | continuous-improvement → *(Task riêng cho đề xuất sửa rule/skill, vùng 🔴)* |
 
 Ghi chú:
 

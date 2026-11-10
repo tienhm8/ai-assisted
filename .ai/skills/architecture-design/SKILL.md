@@ -1,182 +1,51 @@
 ---
 name: architecture-design
-description: Design and evaluate software architecture, system boundaries, module structures, integrations and technical decisions based on approved requirements.
+description: Thiết kế và đánh giá kiến trúc phần mềm (ranh giới hệ thống, module, luồng dữ liệu, bảo mật, quyết định công nghệ) dựa trên yêu cầu đã duyệt; ghi vào tài liệu kiến trúc và ADR.
 ---
 
 # Architecture Design Skill
 
-## 1. Objective
+## 1. Mục tiêu
 
-Produce maintainable, secure, scalable and testable
-software architecture aligned with approved requirements.
+Đề xuất kiến trúc dễ bảo trì, an toàn, kiểm thử được, đáp ứng yêu cầu đã duyệt. AI chỉ soạn ở trạng thái Draft/Proposed.
 
-## 2. Required Inputs
+## 2. Cổng vào
 
-- Project Vision
-- Approved FR and BR
-- NFR
-- System Scope
-- Existing Architecture
-- Technology Stack
-- Database Design
-- API Specification
-- Security Requirements
+Cần FR đã qua cổng (mỗi FR có AC) và BR, NFR liên quan. Chưa đạt thì dừng, ghi open-questions.md (`OQ-NN`) và báo lại.
 
-## 3. Design Workflow
+## 3. Đầu vào
 
-### Step 1: Analyze Requirements
+Vision, phạm vi, FR/BR/NFR đã duyệt, kiến trúc hiện có, ngăn xếp công nghệ đã chốt, yêu cầu bảo mật. Database design và API spec chỉ đọc "nếu đã có" (chúng là đầu ra ở bước sau).
 
-Identify:
-- Business capabilities
-- System actors
-- Functional boundaries
-- Quality attributes
-- Integration requirements
-- Technical constraints
+## 4. Quy trình
 
-### Step 2: Define System Boundaries
+1. **Phân tích yêu cầu:** năng lực nghiệp vụ, actor, thuộc tính chất lượng, tích hợp, ràng buộc kỹ thuật.
+2. **Ranh giới hệ thống:** ứng dụng, module, dịch vụ ngoài, trust boundary, chủ sở hữu dữ liệu.
+3. **Phong cách kiến trúc:** chọn phương án đơn giản nhất đáp ứng yêu cầu; không thêm độ phức tạp thừa; microservices phải có lý do.
+4. **Module:** với mỗi module nêu trách nhiệm, đầu vào/ra, phụ thuộc, dữ liệu sở hữu, giao diện, ranh giới lỗi, và các FR phục vụ. Ghi thành bảng ở module-design.md.
+5. **Luồng dữ liệu:** request, xác thực, phân quyền, xử lý nghiệp vụ, truy cập dữ liệu, tích hợp ngoài, xử lý lỗi.
+6. **Ranh giới bảo mật:** xác thực, thực thi phân quyền, quyền dịch vụ, truy cập dữ liệu, dữ liệu nhạy cảm.
+7. **Đánh giá chất lượng:** bảo trì, module hoá, tin cậy, hiệu năng, mở rộng, bảo mật, quan sát, kiểm thử.
+8. **ADR:** quyết định lớn tạo ADR từ `_template.md` thành `ADR-<NNNN>-<slug>.md`, trạng thái Proposed, thêm vào danh mục ADR. Tài liệu thiết kế khác chỉ ghi kết quả và trỏ `ADR-<NNNN>`.
+9. **Rà soát kiến trúc hiện có** (chỉ dự án đã có code): vi phạm ranh giới, phụ thuộc vòng, trách nhiệm trùng, coupling thừa, rủi ro mở rộng và bảo mật.
 
-Identify:
-- Applications
-- Modules
-- Services
-- External systems
-- Trust boundaries
-- Data ownership
+## 5. Checklist
 
-### Step 3: Define Architecture Style
+- [ ] Đầu ra ghi trực tiếp vào system-architecture.md (bối cảnh, thành phần, luồng, bảo mật), module-design.md (module và FR phục vụ), api-design.md (nếu thuộc phạm vi) và ADR; không tạo báo cáo kiến trúc song song.
+- [ ] Mỗi module truy ra được FR; ranh giới, sở hữu dữ liệu và ranh giới bảo mật rõ.
+- [ ] Quyết định lớn đã có ADR (Proposed) trong danh mục.
 
-Evaluate appropriate patterns:
-- Modular Monolith
-- Layered Architecture
-- Clean Architecture
-- Domain-driven Design
-- Microservices
+## 6. Việc không được làm
 
-Choose the simplest architecture that satisfies requirements.
+- Kiến trúc đã Approved không tự đổi; chỉ đề xuất thay đổi qua ADR mới.
+- Đổi kiến trúc hoặc RBAC phải được duyệt trước khi triển khai.
+- Không đổi công nghệ đã chốt, không vượt ranh giới module, không tự quyết vấn đề nghiệp vụ chưa rõ.
 
-Do not introduce unnecessary complexity.
+## 7. Tiêu chí hoàn thành (DoD)
 
-### Step 4: Design Components
+- Checklist ở mục 5 đạt; đầu ra ở trạng thái Draft/Proposed.
+- Người duyệt: Kiến trúc sư; thêm Security nếu đụng tiền, phân quyền, dữ liệu cá nhân hoặc migration. Chỉ họ chuyển sang Approved.
 
-For each module define:
-- Responsibility
-- Inputs
-- Outputs
-- Dependencies
-- Data ownership
-- Interfaces
-- Error boundaries
+## 8. Báo cáo bàn giao
 
-### Step 5: Design Data Flow
-
-Describe:
-- Request flow
-- Authentication flow
-- Authorization flow
-- Business processing
-- Database interactions
-- External integrations
-- Error handling
-
-### Step 6: Design Security Boundaries
-
-Define:
-- Authentication boundaries
-- Authorization enforcement
-- Service permissions
-- Data access boundaries
-- Sensitive information handling
-
-### Step 7: Evaluate Architecture Quality
-
-Evaluate:
-- Maintainability
-- Modularity
-- Reliability
-- Performance
-- Scalability
-- Security
-- Observability
-- Testability
-
-### Step 8: Record Architecture Decisions
-
-For significant decisions create an ADR.
-
-Each ADR must contain:
-- Context
-- Problem
-- Options considered
-- Decision
-- Consequences
-- Status
-
-### Step 9: Review Existing Architecture
-
-Identify:
-- Architecture violations
-- Circular dependencies
-- Duplicate responsibilities
-- Unnecessary coupling
-- Scalability risks
-- Security risks
-
-## 4. Output Format
-
-Produce:
-
-1. Architecture Overview
-2. Architecture Principles
-3. System Context Diagram
-4. Container / Component Diagram
-5. Module Responsibilities
-6. Dependency Map
-7. Data Flow
-8. Security Boundaries
-9. Technology Decisions
-10. ADRs
-11. Risks and Trade-offs
-12. Implementation Recommendations
-
-## 5. Quality Checklist
-
-- [ ] Architecture satisfies approved requirements.
-- [ ] System boundaries are explicit.
-- [ ] Module responsibilities are clear.
-- [ ] Dependencies are controlled.
-- [ ] Data ownership is defined.
-- [ ] Security boundaries are defined.
-- [ ] Failure handling is considered.
-- [ ] Testing strategy is feasible.
-- [ ] Decisions have documented trade-offs.
-- [ ] No unnecessary architectural complexity.
-
-## 6. Restrictions
-
-- Do not change approved technology choices without approval.
-- Do not introduce microservices without justification.
-- Do not bypass established module boundaries.
-- Do not silently modify existing architecture.
-- Do not make unresolved business decisions.
-
-## 7. Definition of Done
-
-Architecture must be:
-- Documented
-- Traceable to requirements
-- Reviewed for security
-- Reviewed for maintainability
-- Supported by necessary ADRs
-- Approved before implementation
-
-## 8. Delivery Report
-
-Report:
-- Architecture designed
-- Modules affected
-- Decisions made
-- ADRs created
-- Trade-offs
-- Risks
-- Approval requirements
+Nêu: file đã sửa, module ảnh hưởng, ADR đã tạo, đánh đổi và rủi ro, người cần duyệt. Không lặp lại nội dung tài liệu.
