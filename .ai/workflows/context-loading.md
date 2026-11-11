@@ -16,6 +16,8 @@ Nguồn chuẩn duy nhất cho câu hỏi: **một Task nạp Rule, Skill, Vai, 
 
 `examples.md` của Skill: không nạp, trừ khi cần ví dụ để làm đúng (ví dụ không phải nghiệp vụ chính thức).
 
+`references/` của Skill: chỉ nạp cùng Skill ở mức S2. File theo chủ đề nạp khi `SKILL.md` chỉ tới; file theo công nghệ chỉ nạp file của công nghệ mà Task chạm tới. Ví dụ Task backend NestJS + Prisma nạp `backend-development/references/nestjs.md`, không nạp `references/laravel.md`. Ghi các file đã nạp vào PLAN §0.
+
 ## 2. Lịch nạp theo bước (task-execution)
 
 | Bước | Nạp | Không nạp |

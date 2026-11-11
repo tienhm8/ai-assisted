@@ -22,7 +22,7 @@ Thiết kế dữ liệu như một Database Architect, không chỉ sinh câu l
 - Kiến trúc: module sở hữu dữ liệu, ranh giới, hệ quản trị và phiên bản; api-design (nhu cầu đọc/ghi của API).
 - Schema và migration hiện có; quy ước CSDL đã chốt (database-design §2); quy tắc mức dữ liệu D0–D3 và yêu cầu pháp lý.
 - Số liệu thật nếu có: kích thước bảng, truy vấn chậm, kế hoạch thực thi, tốc độ tăng trưởng.
-- Tài liệu tham khảo của Skill (nạp đúng phần cần cho bước đang làm): `references/modeling-patterns.md`, `references/data-types.md`, `references/performance-scaling.md`, `references/migration.md`, `references/security.md`; MongoDB: `references/mongodb.md`.
+- Tài liệu tham khảo của Skill (nạp đúng phần cần cho bước đang làm): `references/modeling-patterns.md`, `references/data-types.md`, `references/performance-scaling.md`, `references/caching.md`, `references/migration.md`, `references/security.md`; MongoDB: `references/mongodb.md`.
 
 ## 4. Quy trình
 
@@ -59,6 +59,7 @@ Thiết kế dữ liệu như một Database Architect, không chỉ sinh câu l
    - Thiết kế index từ bảng `AP-NN`: mỗi index ghi AP mà nó phục vụ; thứ tự cột composite theo quy tắc tiền tố trái nhất (so sánh bằng → khoảng/sắp xếp); unique, partial, covering, biểu thức khi hệ quản trị hỗ trợ; index cho cột FK khi hệ quản trị không tự tạo. Không index cột ít giá trị đứng một mình, bảng rất nhỏ, cột cập nhật liên tục mà không AP nào lọc. Loại index trùng hoặc bị index khác bao phủ.
    - Viết truy vấn dùng được index: không bọc hàm quanh cột, không `LIKE '%x'`, cẩn thận với `!=`, `OR` nhiều cột và ép kiểu ngầm; chỉ chọn cột cần, có `LIMIT`, phân trang keyset cho danh sách lớn; tránh N+1 và truy vấn con theo từng dòng; `NOT EXISTS` thay `NOT IN`; `UNION ALL` khi không cần loại trùng; điều kiện không tổng hợp đặt ở `WHERE`, không ở `HAVING`.
    - Kết nối: connection pool giới hạn, tổng kết nối nhỏ hơn `max_connections`.
+   - Cache (bậc 2) chỉ cho AP đã qua bậc 1 mà vẫn không đạt NFR, theo `references/caching.md`: kiểm đủ ba điều kiện (đọc ≫ ghi, nguồn đắt, chấp nhận trễ); với mỗi cache ghi key, TTL có jitter, mọi đường ghi phải xoá key, biện pháp chống dồn tải tương xứng với mức hot của key. Production có cache thì có job warm-up theo tầng (T1 bắt buộc, T2 hot) với registry nhóm do module sở hữu khai báo. Không thêm Bloom filter hay L1 nhiều instance khi chưa có số liệu.
    - Đi theo bậc mở rộng, chỉ lên bậc sau khi bậc trước không đủ và có số liệu: tối ưu truy vấn/index → cache, bản sao chỉ đọc → partition → lưu trữ dữ liệu cũ → tách CSDL theo module → sharding. Mỗi bậc từ partition trở lên ghi khoá phân vùng/khoá shard, lý do, hệ quả (ràng buộc unique, FK, truy vấn chéo), cách vận hành, và đưa vào ADR.
 8. **Bảo mật dữ liệu.** Theo `references/security.md`: gán mức D0–D3 cho từng cột; băm mật khẩu, mã hoá cột D3, che dữ liệu ở môi trường không phải production; tách tài khoản CSDL (sở hữu schema, chạy migration, ứng dụng, chỉ đọc) với quyền tối thiểu; cách ly dữ liệu tenant; bảng audit; vòng đời dữ liệu (lưu giữ, lưu trữ, huỷ, xoá theo yêu cầu).
 
@@ -95,6 +96,7 @@ Thiết kế dữ liệu như một Database Architect, không chỉ sinh câu l
 - [ ] Mỗi index phục vụ ít nhất một AP; không index trùng; FK có index; composite đúng thứ tự tiền tố trái nhất.
 - [ ] Điều kiện lọc của AP quan trọng dùng được index (không hàm bọc cột, không `LIKE '%x'`, không ép kiểu ngầm).
 - [ ] Không `SELECT *` ở truy vấn của ứng dụng; danh sách có giới hạn, danh sách lớn phân trang keyset; không N+1.
+- [ ] Cache (nếu có) truy ra AP và số liệu; không cache dữ liệu tranh chấp/tiền/secret; key có tenant/quyền khi cần; xoá key ở mọi đường ghi; TTL có jitter; fail-open; warm-up có tầng T1/T2, trigger, chạy một instance và ngân sách tải CSDL.
 - [ ] Partition/sharding/phi chuẩn hoá (nếu có) có số liệu, ADR và hệ quả đã ghi.
 
 **Bảo mật**
@@ -141,7 +143,8 @@ Thiết kế dữ liệu như một Database Architect, không chỉ sinh câu l
 4. ERD và danh sách bảng (module sở hữu, mức D).
 5. Quyết định thiết kế đáng chú ý kèm lý do và phương án đã loại (kiểu khoá, mẫu mô hình, phi chuẩn hoá, partition…).
 6. Ràng buộc ↔ BR; index ↔ AP.
-7. Bảo mật: cột D2/D3, mã hoá, tài khoản và quyền, cách ly tenant.
-8. Migration: danh sách file, thứ tự phát hành, mức khoá/thời gian chạy, cách quay lui, rủi ro dữ liệu.
-9. Bằng chứng kiểm chứng (lệnh, kết quả; not-run kèm lý do).
-10. Người cần duyệt và ADR cần quyết.
+7. Cache (nếu có): key, AP, TTL, sự kiện xoá, chống dồn tải, tầng warm-up.
+8. Bảo mật: cột D2/D3, mã hoá, tài khoản và quyền, cách ly tenant.
+9. Migration: danh sách file, thứ tự phát hành, mức khoá/thời gian chạy, cách quay lui, rủi ro dữ liệu.
+10. Bằng chứng kiểm chứng (lệnh, kết quả; not-run kèm lý do).
+11. Người cần duyệt và ADR cần quyết.

@@ -30,6 +30,13 @@ Công cụ chính chỉ chọn một; công cụ khác dùng cho việc chuyên 
 | --- | --- | --- | --- | --- |
 |  | | | | |
 
+### 2.1 Công cụ cấp cho AI (MCP server, plugin)
+Công cụ mà AI gọi được, ví dụ MCP server của Laravel Boost. Guideline đi kèm công cụ không cài thẳng mà tiếp nhận theo [skills/README](.ai/skills/README.md) mục "Tiếp nhận Skill bên ngoài". Mỗi công cụ ghi rõ môi trường được kết nối; **không kết nối production hoặc dữ liệu D2/D3**. Tính năng ghi dữ liệu hoặc chạy code tuỳ ý (ví dụ tinker, câu query ghi) xếp vào vùng 🟡/🔴 ở §3.2.
+
+| Công cụ · phiên bản | Tính năng được dùng | Môi trường kết nối | Tính năng bị tắt / giới hạn | Người duyệt |
+| --- | --- | --- | --- | --- |
+|  | | | | |
+
 ## 3. Mức tự chủ và bản đồ vùng
 
 ### 3.1 Mức tự chủ (A0–A4)
