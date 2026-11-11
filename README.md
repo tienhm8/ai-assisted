@@ -86,7 +86,7 @@ project/
 │   ├── workflows/                     ĐIỀU PHỐI: chọn Skill, xếp thứ tự, dừng ở đâu?
 │   │   └── task-execution · skill-selection · skill-orchestration · release-workflow
 │   ├── templates/                     MẪU: kết quả trình bày dưới dạng nào?
-│   │   └── PLAN · BUG · DELIVERY-REPORT · TEST-REPORT · RELEASE-REPORT  (-TEMPLATE.md)
+│   │   └── PLAN · BUG · PR · DELIVERY-REPORT · TEST-REPORT · RELEASE-REPORT  (-TEMPLATE.md)
 │   ├── plans/                         [05] kế hoạch do AI soạn, Tech Lead duyệt (được commit)
 │   └── worktrees/                     [05] môi trường cô lập, mỗi Task một nơi (không commit)
 │
