@@ -17,20 +17,24 @@
 8. Mỗi index phục vụ ít nhất một truy vấn đã ghi. Thêm hoặc bỏ index trên bảng lớn phải kèm kế hoạch thực thi (EXPLAIN) trước và sau.
 9. Truy vấn trả danh sách phải có giới hạn số dòng; không tải toàn bộ bảng khi không giới hạn.
 10. Phi chuẩn hoá, partition, sharding, tách CSDL hay đổi hệ quản trị chỉ làm khi có số liệu đo hoặc yêu cầu phi chức năng, và phải có ADR được duyệt.
+11. Truy vấn của ứng dụng chỉ chọn cột cần dùng, không `SELECT *`; không truy vấn lặp theo từng dòng kết quả (N+1).
+12. Điều kiện lọc và join của truy vấn quan trọng phải dùng được index: không bọc hàm hoặc phép tính quanh cột được index, không `LIKE` bắt đầu bằng ký tự đại diện trên B-Tree, tham số cùng kiểu và collation với cột.
+13. Ứng dụng kết nối CSDL qua connection pool có giới hạn; tổng kết nối tối đa của mọi tiến trình phải nhỏ hơn `max_connections` của máy chủ.
+14. Không đưa logic nghiệp vụ vào stored procedure, function hay trigger chỉ để tăng tốc khi chưa có số liệu đo và ADR được duyệt.
 
 ## Migration
 
-11. Migration chạy được trên CSDL sạch và có cách quay lui. Không quay lui được thì ghi lý do và cách khôi phục để người duyệt xác nhận.
-12. Migration đã chạy ở môi trường dùng chung thì không sửa nữa; muốn sửa thì viết migration mới.
-13. Thay đổi schema tương thích với phiên bản ứng dụng đang chạy (mở rộng → chuyển dữ liệu → thu gọn). Không đổi tên hoặc xoá cột/bảng trong cùng lần phát hành với code còn dùng nó.
-14. Migration chạm bảng lớn phải ghi mức khoá và thời gian chạy ước tính. Chuyển dữ liệu (backfill) chia theo lô, chạy lại được, không gói trong một transaction dài; tách khỏi migration đổi cấu trúc.
-15. Chạy migration trên production phải được duyệt; AI chỉ soạn migration, không tự chạy.
+15. Migration chạy được trên CSDL sạch và có cách quay lui. Không quay lui được thì ghi lý do và cách khôi phục để người duyệt xác nhận.
+16. Migration đã chạy ở môi trường dùng chung thì không sửa nữa; muốn sửa thì viết migration mới.
+17. Thay đổi schema tương thích với phiên bản ứng dụng đang chạy (mở rộng → chuyển dữ liệu → thu gọn). Không đổi tên hoặc xoá cột/bảng trong cùng lần phát hành với code còn dùng nó.
+18. Migration chạm bảng lớn phải ghi mức khoá và thời gian chạy ước tính. Chuyển dữ liệu (backfill) chia theo lô, chạy lại được, không gói trong một transaction dài; tách khỏi migration đổi cấu trúc.
+19. Chạy migration trên production phải được duyệt; AI chỉ soạn migration, không tự chạy.
 
 ## Dữ liệu và transaction
 
-16. Không sửa hoặc xoá dữ liệu production trực tiếp; xử lý dữ liệu bằng script đã duyệt.
-17. Không xoá dữ liệu nghiệp vụ lịch sử khi chưa có chính sách lưu giữ được duyệt.
-18. Cột chứa dữ liệu D2/D3 phải được đánh dấu trong thiết kế. Mật khẩu chỉ lưu dạng băm một chiều; dữ liệu D3 khác lưu mã hoá theo cách đã duyệt.
-19. Quyền đổi cấu trúc (DDL) chỉ cấp cho tài khoản chạy migration; tài khoản ứng dụng không có quyền DDL.
-20. Lỗi giữa transaction phải rollback toàn bộ, không commit dở dang. Transaction giữ ngắn; không gọi dịch vụ bên ngoài khi transaction đang mở.
-21. Dữ liệu seed là dữ liệu giả hoặc đã ẩn danh.
+20. Không sửa hoặc xoá dữ liệu production trực tiếp; xử lý dữ liệu bằng script đã duyệt.
+21. Không xoá dữ liệu nghiệp vụ lịch sử khi chưa có chính sách lưu giữ được duyệt.
+22. Cột chứa dữ liệu D2/D3 phải được đánh dấu trong thiết kế. Mật khẩu chỉ lưu dạng băm một chiều; dữ liệu D3 khác lưu mã hoá theo cách đã duyệt.
+23. Quyền đổi cấu trúc (DDL) chỉ cấp cho tài khoản chạy migration; tài khoản ứng dụng không có quyền DDL.
+24. Lỗi giữa transaction phải rollback toàn bộ, không commit dở dang. Transaction giữ ngắn; không gọi dịch vụ bên ngoài khi transaction đang mở.
+25. Dữ liệu seed là dữ liệu giả hoặc đã ẩn danh.
