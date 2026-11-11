@@ -4,6 +4,7 @@ Quy trình nhiều bước gắn với vòng đời và các điểm duyệt c�
 
 | File | Nội dung | Trạng thái |
 | --- | --- | --- |
+| [context-loading.md](context-loading.md) | Nạp gì cho Task nào: nhóm Rule, Skill, vai, workflow, template theo loại Task (T1–T15) và giai đoạn | Draft |
 | [task-execution.md](task-execution.md) | Quy trình 10 bước AI thực hiện một Task (bắt buộc) | Draft |
 | [skill-orchestration.md](skill-orchestration.md) | Quy trình điều phối: nhận diện Task, chọn Skill, phối hợp, kiểm tra điều kiện đầu ra, bàn giao | Draft |
 | [skill-selection.md](skill-selection.md) | Bảng chọn Skill theo công việc và chuỗi Skill theo loại Task (T1–T15) | Draft |

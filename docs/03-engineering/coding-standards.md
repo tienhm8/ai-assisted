@@ -178,6 +178,34 @@ Quy tắc:
 
 Các bước Staging, UAT/Regression, Production và người quyết phát hành khai báo ở [deployment](../05-operations/deployment.md).
 
+### 10.2. Rule Commit Message
+
+> ✅ **BẮT BUỘC** — Mọi commit phải tuân thủ; `commitlint` (qua husky `commit-msg`) sẽ **chặn**
+> commit sai cú pháp.
+
+Theo Angular convention:
+
+```
+type(scope?): subject
+```
+
+- build: Changes that affect the build system or external dependencies (example scopes: gulp,
+  broccoli, npm)
+- ci: Changes to our CI configuration files and scripts (example scopes: Gitlab CI, Circle,
+  BrowserStack, SauceLabs)
+- chore: add something without touching production code (Eg: update npm dependencies)
+- docs: Documentation only changes
+- feat: A new feature
+- fix: A bug fix
+- perf: A code change that improves performance
+- refactor: A code change that neither fixes a bug nor adds a feature
+- revert: Reverts a previous commit
+- style: Changes that do not affect the meaning of the code (Eg: adding white-space, formatting,
+  missing semi-colons, etc)
+- test: Adding missing tests or correcting existing tests
+
+Thân commit nêu `TASK-ID` (xem [git-workflow-rules](../../.ai/rules/git-workflow-rules.md) mục 3).
+
 ## 11. Quy chuẩn theo công nghệ
 Chỉ giữ các mục dự án có dùng; quy chuẩn bổ sung này không được trái các mục trên.
 

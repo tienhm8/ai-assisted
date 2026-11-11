@@ -13,6 +13,7 @@
 8. Tuân thủ mức tự chủ của Task và bản đồ vùng 🟢🟡🔴 của dự án; không tự nâng mức. Vùng 🔴 cần Task riêng và người duyệt.
 9. Đổi hành vi hoặc kiến trúc thì cập nhật tài liệu liên quan trong cùng thay đổi.
 10. Báo cáo bàn giao nêu rõ giả định, câu hỏi chưa giải quyết và kết quả kiểm tra thật.
+11. Bàn giao Task phải tổng hợp **toàn bộ** thay đổi của Task, gộp từ mọi worktree, nhánh và phiên đã làm, không chỉ phiên hiện tại. Mỗi thay đổi nêu: file và dòng, loại (thêm/sửa/xoá), nghiệp vụ mà đoạn đó phục vụ, và đề xuất tốt hơn nếu có. Gom theo nghiệp vụ, không liệt kê theo thứ tự file.
 
 ## Thang dùng chung
 

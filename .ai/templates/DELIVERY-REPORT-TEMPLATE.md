@@ -6,8 +6,23 @@
 Task đã làm gì, đạt tiêu chí nghiệm thu nào.
 
 ## 2. Thay đổi
-- File đã thay đổi:
-- Tóm tắt triển khai:
+Gộp từ **mọi** worktree, nhánh và phiên của Task (không chỉ phiên hiện tại). Lấy từ `git diff <nhánh gốc>...<nhánh Task>` của từng nguồn.
+
+**Nguồn đã gộp**
+
+| Worktree / nhánh | Phiên | Commit (hash ngắn) |
+| --- | --- | --- |
+| | | |
+
+**Tóm tắt triển khai:** 1–3 câu, Task đã thay đổi hành vi gì.
+
+**Thay đổi theo nghiệp vụ** (gom theo nghiệp vụ, không theo thứ tự file; dòng thêm/sửa tính trên file mới, dòng xoá tính trên file cũ)
+
+| # | Nghiệp vụ (FR/BR/AC) | File:dòng | Loại | Nội dung thay đổi | Đề xuất tốt hơn (nếu có) |
+| --- | --- | --- | --- | --- | --- |
+| 1 | | `path/file.ext:L10-L25` | Thêm / Sửa / Xoá | | |
+
+**Điểm reviewer nên xem kỹ:** đoạn rủi ro cao, logic khó, chỗ lệch plan.
 
 ## 3. Kiểm thử
 Tóm tắt và mã báo cáo kiểm thử. Phân biệt pass / fail / skipped / not-run, kèm lệnh và kết quả thật.

@@ -6,6 +6,18 @@
 | --- | --- |
 | Trạng thái | Draft / Approved / Done |
 | Mức rủi ro · Mức tự chủ | lấy từ Task |
+| Loại Task | T1–T15 |
+
+## 0. Ngữ cảnh đã nạp (theo context-loading)
+- Nhóm Rule: nền … · điều kiện … (lý do)
+- Vai:
+- Lịch nạp cho bước thực thi (mỗi bước con một Skill mức đầy đủ):
+
+| Bước con | Skill (đầy đủ) | Rule thêm | Template |
+| --- | --- | --- | --- |
+| 5.1 | | | |
+
+- Nạp bổ sung trong khi làm (nếu có, kèm lý do):
 
 ## 1. Mục tiêu và phạm vi
 - Làm:
