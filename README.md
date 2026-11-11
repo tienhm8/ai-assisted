@@ -6,79 +6,99 @@ README là **bản đồ** của repo: nói hệ thống làm gì, tài liệu n
 
 | Bạn đang… | Đọc |
 | --- | --- |
-| Tổng quan | Cấu trúc tài liệu, Vòng đời phát triển có AI|
+| Tổng quan | Cấu trúc tài liệu |
 | Áp dụng dự án | [PROJECT.md](PROJECT.md) |
-| Giao việc cho AI | Các thành phần để AI làm việc, Kiểm soát AI |
-| Điều kiện duyệt | Nhóm tài liệu |
+| Giao việc cho AI | Cấu trúc tài liệu (`.ai/`), Kiểm soát AI |
+| Điều kiện duyệt | Cấu trúc tài liệu (danh sách giai đoạn và người duyệt) |
 | Công cụ AI | Công cụ AI |
 
 ## Cấu trúc tài liệu
+Nguyên tắc chung: **AI soạn nháp (`Draft`), người có thẩm quyền duyệt (`Approved`)**; chỉ sang giai đoạn sau khi giai đoạn trước đã được duyệt.
+
+Ký hiệu `[01]`–`[08]` trong cây là giai đoạn của vòng đời (kèm người duyệt):
+
+- `[01]` Product Discovery, duyệt: PO
+- `[02]` Requirements Engineering, duyệt: PO/BA (QA rà khả năng kiểm thử)
+- `[03]` System Design, duyệt: Kiến trúc sư (thêm Security nếu đụng tới tiền, phân quyền, dữ liệu cá nhân, migration)
+- `[04]` AI Context & Governance, duyệt: Tech Lead
+- `[05]` Implementation, duyệt: Tech Lead
+- `[06]` Quality Engineering, duyệt: Tech Lead
+- `[07]` Delivery & Operations, duyệt: Owner (tham khảo Tech Lead; DevOps thực hiện; AI không tự deploy)
+- `[08]` Continuous Improvement, duyệt: Tech Lead
 
 ```text
 project/
-├── README.md
-├── PROJECT.md                   hồ sơ riêng của dự án (công cụ AI, mức dữ liệu, mức tự chủ)
-├── docs/
-│   ├── 00-project-overview/     vision.md · scope.md · glossary.md · open-questions.md
-│   ├── 01-requirements/         BRD.md · FR/ · NFR.md · business-rules.md · acceptance-criteria.md
-│   ├── 02-architecture/         system-architecture.md · module-design.md · database-design.md · api-design.md · ADR/
-│   ├── 03-engineering/          coding-standards.md · security-standards.md · error-handling.md · testing-strategy.md
-│   ├── 04-project-management/   roadmap.md · backlog.md · task-breakdown.md · ai-kpi.md
-│   └── 05-operations/           deployment.md · monitoring.md · backup-recovery.md
-├── .ai/                         rules/ · skills/ · agents/ · workflows/ · templates/ · plans/ · worktrees/   (nguồn chuẩn, độc lập công cụ)
-└── AGENTS.md · CLAUDE.md · .github/copilot-instructions.md   (điểm tích hợp, chỉ tham chiếu .ai/)
+├── README.md                          bản đồ của repo
+├── PROJECT.md                         [04] công cụ AI, mức dữ liệu, mức tự chủ, bản đồ vùng 🟢🟡🔴
+│
+├── docs/                              hồ sơ dự án (mỗi dự án viết riêng)
+│   │
+│   ├── 00-project-overview/           [01] làm gì, cho ai, ranh giới ở đâu?
+│   │   ├── vision.md                  vấn đề cần giải quyết, đối tượng dùng, kết quả đo được
+│   │   ├── scope.md                   trong phạm vi, ngoài phạm vi, ràng buộc
+│   │   ├── glossary.md                thuật ngữ thống nhất cho người và AI
+│   │   └── open-questions.md          câu hỏi mở và giả định (OQ-NN)
+│   │
+│   ├── 01-requirements/               [02] phải làm gì, nghiệm thu ra sao?
+│   │   ├── BRD.md                     yêu cầu nghiệp vụ (BRQ-NN)
+│   │   ├── FR/                        yêu cầu chức năng, mỗi module một file (FR-MODULE-NN)
+│   │   ├── NFR.md                     yêu cầu phi chức năng, đo được
+│   │   ├── business-rules.md          quy tắc nghiệp vụ (BR-MODULE-NN)
+│   │   └── acceptance-criteria.md     tiêu chí nghiệm thu (FR-AC)
+│   │
+│   ├── 02-architecture/               [03] xây thế nào, đã chốt quyết định nào?
+│   │   ├── system-architecture.md     kiến trúc tổng thể, công nghệ, xác thực và phân quyền
+│   │   ├── module-design.md           module, trách nhiệm, phụ thuộc
+│   │   ├── database-design.md         lược đồ dữ liệu, ràng buộc, migration
+│   │   ├── api-design.md              hợp đồng API
+│   │   └── ADR/                       mỗi quyết định kiến trúc lớn một file (ADR-NNNN)
+│   │
+│   ├── 03-engineering/                [04] chuẩn code, bảo mật, lỗi, test
+│   │   ├── coding-standards.md        ngôn ngữ, naming, cấu trúc code, Git
+│   │   ├── security-standards.md      bảo mật, mức dữ liệu D0-D3, secret
+│   │   ├── error-handling.md          phân loại lỗi, mã lỗi, log
+│   │   └── testing-strategy.md        [06] các tầng test, cổng chất lượng
+│   │
+│   ├── 04-project-management/         [05] làm gì trước, chia Task ra sao?
+│   │   ├── roadmap.md                 lộ trình theo mốc
+│   │   ├── backlog.md                 danh sách việc, ưu tiên, rủi ro
+│   │   ├── task-breakdown.md          cách chia Task, mẫu Task giao cho AI
+│   │   └── ai-kpi.md                  [08] đo hiệu quả AI
+│   │
+│   └── 05-operations/                 [07] phát hành, giám sát, khôi phục
+│       ├── deployment.md              môi trường, CI/CD, phát hành, rollback
+│       ├── monitoring.md              giám sát, cảnh báo
+│       └── backup-recovery.md         sao lưu, khôi phục (RPO/RTO)
+│
+├── .ai/                               quy trình AI làm việc
+│   ├── rules/                         BẮT BUỘC: AI phải / không được làm gì?
+│   │   └── project · architecture · coding · database · security · testing · git-workflow  (-rules.md)
+│   ├── skills/                        CÁCH LÀM: làm một loại việc thì làm thế nào?
+│   │   ├── [01] product-discovery
+│   │   ├── [02] requirement-analysis · requirement-review
+│   │   ├── [03] architecture-design · database-design
+│   │   ├── [05] task-planning · api-development · backend-development · frontend-development
+│   │   │        authentication-rbac · bug-fixing · refactoring
+│   │   ├── [06] unit-testing · integration-testing · e2e-testing · code-review · security-review
+│   │   ├── [07] deployment · incident-analysis · documentation
+│   │   └── [08] continuous-improvement
+│   ├── agents/                        VAI: ai làm, với quyền gì? (mặc định một AI Coding Agent)
+│   ├── workflows/                     ĐIỀU PHỐI: chọn Skill, xếp thứ tự, dừng ở đâu?
+│   │   └── task-execution · skill-selection · skill-orchestration · release-workflow
+│   ├── templates/                     MẪU: kết quả trình bày dưới dạng nào?
+│   │   └── PLAN · BUG · DELIVERY-REPORT · TEST-REPORT · RELEASE-REPORT  (-TEMPLATE.md)
+│   ├── plans/                         [05] kế hoạch do AI soạn, Tech Lead duyệt (được commit)
+│   └── worktrees/                     [05] môi trường cô lập, mỗi Task một nơi (không commit)
+│
+└── AGENTS.md · CLAUDE.md · .github/copilot-instructions.md   điểm tích hợp công cụ, chỉ trỏ về .ai/
 ```
 
-## Vòng đời phát triển có AI
-
-AI tham gia ở từng giai đoạn, nhưng con người vẫn chịu trách nhiệm về quyết định nghiệp vụ, kiến trúc, bảo mật và vận hành.
-
-| # | Giai đoạn | Nội dung | Tài liệu đầu ra |
-| --- | --- | --- | --- |
-| 01 | Product Discovery | Business requirements, vision, scope, stakeholders | [00-project-overview](docs/00-project-overview/) |
-| 02 | Requirements Engineering | BRD, FR, NFR, business rules, acceptance criteria | [01-requirements](docs/01-requirements/) |
-| 03 | System Design | Kiến trúc, database, API, security, ADR | [02-architecture](docs/02-architecture/) |
-| 04 | AI Context & Governance | Rules, skills, agents, context, knowledge base | [PROJECT.md](PROJECT.md); [03-engineering](docs/03-engineering/); [.ai](.ai/) |
-| 05 | Implementation | AI: lên plan + coding worktree, human review, Git | [04-project-management](docs/04-project-management/); [.ai/plans](.ai/plans/); [.ai/worktrees](.ai/worktrees/) |
-| 06 | Quality Engineering | Unit, integration, E2E, security, regression | [testing-strategy](docs/03-engineering/testing-strategy.md) |
-| 07 | Delivery & Operations | CI/CD, deploy, monitoring, logging, rollback | [05-operations](docs/05-operations/) |
-| 08 | Continuous Improvement | Feedback, phân tích lỗi, cập nhật rule/skill | [ai-kpi.md](docs/04-project-management/ai-kpi.md) (số liệu); cập nhật [.ai/](.ai/) |
-
-## Nhóm tài liệu
-
-AI tham gia phân tích hoặc thực hiện, người duyệt mới sang nhóm sau.
-
-| Thư mục | Trả lời câu hỏi | AI làm | Người quyết và điều kiện duyệt |
-| --- | --- | --- | --- |
-| [PROJECT.md](PROJECT.md) | Dự án này dùng công cụ AI nào, mức dữ liệu và mức tự chủ ra sao? | Soạn nháp khi được yêu cầu "tạo/cập nhật PROJECT.md" | Tech Lead: thông tin dự án, công cụ AI đã điền |
-| `00-project-overview` | Làm gì, cho ai, ranh giới ở đâu, dùng thuật ngữ nào? | Soạn nháp vision, scope, thuật ngữ; ghi câu hỏi mở | PO: Vision và Scope ở trạng thái Approved, câu hỏi mở được ghi ở `open-questions.md` |
-| `01-requirements` | Hệ thống phải làm gì, theo quy tắc nào, nghiệm thu ra sao? | Phân tích yêu cầu, phát hiện chỗ thiếu | PO/BA (QA rà khả năng kiểm thử): mọi yêu cầu chức năng (FR) trong phạm vi có tiêu chí nghiệm thu (AC) kiểm thử được |
-| `02-architecture` | Xây thế nào, quyết định kiến trúc nào đã chốt? | Đề xuất phương án, soạn ADR và thiết kế | Kiến trúc sư (thêm Security nếu thiết kế đụng tới tiền, phân quyền, dữ liệu cá nhân, migration): thiết kế Approved, có ADR cho quyết định lớn. |
-| `03-engineering` + [.ai/](.ai/README.md) | Code, bảo mật, lỗi, test theo chuẩn nào? AI phải tuân thủ gì? | Tuân thủ Rules, dùng Skills; viết và chạy test | Tech Lead: các chuẩn code, bảo mật, lỗi, test đã được điền cho dự án trước khi giao Task đầu tiên |
-| `04-project-management` | Roadmap, làm gì trước, chia Task ra sao? | Chia Task từ plan đã duyệt (plan nằm ở [.ai/plans/](.ai/plans/)); tổng hợp số liệu, đề xuất sửa rule/skill | Tech Lead: mỗi Task có: mục tiêu, phạm vi làm/không làm, tiêu chí nghiệm thu, mức rủi ro, mức tự chủ của AI, lộ trình [roadmap.md](docs/04-project-management/roadmap.md) |
-| `05-operations` | Phát hành, giám sát, khôi phục thế nào? | Soạn release note, phân tích log và sự cố; không tự deploy | Owner (tham khảo Tech Lead; DevOps thực hiện): smoke test đạt, không có sự cố nghiêm trọng, rollback dùng được |
-
 Lưu ý khi áp dụng:
-- AI mô tả hiện trạng (trạng thái `Draft`), người xác nhận chuyển `Approved`; Task mới bắt đầu khi nhóm `04` sẵn sàng.
+- Task mới bắt đầu khi giai đoạn `[04]` sẵn sàng.
 - Mặc định dùng một AI Coding Agent; chỉ tách thành nhiều agent riêng khi vai trò và bàn giao đã ổn định (xem [.ai/agents/](.ai/agents/README.md)).
 - Chưa có CI/CD: chạy kiểm tra tự động tại máy và ghi miễn trừ có thời hạn vào `PROJECT.md` (không bỏ qua âm thầm).
-
-## Các thành phần để AI làm việc
-
-Kiến thức về dự án nằm ở `docs/`; kiểm thử ở [testing-strategy.md](docs/03-engineering/testing-strategy.md) và CI/CD ở [deployment.md](docs/05-operations/deployment.md). Phần dành riêng cho AI:
-
-| Thành phần | Mục đích | Ví dụ | Nằm ở |
-| --- | --- | --- | --- |
-| Rules | Quy tắc bắt buộc | Coding conventions | `.ai/rules/` |
-| Skills | Quy trình chuyên môn | API development | `.ai/skills/` |
-| Agents | Vai trò thực hiện | Backend Developer | `.ai/agents/` |
-| Workflows | Điều phối nhiều bước | Chọn Skill theo Task, phát hành | `.ai/workflows/` |
-| Context | Đúng tài liệu, đúng phạm vi; không bắt AI đọc cả dự án | Module đang làm | Task, [plan](.ai/plans/); thứ tự nạp: [skill-orchestration.md](.ai/workflows/skill-orchestration.md) §2 |
-| Plans | Cầu nối từ đặc tả sang Task; lưu kế hoạch và kết quả; AI soạn, Tech Lead duyệt | Chia tính năng thành Task, kế hoạch kiểm chứng | `.ai/plans/` (được commit) |
-| Worktrees | Môi trường cô lập, mỗi Task một nơi; AI code và test ở đây theo plan, bàn giao kèm bằng chứng test thật | Nhánh riêng cho từng Task | `.ai/worktrees/` (không commit) |
-| Tools | Công cụ thực thi | Terminal, Git, Browser | Khai báo và cấp quyền trong `PROJECT.md` |
-
-Rule, Skill và Agent khác nhau: Rule là **điều bắt buộc**, Skill là **cách làm một loại việc**, Agent là **vai thực hiện**. Skill cũng không phải Prompt: Prompt là yêu cầu một lần, Skill là quy trình tái sử dụng (danh mục và ví dụ: [.ai/skills/](.ai/skills/README.md)).
+- **Context:** chỉ nạp đúng tài liệu cho Task, không bắt AI đọc cả dự án; nạp gì theo loại Task ở [context-loading.md](.ai/workflows/context-loading.md), thứ tự nạp ở [skill-orchestration.md](.ai/workflows/skill-orchestration.md) §2.
+- **Tools** (Terminal, Git, Browser): khai báo và cấp quyền trong `PROJECT.md`.
 
 ## Kiểm soát AI
 

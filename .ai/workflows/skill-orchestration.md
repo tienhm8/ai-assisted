@@ -15,7 +15,7 @@ Quy trình: **nhận diện loại Task → chọn Skill → xếp thứ tự �
 ## Sáu giai đoạn
 
 1. **Intake:** đọc Task (mục tiêu, phạm vi, AC, R, A); xác định loại Task. Task lai thì tách thành Task con. Thiếu R hoặc A: hỏi, không tự gán.
-2. **Nạp ngữ cảnh:** cấu hình dự án → Task/AC → ADR liên quan → FR/BR/contract/kiến trúc → Rules → Skill đã chọn → code, test → Git diff.
+2. **Nạp ngữ cảnh:** cấu hình dự án → Task/AC → ADR liên quan → FR/BR/contract/kiến trúc → nhóm Rule → Skill của bước hiện tại → code, test → Git diff. **Nạp gì** (nhóm Rule, Skill, vai, template) theo `context-loading.md`; mục này chỉ quy định thứ tự.
 3. **Lập chuỗi Skill (plan):** Skill dùng theo thứ tự, Skill chạy song song, đầu vào/đầu ra mỗi Skill, file dự kiến đổi, kế hoạch test, Skill bỏ kèm lý do.
    - Phân tích và thiết kế trước code; test cùng hoặc ngay sau code.
    - `code-review` và `security-review` chạy sau khi có diff và kết quả test.
