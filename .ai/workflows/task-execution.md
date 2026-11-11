@@ -7,7 +7,7 @@ Task được giao theo mẫu Task của dự án. Việc chọn và phối hợ
 
 | Bước | Tên | Nội dung | Đầu ra |
 | --- | --- | --- | --- |
-| 1 | Read Context | Đọc Rules, Skills, tài liệu nghiệp vụ và code liên quan | Context set |
+| 1 | Read Context | Xác định loại Task. Mỗi bước 1–10 chỉ nạp Rule, Skill, template theo **lịch nạp** ở context-loading.md §2; không nạp trước | Context set (ghi vào plan) |
 | 2 | Analyze Task | Phân tích yêu cầu, xác định phụ thuộc, phát hiện điểm chưa rõ | Danh sách câu hỏi (nếu có) |
 | 3 | Create Implementation Plan | Danh sách file dự kiến thay đổi, thiết kế và kế hoạch test | Plan |
 | 4 | Human Approval | Con người duyệt kế hoạch nếu có thay đổi kiến trúc, bảo mật, dữ liệu hoặc phạm vi nhạy cảm | Plan được duyệt |
@@ -31,8 +31,11 @@ Your task is to implement: [TASK-ID]
 
 MANDATORY INSTRUCTIONS:
 
-1. Read project instructions and applicable rules.
-2. Read the relevant Skills.
+1. Identify the Task type (T1–T15). Follow the per-step loading schedule
+   in .ai/workflows/context-loading.md §2: at each step load ONLY what
+   that step lists (skills: catalog → gate → full, one full skill at a time).
+2. Record the loading schedule in the plan (§0); load more only when
+   new conditions appear, and note why.
 3. Read all related requirements and architecture documents.
 4. Inspect existing implementation before modifying files.
 5. Identify ambiguities and conflicts.
