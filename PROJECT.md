@@ -82,6 +82,8 @@ Phân vùng file/thư mục theo mức kiểm soát. Vùng 🔴 (ví dụ `.ai/`
 | Profile áp dụng | |
 | Mức nghiêm ngặt (S1–S3) | |
 | Lý do chọn | |
+| Mức ASVS mục tiêu (L1–L3) | Không thấp hơn mức tối thiểu ở [security-standards](docs/03-engineering/security-standards.md) §13.1 |
+| Lý do chọn mức ASVS | Theo mức dữ liệu (§4), có tài khoản/phân quyền, tiền, ràng buộc pháp lý |
 
 ## 6. Vai trò
 | Vai trò | Người đảm nhiệm |
