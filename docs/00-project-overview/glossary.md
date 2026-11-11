@@ -47,6 +47,8 @@
 | A0–A4 | Mức tự chủ của AI do Task cấp, từ A0 đến A4. Skill không được tự nâng mức; thiếu thì dừng và hỏi. | Mức tự chủ | PROJECT.md (mức tự chủ) |
 | D0–D3 | Mức nhạy cảm của dữ liệu quy định được đưa gì vào AI; D3 gồm secret, token, dữ liệu cá nhân, không được ghi/log. | Mức dữ liệu | PROJECT.md (mức dữ liệu); security-standards.md |
 | RBAC | Role-Based Access Control: phân quyền theo vai trò. | Phân quyền | 03-engineering/security-standards.md |
+| OWASP Top 10 | Danh sách 10 nhóm rủi ro bảo mật web phổ biến nhất của OWASP, mã `A01:2025`…`A10:2025`; dùng để phân loại finding. |  | 03-engineering/security-standards.md §13 |
+| ASVS / L1–L3 | OWASP Application Security Verification Standard: bộ yêu cầu kiểm chứng bảo mật, mã `V<chương>.<mục>.<yêu cầu>`. L1–L3: mức kiểm chứng tăng dần, dự án khai báo mức mục tiêu. | Mức ASVS | PROJECT.md §5; 03-engineering/security-standards.md §13 |
 | UAT | User Acceptance Test: người dùng/PO thử nghiệm để chấp nhận trước khi phát hành. |  | 03-engineering/testing-strategy.md |
 | CI / CD | Continuous Integration / Continuous Delivery: tự động build, test và phát hành. |  | 05-operations/deployment.md |
 | ERD | Entity Relationship Diagram: sơ đồ quan hệ giữa các bảng dữ liệu. |  | 02-architecture/database-design.md |

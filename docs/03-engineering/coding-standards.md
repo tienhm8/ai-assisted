@@ -119,16 +119,32 @@ Lệnh chạy ở §5.3; điều kiện chất lượng để qua CI ở [testin
 
 ## 9. Code Review
 
-### 9.1 Checklist review
-- Đúng FR/Task và Acceptance Criteria liên kết.
-- Tuân thủ naming, format, cấu trúc ở các mục trên.
-- Xử lý lỗi theo [error-handling](error-handling.md); không vi phạm [security-standards](security-standards.md).
-- Có test phù hợp theo [testing-strategy](testing-strategy.md).
-- Không có code thừa, code chết, secret hoặc dữ liệu nhạy cảm.
+### 9.1 Thứ tự ưu tiên khi review
+Quy trình chi tiết ở Skill [code-review](../../.ai/skills/code-review/SKILL.md). Thứ tự ưu tiên:
+
+1. Đúng việc: đáp ứng FR/Task và Acceptance Criteria liên kết.
+2. Có test chứng minh theo [testing-strategy](testing-strategy.md).
+3. Đặt đúng chỗ theo tầng ở [system-architecture](../02-architecture/system-architecture.md) §3.3 và §7 ở trên.
+4. Đúng khi chạy đồng thời và chạy lại (race condition, idempotent).
+5. Hiệu năng, dữ liệu, cache.
+6. Bảo mật theo [security-standards](security-standards.md).
+7. Vận hành: log, alert, rollback; xử lý lỗi theo [error-handling](error-handling.md).
+8. Clean code và style theo §4–§6, §8.
+
+Logic sai thì không duyệt; code xấu thì comment, không chặn PR. Những gì formatter/linter bắt được thì không comment tay.
 
 ### 9.2 Yêu cầu với Pull Request
-- Liên kết ID Task và FR; mô tả thay đổi và cách kiểm tra.
+- Mô tả theo [PR-TEMPLATE](../../.ai/templates/PR-TEMPLATE.md); thiếu mục bắt buộc thì bị trả về trước khi review.
 - PR nhỏ, một mục đích; CI phải xanh trước khi review.
+
+| Ngưỡng | Giá trị | Ghi chú |
+| --- | --- | --- |
+| Kích thước PR tối đa (dòng thay đổi, không tính code sinh tự động, lockfile) |  | Ví dụ: 400; vượt ngưỡng thì tách hoặc ghi lý do |
+| Độ dài hàm / method |  | Dấu hiệu cần xem xét, không phải luật |
+| Độ dài lớp nhận yêu cầu (controller, handler) |  | Ví dụ: 50 dòng; vượt thường là đang chứa nghiệp vụ |
+| Độ dài lớp nghiệp vụ (service, use case) |  | Ví dụ: 200 dòng; vượt thì cân nhắc tách theo nghiệp vụ |
+| Số dependency inject vào một lớp |  | Ví dụ: 5–6 |
+<!-- Điền ngưỡng theo từng dự án và ngôn ngữ -->
 
 ### 9.3 Phê duyệt
 Số người duyệt và người có quyền duyệt theo mức rủi ro. AI không tự phê duyệt hoặc tự merge.

@@ -16,6 +16,8 @@ Nguồn chuẩn duy nhất cho câu hỏi: **một Task nạp Rule, Skill, Vai, 
 
 `examples.md` của Skill: không nạp, trừ khi cần ví dụ để làm đúng (ví dụ không phải nghiệp vụ chính thức).
 
+`references/` của Skill: chỉ nạp cùng Skill ở mức S2. File theo chủ đề nạp khi `SKILL.md` chỉ tới; file theo công nghệ chỉ nạp file của công nghệ mà Task chạm tới. Ví dụ Task backend NestJS + Prisma nạp `backend-development/references/nestjs.md`, không nạp `references/laravel.md`. Ghi các file đã nạp vào PLAN §0.
+
 ## 2. Lịch nạp theo bước (task-execution)
 
 | Bước | Nạp | Không nạp |
@@ -69,7 +71,7 @@ Mỗi Task chỉ nạp **dòng của mình**. `[ ]` = theo điều kiện ở m�
 | T6 | Thay đổi yêu cầu | P | A, G | requirement-analysis, requirement-review | Product Owner | — |
 | T7 | Thay đổi kiến trúc / contract | P, A | D, S, G | architecture-design, documentation | Architect | ADR, PLAN |
 | T8 | Rà soát tài liệu yêu cầu | P | — | requirement-review | Product Owner | — |
-| T9 | Review Pull Request | P, C, A, T | D, S, G | code-review, security-review | Reviewer (phiên khác), Security | DELIVERY-REPORT (kèm checklist code-review) |
+| T9 | Review Pull Request | P, C, A, T | D, S, G | code-review, security-review | Reviewer (phiên khác), Security | PR (đầu vào), DELIVERY-REPORT (kèm checklist code-review) |
 | T10 | Kiểm tra bảo mật | P, S, C | D, A | security-review, bug-fixing (khi Critical/High) | Security | DELIVERY-REPORT |
 | T11 | Chỉ viết test | P, G, C, T | D, S | unit/integration/e2e-testing (theo tầng) | QA | TEST-REPORT, DELIVERY-REPORT |
 | T12 | Chỉ cập nhật tài liệu | P, G | A | documentation | Executor | DELIVERY-REPORT |

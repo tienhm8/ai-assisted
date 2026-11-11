@@ -60,7 +60,7 @@ Dừng phần bị ảnh hưởng (vẫn làm tiếp phần độc lập, an to�
 | backend-development | unit-testing, integration-testing, security-review | Logic mới; chạm DB/tích hợp; chạm quyền hoặc dữ liệu nhạy cảm |
 | api-development | authentication-rbac (chạy trước backend-development trong T2), unit-testing, integration-testing | Endpoint cần phân quyền; có validation, logic |
 | frontend-development | unit-testing, e2e-testing | Có component, form, hành trình quan trọng |
-| database-design | integration-testing, documentation | Đổi schema |
+| database-design | integration-testing, documentation; architecture-design (ADR) | Đổi schema; partition, sharding, tách CSDL, đổi hệ quản trị, chọn mẫu đa tenant |
 | authentication-rbac | security-review, integration-testing | Luôn, sau khi triển khai guard/policy |
 | bug-fixing | unit-testing hoặc integration-testing | Viết regression test |
 | refactoring | unit-testing | Baseline trước, kiểm tra sau |

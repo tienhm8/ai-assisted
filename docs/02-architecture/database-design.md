@@ -32,8 +32,13 @@ Quy ước đặt tên chung cho mã nguồn ở [coding-standards](../03-engine
 | Cột audit (người/thời điểm tạo, sửa) |  |
 | Xoá mềm (soft delete) |  |
 | Timestamp và múi giờ |  |
+| Bảng mã, collation |  |
+| Công cụ migration, thư mục, cách đặt tên file |  |
+| Tài khoản CSDL (owner, migrator, app, read-only) |  |
+| MongoDB: schema validation, `schema_version`, write concern, read preference |  |
 
 ## 3. Mô hình dữ liệu
+Dùng MongoDB (CSDL tài liệu): bảng = collection, cột = field. §3.3 ghi cấu trúc document (field nhúng, mảng và giới hạn số phần tử) và validator; §3.5 cột "Quan hệ" ghi nhúng hay tham chiếu kèm lý do, BR không có ràng buộc ở CSDL ghi cách giữ toàn vẹn. Hướng dẫn chi tiết ở [mongodb](../../.ai/skills/database-design/references/mongodb.md).
 
 ### 3.1 ERD / mô hình dữ liệu
 Mô hình khái niệm và logic: thực thể chính và quan hệ. Mỗi thực thể thuộc một module sở hữu ([module-design](module-design.md)).
@@ -52,14 +57,41 @@ Chỉ mô tả bảng quan trọng hoặc có logic đặc biệt; bảng đơn 
 | --- | --- | --- | --- | --- | --- | --- |
 |  | | | | | | |
 
-### 3.4 Quan hệ, ràng buộc, index
-| Loại | Bảng · Cột | Mục đích / truy vấn phục vụ |
+### 3.4 Mẫu truy cập và khối lượng
+Mỗi index, partition hay phi chuẩn hoá phải truy ra một mẫu truy cập `AP-NN` ở đây.
+
+| AP | Mô tả | Đọc/Ghi | Điều kiện lọc | Sắp xếp / phân trang | Tần suất | Độ trễ mục tiêu (NFR) |
+| --- | --- | --- | --- | --- | --- | --- |
+|  | | | | | | |
+
+| Bảng | Số dòng hiện tại | Tăng trưởng / tháng | Ước tính sau 3 năm | Ghi chú (điểm nóng ghi, tỉ lệ đọc/ghi) |
+| --- | --- | --- | --- | --- |
+|  | | | | |
+
+### 3.5 Quan hệ, ràng buộc, index
+| Loại | Bảng · Cột | Mục đích / BR / AP phục vụ |
 | --- | --- | --- |
-| Quan hệ (FK) |  | |
+| Quan hệ (FK, hành vi xoá/cập nhật) |  | |
 | Ràng buộc (check, unique) |  | |
 | Index |  | |
 
 Ràng buộc phản ánh business rule thì ghi mã `BR-<MODULE>-<NN>`, nội dung ở [business-rules](../01-requirements/business-rules.md).
+
+### 3.6 Mở rộng (partition, lưu trữ, bản sao đọc, tách CSDL, sharding)
+Chỉ ghi khi đã áp dụng; mỗi quyết định có ADR.
+
+| Biện pháp | Bảng | Khoá (phân vùng / shard) | Lý do (AP, số liệu) | Hệ quả (ràng buộc, vận hành) | ADR |
+| --- | --- | --- | --- | --- | --- |
+|  | | | | | |
+
+### 3.7 Cache
+Chỉ ghi khi đã áp dụng; mỗi cache truy ra một AP ở §3.4 và có số liệu cho thấy bậc tối ưu truy vấn/index chưa đủ. Quyết định kiến trúc (công nghệ cache, HA) ở [system-architecture](system-architecture.md) §7.
+
+| Key mẫu | Module sở hữu | AP | L1/L2 | Mô hình đọc/ghi | TTL (jitter) | Sự kiện xoá key (mọi đường ghi) | Chống dồn tải | Warm-up (T1/T2/không) |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+|  | | | | | | | | |
+
+Warm-up: trigger, timeout của T1, giới hạn N của T2, ngân sách tải CSDL (lô, đồng thời) và nơi snapshot hot list. Thứ tự chạy khi phát hành ghi ở [deployment](../05-operations/deployment.md) §9.
 
 ## 4. Vòng đời dữ liệu
 | Giai đoạn | Quy tắc |
