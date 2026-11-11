@@ -1,6 +1,6 @@
 # Database Rules
 
-> Trạng thái: **Draft**. Rule bắt buộc, trung lập về hệ quản trị CSDL.
+> Trạng thái: **Draft**. Rule bắt buộc, trung lập về hệ quản trị CSDL. Với CSDL tài liệu, "bảng" hiểu là collection, "cột" là field; mục cuối là rule riêng cho loại CSDL này.
 
 ## Thiết kế
 
@@ -38,3 +38,11 @@
 23. Quyền đổi cấu trúc (DDL) chỉ cấp cho tài khoản chạy migration; tài khoản ứng dụng không có quyền DDL.
 24. Lỗi giữa transaction phải rollback toàn bộ, không commit dở dang. Transaction giữ ngắn; không gọi dịch vụ bên ngoài khi transaction đang mở.
 25. Dữ liệu seed là dữ liệu giả hoặc đã ẩn danh.
+
+## CSDL tài liệu (MongoDB, NoSQL)
+
+26. Mô hình document (nhúng hay tham chiếu) suy ra từ mẫu truy cập đã ghi; không có mảng nhúng tăng không giới hạn.
+27. Mọi collection có schema validation khai báo bằng migration; validator, index và chuyển dữ liệu đều đi qua migration trong mã nguồn.
+28. Bất biến không giữ được bằng ràng buộc của CSDL (tham chiếu giữa document, quy tắc trên nhiều document) phải ghi cách giữ: gom vào một document, transaction đa document, hoặc kiểm ở ứng dụng kèm đối soát.
+29. Không đưa object từ đầu vào vào điều kiện truy vấn nguyên trạng; ép kiểu từng trường, từ chối khoá bắt đầu bằng `$`; không chạy JavaScript phía máy chủ với đầu vào người dùng.
+30. Ghi dữ liệu nghiệp vụ với mức xác nhận đa số bản sao (write concern `majority`); hạ mức chỉ khi có ADR được duyệt.
