@@ -38,6 +38,9 @@
 5. **Không lưu giá trị định dạng** (tiền có dấu phân cách, ngày dạng chuỗi).
 6. **Ghi rõ đơn vị** trong tên cột khi không hiển nhiên (`weight_grams`, `duration_seconds`).
 7. **Cột sinh (generated column)** cho giá trị suy ra cần index hoặc ràng buộc; không lưu giá trị suy ra bằng tay.
+8. **Không dùng `NCHAR`/`NVARCHAR` để có Unicode.** Đó là cách của SQL Server; PostgreSQL không có kiểu này, MariaDB/MySQL coi `NVARCHAR` là `VARCHAR` với charset `utf8mb3` (thiếu emoji, một số ký tự). Đặt `utf8mb4` ở mức CSDL/bảng và dùng `VARCHAR`/`TEXT`.
+9. **`CHAR(n)` chỉ cho giá trị độ dài cố định thật** (mã quốc gia ISO, mã tiền tệ). Chuỗi độ dài thay đổi dùng `VARCHAR`/`text`: `CHAR` đệm khoảng trắng, tốn chỗ và gây so sánh khó lường; PostgreSQL khuyến nghị không dùng `char(n)`.
+10. **Kiểu nhỏ hơn giúp index nhỏ hơn**, nhất là với InnoDB nơi PK nằm trong mọi index phụ; nhưng không đánh đổi khả năng tăng trưởng (quy tắc 2).
 
 ## 3. Khác biệt hay gây lỗi giữa PostgreSQL và MariaDB/MySQL
 

@@ -54,8 +54,9 @@ Thiết kế dữ liệu như một Database Architect, không chỉ sinh câu l
    - FK: chọn hành vi ON DELETE/ON UPDATE tường minh (RESTRICT mặc định cho dữ liệu nghiệp vụ; CASCADE chỉ cho dữ liệu phụ thuộc hoàn toàn vào cha).
    - Ranh giới transaction cho mỗi thao tác ghi nhiều bảng; mức cô lập; chọn khoá lạc quan (cột phiên bản) hay khoá bi quan (`SELECT … FOR UPDATE`); idempotency key cho thao tác có thể gửi lặp.
 7. **Hiệu năng.** Theo `references/performance-scaling.md`:
-   - Thiết kế index từ bảng `AP-NN`: mỗi index ghi AP mà nó phục vụ; thứ tự cột composite (so sánh bằng → khoảng/sắp xếp); unique, partial, covering, biểu thức khi hệ quản trị hỗ trợ; index cho cột FK khi hệ quản trị không tự tạo. Loại index trùng hoặc bị index khác bao phủ.
-   - Phân trang theo keyset cho danh sách lớn; tránh N+1, quét toàn bảng, hàm bọc cột trong điều kiện lọc.
+   - Thiết kế index từ bảng `AP-NN`: mỗi index ghi AP mà nó phục vụ; thứ tự cột composite theo quy tắc tiền tố trái nhất (so sánh bằng → khoảng/sắp xếp); unique, partial, covering, biểu thức khi hệ quản trị hỗ trợ; index cho cột FK khi hệ quản trị không tự tạo. Không index cột ít giá trị đứng một mình, bảng rất nhỏ, cột cập nhật liên tục mà không AP nào lọc. Loại index trùng hoặc bị index khác bao phủ.
+   - Viết truy vấn dùng được index: không bọc hàm quanh cột, không `LIKE '%x'`, cẩn thận với `!=`, `OR` nhiều cột và ép kiểu ngầm; chỉ chọn cột cần, có `LIMIT`, phân trang keyset cho danh sách lớn; tránh N+1 và truy vấn con theo từng dòng; `NOT EXISTS` thay `NOT IN`; `UNION ALL` khi không cần loại trùng; điều kiện không tổng hợp đặt ở `WHERE`, không ở `HAVING`.
+   - Kết nối: connection pool giới hạn, tổng kết nối nhỏ hơn `max_connections`.
    - Đi theo bậc mở rộng, chỉ lên bậc sau khi bậc trước không đủ và có số liệu: tối ưu truy vấn/index → cache, bản sao chỉ đọc → partition → lưu trữ dữ liệu cũ → tách CSDL theo module → sharding. Mỗi bậc từ partition trở lên ghi khoá phân vùng/khoá shard, lý do, hệ quả (ràng buộc unique, FK, truy vấn chéo), cách vận hành, và đưa vào ADR.
 8. **Bảo mật dữ liệu.** Theo `references/security.md`: gán mức D0–D3 cho từng cột; băm mật khẩu, mã hoá cột D3, che dữ liệu ở môi trường không phải production; tách tài khoản CSDL (sở hữu schema, chạy migration, ứng dụng, chỉ đọc) với quyền tối thiểu; cách ly dữ liệu tenant; bảng audit; vòng đời dữ liệu (lưu giữ, lưu trữ, huỷ, xoá theo yêu cầu).
 
@@ -89,8 +90,9 @@ Thiết kế dữ liệu như một Database Architect, không chỉ sinh câu l
 - [ ] Ranh giới transaction, chiến lược khoá, idempotency cho thao tác ghi quan trọng.
 
 **Hiệu năng**
-- [ ] Mỗi index phục vụ ít nhất một AP; không index trùng; FK có index.
-- [ ] Danh sách lớn phân trang keyset; không N+1.
+- [ ] Mỗi index phục vụ ít nhất một AP; không index trùng; FK có index; composite đúng thứ tự tiền tố trái nhất.
+- [ ] Điều kiện lọc của AP quan trọng dùng được index (không hàm bọc cột, không `LIKE '%x'`, không ép kiểu ngầm).
+- [ ] Không `SELECT *` ở truy vấn của ứng dụng; danh sách có giới hạn, danh sách lớn phân trang keyset; không N+1.
 - [ ] Partition/sharding/phi chuẩn hoá (nếu có) có số liệu, ADR và hệ quả đã ghi.
 
 **Bảo mật**
