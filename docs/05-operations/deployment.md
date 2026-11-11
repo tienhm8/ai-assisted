@@ -55,6 +55,7 @@ Chi tiết từng bước triển khai (trước · trong · sau), người th�
 - Quy trình chạy migration (thứ tự so với deploy ứng dụng, tương thích ngược):
 - Sao lưu trước khi migrate: xem [backup-recovery](backup-recovery.md).
 - Đối chiếu [database-design](../02-architecture/database-design.md) §7 (quy tắc migration; chạy migration production phải được duyệt).
+- Cache (nếu có): bản phát hành đổi version key/value thì warm-up tầng T1 của nhóm mới trước khi bản mới nhận traffic. Mất key mốc epoch thì chạy warm-up. Cấu hình ở [database-design](../02-architecture/database-design.md) §3.7.
 
 ## 10. Rollback Strategy
 - Điều kiện kích hoạt rollback:
