@@ -4,7 +4,7 @@
 
 1. Một Task tương ứng một nhánh hoặc một đơn vị thay đổi độc lập; làm trên nhánh riêng, không làm trực tiếp trên nhánh chính (main/master).
 2. Tên nhánh: `<loại>/<TASK-ID>-<mô-tả-ngắn>`, loại là `feature`, `fix`, `refactor`, `docs` hoặc `chore`. Ví dụ: `fix/PRJ-12-login-timeout`.
-3. Commit: dòng đầu `<loại>(<phạm vi>): <mô tả>`, thân nêu `TASK-ID`. Mỗi commit chỉ chứa file thuộc phạm vi Task.
+3. Commit message **bắt buộc** theo Angular convention: dòng đầu `type(scope?): subject`, `type` thuộc `build`, `ci`, `chore`, `docs`, `feat`, `fix`, `perf`, `refactor`, `revert`, `style`, `test`; thân nêu `TASK-ID`. Commit sai cú pháp bị `commitlint` (husky `commit-msg`) chặn. Mỗi commit chỉ chứa file thuộc phạm vi Task.
 4. Không cho AI tự merge vào nhánh chính; người merge sau khi được duyệt và kiểm tra đạt (hoặc có miễn trừ có thời hạn).
 5. AI không deploy production và không truy cập CSDL production nếu chưa có cơ chế được phê duyệt.
 6. Không force-push, không rewrite lịch sử nhánh chung.
