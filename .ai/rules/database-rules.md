@@ -1,6 +1,6 @@
 # Database Rules
 
-> Trạng thái: **Draft**. Rule bắt buộc, trung lập về hệ quản trị CSDL.
+> Trạng thái: **Draft**. Rule bắt buộc, trung lập về hệ quản trị CSDL. Với CSDL tài liệu, "bảng" hiểu là collection, "cột" là field; mục cuối là rule riêng cho loại CSDL này.
 
 ## Thiết kế
 
@@ -47,3 +47,11 @@
 29. Dữ liệu phụ thuộc tenant, người xem, quyền hoặc ngôn ngữ thì key phải chứa yếu tố đó. Mọi key chứa dữ liệu có TTL kèm jitter; không cache kết quả lỗi.
 30. Cache lỗi không làm request lỗi: bỏ qua cache, đọc nguồn, ghi log. Timeout gọi cache ngắn hơn truy vấn gốc; không dùng lệnh chặn toàn server như `KEYS`.
 31. Production có cache thì có job warm-up. Job chỉ chạy trên một instance, nạp tập key chọn lọc theo lô có giới hạn tải CSDL, dùng chung hàm nạp với luồng đọc, không ghi đè dữ liệu mới hơn; job lỗi không chặn khởi động.
+
+## CSDL tài liệu (MongoDB, NoSQL)
+
+32. Mô hình document (nhúng hay tham chiếu) suy ra từ mẫu truy cập đã ghi; không có mảng nhúng tăng không giới hạn.
+33. Mọi collection có schema validation khai báo bằng migration; validator, index và chuyển dữ liệu đều đi qua migration trong mã nguồn.
+34. Bất biến không giữ được bằng ràng buộc của CSDL (tham chiếu giữa document, quy tắc trên nhiều document) phải ghi cách giữ: gom vào một document, transaction đa document, hoặc kiểm ở ứng dụng kèm đối soát.
+35. Không đưa object từ đầu vào vào điều kiện truy vấn nguyên trạng; ép kiểu từng trường, từ chối khoá bắt đầu bằng `$`; không chạy JavaScript phía máy chủ với đầu vào người dùng.
+36. Ghi dữ liệu nghiệp vụ với mức xác nhận đa số bản sao (write concern `majority`); hạ mức chỉ khi có ADR được duyệt.

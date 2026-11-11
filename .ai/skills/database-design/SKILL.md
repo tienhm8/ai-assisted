@@ -1,6 +1,6 @@
 ---
 name: database-design
-description: Đóng vai Database Architect cho CSDL quan hệ (PostgreSQL, MariaDB/MySQL...): phân tích nghiệp vụ, lập mẫu truy cập, thiết kế mô hình khái niệm → logic → vật lý, chọn kiểu dữ liệu, ràng buộc, index, partition/sharding, bảo mật, rồi soạn migration SQL có kiểm chứng; ghi vào database-design.md.
+description: Đóng vai Database Architect cho CSDL quan hệ (PostgreSQL, MariaDB/MySQL...) và CSDL tài liệu (MongoDB): phân tích nghiệp vụ, lập mẫu truy cập, thiết kế mô hình khái niệm → logic → vật lý, chọn kiểu dữ liệu, ràng buộc, index, partition/sharding, bảo mật, rồi soạn migration có kiểm chứng; ghi vào database-design.md.
 ---
 
 # Database Design Skill
@@ -22,9 +22,11 @@ Thiết kế dữ liệu như một Database Architect, không chỉ sinh câu l
 - Kiến trúc: module sở hữu dữ liệu, ranh giới, hệ quản trị và phiên bản; api-design (nhu cầu đọc/ghi của API).
 - Schema và migration hiện có; quy ước CSDL đã chốt (database-design §2); quy tắc mức dữ liệu D0–D3 và yêu cầu pháp lý.
 - Số liệu thật nếu có: kích thước bảng, truy vấn chậm, kế hoạch thực thi, tốc độ tăng trưởng.
-- Tài liệu tham khảo của Skill (nạp đúng phần cần cho bước đang làm): `references/modeling-patterns.md`, `references/data-types.md`, `references/performance-scaling.md`, `references/caching.md`, `references/migration.md`, `references/security.md`.
+- Tài liệu tham khảo của Skill (nạp đúng phần cần cho bước đang làm): `references/modeling-patterns.md`, `references/data-types.md`, `references/performance-scaling.md`, `references/caching.md`, `references/migration.md`, `references/security.md`; MongoDB: `references/mongodb.md`.
 
 ## 4. Quy trình
+
+**MongoDB:** bước 1–3, 6, 8, 11 giữ nguyên (thay "bảng" bằng collection). Bước 4–5, 7, 9–10 làm theo `references/mongodb.md`: mô hình document từ bảng `AP-NN` (nhúng hay tham chiếu) thay cho chuẩn hoá 3NF; kiểu BSON và schema validation thay cho kiểu cột và CHECK; BR giữa nhiều document không có FK thì ghi cách giữ toàn vẹn; index theo ESR, kiểm bằng `explain`; migration gồm index, validator và backfill có `schema_version`. Checklist MongoDB ở cuối §5.
 
 ### Giai đoạn A · Hiểu nghiệp vụ
 
@@ -107,6 +109,14 @@ Thiết kế dữ liệu như một Database Architect, không chỉ sinh câu l
 - [ ] Tương thích với phiên bản ứng dụng đang chạy; mức khoá và thời gian chạy đã ghi; backfill theo lô.
 - [ ] Đã chạy lên/lui/lên trên CSDL sạch, thử ca âm ràng buộc, EXPLAIN cho AP quan trọng (hoặc not-run kèm lý do).
 - [ ] database-design.md đã cập nhật; không tạo báo cáo schema song song.
+
+**MongoDB** (thêm, khi hệ quản trị là MongoDB)
+- [ ] Mỗi quan hệ có quyết định nhúng/tham chiếu kèm lý do từ AP; không có mảng tăng không giới hạn.
+- [ ] Mọi collection có validator `$jsonSchema` khai báo bằng migration; tiền dùng `Decimal128` hoặc số nguyên đơn vị nhỏ nhất; thời điểm là `Date` UTC.
+- [ ] BR giữa nhiều document (tham chiếu tồn tại, bất biến chéo) có cách giữ ghi rõ: gom một document, transaction, hoặc kiểm ở ứng dụng kèm đối soát.
+- [ ] Index theo ESR, mỗi index phục vụ AP; `explain` cho AP quan trọng không có `COLLSCAN` hoặc `SORT` trong bộ nhớ.
+- [ ] Document có `schema_version`; thay đổi cấu trúc theo mở rộng → backfill → thu gọn.
+- [ ] Filter không nhận object từ request nguyên trạng (chống NoSQL injection); tài khoản ứng dụng không có quyền admin.
 
 ## 6. Việc không được làm
 

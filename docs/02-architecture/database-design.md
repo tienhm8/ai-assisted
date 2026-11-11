@@ -35,8 +35,10 @@ Quy ước đặt tên chung cho mã nguồn ở [coding-standards](../03-engine
 | Bảng mã, collation |  |
 | Công cụ migration, thư mục, cách đặt tên file |  |
 | Tài khoản CSDL (owner, migrator, app, read-only) |  |
+| MongoDB: schema validation, `schema_version`, write concern, read preference |  |
 
 ## 3. Mô hình dữ liệu
+Dùng MongoDB (CSDL tài liệu): bảng = collection, cột = field. §3.3 ghi cấu trúc document (field nhúng, mảng và giới hạn số phần tử) và validator; §3.5 cột "Quan hệ" ghi nhúng hay tham chiếu kèm lý do, BR không có ràng buộc ở CSDL ghi cách giữ toàn vẹn. Hướng dẫn chi tiết ở [mongodb](../../.ai/skills/database-design/references/mongodb.md).
 
 ### 3.1 ERD / mô hình dữ liệu
 Mô hình khái niệm và logic: thực thể chính và quan hệ. Mỗi thực thể thuộc một module sở hữu ([module-design](module-design.md)).

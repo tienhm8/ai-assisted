@@ -9,5 +9,6 @@ Mẫu báo cáo công việc của AI, chỉ giữ cấu trúc (trường, cột
 | DELIVERY-REPORT-TEMPLATE | Bàn giao một Task | AI · Reviewer |
 | TEST-REPORT-TEMPLATE | Báo cáo kiểm thử | AI · người xác nhận độc lập |
 | RELEASE-REPORT-TEMPLATE | Báo cáo phát hành | AI · Owner |
+| PR-TEMPLATE | Mô tả Pull Request trước khi yêu cầu review | Người viết PR (người hoặc AI) · Reviewer |
 
-Review code ghi bằng báo cáo bàn giao kèm checklist của skill code-review; không có mẫu riêng.
+Kết quả review code ghi bằng báo cáo bàn giao kèm checklist của skill code-review; không có mẫu riêng. PR thiếu mục bắt buộc của PR-TEMPLATE thì bị trả về trước khi review.
