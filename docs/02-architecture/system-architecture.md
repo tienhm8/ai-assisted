@@ -90,7 +90,7 @@ Chỉ ghi quyết định kiến trúc áp dụng toàn hệ thống; quy tắc 
 | Monitoring |  | [monitoring](../05-operations/monitoring.md) |
 | Triển khai |  | [deployment](../05-operations/deployment.md) |
 | Xử lý lỗi |  | [error-handling](../03-engineering/error-handling.md) |
-| Caching |  | |
+| Caching |  | [database-design](database-design.md) §3.7 |
 | Quản lý transaction |  | [database-design](database-design.md) §6 |
 
 ## 8. Threat model (bắt buộc khi thiết kế đụng tới tiền, phân quyền, dữ liệu cá nhân, migration)
