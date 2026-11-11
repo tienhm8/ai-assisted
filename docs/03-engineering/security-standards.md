@@ -8,7 +8,7 @@
 | Phiên bản · Ngày | 0.1 ·  |
 | Tài liệu liên quan | coding-standards.md, error-handling.md, testing-strategy.md, ../02-architecture/system-architecture.md, ../02-architecture/api-design.md, ../02-architecture/database-design.md, ../../.ai/rules/security-rules.md, ../../.ai/skills/security-review/SKILL.md, ../../.ai/skills/authentication-rbac/SKILL.md |
 
-> **Mục đích.** Chuẩn bảo mật: nguyên tắc, Authentication & Authorization (quy tắc), kiểm tra đầu vào, bảo vệ dữ liệu, secret, API, logging, dependency. Sàn không hạ được.
+> **Mục đích.** Chuẩn bảo mật: nguyên tắc, Authentication & Authorization (quy tắc), kiểm tra đầu vào, bảo vệ dữ liệu, secret, API, logging, dependency, ánh xạ OWASP Top 10 và mức ASVS. Sàn không hạ được.
 
 ## 1. Mức dữ liệu dự án (D0–D3) và quy tắc đưa vào AI
 Định nghĩa D0–D3 xem [glossary](../00-project-overview/glossary.md); mức dữ liệu của dự án khai báo ở [PROJECT.md](../../PROJECT.md). Với mỗi mức, ghi loại dữ liệu của dự án và việc được/không được đưa vào AI, log, môi trường không phải production.
@@ -73,6 +73,9 @@ Mỗi endpoint khai báo quyền yêu cầu ([api-design](../02-architecture/api
 | XSS | Mã hoá đầu ra theo ngữ cảnh; không render HTML thô từ dữ liệu người dùng. |
 | CSRF | Dùng token CSRF hoặc `SameSite` cho các request thay đổi dữ liệu dựa trên cookie. |
 | Upload file | Kiểm tra loại thật, kích thước, đổi tên file, lưu ngoài thư mục thực thi, quét mã độc nếu cần. |
+| SSRF | Server gọi URL lấy từ đầu vào thì dùng allow-list đích (host, scheme, port); chặn địa chỉ nội bộ, loopback, metadata cloud; không theo redirect tới đích ngoài danh sách. |
+| Path traversal | Không ghép đường dẫn file từ đầu vào; chuẩn hoá đường dẫn và kiểm tra nằm trong thư mục cho phép. |
+| Deserialization | Không giải tuần tự hoá dữ liệu không tin cậy bằng cơ chế cho phép tạo đối tượng tuỳ ý; chỉ dùng định dạng dữ liệu thuần (JSON) có schema. |
 
 <!-- Bổ sung chi tiết theo công nghệ của dự án -->
 
@@ -121,8 +124,10 @@ Thiết kế và giá trị cụ thể ở [api-design](../02-architecture/api-d
 ## 9. Logging và Audit
 Quy định chung ở [error-handling](error-handling.md) §7; mục này chỉ bổ sung yêu cầu bảo mật.
 
-### 9.1 Ghi sự kiện bảo mật
+### 9.1 Ghi sự kiện bảo mật và cảnh báo
 Đăng nhập thành công/thất bại, đổi quyền, truy cập bị từ chối, thay đổi cấu hình bảo mật.
+
+Sự kiện bất thường (đăng nhập thất bại liên tiếp, truy cập bị từ chối tăng đột biến, đổi quyền quản trị) phải có cảnh báo tới người xử lý; ngưỡng và người nhận khai báo ở [monitoring](../05-operations/monitoring.md) §8. Chỉ ghi log mà không có cảnh báo thì chưa đạt.
 
 ### 9.2 Che dữ liệu nhạy cảm trong log
 Không ghi dữ liệu D3, mật khẩu, token; che hoặc băm dữ liệu cá nhân. Kiểm soát truy cập log.
@@ -143,13 +148,25 @@ Thời hạn xử lý theo mức độ nghiêm trọng (Critical, High, Medium, 
 Chu kỳ cập nhật, quy tắc ghim phiên bản, kiểm tra license được phép dùng.
 <!-- Điền theo từng dự án -->
 
+### 10.4 Chuỗi cung ứng và toàn vẹn
+- Commit lockfile; build từ lockfile, không tự nâng phiên bản lúc build.
+- Chỉ lấy gói từ registry được duyệt; cảnh báo gói mới, gói đổi chủ, tên gần giống gói phổ biến.
+- Tạo danh sách thành phần (SBOM) cho mỗi bản phát hành.
+- Pipeline CI/CD: quyền tối thiểu, secret theo môi trường, thay đổi pipeline cần duyệt (vùng 🔴).
+- Artifact phát hành và bản cập nhật có kiểm tra toàn vẹn (checksum hoặc chữ ký) trước khi triển khai.
+- Dữ liệu tin cậy (cookie, token, dữ liệu gửi qua client) có chữ ký hoặc kiểm tra toàn vẹn ở server.
+<!-- Điền công cụ theo từng dự án -->
+
 ## 11. Checklist phát triển an toàn
 Dùng khi tự kiểm và review ([coding-standards](coding-standards.md) §9.1).
 - [ ] Mọi thao tác có kiểm tra xác thực và quyền ở server.
 - [ ] Đầu vào được validate; truy vấn được tham số hoá.
 - [ ] Không có secret, dữ liệu D3 trong code, log, prompt.
-- [ ] Lỗi không lộ thông tin nội bộ.
-- [ ] Dependency mới đã qua quét lỗ hổng và kiểm tra license.
+- [ ] Lỗi không lộ thông tin nội bộ; khi lỗi hoặc ngoại lệ thì từ chối (fail-closed), không bỏ qua kiểm tra.
+- [ ] URL, đường dẫn file, dữ liệu tuần tự hoá từ đầu vào đã xử lý theo §5 (SSRF, path traversal, deserialization).
+- [ ] Dependency mới đã qua quét lỗ hổng và kiểm tra license; lockfile được cập nhật.
+- [ ] Sự kiện bảo mật mới có log và cảnh báo (§9.1).
+- [ ] Đã đối chiếu thay đổi với các mục OWASP Top 10 và chương ASVS liên quan ở mức dự án đã khai báo (§13).
 - [ ] Thay đổi chạm tiền, phân quyền, dữ liệu cá nhân, migration có Security duyệt.
 
 ## 12. Quản lý ngoại lệ bảo mật
@@ -161,6 +178,36 @@ Sàn bảo mật không hạ được; chỉ cho phép ngoại lệ tạm thời
 Ngoại lệ được ghi lại tại đây hoặc trong ADR ([ADR/](../02-architecture/ADR/README.md)).
 <!-- Danh sách ngoại lệ đang hiệu lực -->
 
-## 13. Tham khảo
-OWASP ASVS, OWASP Top 10, hướng dẫn bảo mật của framework được dùng, quy định pháp lý về dữ liệu áp dụng cho dự án.
+## 13. OWASP Top 10 và ASVS
+Phiên bản đang dùng (nguồn duy nhất; đổi phiên bản thì sửa tại đây và rà lại bảng): **OWASP Top 10:2025**, **OWASP ASVS 5.0**. Không chép nội dung OWASP vào repo; chỉ trỏ mã mục (`A01:2025`) và mã yêu cầu ASVS (`V8.2.1`).
+
+### 13.1 Mức ASVS
+Dự án khai báo mức ASVS mục tiêu ở [PROJECT.md](../../PROJECT.md) §5. Mức tối thiểu theo dữ liệu và rủi ro:
+
+| Điều kiện | Mức tối thiểu |
+| --- | --- |
+| Chỉ có dữ liệu D0–D1, không có tài khoản người dùng | L1 |
+| Có dữ liệu D2–D3, có tài khoản người dùng hoặc phân quyền | L2 |
+| Có tiền, y tế, hạ tầng trọng yếu hoặc bắt buộc theo hợp đồng/pháp lý | L3 |
+
+Yêu cầu ASVS ở mức đã khai báo mà chưa đạt thì ghi ngoại lệ theo §12, không bỏ qua âm thầm.
+
+### 13.2 Ánh xạ OWASP Top 10:2025
+| Mã | Rủi ro | Quy định trong khung | Chương ASVS 5.0 liên quan |
+| --- | --- | --- | --- |
+| A01:2025 | Broken Access Control | §4; [security-rules](../../.ai/rules/security-rules.md) 1–2, 6; §5 (SSRF) | V8 Authorization |
+| A02:2025 | Security Misconfiguration | §2 Secure by Default; §8 (CORS, headers); [deployment](../05-operations/deployment.md) | V13 Configuration, V3 Web Frontend Security |
+| A03:2025 | Software Supply Chain Failures | §10; security-rules 8 | V15 Secure Coding and Architecture |
+| A04:2025 | Cryptographic Failures | §3.1, §6.2; §7 | V11 Cryptography, V12 Secure Communication |
+| A05:2025 | Injection | §5; security-rules 3 | V1 Encoding and Sanitization, V2 Validation and Business Logic, V5 File Handling |
+| A06:2025 | Insecure Design | Threat model ở [system-architecture](../02-architecture/system-architecture.md) §8; §2 | V15 Secure Coding and Architecture, V2 Validation and Business Logic |
+| A07:2025 | Authentication Failures | §3 | V6 Authentication, V7 Session Management, V9 Self-contained Tokens, V10 OAuth and OIDC |
+| A08:2025 | Software or Data Integrity Failures | §10.4; §5 (Deserialization) | V15 Secure Coding and Architecture, V4 API and Web Service |
+| A09:2025 | Security Logging and Alerting Failures | §9; security-rules 7 | V16 Security Logging and Error Handling |
+| A10:2025 | Mishandling of Exceptional Conditions | §2 Fail Securely; [error-handling](error-handling.md) | V16 Security Logging and Error Handling |
+
+Bảng này là danh mục để review; điểm còn trống của dự án (các mục `<!-- Điền theo từng dự án -->`) vẫn phải điền thì mới coi là phủ.
+
+## 14. Tham khảo
+OWASP Top 10:2025, OWASP ASVS 5.0 (phiên bản theo §13), hướng dẫn bảo mật của framework được dùng, quy định pháp lý về dữ liệu áp dụng cho dự án.
 <!-- Điền theo từng dự án -->
