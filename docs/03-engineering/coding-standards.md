@@ -145,76 +145,9 @@ Số người duyệt và người có quyền duyệt theo mức rủi ro. AI k
 <!-- Điền theo từng dự án -->
 
 ## 10. Git Workflow và Branching Strategy
-- Quy ước đặt tên nhánh, commit và các điều cấm khi làm việc với Git: xem [git-workflow-rules](../../.ai/rules/git-workflow-rules.md).
-- Mô hình nhánh của dự án (trunk-based, GitFlow, ...):
-- Mọi PR liên kết ID Task và FR; quy tắc review và merge theo mức rủi ro.
-- Cấu hình bảo vệ nhánh nằm ở [deployment](../05-operations/deployment.md).
-
-### 10.1. AI làm việc với Git
-
-AI **không** làm việc trực tiếp trên nhánh production/main. Mỗi Task làm trên nhánh riêng, đi qua PR và review của người trước khi merge.
-
-```text
-main
-  |  create branch
-  v
-feature/TASK-ID
-  |  AI implements
-  v
-Local Tests
-  |  commit
-  v
-Pull Request
-  |  CI/CD checks
-  v
-Human Code Review
-  |  approve
-  v
-Merge
-  v
-Staging
-  |  UAT / Regression
-  v
-Production
-```
-
-Quy tắc:
-
-- Một Task tương ứng một branch hoặc một đơn vị thay đổi độc lập.
-- Không cho AI tự merge vào `master`, `develop` hay `release/*`.
-- Không cấp quyền deploy production mặc định.
-- Không cho AI truy cập production database nếu không có cơ chế được phê duyệt.
-- Mọi thay đổi phải có Git diff và lịch sử commit.
-
-Các bước Staging, UAT/Regression, Production và người quyết phát hành khai báo ở [deployment](../05-operations/deployment.md).
-
-### 10.2. Rule Commit Message
-
-> ✅ **BẮT BUỘC** — Mọi commit phải tuân thủ; `commitlint` (qua husky `commit-msg`) sẽ **chặn**
-> commit sai cú pháp.
-
-Theo Angular convention:
-
-```
-type(scope?): subject
-```
-
-- build: Changes that affect the build system or external dependencies (example scopes: gulp,
-  broccoli, npm)
-- ci: Changes to our CI configuration files and scripts (example scopes: Gitlab CI, Circle,
-  BrowserStack, SauceLabs)
-- chore: add something without touching production code (Eg: update npm dependencies)
-- docs: Documentation only changes
-- feat: A new feature
-- fix: A bug fix
-- perf: A code change that improves performance
-- refactor: A code change that neither fixes a bug nor adds a feature
-- revert: Reverts a previous commit
-- style: Changes that do not affect the meaning of the code (Eg: adding white-space, formatting,
-  missing semi-colons, etc)
-- test: Adding missing tests or correcting existing tests
-
-Thân commit nêu `TASK-ID` (xem [git-workflow-rules](../../.ai/rules/git-workflow-rules.md) mục 3).
+- Mô hình nhánh (Gitflow), tên nhánh, commit message và các điều cấm: [git-workflow-rules](../../.ai/rules/git-workflow-rules.md).
+- Lệnh cắt release, phát hành, hotfix: [gitflow-release](../../.ai/skills/deployment/references/gitflow-release.md).
+- Nhịp phát hành và cấu hình bảo vệ nhánh của dự án: [deployment](../05-operations/deployment.md) §6.
 
 ## 11. Quy chuẩn theo công nghệ
 Chỉ giữ các mục dự án có dùng; quy chuẩn bổ sung này không được trái các mục trên.

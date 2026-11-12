@@ -21,7 +21,7 @@ AI chuẩn bị và kiểm tra bản phát hành; người có quyền thực th
 2. **Kiểm tra sẵn sàng:** Task trong phạm vi đã xong, PR đã review và đạt cổng, không còn finding Critical/High mở, kiểm thử đã chạy thật. Cổng nào hỏng thì dừng.
 3. **Cấu hình:** liệt kê **tên** biến môi trường và cấu hình cần có ở môi trường đích. Không đọc, tạo, xoay hay ghi giá trị secret.
 4. **Migration:** thứ tự, tương thích khi phiên bản ứng dụng và CSDL chồng nhau, thời gian chạy, nguy cơ khoá bảng, có phá huỷ không, backup trước khi chạy, đường quay lui. Rollback code không tự đảo thay đổi CSDL; ghi rõ cách khôi phục dữ liệu.
-5. **Chuẩn bị thực thi:** soạn lệnh, runbook từng bước và script migration theo cơ chế triển khai đã duyệt; không tự nghĩ lệnh deploy.
+5. **Chuẩn bị thực thi:** soạn lệnh, runbook từng bước và script migration theo cơ chế triển khai đã duyệt; không tự nghĩ lệnh deploy. Lệnh cắt release, đóng release, hotfix lấy từ `references/gitflow-release.md`.
 6. **Release notes** từ các Task đã merge, viết cho người dùng cuối, kèm Task/FR và PR.
 7. **Kế hoạch rollback:** điều kiện kích hoạt, các bước, người quyết, đã thử ngoài production chưa.
 8. **Kiểm chứng:** chạy hồi quy và smoke test ở staging hoặc local. Sau khi người deploy, đối chiếu health check và giám sát theo ngưỡng của dự án; vượt ngưỡng thì đề nghị rollback.

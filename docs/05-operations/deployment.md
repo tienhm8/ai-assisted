@@ -39,7 +39,16 @@ Sơ đồ/mô tả topology triển khai: thành phần, mạng, cổng, luồng
 - Cổng bắt buộc và bảo vệ nhánh:
 
 ### 6.2 Quy trình phát hành
-Luồng chuẩn theo Gitflow ([gitflow.md](gitflow.md)): `feature/*` → `develop` (Dev) → cắt `release/X.Y.0` (Staging) → UAT / Regression → merge `master` + tag `vX.Y.0` (Production) → merge ngược `develop`. Lỗi nghiêm trọng: `hotfix/X.Y.Z` từ `master`. Quy tắc cho AI xem §12 và [coding-standards](../03-engineering/coding-standards.md) §10.1.
+Luồng chuẩn theo Gitflow: `feature/*` → `develop` (Dev) → cắt `release/X.Y.0` (Staging) → UAT / Regression → merge `master` + tag `vX.Y.0` (Production) → merge ngược `develop`. Lỗi nghiêm trọng: `hotfix/X.Y.Z` từ `master`. Quy tắc nhánh ở [git-workflow-rules](../../.ai/rules/git-workflow-rules.md); lệnh từng bước ở [gitflow-release](../../.ai/skills/deployment/references/gitflow-release.md).
+
+**Nhịp phát hành** (mặc định khung; dự án điều chỉnh tại đây). Release cắt theo thời điểm chốt sprint, không theo lịch cứng.
+
+| Môi trường | Tần suất | Nguồn deploy | Mục đích |
+| --- | --- | --- | --- |
+| Dev | Hằng ngày | `develop` | Tích hợp code mới |
+| Staging | 1–2 lần/tuần | `release/*` (hoặc `develop` tạm khi cần kiểm trước khi cắt release) | QA, UAT, regression |
+| Prod | 2 tuần/lần theo sprint | `master` (tag) | Phát hành tính năng mới |
+| Hotfix | Khi cần | `hotfix/*` → `master` | Xử lý lỗi nghiêm trọng |
 
 - Artifact và đánh phiên bản (tag/version):
 - Quy tắc đặt tên bản phát hành, changelog:
