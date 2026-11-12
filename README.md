@@ -102,7 +102,7 @@ Lưu ý khi áp dụng:
 
 ## Kiểm soát AI
 
-**Nguyên tắc:** AI không tự suy diễn quy tắc nghiệp vụ và không tự ý đổi kiến trúc khi chưa được phê duyệt. Mức tự chủ và bản đồ vùng 🟢🟡🔴 của dự án ghi trong `PROJECT.md`; mức tối đa theo loại việc ở [.ai/agents/](.ai/agents/README.md).
+**Nguyên tắc:** AI không tự suy diễn quy tắc nghiệp vụ và không tự ý đổi kiến trúc khi chưa được phê duyệt. Mức tự chủ và bản đồ vùng 🟢🟡🔴 của dự án ghi trong `PROJECT.md`; mức tối đa (trần) theo loại việc × rủi ro ở `PROJECT.md` §3.1 (vai ở [.ai/agents/](.ai/agents/README.md) không có mức riêng).
 
 ### Việc cần người duyệt hoặc kiểm soát đặc biệt
 
