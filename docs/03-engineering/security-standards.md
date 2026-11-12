@@ -195,15 +195,15 @@ Yêu cầu ASVS ở mức đã khai báo mà chưa đạt thì ghi ngoại lệ 
 ### 13.2 Ánh xạ OWASP Top 10:2025
 | Mã | Rủi ro | Quy định trong khung | Chương ASVS 5.0 liên quan |
 | --- | --- | --- | --- |
-| A01:2025 | Broken Access Control | §4; [security-rules](../../.ai/rules/security-rules.md) 1–2, 6; §5 (SSRF) | V8 Authorization |
+| A01:2025 | Broken Access Control | §4; [security-rules](../../.ai/rules/security-rules.md) 1–2, 5; §5 (SSRF) | V8 Authorization |
 | A02:2025 | Security Misconfiguration | §2 Secure by Default; §8 (CORS, headers); [deployment](../05-operations/deployment.md) | V13 Configuration, V3 Web Frontend Security |
-| A03:2025 | Software Supply Chain Failures | §10; security-rules 8 | V15 Secure Coding and Architecture |
+| A03:2025 | Software Supply Chain Failures | §10; security-rules 7 | V15 Secure Coding and Architecture |
 | A04:2025 | Cryptographic Failures | §3.1, §6.2; §7 | V11 Cryptography, V12 Secure Communication |
 | A05:2025 | Injection | §5; security-rules 3 | V1 Encoding and Sanitization, V2 Validation and Business Logic, V5 File Handling |
 | A06:2025 | Insecure Design | Threat model ở [system-architecture](../02-architecture/system-architecture.md) §8; §2 | V15 Secure Coding and Architecture, V2 Validation and Business Logic |
 | A07:2025 | Authentication Failures | §3 | V6 Authentication, V7 Session Management, V9 Self-contained Tokens, V10 OAuth and OIDC |
 | A08:2025 | Software or Data Integrity Failures | §10.4; §5 (Deserialization) | V15 Secure Coding and Architecture, V4 API and Web Service |
-| A09:2025 | Security Logging and Alerting Failures | §9; security-rules 7 | V16 Security Logging and Error Handling |
+| A09:2025 | Security Logging and Alerting Failures | §9; security-rules 6 | V16 Security Logging and Error Handling |
 | A10:2025 | Mishandling of Exceptional Conditions | §2 Fail Securely; [error-handling](error-handling.md) | V16 Security Logging and Error Handling |
 
 Bảng này là danh mục để review; điểm còn trống của dự án (các mục `<!-- Điền theo từng dự án -->`) vẫn phải điền thì mới coi là phủ.
