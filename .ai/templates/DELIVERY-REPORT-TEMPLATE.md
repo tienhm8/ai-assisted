@@ -30,10 +30,10 @@ Tóm tắt và mã báo cáo kiểm thử. Phân biệt pass / fail / skipped / 
 ## 4. Giả định, quyết định, câu hỏi mở
 - Giả định:
 - Quyết định đã đưa ra:
-- Câu hỏi mở (`OQ-<NN>`) chưa giải quyết:
+- Câu hỏi mở (`OQ-<NN>`) chưa giải quyết, mỗi mã kèm một dòng "Nếu chưa quyết" (chi tiết ở open-questions, không chép lại):
 
 ## 5. Hành động cần người thực hiện
-(duyệt, merge, deploy, cấp quyền...)
+(duyệt, merge, deploy, cấp quyền...). Chỉ việc người phải làm; câu hỏi cần quyết ghi ở mục 4 dưới dạng `OQ-<NN>`.
 
 ## 6. Quy trình đã dùng
 - Chuỗi Skill đã dùng, Skill bỏ qua và lý do:

@@ -38,7 +38,7 @@ Cây thư mục mã nguồn và quy tắc đặt file vào đâu.
 <!-- Điền theo từng dự án -->
 
 ### 3.2 Tổ chức file
-Một file một trách nhiệm chính; giới hạn kích thước file; vị trí đặt test, config, hằng số.
+Một file một trách nhiệm chính; giới hạn kích thước file theo §8 (dòng "Kích thước file"); vị trí đặt test, config, hằng số.
 <!-- Điền theo từng dự án -->
 
 ### 3.3 Tổ chức module
@@ -111,6 +111,7 @@ Mục này chỉ nêu quy tắc khi viết code; thiết kế chính thức ở 
 | Static analysis | Công cụ và mức cảnh báo chấp nhận được. |
 | Lint | Ruleset dùng chung; không tắt rule nếu không có lý do ghi rõ. |
 | Format | Tự động bằng công cụ, không tranh luận thủ công. |
+| Kích thước file | Mặc định khung: file mã nguồn tối đa **600 dòng**; vượt thì tách theo trách nhiệm. Áp cho file mới và file bị sửa trong Task; file cũ đang vượt chỉ tách khi có Task chạm tới, không tách ngoài phạm vi Task. Không tính file sinh tự động. Dự án chỉ được hạ ngưỡng, không nâng; nên kiểm bằng linter (ví dụ rule `max-lines`). |
 | Độ phức tạp | Ngưỡng cyclomatic/cognitive complexity tối đa cho hàm. |
 | Trùng lặp code | Ngưỡng trùng lặp cho phép. |
 
