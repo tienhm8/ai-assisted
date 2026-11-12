@@ -1,6 +1,11 @@
 # Agents
 
-> Trạng thái: **Approved**. Làm rõ dần theo Task thật; người có thẩm quyền mới chuyển sang Approved.
+> Trạng thái: **Draft**
+>
+> **Người quyết định:** Tech Lead.
+>
+> **Điều kiện chuyển Approved** điền đủ **model, effort** ở [context-loading.md](../workflows/context-loading.md) §4 "Model và effort".
+>
 > Sửa file này thuộc vùng 🔴 (luật chơi của AI): cần Task riêng và người duyệt.
 
 Agent là **vai thực hiện** của AI, định nghĩa theo chức năng. File này chỉ nêu các vai và nguyên tắc dùng chung cho mọi dự án; giá trị riêng của dự án (mức tự chủ, người duyệt, công cụ) do dự án khai báo.

@@ -2,7 +2,7 @@
 
 > Trạng thái: **Approved**. Sửa file này thuộc vùng 🔴: cần Task riêng và người duyệt.
 
-Nguồn chuẩn duy nhất cho câu hỏi: **một Task nạp Rule, Skill, Vai, Workflow, Template nào, và nạp ở bước nào**. Các workflow khác chỉ trỏ tới đây.
+Nguồn chuẩn duy nhất cho câu hỏi: **một Task nạp Rule, Skill, Vai, Workflow, Template nào, nạp ở bước nào, và chạy bằng hạng model, effort nào**. Các workflow khác chỉ trỏ tới đây.
 
 **Nguyên tắc: nạp đúng lúc cần, không nạp trước.** Nạp thừa làm tốn context và khiến AI áp nhầm quy tắc của việc khác. Nạp thiếu khiến AI làm sai quy tắc. Mỗi bước chỉ nạp phần phục vụ quyết định của bước đó.
 
@@ -22,7 +22,7 @@ Nguồn chuẩn duy nhất cho câu hỏi: **một Task nạp Rule, Skill, Vai, 
 
 | Bước | Nạp | Không nạp |
 | --- | --- | --- |
-| **1 · Intake** | Task; `PROJECT.md` (mức tự chủ, vùng 🟢🟡🔴); **dòng của loại Task** ở mục 4; Rule **P**; BUG-TEMPLATE nếu T3/T14 | Mọi Skill ở mức S2; Rule khác |
+| **1 · Intake** | Task; `PROJECT.md` (mức tự chủ, vùng 🟢🟡🔴); bảng ánh xạ ở §4 "Model và effort"; **dòng của loại Task** ở mục 4; Rule **P**; BUG-TEMPLATE nếu T3/T14 | Mọi Skill ở mức S2; Rule khác |
 | **2 · Analyze** | FR/BR/AC, ADR mà Task chỉ tới; Skill trong chuỗi ở mức **S0**; Skill **đầu tiên** của chuỗi ở mức **S1** | Code ngoài phạm vi; tài liệu Task không chỉ tới |
 | **3 · Plan** | PLAN-TEMPLATE; Rule ảnh hưởng **quyết định thiết kế**: **A**, **D**, **S** (nếu thoả điều kiện ở mục 3) và **T** (để lập kế hoạch AC → test); mọi Skill trong chuỗi ở mức **S1**; code liên quan để lập danh sách file | Skill mức S2; Rule **C**, **G** |
 | **4 · Duyệt plan** | Không nạp thêm | — |
@@ -61,25 +61,46 @@ Rule đã thoả điều kiện thì **không bỏ** kể cả với Task R1. M�
 
 Mỗi Task chỉ nạp **dòng của mình**. `[ ]` = theo điều kiện ở mục 3. Vai: chỉ đọc dòng vai đó trong [agents/README.md](../agents/README.md), không đọc cả file. Thứ tự và điều kiện kích hoạt Skill theo [skill-selection.md](skill-selection.md) §2–§3 (chỉ đọc dòng của loại Task).
 
-| # | Loại Task | Rule nền | Rule [ ] | Skill (thứ tự chuỗi) | Vai | Template |
-| --- | --- | --- | --- | --- | --- | --- |
-| T1 | Tính năng mới (phân tích → thiết kế → plan) | P, A | D, S, G | product-discovery, requirement-analysis, requirement-review, architecture-design, database-design, task-planning | Product Owner, Architect | PLAN; ADR (`docs/02-architecture/ADR/_template.md`) |
-| T2 | Cài đặt tính năng | P, G, C, A, T | D, S | authentication-rbac, backend-development, api-development, frontend-development, unit/integration/e2e-testing, security-review, code-review, documentation | Backend, Frontend, QA | PLAN, TEST-REPORT, DELIVERY-REPORT |
-| T3 | Sửa lỗi | P, G, C, T | A, D, S | bug-fixing, integration/e2e-testing, security-review, code-review, documentation | Backend/Frontend, QA | BUG (đầu vào), DELIVERY-REPORT |
-| T4 | Refactor | P, G, C, A, T | D | unit-testing, refactoring, integration-testing, code-review | Backend/Frontend | PLAN, DELIVERY-REPORT |
-| T5 | Thay đổi schema | P, G, D, A, T | S, C | database-design, integration-testing, code-review, documentation | Architect, Backend | PLAN, DELIVERY-REPORT |
-| T6 | Thay đổi yêu cầu | P | A, G | requirement-analysis, requirement-review | Product Owner | — |
-| T7 | Thay đổi kiến trúc / contract | P, A | D, S, G | architecture-design, documentation | Architect | ADR, PLAN |
-| T8 | Rà soát tài liệu yêu cầu | P | — | requirement-review | Product Owner | — |
-| T9 | Review Pull Request | P, C, A, T | D, S, G | code-review, security-review | Reviewer (phiên khác), Security | PR (đầu vào), DELIVERY-REPORT (kèm checklist code-review) |
-| T10 | Kiểm tra bảo mật | P, S, C | D, A | security-review, bug-fixing (khi Critical/High) | Security | DELIVERY-REPORT |
-| T11 | Chỉ viết test | P, G, C, T | D, S | unit/integration/e2e-testing (theo tầng) | QA | TEST-REPORT, DELIVERY-REPORT |
-| T12 | Chỉ cập nhật tài liệu | P, G | A | documentation | Executor | DELIVERY-REPORT |
-| T13 | Phát hành | P, G, S, T | D | security-review, deployment, documentation | Release (người quyết) | TEST-REPORT, RELEASE-REPORT |
-| T14 | Sự cố production | P, S | D, A | incident-analysis → chuyển T3 khi sửa → continuous-improvement | QA (A1, chỉ đọc), rồi theo T3 | BUG, rồi theo T3 |
-| T15 | Rà soát định kỳ | P | — | continuous-improvement | Planner | — |
+| # | Loại Task | Rule nền | Rule [ ] | Skill (thứ tự chuỗi) | Vai | Template | Model · Effort (plan / thực thi) |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| T1 | Tính năng mới (phân tích → thiết kế → plan) | P, A | D, S, G | product-discovery, requirement-analysis, requirement-review, architecture-design, database-design, task-planning | Product Owner, Architect | PLAN; ADR (`docs/02-architecture/ADR/_template.md`) | M3·E3 / — |
+| T2 | Cài đặt tính năng | P, G, C, A, T | D, S | authentication-rbac, backend-development, api-development, frontend-development, unit/integration/e2e-testing, security-review, code-review, documentation | Backend, Frontend, QA | PLAN, TEST-REPORT, DELIVERY-REPORT | M3·E3 / M2·E2 |
+| T3 | Sửa lỗi | P, G, C, T | A, D, S | bug-fixing, integration/e2e-testing, security-review, code-review, documentation | Backend/Frontend, QA | BUG (đầu vào), DELIVERY-REPORT | M2·E3 / M2·E3 |
+| T4 | Refactor | P, G, C, A, T | D | unit-testing, refactoring, integration-testing, code-review | Backend/Frontend | PLAN, DELIVERY-REPORT | M2·E3 / M2·E2 |
+| T5 | Thay đổi schema | P, G, D, A, T | S, C | database-design, integration-testing, code-review, documentation | Architect, Backend | PLAN, DELIVERY-REPORT | M3·E3 / M2·E3 |
+| T6 | Thay đổi yêu cầu | P | A, G | requirement-analysis, requirement-review | Product Owner | — | M2·E3 / — |
+| T7 | Thay đổi kiến trúc / contract | P, A | D, S, G | architecture-design, documentation | Architect | ADR, PLAN | M3·E4 / — |
+| T8 | Rà soát tài liệu yêu cầu | P | — | requirement-review | Product Owner | — | M2·E2 / — |
+| T9 | Review Pull Request | P, C, A, T | D, S, G | code-review, security-review | Reviewer (phiên khác), Security | PR (đầu vào), DELIVERY-REPORT (kèm checklist code-review) | M3·E3 / — |
+| T10 | Kiểm tra bảo mật | P, S, C | D, A | security-review, bug-fixing (khi Critical/High) | Security | DELIVERY-REPORT | M3·E3 / M2·E3 |
+| T11 | Chỉ viết test | P, G, C, T | D, S | unit/integration/e2e-testing (theo tầng) | QA | TEST-REPORT, DELIVERY-REPORT | M2·E2 / M2·E2 |
+| T12 | Chỉ cập nhật tài liệu | P, G | A | documentation | Executor | DELIVERY-REPORT | M2·E2 / M2·E1 |
+| T13 | Phát hành | P, G, S, T | D | security-review, deployment, documentation | Release (người quyết) | TEST-REPORT, RELEASE-REPORT | M2·E2 / M2·E2 |
+| T14 | Sự cố production | P, S | D, A | incident-analysis → chuyển T3 khi sửa → continuous-improvement | QA (A1, chỉ đọc), rồi theo T3 | BUG, rồi theo T3 | M3·E3 / theo T3 |
+| T15 | Rà soát định kỳ | P | — | continuous-improvement | Planner | — | M2·E2 / — |
 
 Task chỉ phân tích (T1, T6, T7, T8, T15) không có bước 5–6: Skill phân tích nạp mức S2 ở bước 2, đầu ra là tài liệu Draft.
+
+### Model và effort
+
+Cột cuối là **mặc định áp dụng** cho mọi Task cùng loại. Khung đề xuất sẵn; khi triển khai dự án, Tech Lead chốt bằng cách sửa trực tiếp cột này (nếu cần) và điền bảng ánh xạ bên dưới. Không khai báo ở nơi khác. "Plan" là phiên làm bước 1–4; "thực thi" là phiên làm bước 5–7 (quy tắc chuyển bước 2). Bước 8 dùng dòng T9.
+
+- **Hạng model:** M1 nhẹ (tra cứu, tóm tắt, việc theo mẫu) · M2 chuẩn (code, test, tài liệu hằng ngày) · M3 mạnh (thiết kế, review, bảo mật, sự cố). **Effort:** E1 thấp · E2 trung bình · E3 cao · E4 rất cao.
+- Task **R3**: tối thiểu M3·E3 ở mọi phiên. Bước con dùng `authentication-rbac` hoặc `security-review`: tối thiểu M3·E3.
+- Bước 1 xác định loại Task. Nếu model của phiên hiện tại thấp hơn hạng ở cột "plan", AI dừng và đề nghị người đổi model. Plan ghi model và effort cho phiên thực thi (PLAN §0).
+- Thiếu model đúng hạng hoặc hết hạn mức thì **dừng và hỏi**. Không tự hạ để chạy tiếp. Model mạnh hơn không thay cho bằng chứng kiểm chứng.
+
+**Ánh xạ sang công cụ thật** (Tech Lead điền khi triển khai dự án; ví dụ Claude Code: [agents/examples/claude-code.md](../agents/examples/claude-code.md)):
+
+| Hạng / mức | Model hoặc tham số thật (tên · phiên bản) |
+| --- | --- |
+| M1 · Nhẹ | |
+| M2 · Chuẩn | |
+| M3 · Mạnh | |
+| E1 · Thấp | |
+| E2 · Trung bình | |
+| E3 · Cao | |
+| E4 · Rất cao | |
 
 ## 5. Giai đoạn vòng đời → loại Task
 
@@ -98,12 +119,12 @@ Task chỉ phân tích (T1, T6, T7, T8, T15) không có bước 5–6: Skill ph�
 
 | Bước | Nạp |
 | --- | --- |
-| 1 | Task, BUG report, PROJECT.md, dòng T3, Rule P, BUG-TEMPLATE |
+| 1 | Task, BUG report, PROJECT.md, dòng T3 + bảng ánh xạ model (model plan M2·E3), Rule P, BUG-TEMPLATE |
 | 2 | AC bị vi phạm; S0: bug-fixing, integration-testing, code-review; S1: bug-fixing |
 | 3 | PLAN-TEMPLATE; Rule T, D (chạm query); code quanh lỗi |
-| 5 | Plan; bug-fixing S2; Rule C, D; Rule G khi commit |
+| 5 | Phiên thực thi M2·E3 (theo plan); Plan; bug-fixing S2; Rule C, D; Rule G khi commit |
 | 6 | integration-testing S2; Rule T |
 | 7 | Checklist bug-fixing; DELIVERY-REPORT |
-| 8 | Phiên khác: dòng T9 (code-review S2, Rule P, C, A, T, D) |
+| 8 | Phiên khác, M3·E3: dòng T9 (code-review S2, Rule P, C, A, T, D) |
 
 Không nạp lần nào: architecture-design, api-development, frontend-development, Rule S (trừ khi phát hiện chạm quyền).
