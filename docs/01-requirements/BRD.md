@@ -12,7 +12,7 @@
 >
 > **Người quyết định:** PO/BA.
 >
-> **Điều kiện duyệt (cổng G2, chung với FR/NFR/BR và AC):** mọi FR trong phạm vi có AC kiểm thử được; QA đã rà khả năng kiểm thử; điểm chưa rõ ghi vào [open-questions.md](../00-project-overview/open-questions.md) (`OQ-<NN>`).
+> **Điều kiện duyệt (chung với FR/NFR/BR và AC):** mọi FR trong phạm vi có AC kiểm thử được; QA đã rà khả năng kiểm thử; điểm chưa rõ ghi vào [open-questions.md](../00-project-overview/open-questions.md) (`OQ-<NN>`).
 
 ## 1. Bối cảnh và mục tiêu nghiệp vụ
 <!-- Tham chiếu vision.md §1, §3; chỉ bổ sung chi tiết nghiệp vụ, không chép lại. -->

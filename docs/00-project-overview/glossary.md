@@ -56,7 +56,7 @@
 | KPI | Key Performance Indicator: chỉ số đo hiệu quả (VD: lead time, thời gian review). |  | 04-project-management/ai-kpi.md |
 | QA | Quality Assurance: vai kiểm thử đảm bảo chất lượng. |  | agents/README.md |
 | OUT | Outcome đo được của sản phẩm, mã `OUT-<NN>`, khai báo ở vision.md; BRD tham chiếu trong Tiêu chí thành công. | Kết quả mong đợi | 00-project-overview/vision.md |
-| G0–G7 | Các cổng duyệt giữa các giai đoạn vòng đời; chỉ qua cổng khi có bằng chứng. | Cổng, gate | README.md (Cấu trúc tài liệu) |
+| Cổng duyệt | Điểm duyệt giữa hai giai đoạn vòng đời `[01]`–`[08]`; chỉ sang giai đoạn sau khi giai đoạn trước được người có thẩm quyền duyệt, có bằng chứng. | Cổng, gate | README.md (Cấu trúc tài liệu) |
 | Profile / S1–S3 | Profile: bộ tailoring theo loại dự án. S1–S3: mức nghiêm ngặt về truy vết và kiểm soát, tăng dần. | Mức nghiêm ngặt | PROJECT.md |
 | Plan | Kế hoạch do AI soạn, Tech Lead duyệt, nối từ đặc tả sang Task; có mục Kết quả sau khi xong. | Kế hoạch | .ai/plans/ |
 | Worktree | Môi trường cô lập, mỗi Task một nơi, để AI code và test. | Workspace cô lập | .ai/worktrees/ |
