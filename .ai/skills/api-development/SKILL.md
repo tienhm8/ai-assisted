@@ -29,7 +29,7 @@ Dừng và ghi `open-questions.md` (OQ-<NN>) nếu thiếu một trong các đi�
 2. **Đối chiếu contract**: so khớp yêu cầu với contract Approved trong api-design.md. Thiếu hoặc mâu thuẫn thì dừng, ghi OQ. Đổi contract là việc cần duyệt, không tự chế.
 3. **Hiện thực**: validation đầu vào → handler mỏng gọi service → trả response/lỗi theo error-handling.md. Logic nghiệp vụ trong service thuộc `backend-development`. Theo quy ước hiện có của dự án.
 4. **Phân quyền**: áp guard theo `authentication-rbac`; không tự định nghĩa quyền.
-5. **Test**: gọi `unit-testing` / `integration-testing` (và `e2e-testing` nếu AC yêu cầu). Phủ: thành công, đầu vào sai, chưa xác thực, sai quyền, truy cập tài nguyên người khác, vi phạm business rule.
+5. **Test**: gọi `unit-testing` / `integration-testing` (và `e2e-testing` nếu AC yêu cầu). Phủ: thành công, đầu vào sai, chưa xác thực, sai quyền, truy cập tài nguyên người khác, vi phạm business rule, lỗi tương tác DB.
 6. **Tự review**: chuyển `code-review`; vùng bảo mật chuyển `security-review`.
 7. **Bàn giao**: theo mục 8.
 
@@ -39,6 +39,10 @@ Dừng và ghi `open-questions.md` (OQ-<NN>) nếu thiếu một trong các đi�
 - [ ] Mọi đầu vào ngoài hệ thống được validate ở backend.
 - [ ] Guard phân quyền ở backend, không tin client.
 - [ ] Mã lỗi/định dạng lỗi theo error-handling.md; không lộ stack trace hay dữ liệu nhạy cảm.
+- [ ] Response không trả trường nhạy cảm ngoài contract.
+- [ ] Log không chứa dữ liệu nhạy cảm.
+- [ ] Phân trang/sắp xếp/lọc đúng contract (nếu endpoint danh sách).
+- [ ] Idempotency khi contract yêu cầu.
 - [ ] Không hardcode secret.
 - [ ] Đổi schema có migration và đã qua `database-design`.
 
