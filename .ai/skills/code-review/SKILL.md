@@ -33,7 +33,7 @@ Thiếu một mục thì dừng, ghi rõ mục thiếu và trả PR về ngườ
 
 ### Bước 0: Xác định mức review (R1–R3)
 
-Task phải mang mức rủi ro; thiếu thì dừng và hỏi, không tự gán. AI không tự hạ mức.
+Task phải mang mức rủi ro; thiếu thì dừng và hỏi, không tự gán. AI không tự hạ mức. Định nghĩa R1–R3 ở `.ai/rules/project-rules.md` (Thang dùng chung); bảng dưới chỉ áp dụng vào cách review, không định nghĩa lại.
 
 | Mức | Khi nào | Cách review |
 | --- | --- | --- |

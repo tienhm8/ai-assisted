@@ -149,7 +149,7 @@ Không được chỉ kiểm tra trường hợp người dùng có quyền truy
 **Coverage.** Không nên áp một con số coverage duy nhất cho tất cả module. Có thể đặt mục tiêu riêng cho logic nghiệp vụ, bảo mật, tiện ích và những phần ít rủi ro hơn.
 <!-- Điền ngưỡng theo từng dự án -->
 
-**Review theo rủi ro.** Mức R1–R3; định nghĩa R1–R3 và cách review ở Skill [code-review](../../.ai/skills/code-review/SKILL.md). R3 cần hai người, một người độc lập; nếu thiếu người thì ghi miễn trừ.
+**Review theo rủi ro.** Mức R1–R3; định nghĩa R1–R3 ở [project-rules](../../.ai/rules/project-rules.md) (Thang dùng chung), cách review ở Skill [code-review](../../.ai/skills/code-review/SKILL.md). R3 cần hai người, một người độc lập; nếu thiếu người thì ghi miễn trừ.
 
 **Ví dụ chọn công cụ** (không bắt buộc): dự án TypeScript dùng ESLint + Prettier, `tsc --strict`, Vitest/Jest, Playwright, gitleaks, `npm audit`; dự án Python dùng ruff, mypy, pytest.
 
