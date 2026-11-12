@@ -1,6 +1,6 @@
 # Task Execution Workflow
 
-> Trạng thái: **Draft**. Quy trình **bắt buộc** áp dụng cho mọi Task giao cho AI.
+> Trạng thái: **Approved**. Quy trình **bắt buộc** áp dụng cho mọi Task giao cho AI.
 > Sửa file này thuộc vùng 🔴 (luật chơi của AI): cần Task riêng và người duyệt.
 
 Task được giao theo mẫu Task của dự án. Việc chọn và phối hợp Skill ở các bước 1–8 xem skill-orchestration.md.

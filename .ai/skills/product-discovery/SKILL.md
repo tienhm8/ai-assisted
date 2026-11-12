@@ -7,7 +7,7 @@ description: Biến ý tưởng hoặc brief của PO và tài liệu stakeholde
 
 ## 1. Mục tiêu
 
-Làm rõ vấn đề, đối tượng và phạm vi từ nguồn có thật của PO/stakeholder, ghi thành bản nháp đủ để PO duyệt và chuyển sang `requirement-analysis`. AI chỉ soạn Draft/Proposed; không tự chuyển Approved.
+Làm rõ vấn đề, đối tượng và phạm vi từ nguồn có thật của PO/stakeholder, ghi thành bản nháp đủ để PO duyệt và chuyển sang `requirement-analysis`. AI chỉ soạn Draft; không tự chuyển Approved.
 
 ## 2. Cổng vào
 
@@ -49,7 +49,7 @@ Làm rõ vấn đề, đối tượng và phạm vi từ nguồn có thật củ
 
 ## 7. Tiêu chí hoàn thành (DoD)
 
-- Cổng vào thoả; bốn tài liệu ở trạng thái Draft/Proposed, đầy đủ mục theo mẫu.
+- Cổng vào thoả; bốn tài liệu ở trạng thái Draft, đầy đủ mục theo mẫu.
 - Không còn nội dung không nguồn mà không đánh dấu.
 - OQ chặn phạm vi đã nêu rõ người quyết.
 - PO đã nhận bản nháp để duyệt; chưa duyệt thì chưa chuyển `requirement-analysis`.

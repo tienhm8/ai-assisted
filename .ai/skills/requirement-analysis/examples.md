@@ -1,6 +1,6 @@
 # Requirement Analysis – Examples
 
-> Bản nháp (Draft). Chỉ là **ví dụ minh hoạ** (bối cảnh bất động sản), không phải nghiệp vụ chính thức; nghiệp vụ thật nằm trong docs của dự án.
+> Đã duyệt (Approved). Chỉ là **ví dụ minh hoạ** (bối cảnh bất động sản), không phải nghiệp vụ chính thức; nghiệp vụ thật nằm trong docs của dự án.
 
 ## Các nhóm business rule cần làm rõ
 

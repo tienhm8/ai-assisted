@@ -1,6 +1,6 @@
 # Chọn Skill theo loại Task
 
-> Trạng thái: **Draft**. Chuỗi Skill là **mặc định đề xuất**; plan của từng Task có thể bỏ hoặc thêm Skill nhưng phải nêu lý do. Quy trình điều phối: skill-orchestration.md.
+> Trạng thái: **Approved**. Chuỗi Skill là **mặc định đề xuất**; plan của từng Task có thể bỏ hoặc thêm Skill nhưng phải nêu lý do. Quy trình điều phối: skill-orchestration.md.
 
 ## 1. Công việc → Skill chính
 

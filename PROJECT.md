@@ -9,7 +9,7 @@ Người quyết: Tech Lead.
 
 | Thuộc tính | Giá trị |
 | --- | --- |
-| Trạng thái | Draft |
+| Trạng thái | Approved |
 | Người phụ trách |  |
 | Người duyệt |  |
 | Phiên bản · Ngày | 0.1 ·  |

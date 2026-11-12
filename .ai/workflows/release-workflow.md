@@ -1,6 +1,6 @@
 # Release Workflow
 
-> Trạng thái: **Draft**. Sửa file này thuộc vùng 🔴: cần Task riêng và người duyệt.
+> Trạng thái: **Approved**. Sửa file này thuộc vùng 🔴: cần Task riêng và người duyệt.
 > Skill: deployment. Người quyết phát hành là Owner (tham khảo Tech Lead); điều kiện: smoke test đạt, không có sự cố nghiêm trọng trong khung theo dõi, rollback dùng được.
 
 **AI chuẩn bị, người quyết định và thực hiện.** AI không tự merge vào nhánh bảo vệ, không deploy production, không chạm dữ liệu production.

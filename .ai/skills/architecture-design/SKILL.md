@@ -7,7 +7,7 @@ description: Thiết kế và đánh giá kiến trúc phần mềm (ranh giới
 
 ## 1. Mục tiêu
 
-Đề xuất kiến trúc dễ bảo trì, an toàn, kiểm thử được, đáp ứng yêu cầu đã duyệt. AI chỉ soạn ở trạng thái Draft/Proposed.
+Đề xuất kiến trúc dễ bảo trì, an toàn, kiểm thử được, đáp ứng yêu cầu đã duyệt. AI chỉ soạn ở trạng thái Draft.
 
 ## 2. Cổng vào
 
@@ -43,7 +43,7 @@ Vision, phạm vi, FR/BR/NFR đã duyệt, kiến trúc hiện có, ngăn xếp 
 
 ## 7. Tiêu chí hoàn thành (DoD)
 
-- Checklist ở mục 5 đạt; đầu ra ở trạng thái Draft/Proposed.
+- Checklist ở mục 5 đạt; đầu ra ở trạng thái Draft.
 - Người duyệt: Kiến trúc sư; thêm Security nếu đụng tiền, phân quyền, dữ liệu cá nhân hoặc migration. Chỉ họ chuyển sang Approved.
 
 ## 8. Báo cáo bàn giao

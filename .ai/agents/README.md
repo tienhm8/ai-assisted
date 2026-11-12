@@ -1,6 +1,6 @@
 # Agents
 
-> Trạng thái: **Draft**. Làm rõ dần theo Task thật; người có thẩm quyền mới chuyển sang Approved.
+> Trạng thái: **Approved**. Làm rõ dần theo Task thật; người có thẩm quyền mới chuyển sang Approved.
 > Sửa file này thuộc vùng 🔴 (luật chơi của AI): cần Task riêng và người duyệt.
 
 Agent là **vai thực hiện** của AI, định nghĩa theo chức năng. File này chỉ nêu các vai và nguyên tắc dùng chung cho mọi dự án; giá trị riêng của dự án (mức tự chủ, người duyệt, công cụ) do dự án khai báo.
@@ -19,7 +19,7 @@ Giai đoạn đầu dùng **một AI Coding Agent đảm nhiệm lần lượt n
 4. Không để agent trao đổi vòng lặp không có tiêu chí dừng; đặt giới hạn số vòng và ngân sách.
 5. Agent giao việc cho agent khác phải yêu cầu báo cáo bàn giao: Delivery Report, gồm bằng chứng đã chạy test và danh sách giả định.
 6. Vai không được nâng mức tự chủ. Mức do Task cấp, không vượt trần của dự án.
-7. AI chỉ tạo tài liệu ở trạng thái Draft/Proposed; chuyển Approved do người có thẩm quyền.
+7. AI chỉ tạo tài liệu ở trạng thái Draft; chuyển Approved do người có thẩm quyền.
 8. Không bịa nghiệp vụ, API, thư viện: thiếu thông tin thì dừng và ghi vào danh sách câu hỏi mở.
 9. Chỉ dựa vào tài liệu Approved; tài liệu Draft hoặc Deprecated chỉ để tham khảo và phải nói rõ khi dùng. Khi bàn giao, nêu tài liệu và phiên bản đã dùng.
 

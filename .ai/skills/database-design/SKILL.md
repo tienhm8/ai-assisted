@@ -7,7 +7,7 @@ description: Đóng vai Database Architect cho CSDL quan hệ (PostgreSQL, Maria
 
 ## 1. Mục tiêu
 
-Thiết kế dữ liệu như một Database Architect, không chỉ sinh câu lệnh SQL: mỗi bảng, cột, ràng buộc, index và quyết định mở rộng đều có lý do truy ra nghiệp vụ hoặc mẫu truy cập; schema đúng, toàn vẹn, đủ nhanh cho tải dự kiến, an toàn và thay đổi được mà không làm gián đoạn hệ thống. AI chỉ soạn ở trạng thái Draft/Proposed.
+Thiết kế dữ liệu như một Database Architect, không chỉ sinh câu lệnh SQL: mỗi bảng, cột, ràng buộc, index và quyết định mở rộng đều có lý do truy ra nghiệp vụ hoặc mẫu truy cập; schema đúng, toàn vẹn, đủ nhanh cho tải dự kiến, an toàn và thay đổi được mà không làm gián đoạn hệ thống. AI chỉ soạn ở trạng thái Draft.
 
 ## 2. Cổng vào
 

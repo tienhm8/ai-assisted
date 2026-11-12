@@ -33,7 +33,7 @@ Yêu cầu AI "hãy code API" là chưa đủ: Skill hướng dẫn AI từng b�
 | incident-analysis | Phân tích log và sự cố |
 | continuous-improvement | Tổng hợp KPI, đề xuất cải tiến rule/skill |
 
-Các Skill ở trạng thái Draft, làm rõ dần theo Task thật. Chỉ thêm Skill mới khi quy trình đã ổn định.
+Các Skill ở trạng thái Approved, làm rõ dần theo Task thật. Chỉ thêm Skill mới khi quy trình đã ổn định.
 
 ## Cách tổ chức
 

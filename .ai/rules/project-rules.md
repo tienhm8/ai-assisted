@@ -1,6 +1,6 @@
 # Project Rules
 
-> Trạng thái: **Draft**. Rule bắt buộc cho AI trong mọi phiên làm việc, không phụ thuộc dự án.
+> Trạng thái: **Approved**. Rule bắt buộc cho AI trong mọi phiên làm việc, không phụ thuộc dự án.
 > Gặp mâu thuẫn hoặc rule không đủ để quyết định: dừng phần bị ảnh hưởng và hỏi người có thẩm quyền, không tự chọn.
 
 1. Trước khi làm: đọc Task và các tài liệu Task chỉ tới; không nạp cả dự án.

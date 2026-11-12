@@ -1,6 +1,6 @@
 # Coding Rules
 
-> Trạng thái: **Draft**. Rule bắt buộc, trung lập về ngôn ngữ.
+> Trạng thái: **Approved**. Rule bắt buộc, trung lập về ngôn ngữ.
 
 1. Theo đúng ngôn ngữ, phiên bản, naming và công cụ lint/kiểm tra kiểu đã chốt cho dự án. Mục chưa chốt: dừng và hỏi, không tự chọn.
 2. Cơ chế nới lỏng kiểm tra (bỏ qua kiểu, tắt lint...) chỉ dùng khi có lý do ghi tại chỗ và reviewer chấp nhận.
