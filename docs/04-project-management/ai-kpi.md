@@ -4,7 +4,7 @@
 | --- | --- |
 | Trạng thái | Approved |
 | Người phụ trách |  |
-| Người duyệt |  |
+| Người duyệt | Tech Lead |
 | Phiên bản · Ngày | 0.2 ·  |
 | Tài liệu liên quan | roadmap.md, backlog.md, task-breakdown.md, ../03-engineering/testing-strategy.md, ../05-operations/monitoring.md |
 

@@ -4,7 +4,7 @@
 | --- | --- |
 | Trạng thái | Approved |
 | Người phụ trách |  |
-| Người duyệt |  |
+| Người duyệt | PO |
 | Phiên bản · Ngày | 0.1 ·  |
 | Tài liệu liên quan | vision.md, scope.md, ../01-requirements/ |
 

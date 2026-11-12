@@ -4,7 +4,7 @@
 | --- | --- |
 | Trạng thái | Approved |
 | Người phụ trách |  |
-| Người duyệt |  |
+| Người duyệt | Owner |
 | Phiên bản · Ngày | 0.1 ·  |
 | Tài liệu liên quan | deployment.md, backup-recovery.md, ../01-requirements/NFR.md, ../02-architecture/system-architecture.md, ../03-engineering/error-handling.md, ../03-engineering/security-standards.md, ../../.ai/workflows/release-workflow.md |
 

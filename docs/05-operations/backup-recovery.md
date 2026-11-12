@@ -4,7 +4,7 @@
 | --- | --- |
 | Trạng thái | Approved |
 | Người phụ trách |  |
-| Người duyệt |  |
+| Người duyệt | Owner |
 | Phiên bản · Ngày | 0.1 ·  |
 | Tài liệu liên quan | deployment.md, monitoring.md, ../01-requirements/NFR.md, ../02-architecture/database-design.md, ../03-engineering/security-standards.md, ../../.ai/rules/database-rules.md, ../../.ai/workflows/release-workflow.md |
 

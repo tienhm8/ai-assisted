@@ -4,7 +4,7 @@
 | --- | --- |
 | Trạng thái | Approved |
 | Người phụ trách |  |
-| Người duyệt |  |
+| Người duyệt | PO/BA |
 | Phiên bản · Ngày | 0.1 ·  |
 | Tài liệu liên quan | ../00-project-overview/vision.md, FR/, NFR.md, business-rules.md, ../../.ai/skills/requirement-review/SKILL.md |
 

@@ -4,7 +4,7 @@
 | --- | --- |
 | Trạng thái | Approved |
 | Người phụ trách |  |
-| Người duyệt |  |
+| Người duyệt | Tech Lead |
 | Phiên bản · Ngày | 0.2 ·  |
 | Tài liệu liên quan | backlog.md, roadmap.md, ../01-requirements/FR/, ../../.ai/workflows/task-execution.md, ../../.ai/workflows/skill-selection.md, ../../.ai/rules/project-rules.md |
 

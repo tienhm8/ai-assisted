@@ -4,7 +4,7 @@
 | --- | --- |
 | Trạng thái | Approved |
 | Người phụ trách |  |
-| Người duyệt |  |
+| Người duyệt | PO/BA |
 | Phiên bản · Ngày | 0.1 ·  |
 | Tài liệu liên quan | FR/, acceptance-criteria.md, ../../.ai/skills/requirement-analysis/SKILL.md |
 

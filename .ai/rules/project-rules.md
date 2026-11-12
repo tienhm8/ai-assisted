@@ -18,7 +18,7 @@
 
 ## Thang dùng chung
 
-**Mức tự chủ (A)** do Task cấp, không vượt trần bên dưới.
+**Mức tự chủ (A)** do Task cấp, không vượt trần bên dưới. Định nghĩa và trần đã được Tech Lead duyệt (2026-11-13).
 - A0: không thao tác; chỉ trả lời, giải thích.
 - A1: chỉ đọc và báo cáo; không sửa file, không chạy lệnh có tác dụng phụ.
 - A2: làm trong phạm vi Task; người duyệt từng bước trước khi sang bước sau.

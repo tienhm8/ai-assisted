@@ -4,7 +4,7 @@
 | --- | --- |
 | Trạng thái | Approved |
 | Người phụ trách |  |
-| Người duyệt |  |
+| Người duyệt | Tech Lead |
 | Phiên bản · Ngày | 0.1 ·  |
 | Tài liệu liên quan | coding-standards.md, security-standards.md, testing-strategy.md, ../02-architecture/api-design.md, ../02-architecture/database-design.md, ../05-operations/monitoring.md, ../../.ai/rules/coding-rules.md |
 

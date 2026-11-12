@@ -4,7 +4,7 @@
 | --- | --- |
 | Trạng thái | Approved |
 | Người phụ trách |  |
-| Người duyệt |  |
+| Người duyệt | Tech Lead (PO quyết ưu tiên) |
 | Phiên bản · Ngày | 0.2 ·  |
 | Tài liệu liên quan | roadmap.md, task-breakdown.md, ../01-requirements/FR/, ../01-requirements/business-rules.md |
 

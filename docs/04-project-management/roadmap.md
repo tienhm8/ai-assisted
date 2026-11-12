@@ -4,7 +4,7 @@
 | --- | --- |
 | Trạng thái | Approved |
 | Người phụ trách |  |
-| Người duyệt |  |
+| Người duyệt | PO |
 | Phiên bản · Ngày | 0.2 ·  |
 | Tài liệu liên quan | backlog.md, ../00-project-overview/vision.md, ../00-project-overview/scope.md, ../01-requirements/FR/ |
 

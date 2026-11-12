@@ -4,7 +4,7 @@
 | --- | --- |
 | Trạng thái | Approved |
 | Người phụ trách |  |
-| Người duyệt |  |
+| Người duyệt | Kiến trúc sư |
 | Phiên bản · Ngày | 0.1 ·  |
 | Tài liệu liên quan | system-architecture.md, database-design.md, api-design.md, ../01-requirements/FR/, ../01-requirements/business-rules.md, ../03-engineering/error-handling.md, ADR/, ../../.ai/rules/architecture-rules.md, ../../.ai/skills/backend-development/SKILL.md |
 

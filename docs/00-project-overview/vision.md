@@ -4,7 +4,7 @@
 | --- | --- |
 | Trạng thái | Approved |
 | Người phụ trách |  |
-| Người duyệt |  |
+| Người duyệt | PO |
 | Phiên bản · Ngày | 0.1 ·  |
 | Tài liệu liên quan | scope.md, glossary.md, open-questions.md, ../01-requirements/BRD.md |
 

@@ -4,7 +4,7 @@
 | --- | --- |
 | Trạng thái | Approved |
 | Người phụ trách |  |
-| Người duyệt |  |
+| Người duyệt | Tech Lead |
 | Phiên bản · Ngày | 0.1 ·  |
 | Tài liệu liên quan | ../01-requirements/acceptance-criteria.md, ../01-requirements/NFR.md, coding-standards.md, security-standards.md, error-handling.md, ../05-operations/deployment.md, ../../.ai/skills/unit-testing/SKILL.md, ../../.ai/skills/integration-testing/SKILL.md, ../../.ai/skills/e2e-testing/SKILL.md |
 
