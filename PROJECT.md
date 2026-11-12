@@ -42,7 +42,7 @@ Công cụ mà AI gọi được, ví dụ MCP server của Laravel Boost. Guide
 ### 3.1 Mức tự chủ (A0–A4)
 Nguồn chuẩn duy nhất của mức tự chủ. Mức tự chủ do từng Task cấp; mục này khai báo mức **tối đa** cho phép theo loại việc × rủi ro (R1–R3) của dự án. Vai ([.ai/agents/](.ai/agents/README.md)) không có mức riêng, chỉ lấy theo loại việc. Dự án chỉ được siết thêm so với mặc định bên dưới, không nới. Skill không tự nâng mức; thiếu thì dừng và hỏi.
 
-**Định nghĩa (Approved):**
+**Định nghĩa (Draft, chờ Tech Lead duyệt):**
 | Mức | AI được làm |
 | --- | --- |
 | A0 | Không thao tác; chỉ trả lời, giải thích |
