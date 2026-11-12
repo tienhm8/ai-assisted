@@ -57,7 +57,7 @@ Ghi chú:
 - **Task lai** tách thành Task con theo loại; không gộp sửa lỗi với refactor lớn.
 - **T2:** `backend-development` sở hữu service và logic nghiệp vụ; `api-development` sở hữu contract, validation, handler. Khi API gần như chỉ chuyển tiếp tới service sẵn có, dùng riêng `api-development`.
 - **T2 song song:** `api-development` ∥ `frontend-development` chỉ khi API contract đã chốt.
-- **T1 → T2** không tự chuyển: cần PO/BA duyệt (mọi FR có AC) và Kiến trúc sư duyệt (thiết kế Approved, có ADR). Chưa có thiết kế Approved thì không code tính năng (P3).
+- **T1 → T2** không tự chuyển: cần PO/BA duyệt (mọi FR có AC) và Kiến trúc sư duyệt (thiết kế Approved, có ADR). Chưa có thiết kế Approved thì không code tính năng (project-rules 2).
 
 ## 3. Điều kiện kích hoạt các Skill có điều kiện
 
