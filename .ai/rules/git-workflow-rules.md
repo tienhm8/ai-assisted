@@ -1,6 +1,6 @@
 # Git Workflow Rules
 
-> Trạng thái: **Draft**. Sửa file này thuộc vùng 🔴: cần Task riêng và người duyệt.
+> Trạng thái: **Approved**. Sửa file này thuộc vùng 🔴: cần Task riêng và người duyệt.
 
 1. Một Task tương ứng một nhánh hoặc một đơn vị thay đổi độc lập; làm trên nhánh riêng, không làm trực tiếp trên nhánh chính (main/master).
 2. Tên nhánh: `<loại>/<TASK-ID>-<mô-tả-ngắn>`, loại là `feature`, `fix`, `refactor`, `docs` hoặc `chore`. Ví dụ: `fix/PRJ-12-login-timeout`.

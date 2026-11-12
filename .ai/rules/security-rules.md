@@ -1,6 +1,6 @@
 # Security Rules
 
-> Trạng thái: **Draft**. Rule bắt buộc. Không hạ được; cần ngoại lệ thì phải có lý do, biện pháp bù, người duyệt và thời hạn.
+> Trạng thái: **Approved**. Rule bắt buộc. Không hạ được; cần ngoại lệ thì phải có lý do, biện pháp bù, người duyệt và thời hạn.
 
 1. Phân quyền kiểm tra ở phía server, không tin quyền do client gửi; mặc định từ chối khi chưa khai báo quyền.
 2. Kiểm tra quyền trên chính bản ghi được truy cập, không chỉ kiểm tra vai trò.

@@ -1,6 +1,6 @@
 # Database Rules
 
-> Trạng thái: **Draft**. Rule bắt buộc, trung lập về hệ quản trị CSDL. Với CSDL tài liệu, "bảng" hiểu là collection, "cột" là field; mục cuối là rule riêng cho loại CSDL này.
+> Trạng thái: **Approved**. Rule bắt buộc, trung lập về hệ quản trị CSDL. Với CSDL tài liệu, "bảng" hiểu là collection, "cột" là field; mục cuối là rule riêng cho loại CSDL này.
 
 ## Thiết kế
 
