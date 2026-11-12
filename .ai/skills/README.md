@@ -1,11 +1,8 @@
 # skills
 
-Skill là **kỹ năng chuyên môn và quy trình làm việc của AI**. Khác với Rule:
+Skill là kỹ năng chuyên môn và quy trình làm việc của AI: làm một loại việc thì làm thế nào. Rule trả lời câu hỏi khác: AI phải tuân thủ điều gì.
 
-- **Rule** trả lời: AI phải tuân thủ điều gì?
-- **Skill** trả lời: AI phải thực hiện một loại công việc như thế nào?
-
-Yêu cầu AI "hãy code API" là chưa đủ: Skill hướng dẫn AI từng bước (đọc yêu cầu, kiểm tra thiết kế đã duyệt, xác định quyền, viết, kiểm thử, cập nhật tài liệu, báo cáo kết quả).
+File này dành cho người viết và duyệt Skill; AI không cần nạp khi làm Task.
 
 ## Danh mục Skill
 
@@ -33,72 +30,43 @@ Yêu cầu AI "hãy code API" là chưa đủ: Skill hướng dẫn AI từng b�
 | incident-analysis | Phân tích log và sự cố |
 | continuous-improvement | Tổng hợp KPI, đề xuất cải tiến rule/skill |
 
-Các Skill ở trạng thái Approved, làm rõ dần theo Task thật. Chỉ thêm Skill mới khi quy trình đã ổn định.
-
 ## Cách tổ chức
 
-- **Mỗi Skill một thư mục riêng**, `SKILL.md` là file bắt buộc. Không gộp nhiều Skill vào một file lớn.
-- Khi cần, bổ sung vào thư mục của Skill đó: `examples.md` (ví dụ minh hoạ), `references/`, `scripts/`. Chỉ thêm khi thực sự dùng; checklist nằm trong `SKILL.md`, không tách file.
-- `SKILL.md` giữ quy trình **tổng quát**. Ví dụ và chi tiết gắn với dự án (vai trò, thực thể, công cụ cụ thể) nằm trong `examples.md`; ví dụ không phải nghiệp vụ chính thức.
-- `SKILL.md` là nguồn chính của quy trình; file bổ sung không được mâu thuẫn với nó.
-- Việc chọn và phối hợp nhiều Skill nằm ở workflow, không nằm trong từng Skill.
-- Skill chỉ nêu **cách làm**: không chép chuẩn, ngưỡng, mã lỗi hay quy tắc từ `docs/` hoặc `rules/`, và không trỏ link đi đâu; chỉ `docs/` trỏ sang Skill.
+- Mỗi Skill một thư mục, `SKILL.md` là file bắt buộc. Khi cần thì thêm `references/` (chi tiết theo chủ đề hoặc theo công nghệ), `examples.md` (ví dụ minh hoạ, không phải nghiệp vụ chính thức), `scripts/`.
+- `SKILL.md` giữ quy trình tổng quát, trung lập công nghệ. Chi tiết dài hoặc chỉ dùng ở một bước thì đưa vào `references/`, và `SKILL.md` ghi rõ bước nào nạp file nào.
+- Chọn và phối hợp Skill nằm ở workflow (`task-types`, `task-execution`), không nằm trong từng Skill.
 
-## Một Skill tốt phải có đủ
+## Cấu trúc một SKILL.md
 
-> Lưu ý: thiếu bất kỳ mục nào dưới đây thì Skill chưa đạt, chưa được chuyển sang Approved.
-
-- Mục tiêu.
-- Cổng vào (điều kiện bắt đầu; thiếu thì dừng và hỏi).
-- Đầu vào.
-- Quy trình thực hiện.
-- Checklist.
-- Việc không được phép làm.
-- Tiêu chí hoàn thành.
-- Báo cáo bàn giao (đầu ra).
-
-## Skill không đồng nghĩa với Prompt
-
-- **Prompt** là yêu cầu cụ thể trong một lần làm việc.
-- **Skill** là quy trình có thể tái sử dụng nhiều lần.
-
-| Thành phần | Ví dụ |
+| Mục | Nội dung |
 | --- | --- |
-| Prompt | Tạo API cho chức năng X. |
-| Skill | Quy trình chuẩn để phát triển API. |
-| Rule | API phải kiểm tra quyền ở backend. |
-| Documentation | Mô tả nghiệp vụ của chức năng X và phân quyền. |
+| Frontmatter `name`, `description` | Skill làm gì và dùng khi nào; đủ để chọn Skill mà không cần đọc phần thân |
+| Mở đầu | Một đến hai câu về mục tiêu |
+| Cổng vào | Điều kiện bắt đầu, thiếu thì dừng; tài liệu cần đọc |
+| Quy trình | Các bước theo thứ tự |
+| Giới hạn (nếu có) | Chỉ điều riêng của Skill này |
+| Hoàn thành khi | Kết quả kiểm chứng được |
+| Báo cáo | Chỉ phần riêng của Skill; phần chung theo template |
 
-Bốn thành phần này phối hợp với nhau để tạo ra kết quả nhất quán.
+Thiếu Cổng vào, Quy trình, Hoàn thành khi hoặc Báo cáo thì Skill chưa được chuyển Approved.
 
-## Quy chuẩn sử dụng Skill
+## Viết Skill cho gọn
 
-### Chọn và phối hợp Skill
+Mỗi dòng trong Skill được nạp lại ở mọi Task dùng nó, nên:
 
-Không yêu cầu AI đọc và dùng toàn bộ Skill trong mọi Task; chọn theo loại công việc. Một Task có thể cần nhiều Skill phối hợp: có Skill chạy song song, có Skill được kích hoạt lặp lại khi phát hiện lỗi.
+- **Không nhắc lại Rule.** Rule đã được nạp cùng Task. Skill chỉ ghi giới hạn mà Rule chưa có.
+- **Không nhắc lại Quy trình** dưới dạng checklist. "Hoàn thành khi" chỉ ghi kết quả kiểm chứng được.
+- **Không chép template.** Báo cáo chỉ nêu phần Skill này thêm vào.
+- **Không ghi kiến thức chung model đã biết.** Chỉ ghi quy ước đã chốt, lỗi AI hay mắc, và điểm dễ sót.
+- **Không chép chuẩn, ngưỡng, mã lỗi** từ `docs/`; nêu tên tài liệu cần đọc ở Cổng vào.
+- Một `SKILL.md` vượt khoảng 150 dòng thì tách phần chi tiết sang `references/`.
 
-Quy trình chi tiết nằm ở workflow:
+## Khi đưa Skill vào dùng
 
-- `skill-selection`: bảng "công việc → Skill" và chuỗi Skill theo loại Task (T1–T15).
-- `skill-orchestration`: nhận diện Task, lập chuỗi Skill, cổng vào/ra, vòng lặp khi lỗi, bàn giao.
-
-### Năm nguyên tắc kỹ thuật khi đưa Skill vào thực tế
-
-1. **Skill không thay thế Rule.**
-   - `authentication-rbac` hướng dẫn cách triển khai phân quyền.
-   - Rule bảo mật quy định mọi API đặc quyền phải kiểm tra quyền ở backend.
-2. **Skill không thay thế tài liệu nghiệp vụ.** AI phải đọc FR/BR trước khi triển khai. Không được lấy ví dụ trong Skill làm nghiệp vụ chính thức.
-3. **Skill phải có phiên bản và được kiểm thử.** Khi cập nhật Skill, kiểm tra bằng một số Task thực tế để xác định AI có làm đúng hướng dẫn không.
-4. **Skill có thể gọi Skill khác.** Ví dụ `backend-development` có thể yêu cầu sử dụng `unit-testing` và `security-review` khi cần. Quan hệ này được khai báo trong workflow `skill-orchestration` (mục "Skill gọi Skill khác"), không chép vào từng `SKILL.md`.
-5. **Không phải Skill nào cũng được phép tự thực hiện hành động.**
-   - `deployment` chỉ chuẩn bị và kiểm tra release; AI không deploy production, người có quyền thực hiện sau khi được duyệt.
-   - `database-design` được tạo migration; chạy migration trên production phải tuân thủ quy trình phê duyệt.
-
-## Nguyên tắc tạo Skill
-
-- Chỉ tạo khi quy trình đã ổn định; không tạo skill chỉ để đặt tên cho một prompt ngắn.
-- Skill mới phải chạy thử trên Task thật trước khi chuyển Approved.
-- Sửa skill thuộc vùng 🔴: cần Task riêng và người duyệt.
+- Skill không thay Rule và không thay tài liệu nghiệp vụ; ví dụ trong Skill không phải nghiệp vụ chính thức.
+- Skill mới hoặc Skill vừa sửa phải chạy thử trên Task thật trước khi chuyển Approved.
+- Chỉ tạo Skill khi quy trình đã ổn định; không tạo Skill để đặt tên cho một prompt ngắn.
+- Sửa Skill cần Task riêng và người duyệt.
 
 ## Tiếp nhận Skill bên ngoài
 

@@ -5,41 +5,31 @@ description: Review một thay đổi code (PR) không phụ thuộc ngôn ngữ
 
 # Code Review Skill
 
-## 1. Mục tiêu
+Xác nhận thay đổi làm đúng việc, đúng phạm vi Task, đặt đúng chỗ trong kiến trúc, chịu được tải và đồng thời, an toàn, vận hành được, và có bằng chứng kiểm thử thật trước khi merge.
 
-Xác nhận thay đổi làm đúng việc, đúng phạm vi Task, đặt đúng chỗ trong kiến trúc, chịu được tải và đồng thời, an toàn, vận hành được và có bằng chứng kiểm thử thật trước khi merge.
+**Logic sai thì không duyệt; code xấu thì comment, không chặn PR.**
 
-Thứ tự ưu tiên quyết định cách xử lý finding: **logic sai thì không duyệt; code xấu thì comment, không chặn PR**.
+## Cổng vào
 
-## 2. Cổng vào
+Thiếu một mục thì dừng, nêu mục thiếu và trả PR về người viết; không review code:
 
-Thiếu một mục thì dừng, ghi rõ mục thiếu và trả PR về người viết, không review code:
+- PR description đủ các mục ở Bước 1.
+- Task có phạm vi, AC, mức rủi ro.
+- Cổng tự động (build, lint, kiểm tra kiểu, test, quét secret) đã xanh: lấy từ CI; chưa có CI thì từ lần chạy cục bộ ghi trong PR, kèm lệnh và output.
+- Kích thước PR trong ngưỡng của dự án; vượt ngưỡng thì đề nghị tách, trừ khi PR ghi lý do (code sinh tự động, đổi tên hàng loạt…).
+- Thay đổi không do chính phiên này viết.
 
-- PR description đủ các mục ở Bước 1 (theo mẫu PR của dự án).
-- Có phiếu Task với phạm vi, AC, mức rủi ro R và Definition of Done.
-- Kết quả cổng tự động (build, lint, kiểm tra kiểu, test, quét secret) đã xanh: lấy từ CI; chưa có CI thì từ lần chạy cục bộ ghi trong PR, kèm lệnh và output.
-- Kích thước PR nằm trong ngưỡng của dự án; vượt ngưỡng thì đề nghị tách, trừ khi PR ghi lý do (code sinh tự động, đổi tên hàng loạt…).
-- Thay đổi không do chính phiên AI này viết.
+Đọc: PR description, Task, AC, FR/BR liên quan; tài liệu kiến trúc (tầng, ranh giới module, hướng phụ thuộc), coding-standards, error-handling, testing-strategy, NFR; git diff **và ngữ cảnh ngoài diff** (nơi gọi tới đoạn code đổi, schema, migration, cấu hình, test hiện có); báo cáo test và báo cáo bàn giao.
 
-## 3. Đầu vào
+## Quy trình
 
-- PR description, phiếu Task, AC, FR/BR liên quan
-- Tài liệu kiến trúc (tầng, ranh giới module, hướng phụ thuộc), coding-standards, error-handling, testing-strategy, NFR
-- Rules: project-rules, coding-rules, architecture-rules, database-rules, security-rules, testing-rules
-- Git diff **và ngữ cảnh ngoài diff**: nơi gọi tới đoạn code đổi, schema/migration, cấu hình, test hiện có
-- Báo cáo test và báo cáo bàn giao (nếu Task do AI làm)
+### Bước 0: Số reviewer theo mức rủi ro
 
-## 4. Quy trình
-
-### Bước 0: Xác định mức review (R1–R3)
-
-Task phải mang mức rủi ro; thiếu thì dừng và hỏi, không tự gán. AI không tự hạ mức. Định nghĩa R1–R3 ở `.ai/rules/project-rules.md` (Thang dùng chung); bảng dưới chỉ áp dụng vào cách review, không định nghĩa lại.
-
-| Mức | Khi nào | Cách review |
-| --- | --- | --- |
-| R1 (thấp) | Thay đổi nhỏ, không chạm vùng 🟡/🔴, không chạm xác thực, phân quyền, tiền, dữ liệu cá nhân hay migration | Một reviewer |
-| R2 (vừa) | Logic nghiệp vụ, API, schema trong phạm vi Task, hoặc có file vùng 🟡 | Một reviewer; kích hoạt `security-review` nếu chạm điều kiện bảo mật |
-| R3 (cao) | Chạm tiền, phân quyền, dữ liệu cá nhân, secret, migration production, hoặc file vùng 🔴 | Hai reviewer, trong đó một người độc lập với người/AI viết code; thiếu người thì ghi miễn trừ có thời hạn |
+| Mức rủi ro của Task | Cách review |
+| --- | --- |
+| R1 | Một reviewer |
+| R2 | Một reviewer; thêm `security-review` nếu chạm điều kiện bảo mật |
+| R3 | Hai reviewer, một người độc lập với người hoặc AI viết code; thiếu người thì đề nghị miễn trừ có thời hạn |
 
 ### Bước 1: Đọc PR description trước, chưa đọc code
 
@@ -177,47 +167,28 @@ Quy tắc trình bày:
 - **Duyệt có điều kiện**: còn Medium; nêu rõ điều kiện (sửa trong PR hay tạo Task kèm hạn).
 - **Duyệt**: chỉ còn Low/Informational hoặc không có finding.
 
-AI chỉ khuyến nghị kết luận; người có thẩm quyền theo mức R quyết định merge.
+AI chỉ khuyến nghị; người có thẩm quyền quyết định merge.
 
-## 5. Checklist
+## Giới hạn
 
-- [ ] Cổng vào đạt: PR description đủ mục, cổng tự động xanh, PR trong ngưỡng kích thước.
-- [ ] Đã đọc PR description và lập giả thuyết trước khi đọc code.
-- [ ] Diff khớp phạm vi Task; file vùng 🟡/🔴, file ngoài phạm vi, test bị làm yếu đã được báo.
-- [ ] Đã đi đủ 8 ưu tiên theo thứ tự; ưu tiên nào không áp dụng ghi lý do.
-- [ ] Đã đọc ngữ cảnh ngoài diff cho các finding về đồng thời, hiệu năng, kiến trúc.
-- [ ] Mỗi AC có test truy vết và output thật.
-- [ ] Đã kích hoạt `security-review` khi chạm điều kiện bảo mật.
-- [ ] Mỗi finding có `file:dòng`, kịch bản lỗi, severity, yêu cầu sửa; điều chưa chứng minh được ghi là câu hỏi.
-- [ ] Báo cáo bàn giao: mỗi `OQ-<NN>` ở mục 4 có đủ Bối cảnh, Phương án, Đề xuất, Nếu chưa quyết ở open-questions; thiếu phần nào thì ghi finding Low.
-- [ ] Có kết luận khuyến nghị và lý do.
+- Không chặn PR chỉ vì style hay sở thích cá nhân.
+- Không cho rằng code đúng chỉ vì test pass.
+- Không kết luận về đồng thời, hiệu năng hay kiến trúc chỉ từ diff.
+- Không tự áp mô hình tầng không có trong tài liệu dự án.
+- Không viết lại code trong lúc review.
 
-## 6. Việc không được làm
+## Hoàn thành khi
 
-- Đọc code trước khi hiểu PR muốn làm gì; review PR thiếu mô tả bằng cách tự đoán mục đích.
-- Duyệt khi còn finding Critical/High chưa xử lý.
-- Chặn PR chỉ vì style hay sở thích cá nhân.
-- Cho rằng code đúng chỉ vì test pass.
-- Kết luận về đồng thời, hiệu năng hay kiến trúc chỉ từ diff mà không đọc ngữ cảnh.
-- Bịa lỗi không có kịch bản hoặc bằng chứng kỹ thuật.
-- Tự đặt quy tắc nghiệp vụ hay mô hình tầng không có trong tài liệu dự án.
-- Viết lại code ngoài phạm vi trong lúc review.
-- Tự duyệt thay đổi do chính mình viết, hoặc coi đó là review độc lập.
+- Đã đi đủ 8 ưu tiên theo thứ tự; ưu tiên không áp dụng có ghi lý do.
+- Mỗi finding có `file:dòng`, kịch bản lỗi, mức nghiêm trọng, yêu cầu sửa; điều chưa chứng minh được ghi là câu hỏi.
+- Có kết luận khuyến nghị kèm lý do.
 
-## 7. Tiêu chí hoàn thành (DoD)
+## Báo cáo
 
-- Cổng vào và 8 ưu tiên đã được đi qua, mục không áp dụng có lý do.
-- Mọi finding có severity, vị trí, kịch bản lỗi và yêu cầu sửa.
-- Bằng chứng test đã được đánh giá.
-- Có kết luận khuyến nghị: duyệt / duyệt có điều kiện / không duyệt.
-
-## 8. Báo cáo bàn giao
-
-- Tóm tắt PR theo hiểu biết của reviewer (vấn đề, thay đổi hành vi hay refactor, phạm vi ảnh hưởng), mức R, file đã review (kể cả file vùng 🟡/🔴 và ngoài phạm vi)
-- Mục còn thiếu trong PR description (nếu có)
-- Finding theo severity, mỗi cái có `file:dòng`, kịch bản lỗi, yêu cầu sửa
-- Câu hỏi cho người viết
-- Đánh giá test: AC có/thiếu bằng chứng, nguồn kết quả cổng (CI hoặc cục bộ)
-- Ưu tiên không áp dụng và lý do; `security-review` có được kích hoạt không
-- Điểm tốt đáng ghi nhận
-- Kết luận khuyến nghị và điều kiện (nếu có)
+- Tóm tắt PR theo hiểu biết của reviewer: vấn đề, đổi hành vi hay refactor, phạm vi ảnh hưởng; mức rủi ro; file đã review, gồm file vùng 🟡/🔴 và file ngoài phạm vi.
+- Mục còn thiếu trong PR description.
+- Finding theo mức nghiêm trọng; câu hỏi cho người viết.
+- Đánh giá test: AC có hoặc thiếu bằng chứng, nguồn kết quả cổng (CI hay cục bộ).
+- Ưu tiên không áp dụng và lý do; có dùng `security-review` không.
+- Điểm tốt đáng ghi nhận.
+- Kết luận khuyến nghị và điều kiện.

@@ -5,63 +5,38 @@ description: Cài đặt logic nghiệp vụ backend, service, truy cập dữ l
 
 # Backend Development Skill
 
-## 1. Mục tiêu
+Hiện thực logic nghiệp vụ, truy cập dữ liệu và tích hợp ở backend: đúng business rule, đúng ranh giới module, dễ test.
 
-Hiện thực logic nghiệp vụ, truy cập dữ liệu và tích hợp ở backend: đúng business rule, an toàn, dễ test, đúng ranh giới module.
+## Cổng vào
 
-## 2. Cổng vào
-
-Dừng và ghi `open-questions.md` (OQ-<NN>) nếu thiếu:
+Thiếu một điều kiện thì dừng và ghi câu hỏi mở:
 - FR có AC và business rule đã duyệt.
-- Thiết kế Approved (module-design.md, database-design.md; contract trong api-design.md nếu có endpoint).
+- Thiết kế Approved: module-design, database-design; contract trong api-design nếu có endpoint hoặc tích hợp ngoài.
 
-## 3. Đầu vào
+Đọc: FR, AC, business-rules; module-design, system-architecture, database-design, api-design; error-handling, security-standards; mã backend hiện có.
 
-- FR, acceptance-criteria.md, business-rules.md
-- module-design.md, system-architecture.md, database-design.md
-- api-design.md (spec tích hợp), error-handling.md, security-standards.md
-- Mã backend hiện có; skill `authentication-rbac` cho phân quyền
+## Quy trình
 
-## 4. Quy trình
+1. **Phân tích:** thao tác nghiệp vụ, actor, tiền điều kiện, ràng buộc, chuyển trạng thái, kịch bản lỗi.
+2. **Khảo sát mã hiện có:** cấu trúc, service, tầng truy cập dữ liệu, tiện ích dùng chung, cách xử lý lỗi và log. Tái dùng trước khi tạo mới.
+3. **Thiết kế service:** trách nhiệm, đầu vào/ra, phụ thuộc, ranh giới transaction. Ranh giới module theo module-design.
+4. **Hiện thực:** chuyển trạng thái tường minh; kiểm bất biến quan trọng; truy vấn tránh N+1.
+5. **Lỗi và log:** theo error-handling; ghi log sự kiện nghiệp vụ, thất bại và sự kiện bảo mật.
+6. **Tích hợp ngoài:** timeout, retry, idempotency, rate limit theo spec trong api-design; thiếu spec thì dừng, ghi câu hỏi mở.
+7. **Phân quyền:** theo `authentication-rbac`.
+8. **Test** bằng `unit-testing` và `integration-testing`: phủ business rule, kịch bản lỗi, transaction.
 
-1. **Phân tích**: thao tác nghiệp vụ, actor, tiền điều kiện, ràng buộc, chuyển trạng thái, kịch bản lỗi.
-2. **Khảo sát mã hiện có**: cấu trúc, service, data access, tiện ích dùng chung, cách xử lý lỗi và log.
-3. **Thiết kế service**: trách nhiệm, đầu vào/ra, phụ thuộc, ranh giới transaction. Ranh giới module theo module-design.md; không gọi chéo module trái thiết kế.
-4. **Hiện thực**: theo business rule; tái dùng service sẵn có; chuyển trạng thái tường minh; kiểm bất biến quan trọng; truy vấn an toàn, tránh N+1.
-5. **Lỗi**: theo error-handling.md; không lộ stack trace ra client.
-6. **Log**: ghi sự kiện nghiệp vụ, thất bại, bảo mật; không ghi mật khẩu, token, dữ liệu nhạy cảm.
-7. **Tích hợp ngoài**: giới hạn (timeout, retry, idempotency, rate limit) theo spec trong api-design.md; thiếu spec thì dừng, ghi OQ.
-8. **Test**: gọi `unit-testing` và `integration-testing`; phủ business rule, kịch bản lỗi, transaction.
-9. **Bàn giao**: theo mục 8.
+## Giới hạn
 
-## 5. Checklist
+- Cần đổi schema thì dừng và chuyển `database-design`; không tự đổi.
+- Không thêm service hoặc abstraction mà Task không cần.
 
-- [ ] Business rule được hiện thực đúng, không tự bịa.
-- [ ] Không vượt ranh giới module.
-- [ ] Transaction và truy vấn phù hợp.
-- [ ] Phân quyền áp theo `authentication-rbac`.
-- [ ] Lỗi xử lý tường minh; không lộ nội bộ.
-- [ ] Không log dữ liệu nhạy cảm.
+## Hoàn thành khi
 
-## 6. Việc không được làm
+- Logic đúng từng AC và business rule liên quan; không gọi chéo module trái thiết kế.
+- Transaction bao đủ các ghi phải cùng thành công hoặc cùng thất bại.
+- Test đã chạy, có output thật.
 
-- Không bịa business rule.
-- Không bỏ qua phân quyền.
-- Không truy cập dữ liệu production khi chưa được duyệt.
-- Cần đổi schema thì dừng và chuyển `database-design` (cần duyệt); không tự đổi.
-- Không thêm service/abstraction không cần thiết.
+## Báo cáo
 
-## 7. Tiêu chí hoàn thành (DoD)
-
-- Cổng vào thoả; logic đúng AC.
-- Test đã chạy có bằng chứng; skip/fail ghi rõ.
-- Checklist đạt; review hoàn tất.
-- Tài liệu bị ảnh hưởng đã cập nhật hoặc ghi lại cần cập nhật.
-
-## 8. Báo cáo bàn giao
-
-- Service tạo/sửa và logic đã làm
-- Tương tác DB, tích hợp ngoài
-- Test đã chạy và kết quả
-- Quyết định cần duyệt, OQ còn mở
-- Rủi ro và giới hạn
+Ghi vào báo cáo bàn giao của Task: service đã tạo hoặc sửa, tương tác CSDL, tích hợp ngoài.

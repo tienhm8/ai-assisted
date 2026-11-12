@@ -5,56 +5,35 @@ description: Cải thiện cấu trúc nội bộ của code (dễ đọc, dễ 
 
 # Refactoring Skill
 
-## 1. Mục tiêu
+Cải thiện cấu trúc code mà giữ nguyên hành vi quan sát được.
 
-Cải thiện cấu trúc code mà không đổi hành vi nghiệp vụ đã duyệt.
+## Cổng vào
 
-## 2. Cổng vào
+- Task refactor nêu rõ phạm vi. Thiếu thì dừng và hỏi.
+- Task kèm sửa lỗi hoặc thêm tính năng: tách thành Task riêng.
+- Refactor lớn cần plan được duyệt trước khi sửa.
 
-- Có Task refactor nêu rõ phạm vi, mức rủi ro và mức tự chủ. Thiếu thì dừng và hỏi.
-- Task **lai** (refactor kèm sửa lỗi hoặc thêm tính năng): tách thành Task riêng, không làm chung.
-- Refactor lớn cần plan được duyệt trước khi sửa; ngưỡng "lớn" do plan chốt.
+Đọc: Task, mã nguồn và test hiện có, thiết kế và ranh giới module, coding-standards.
 
-## 3. Đầu vào
+## Quy trình
 
-Task, mã nguồn và bộ test hiện có, thiết kế/ranh giới module đã duyệt, chuẩn code của dự án, nợ kỹ thuật đã biết.
+1. **Hiểu hành vi hiện tại:** giao diện công khai, quy tắc nghiệp vụ, phụ thuộc, vùng đã có test.
+2. **Baseline:** chạy test liên quan và ghi lại lỗi có sẵn. Chỗ chưa có test thì bổ sung test mô tả hành vi hiện tại bằng `unit-testing`.
+3. **Chọn mục tiêu:** chỉ những vấn đề ảnh hưởng tới Task (lặp, hàm hoặc lớp quá lớn, điều kiện rối, phụ thuộc chặt hoặc vòng, tên khó hiểu, khó test).
+4. **Kiểm ràng buộc:** cần đổi schema, contract, API, ranh giới module thì dừng xin duyệt và chuyển Skill tương ứng.
+5. **Refactor từng bước nhỏ**, chạy test sau mỗi bước.
+6. **So với baseline:** đầu vào/ra, lỗi, quyền truy cập, thứ tự side effect không đổi.
 
-## 4. Quy trình
+## Giới hạn
 
-1. **Hiểu hành vi hiện tại:** giao diện công khai, quy tắc nghiệp vụ, phụ thuộc, vùng được test.
-2. **Baseline:** chạy test liên quan trước (dùng unit-testing để bổ sung test mô tả hành vi cho chỗ chưa có), ghi lại lỗi có sẵn. Không đổ lỗi có sẵn cho refactor.
-3. **Xác định mục tiêu:** chỉ những mùi code ảnh hưởng thực sự tới Task (lặp, hàm/lớp quá lớn, điều kiện rối, phụ thuộc chặt hoặc vòng, đặt tên khó hiểu, khó test).
-4. **Kiểm tra ràng buộc:** refactor **không đổi schema, contract hay API**; cần đổi thì chuyển database-design hoặc api-development và cần duyệt (ADR nếu thuộc diện). Cần đổi ranh giới module hay kiến trúc đã duyệt thì **dừng xin duyệt**.
-5. **Plan** (refactor lớn): vấn đề, cấu trúc mong muốn, file, rủi ro, test; chờ duyệt.
-6. **Refactor từng bước nhỏ**, chạy test sau mỗi bước; tối đa 3 vòng sửa–chạy khi test đỏ, quá thì dừng và báo.
-7. **So sánh với baseline:** đầu vào/ra, lỗi, quyền truy cập, thứ tự hiệu ứng phụ không đổi. Không khẳng định cải thiện hiệu năng khi chưa đo.
-8. **Cập nhật tài liệu** nếu cấu trúc đã ghi ở tài liệu thiết kế bị đổi (skill documentation).
-9. **Bàn giao** cho code-review ở phiên khác.
+- Không thêm tính năng, không đổi hành vi, không gộp sửa lỗi.
+- Không khẳng định cải thiện hiệu năng khi chưa đo.
 
-## 5. Checklist
+## Hoàn thành khi
 
-- [ ] Task không lai; phạm vi rõ.
-- [ ] Baseline test đã chạy và ghi lại trước khi sửa.
-- [ ] Thay đổi nhỏ, tăng dần; không đổi schema/contract/API.
-- [ ] Test sau refactor đạt và khớp baseline; test không bị xoá hay làm yếu.
-- [ ] Không thêm tính năng; quyền truy cập không đổi.
+- Test sau refactor khớp baseline; không test nào bị xoá hay làm yếu.
+- Cổng kiểm tra của dự án đạt.
 
-## 6. Việc không được làm
+## Báo cáo
 
-- Không thêm tính năng, không đổi hành vi nghiệp vụ, không gộp sửa lỗi vào refactor.
-- Không đổi schema, contract, API, ranh giới module khi chưa được duyệt.
-- Không viết lại quy mô lớn khi chưa có plan được duyệt.
-- Không xoá hay làm yếu test cho dễ qua.
-- Không tối ưu hiệu năng khi thiếu số đo.
-- Không tự duyệt refactor của mình.
-
-## 7. Tiêu chí hoàn thành (DoD)
-
-- Mục tiêu refactor đạt, hành vi giữ nguyên (so với baseline).
-- Cổng kiểm tra của dự án đạt, có bằng chứng.
-- Đã bàn giao cho code-review ở phiên khác, không tự duyệt.
-- Nợ kỹ thuật còn lại được ghi.
-
-## 8. Báo cáo bàn giao
-
-Điền DELIVERY-REPORT-TEMPLATE, nêu thêm: vấn đề đã xử lý, file đã sửa, kết quả baseline so với sau refactor, đánh giá giữ nguyên hành vi, cải thiện đạt được, nợ kỹ thuật còn lại.
+Ghi vào báo cáo bàn giao của Task: vấn đề đã xử lý, kết quả baseline so với sau refactor, nợ kỹ thuật còn lại.
