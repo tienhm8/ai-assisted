@@ -29,7 +29,7 @@ Ký hiệu `[01]`–`[08]` trong cây là giai đoạn của vòng đời (kèm 
 ```text
 project/
 ├── README.md                          bản đồ của repo
-├── PROJECT.md                         [04] công cụ AI, mức dữ liệu, mức tự chủ, bản đồ vùng 🟢🟡🔴
+├── PROJECT.md                         [04] khai báo của dự án: công cụ AI, trần mức tự chủ, bản đồ vùng 🟢🟡🔴, dữ liệu theo mức
 │
 ├── docs/                              hồ sơ dự án (mỗi dự án viết riêng)
 │   │
@@ -55,7 +55,7 @@ project/
 │   │
 │   ├── 03-engineering/                [04] chuẩn code, bảo mật, lỗi, test
 │   │   ├── coding-standards.md        ngôn ngữ, naming, cấu trúc code, Git
-│   │   ├── security-standards.md      bảo mật, mức dữ liệu D0-D3, secret
+│   │   ├── security-standards.md      bảo mật, xử lý dữ liệu theo mức D0-D3, secret
 │   │   ├── error-handling.md          phân loại lỗi, mã lỗi, log
 │   │   └── testing-strategy.md        [06] các tầng test, cổng chất lượng
 │   │
@@ -102,7 +102,7 @@ Lưu ý khi áp dụng:
 
 ## Kiểm soát AI
 
-**Nguyên tắc:** AI không tự suy diễn quy tắc nghiệp vụ và không tự ý đổi kiến trúc khi chưa được phê duyệt. Mức tự chủ và bản đồ vùng 🟢🟡🔴 của dự án ghi trong `PROJECT.md`; mức tối đa (trần) theo loại việc × rủi ro ở `PROJECT.md` §3.1 (vai ở [.ai/agents/](.ai/agents/README.md) không có mức riêng).
+**Nguyên tắc:** AI không tự suy diễn quy tắc nghiệp vụ và không tự ý đổi kiến trúc khi chưa được phê duyệt. Định nghĩa mức tự chủ A0–A4, trần mặc định và nghĩa của vùng 🟢🟡🔴 ở [project-rules](.ai/rules/project-rules.md); dự án khai báo phần siết thêm và bản đồ vùng trong `PROJECT.md` §3 (vai ở [.ai/agents/](.ai/agents/README.md) không có mức riêng).
 
 ### Việc cần người duyệt hoặc kiểm soát đặc biệt
 
@@ -126,7 +126,7 @@ Các việc còn lại (đọc code, phân tích yêu cầu, viết code, viết
 | 4 | Overengineering | AI xây dựng phức tạp hơn yêu cầu |
 | 5 | False Confidence | AI báo hoàn thành nhưng chưa chạy test hoặc chưa kiểm tra hết trường hợp |
 
-Cách khắc phục không phải chỉ viết Prompt tốt hơn, mà phải có **tài liệu chuẩn** (`docs/`), **Rule** và **Skill** (`.ai/`), **CI/CD**, **Test** và **quyền hạn rõ ràng** (mức tự chủ và bản đồ vùng trong `PROJECT.md`).
+Cách khắc phục không phải chỉ viết Prompt tốt hơn, mà phải có **tài liệu chuẩn** (`docs/`), **Rule** và **Skill** (`.ai/`), **CI/CD**, **Test** và **quyền hạn rõ ràng** (mức tự chủ ở Rule, bản đồ vùng trong `PROJECT.md`).
 
 ## Công cụ AI
 

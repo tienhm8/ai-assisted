@@ -12,3 +12,4 @@
 8. Đổi dependency thì chạy quét lỗ hổng và kiểm tra license; mọi commit chạy quét secret.
 9. Không tắt hay nới kiểm tra bảo mật (lint, scan, xác thực) để test qua.
 10. Thay đổi phân quyền, tiền, dữ liệu cá nhân hoặc migration cần Tech Lead và Security duyệt. AI không tự quản lý secret.
+11. Công cụ cấp cho AI (MCP server, plugin) không kết nối production hoặc dữ liệu D2/D3.

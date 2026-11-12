@@ -10,14 +10,14 @@
 
 > **Mục đích.** Chuẩn bảo mật: nguyên tắc, Authentication & Authorization (quy tắc), kiểm tra đầu vào, bảo vệ dữ liệu, secret, API, logging, dependency, ánh xạ OWASP Top 10 và mức ASVS. Sàn không hạ được.
 
-## 1. Mức dữ liệu dự án (D0–D3) và quy tắc đưa vào AI
-Định nghĩa D0–D3 xem [glossary](../00-project-overview/glossary.md); mức dữ liệu của dự án khai báo ở [PROJECT.md](../../PROJECT.md). Với mỗi mức, ghi loại dữ liệu của dự án và việc được/không được đưa vào AI, log, môi trường không phải production.
-| Mức | Dữ liệu của dự án | Được đưa vào AI | Được ghi log |
-| --- | --- | --- | --- |
-| D0 | | | |
-| D1 | | | |
-| D2 | | | |
-| D3 | | Không | Không |
+## 1. Xử lý dữ liệu theo mức (D0–D3)
+Định nghĩa D0–D3 ở [project-rules](../../.ai/rules/project-rules.md); dữ liệu của dự án thuộc mức nào và mức nào được đưa vào AI khai báo ở [PROJECT.md](../../PROJECT.md) §4, không chép lại ở đây. Với mỗi mức, ghi việc được/không được ghi log và dùng ở môi trường không phải production.
+| Mức | Được ghi log | Được dùng ở môi trường không phải production |
+| --- | --- | --- |
+| D0 | | |
+| D1 | | |
+| D2 | | |
+| D3 | Không | |
 
 <!-- Điền theo từng dự án -->
 
@@ -80,7 +80,7 @@ Mỗi endpoint khai báo quyền yêu cầu ([api-design](../02-architecture/api
 <!-- Bổ sung chi tiết theo công nghệ của dự án -->
 
 ## 6. Bảo vệ dữ liệu
-Mức dữ liệu ở §1; thiết kế bảo mật cho từng bảng/cột ở [database-design](../02-architecture/database-design.md) §5.
+Dữ liệu của dự án theo mức ở [PROJECT.md](../../PROJECT.md) §4, cách xử lý ở §1; thiết kế bảo mật cho từng bảng/cột ở [database-design](../02-architecture/database-design.md) §5.
 
 ### 6.1 Xử lý dữ liệu nhạy cảm
 Chỉ thu thập và lưu dữ liệu cần thiết; không đưa dữ liệu D3 vào log, URL, thông báo lỗi.

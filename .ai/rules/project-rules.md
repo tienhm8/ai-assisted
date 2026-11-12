@@ -10,12 +10,22 @@
 5. Không đổi kiến trúc đã Approved khi chưa được duyệt; đề xuất bằng ADR nháp.
 6. Không thêm dependency mới khi chưa ghi lý do trong PR và được duyệt.
 7. Mọi thay đổi truy vết được tới một Task đã duyệt; chỉ sửa trong phạm vi Task, theo cấu trúc thư mục hiện có.
-8. Tuân thủ mức tự chủ của Task và bản đồ vùng 🟢🟡🔴 của dự án; không tự nâng mức. Vùng 🔴 cần Task riêng và người duyệt.
+8. Tuân thủ mức tự chủ của Task; không tự nâng mức, thiếu thì dừng và hỏi. Tuân thủ bản đồ vùng của dự án: vùng 🟢 sửa trong phạm vi Task; vùng 🟡 chỉ sửa khi plan đã nêu và được duyệt; vùng 🔴 cần Task riêng và người duyệt.
 9. Đổi hành vi hoặc kiến trúc thì cập nhật tài liệu liên quan trong cùng thay đổi.
 10. Báo cáo bàn giao nêu rõ giả định, câu hỏi chưa giải quyết và kết quả kiểm tra thật. Khi báo cho người (báo cáo, tóm tắt cuối phiên, tin nhắn hỏi), mỗi câu cần người quyết phải nêu đủ để quyết ngay: bối cảnh có số đo, phương án và hệ quả, đề xuất, việc bị chặn nếu chưa quyết. Chi tiết ghi ở mục "Chi tiết câu hỏi" của `open-questions.md`; nơi báo chỉ nêu mã `OQ-<NN>` kèm tóm tắt các phần đó, không liệt kê mỗi tên việc. Việc cần người bổ sung dữ liệu (không phải quyết định) ghi riêng.
 11. Bàn giao Task phải tổng hợp **toàn bộ** thay đổi của Task, gộp từ mọi worktree, nhánh và phiên đã làm, không chỉ phiên hiện tại. Mỗi thay đổi nêu: file và dòng, loại (thêm/sửa/xoá), nghiệp vụ mà đoạn đó phục vụ, và đề xuất tốt hơn nếu có. Gom theo nghiệp vụ, không liệt kê theo thứ tự file.
+12. Không âm thầm bỏ qua một yêu cầu của khung. Chưa đáp ứng được thì dừng và đề nghị miễn trừ có lý do, người duyệt, thời hạn và kế hoạch khắc phục.
 
 ## Thang dùng chung
+
+**Mức tự chủ (A)** do Task cấp, không vượt trần bên dưới.
+- A0: không thao tác; chỉ trả lời, giải thích.
+- A1: chỉ đọc và báo cáo; không sửa file, không chạy lệnh có tác dụng phụ.
+- A2: làm trong phạm vi Task; người duyệt từng bước trước khi sang bước sau.
+- A3: làm hết Task trong phạm vi và worktree được cấp; người duyệt kết quả cuối (diff, bằng chứng test).
+- A4: như A3 nhưng không duyệt từng Task; chỉ cho danh mục việc hẹp đã được duyệt trước.
+
+Trần: A3. Viết/sửa code ở Task R3: A2. A4 chỉ cho viết test ở Task R1, khi dự án đã bật. Dự án chỉ siết thêm, không nới.
 
 **Mức rủi ro (R)** do Task gán; AI không tự hạ.
 - R1: thay đổi cục bộ, dễ hoàn tác, không chạm dữ liệu hay quyền.

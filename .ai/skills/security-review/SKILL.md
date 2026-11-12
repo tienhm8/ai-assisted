@@ -18,7 +18,7 @@ Phát hiện lỗ hổng và đánh giá hiệu quả của các biện pháp b�
 
 - Task, AC, security-standards, tài liệu kiến trúc (vai trò, ma trận phân quyền), api-design, database-design
 - Rules: security-rules, testing-rules
-- Mức dữ liệu D0–D3 (định nghĩa ở PROJECT.md và glossary)
+- Dữ liệu của dự án theo mức D0–D3 (PROJECT.md §4)
 - Mức ASVS mục tiêu (PROJECT.md §5) và bảng ánh xạ OWASP Top 10 (security-standards §13); chưa khai báo mức ASVS thì dừng và hỏi
 - Mã nguồn, cấu hình triển khai, danh sách dependency
 

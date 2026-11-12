@@ -44,8 +44,8 @@
 | Workflow | Chuỗi Skill được sắp xếp theo loại việc (T1…T15). | Quy trình | .ai/workflows/ |
 | RACI | Ma trận vai trò: R (thực hiện), A (chịu trách nhiệm cuối, một người duy nhất; khác A0–A4), C (được tư vấn), I (được thông báo). |  | .ai/agents/README.md |
 | R1 / R2 / R3 | Mức rủi ro review của một Task, tăng dần từ R1 đến R3; mức càng cao review càng chặt (R3 cần hai người, một người độc lập). | Mức rủi ro | .ai/rules/project-rules.md (Thang dùng chung) |
-| A0–A4 | Mức tự chủ của AI do Task cấp, từ A0 đến A4. Skill không được tự nâng mức; thiếu thì dừng và hỏi. | Mức tự chủ | PROJECT.md (mức tự chủ) |
-| D0–D3 | Mức nhạy cảm của dữ liệu quy định được đưa gì vào AI; D3 gồm secret, token, dữ liệu cá nhân, không được ghi/log. | Mức dữ liệu | PROJECT.md (mức dữ liệu); security-standards.md |
+| A0–A4 | Mức tự chủ của AI do Task cấp, từ A0 đến A4. Skill không được tự nâng mức; thiếu thì dừng và hỏi. | Mức tự chủ | .ai/rules/project-rules.md (Thang dùng chung); trần riêng của dự án: PROJECT.md §3.1 |
+| D0–D3 | Mức nhạy cảm của dữ liệu quy định được đưa gì vào AI; D3 gồm secret, token, dữ liệu cá nhân, không được ghi/log. | Mức dữ liệu | .ai/rules/project-rules.md (Thang dùng chung); dữ liệu của dự án: PROJECT.md §4; xử lý theo mức: security-standards.md §1 |
 | RBAC | Role-Based Access Control: phân quyền theo vai trò. | Phân quyền | 03-engineering/security-standards.md |
 | OWASP Top 10 | Danh sách 10 nhóm rủi ro bảo mật web phổ biến nhất của OWASP, mã `A01:2025`…`A10:2025`; dùng để phân loại finding. |  | 03-engineering/security-standards.md §13 |
 | ASVS / L1–L3 | OWASP Application Security Verification Standard: bộ yêu cầu kiểm chứng bảo mật, mã `V<chương>.<mục>.<yêu cầu>`. L1–L3: mức kiểm chứng tăng dần, dự án khai báo mức mục tiêu. | Mức ASVS | PROJECT.md §5; 03-engineering/security-standards.md §13 |
