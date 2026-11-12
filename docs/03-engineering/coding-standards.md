@@ -8,7 +8,7 @@
 | Phiên bản · Ngày | 0.1 ·  |
 | Tài liệu liên quan | security-standards.md, error-handling.md, testing-strategy.md, ../02-architecture/system-architecture.md, ../02-architecture/module-design.md, ../../.ai/rules/coding-rules.md |
 
-> **Mục đích.** Convention code: nguyên tắc chung, cấu trúc source code, naming, format, lint, thực hành lập trình, review, Git workflow và branching strategy. Cụ thể hoá các quy tắc ở [.ai/rules/coding-rules.md](../../.ai/rules/coding-rules.md), không trái chúng.
+> **Mục đích.** Convention code của dự án: cấu trúc source code, naming, format, lint, thực hành lập trình, ngưỡng review. Cụ thể hoá các quy tắc ở [.ai/rules/coding-rules.md](../../.ai/rules/coding-rules.md), không trái chúng.
 
 ## 1. Ngôn ngữ, framework, phiên bản
 Stack và phiên bản chính thức ở [system-architecture](../02-architecture/system-architecture.md) §4; mục này chỉ ghi phiên bản ngôn ngữ/runtime bắt buộc khi viết code.
@@ -21,15 +21,8 @@ Stack và phiên bản chính thức ở [system-architecture](../02-architectur
 <!-- Điền theo từng dự án -->
 
 ## 2. Nguyên tắc chung
-
-| Nguyên tắc | Quy tắc áp dụng |
-| --- | --- |
-| Clean Code | Code dễ đọc, tên rõ nghĩa, một đoạn code làm một việc. |
-| SOLID | Mỗi class một trách nhiệm; mở rộng bằng thêm code thay vì sửa code cũ; phụ thuộc vào abstraction. |
-| DRY | Logic nghiệp vụ chỉ có một nơi định nghĩa; chỉ tách chung khi đã lặp lại thật sự. |
-| KISS | Chọn giải pháp đơn giản nhất đáp ứng được yêu cầu. |
-| YAGNI | Không viết code cho nhu cầu chưa có trong FR/Task. |
-| Separation of Concerns | Tách giao diện, nghiệp vụ, truy cập dữ liệu; không trộn lẫn trong cùng một đơn vị code. |
+Clean Code, SOLID, DRY, KISS, YAGNI và Separation of Concerns áp dụng cho mọi dự án, là điều bắt buộc ở [coding-rules](../../.ai/rules/coding-rules.md) mục "Nguyên tắc thiết kế". Mục này chỉ ghi nguyên tắc dự án bổ sung.
+<!-- Điền theo từng dự án; để trống nếu không có -->
 
 ## 3. Cấu trúc dự án
 
