@@ -6,7 +6,7 @@
 | Người phụ trách |  |
 | Người duyệt | Tech Lead |
 | Phiên bản · Ngày | 0.2 ·  |
-| Tài liệu liên quan | backlog.md, roadmap.md, ../01-requirements/FR/, ../../.ai/workflows/task-execution.md, ../../.ai/workflows/skill-selection.md, ../../.ai/rules/project-rules.md |
+| Tài liệu liên quan | backlog.md, roadmap.md, ../01-requirements/FR/, ../../.ai/workflows/task-execution.md, ../../.ai/workflows/task-types.md, ../../.ai/rules/project-rules.md |
 
 > **Mục đích.** Chia Task từ plan đã duyệt (**người quyết: Tech Lead**): mỗi Task có objective, scope in/out, AC, mức rủi ro R1–R3, mức tự chủ A0–A4. Chi tiết plan nằm ở [.ai/plans/](../../.ai/plans/).
 
@@ -128,11 +128,7 @@ Các tài liệu phải cập nhật.
 - Code review completed.
 
 ## 12. Delivery Report
-- Files changed:
-- Implementation summary:
-- Tests and results:
-- Known limitations:
-- Remaining risks:
+Theo DELIVERY-REPORT-TEMPLATE.
 ```
 
 Mục 12 do AI điền khi bàn giao. Mục 2 có thêm dòng Liên kết và Phân loại để khớp với bảng Task ở trên (cột Rủi ro, Tự chủ AI).

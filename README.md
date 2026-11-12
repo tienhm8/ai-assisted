@@ -72,7 +72,7 @@ project/
 │
 ├── .ai/                               quy trình AI làm việc
 │   ├── rules/                         BẮT BUỘC: AI phải / không được làm gì?
-│   │   └── project · architecture · coding · database · security · testing · git-workflow  (-rules.md)
+│   │   └── project · architecture · coding · database · cache · document-database · security · testing · git-workflow  (-rules.md)
 │   ├── skills/                        CÁCH LÀM: làm một loại việc thì làm thế nào?
 │   │   ├── [01] product-discovery
 │   │   ├── [02] requirement-analysis · requirement-review
@@ -84,20 +84,20 @@ project/
 │   │   └── [08] continuous-improvement
 │   ├── agents/                        VAI: ai làm, với quyền gì? (mặc định một AI Coding Agent)
 │   ├── workflows/                     ĐIỀU PHỐI: chọn Skill, xếp thứ tự, dừng ở đâu?
-│   │   └── task-execution · skill-selection · skill-orchestration · release-workflow
+│   │   └── task-execution · task-types · release-workflow
 │   ├── templates/                     MẪU: kết quả trình bày dưới dạng nào?
 │   │   └── PLAN · BUG · PR · DELIVERY-REPORT · TEST-REPORT · RELEASE-REPORT  (-TEMPLATE.md)
 │   ├── plans/                         [05] kế hoạch do AI soạn, Tech Lead duyệt (được commit)
 │   └── worktrees/                     [05] môi trường cô lập, mỗi Task một nơi (không commit)
 │
-└── AGENTS.md · CLAUDE.md · .github/copilot-instructions.md   điểm tích hợp công cụ, chỉ trỏ về .ai/
+└── AGENTS.md                          điểm vào cho AI, chỉ trỏ về .ai/ (CLAUDE.md, .github/copilot-instructions.md trỏ về file này)
 ```
 
 Lưu ý khi áp dụng:
 - Task mới bắt đầu khi giai đoạn `[04]` sẵn sàng.
 - Mặc định dùng một AI Coding Agent; chỉ tách thành nhiều agent riêng khi vai trò và bàn giao đã ổn định (xem [.ai/agents/](.ai/agents/README.md)).
 - Chưa có CI/CD: chạy kiểm tra tự động tại máy và ghi miễn trừ có thời hạn vào `PROJECT.md` (không bỏ qua âm thầm).
-- **Context:** chỉ nạp đúng tài liệu cho Task, không bắt AI đọc cả dự án; nạp gì theo loại Task ở [context-loading.md](.ai/workflows/context-loading.md), thứ tự nạp ở [skill-orchestration.md](.ai/workflows/skill-orchestration.md) §2.
+- **Context:** chỉ nạp đúng tài liệu cho Task, không bắt AI đọc cả dự án; nạp gì theo loại Task ở [task-types.md](.ai/workflows/task-types.md), nạp ở bước nào theo [task-execution.md](.ai/workflows/task-execution.md).
 - **Tools** (Terminal, Git, Browser): khai báo và cấp quyền trong `PROJECT.md`.
 
 ## Kiểm soát AI

@@ -1,6 +1,6 @@
 # Ví dụ: model và effort cho Claude Code
 
-> **Ví dụ, không bắt buộc.** Chỉ dùng khi dự án chọn Claude Code ([PROJECT.md](../../../PROJECT.md) §2). Đề xuất theo loại Task ở [context-loading.md](../../workflows/context-loading.md) §4; ánh xạ chính thức của dự án cũng ghi ở đó. File này chỉ minh hoạ cách ánh xạ và cấu hình.
+> **Ví dụ, không bắt buộc.** Chỉ dùng khi dự án chọn Claude Code ([PROJECT.md](../../../PROJECT.md) §2). Đề xuất theo loại Task ở [task-types.md](../../workflows/task-types.md) §1; ánh xạ chính thức của dự án cũng ghi ở đó. File này chỉ minh hoạ cách ánh xạ và cấu hình.
 > Tên model và tham số thay đổi theo phiên bản Claude Code. Kiểm tra lại tài liệu chính thức trước khi áp dụng (cập nhật: 2026-11).
 
 ## 1. Ánh xạ hạng → model, mức → effort
@@ -25,7 +25,7 @@ Lưu ý:
 
 ## 2. Phiên chính
 
-Chọn theo cột "Model · Effort" của dòng loại Task (context-loading §4). Ví dụ T2: phiên plan M3·E3, phiên thực thi M2·E2:
+Chọn theo cột "Model · Effort" của dòng loại Task (task-types §1). Ví dụ T2: phiên plan M3·E3, phiên thực thi M2·E2:
 
 ```text
 /model opus        # phiên plan (bước 1–4)
@@ -61,7 +61,7 @@ tools: Read, Grep, Glob, Bash
 ---
 
 Bạn giữ vai Reviewer trong .ai/agents/README.md.
-Nạp .ai/skills/code-review/SKILL.md (mức S2) và làm theo đúng quy trình trong đó.
+Nạp .ai/skills/code-review/SKILL.md và làm theo đúng quy trình trong đó.
 Chỉ báo phát hiện có mức độ và file:dòng; không sửa code.
 ```
 
@@ -77,7 +77,7 @@ tools: Read, Grep, Glob
 ---
 
 Bạn giữ vai Security trong .ai/agents/README.md.
-Nạp .ai/skills/security-review/SKILL.md (mức S2). Không đưa secret hoặc dữ liệu D3 vào ngữ cảnh.
+Nạp .ai/skills/security-review/SKILL.md. Không đưa secret hoặc dữ liệu D3 vào ngữ cảnh.
 ```
 
 `.claude/agents/explorer.md` (tra cứu, chỉ đọc):
@@ -94,7 +94,7 @@ tools: Read, Grep, Glob
 Chỉ đọc và báo cáo (A1). Trả về đường dẫn file:dòng và kết luận; không dán nguyên nội dung file.
 ```
 
-## 4. Bảng ánh xạ ở context-loading §4 (ví dụ đã điền)
+## 4. Bảng ánh xạ ở task-types §4 (ví dụ đã điền)
 
 | Hạng / mức khung | Model hoặc tham số thật |
 | --- | --- |

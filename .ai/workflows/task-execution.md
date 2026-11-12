@@ -1,72 +1,78 @@
 # Task Execution Workflow
 
-> Trạng thái: **Approved**. Quy trình **bắt buộc** áp dụng cho mọi Task giao cho AI.
-> Sửa file này thuộc vùng 🔴 (luật chơi của AI): cần Task riêng và người duyệt.
+> Trạng thái: **Approved**. Quy trình **bắt buộc** cho mọi Task giao cho AI. Sửa file này cần Task riêng và người duyệt.
 
-Task được giao theo mẫu Task của dự án. Việc chọn và phối hợp Skill ở các bước 1–8 xem skill-orchestration.md.
+**Nạp đúng lúc cần, không nạp trước.** Mỗi bước chỉ nạp phần ở cột "Nạp". Bộ Rule, chuỗi Skill, template và model của Task tra ở dòng loại Task trong [task-types.md](task-types.md).
 
-| Bước | Tên | Nội dung | Đầu ra |
+## Các bước
+
+| Bước | Việc | Nạp | Đầu ra |
 | --- | --- | --- | --- |
-| 1 | Read Context | Xác định loại Task. Mỗi bước 1–10 chỉ nạp Rule, Skill, template theo **lịch nạp** ở context-loading.md §2; không nạp trước | Context set (ghi vào plan) |
-| 2 | Analyze Task | Phân tích yêu cầu, xác định phụ thuộc, phát hiện điểm chưa rõ | Danh sách câu hỏi (nếu có) |
-| 3 | Create Implementation Plan | Danh sách file dự kiến thay đổi, thiết kế và kế hoạch test | Plan |
-| 4 | Human Approval | Con người duyệt kế hoạch nếu có thay đổi kiến trúc, bảo mật, dữ liệu hoặc phạm vi nhạy cảm | Plan được duyệt |
-| 5 | Implement | AI thực hiện code theo từng bước nhỏ | Diff |
-| 6 | Run Tests | Chạy lint, typecheck, unit, integration và E2E phù hợp | Bằng chứng (output thật) |
-| 7 | Self Review | AI kiểm tra lại code, diff, quyền truy cập, lỗi và yêu cầu | Diff đã rà |
-| 8 | Human Review | Developer/Reviewer kiểm tra và phê duyệt Pull Request | PR được duyệt |
-| 9 | Merge & Deploy | Người merge sau khi PR được duyệt; triển khai theo release-workflow.md. AI chỉ chuẩn bị, không tự merge hay deploy production | Bản phát hành |
-| 10 | Update Knowledge | Cập nhật tài liệu, Skill, Rule khi phát hiện quy tắc mới có giá trị lâu dài | Truy vết đóng |
+| 1 · Tiếp nhận | Đọc Task: mục tiêu, phạm vi, AC, mức rủi ro, mức tự chủ. Xác định loại Task; Task lai thì tách thành Task con. Thiếu mức rủi ro hoặc mức tự chủ: hỏi, không tự gán | Task; `project-rules`; `PROJECT.md` §3; `task-types.md` | Loại Task, bộ nạp |
+| 2 · Phân tích | Đọc yêu cầu, thiết kế và code liên quan; ghi điểm chưa rõ thành câu hỏi mở | FR/BR/AC, ADR, thiết kế mà Task chỉ tới; code trong phạm vi | Câu hỏi mở (nếu có) |
+| 3 · Lập plan | File dự kiến đổi, quyết định thiết kế, AC → test, chuỗi Skill (bỏ hoặc thêm Skill phải nêu lý do) | PLAN-TEMPLATE; Rule `testing` và các Rule `architecture`, `database`, `security` đã thoả điều kiện | Plan |
+| 4 · Duyệt plan | Người duyệt, theo điều kiện ở mục "Duyệt plan" | — | Plan Approved |
+| 5 · Thực hiện | Làm lần lượt từng Skill trong chuỗi: cổng vào → quy trình → kết quả cần kiểm. Ghi đầu ra vào plan rồi mới nạp Skill kế | Plan; `SKILL.md` của Skill đang làm và file `references/` nó chỉ tới; Rule `coding`; Rule `git-workflow` khi commit | Diff |
+| 6 · Kiểm thử | Chạy đủ cổng kiểm tra của dự án | Skill testing tương ứng; TEST-REPORT-TEMPLATE | Output thật |
+| 7 · Tự rà | Rà diff theo AC, phạm vi Task và các Rule đã nạp; soạn báo cáo bàn giao | DELIVERY-REPORT-TEMPLATE | Báo cáo bàn giao |
+| 8 · Review | Phiên khác review theo dòng T9; người duyệt PR | Không dùng lại lịch sử phiên viết code | PR được duyệt |
+| 9 · Merge và phát hành | Người merge; phát hành theo [release-workflow.md](release-workflow.md). AI chỉ chuẩn bị | — | Bản phát hành |
+| 10 · Cập nhật tri thức | Cập nhật tài liệu bị ảnh hưởng. Thấy cần sửa Rule, Skill, workflow thì đề xuất thành Task riêng | Skill `documentation` | Tài liệu khớp hiện trạng |
 
-Bước 4 và các điều kiện dừng: AI dừng và hỏi khi thiếu thông tin, mâu thuẫn tài liệu, hoặc việc vượt Scope của Task. Bước 10: sửa Rule/Skill/workflow thuộc vùng 🔴, nên đề xuất thay vì tự sửa.
+Task chỉ phân tích hoặc thiết kế (T1, T6, T7, T8, T15) không có bước 5–6: Skill được nạp ở bước 2, đầu ra là tài liệu Draft.
 
-## Prompt mẫu giao Task cho AI
+## Làn nhanh cho Task R1
 
-Thay `[TASK-ID]` bằng ID Task. Task phải có đủ nội dung theo mẫu Task; làm việc trên nhánh riêng.
+Áp dụng khi đủ cả ba: Task R1; không thoả điều kiện nạp Rule `architecture`, `database`, `security`; không chạm vùng 🟡/🔴.
+
+- Plan là vài dòng ngay trong phiên (file dự kiến đổi, test sẽ chạy); không tạo file plan, không chờ duyệt plan.
+- Làm trong một phiên, chỉ nạp Skill chính của Task.
+- Bước 6–8 giữ nguyên. Báo cáo bàn giao chỉ điền mục có nội dung.
+
+Phát sinh điều kiện ngoài làn nhanh thì dừng và quay về bước 3.
+
+## Duyệt plan
+
+Chờ người duyệt plan trước khi sang bước 5 khi có một trong các điều kiện: Task R3; mức tự chủ từ A2 trở xuống; đổi kiến trúc, API contract, quyền, schema hoặc dữ liệu; chạm vùng 🟡; chuỗi có hành động cần phê duyệt. Các trường hợp khác làm tiếp, người duyệt kết quả cuối.
+
+## Quy tắc chuyển bước
+
+1. **Plan là ngữ cảnh nén.** Plan phải đủ để thực thi: yêu cầu, quyết định thiết kế, file dự kiến đổi, AC → test, chuỗi Skill. Từ bước 5 làm theo plan, không đọc lại tài liệu plan đã tóm tắt.
+2. **Phiên mới cho bước 5** khi Task R2/R3 hoặc chuỗi từ 3 Skill trở lên: phiên thực thi chỉ nhận plan và Rule. Phiên review luôn là phiên khác.
+3. **Mỗi lúc một Skill.** Chưa đạt "kết quả cần kiểm" của Skill này thì không nạp Skill kế.
+4. **Qua cổng bằng bằng chứng** (output test, diff, tài liệu Approved), không bằng lời khẳng định.
+5. **Nạp bổ sung khi phát sinh điều kiện** (ví dụ sửa lỗi hoá ra chạm phân quyền): nạp Rule và Skill tương ứng, ghi vào plan. Nghi ngờ chạm bảo mật hay dữ liệu thì nạp. Nếu làm đổi mức rủi ro, phạm vi, hoặc cần Skill thiết kế: dừng và báo.
+
+## Khi có lỗi
+
+| Phát hiện | Quay lại |
+| --- | --- |
+| Test fail do code | Skill đang code hoặc `bug-fixing`, rồi chạy lại test |
+| Test fail do môi trường hoặc dữ liệu test | Sửa môi trường; không nới assertion |
+| Review nêu lỗi logic | Skill code tương ứng, rồi chạy lại test và review |
+| Finding bảo mật Critical/High | Skill code tương ứng, rồi chạy lại `security-review` phần bị ảnh hưởng |
+| Yêu cầu thiếu hoặc mâu thuẫn | **Dừng**; `requirement-review`, chờ người quyết |
+| Thiết kế không khả thi | `architecture-design` hoặc `database-design`; đổi kiến trúc cần duyệt |
+
+Tối đa **3 vòng** sửa rồi chạy lại cho một lỗi. Quá giới hạn: dừng, báo điều đã thử và đề xuất hướng tiếp.
+
+## Dừng và hỏi
+
+Dừng phần bị ảnh hưởng, vẫn làm tiếp phần độc lập và an toàn, khi:
+
+- tài liệu mâu thuẫn hoặc thiếu quyết định;
+- việc vượt phạm vi Task hoặc mức tự chủ; cần đổi quyền, bảo mật, dữ liệu production;
+- phát hiện secret hoặc lỗ hổng;
+- không xác định được loại Task, môi trường hay lệnh chạy;
+- không tìm ra nguyên nhân gốc của lỗi, hoặc đã hết 3 vòng.
+
+Khi dừng, nêu: đã làm gì, bị chặn ở đâu, cần ai quyết định gì.
+
+## Prompt giao Task
+
+Task phải đủ nội dung theo mẫu Task của dự án.
 
 ```text
-You are working as a Senior Software Engineer.
-
-Your task is to implement: [TASK-ID]
-
-MANDATORY INSTRUCTIONS:
-
-1. Identify the Task type (T1–T15). Follow the per-step loading schedule
-   in .ai/workflows/context-loading.md §2: at each step load ONLY what
-   that step lists (skills: catalog → gate → full, one full skill at a time).
-2. Record the loading schedule in the plan (§0); load more only when
-   new conditions appear, and note why.
-3. Read all related requirements and architecture documents.
-4. Inspect existing implementation before modifying files.
-5. Identify ambiguities and conflicts.
-6. Do not invent business requirements.
-7. Prepare an implementation plan before coding.
-8. Identify files expected to change.
-9. Implement only the approved scope.
-10. Write appropriate automated tests.
-11. Run all required quality checks.
-12. Review your own changes.
-13. Update relevant documentation.
-
-Do not:
-- Change unrelated modules.
-- Bypass authorization.
-- Disable tests to make the build pass.
-- Modify production data.
-- Introduce dependencies without justification.
-- Claim successful tests without execution evidence.
-
-If requirements are unclear or conflicting:
-STOP and report the issue.
-
-FINAL REPORT:
-
-- Task completed:
-- Files changed:
-- Technical implementation:
-- Tests executed:
-- Test results:
-- Known issues:
-- Documentation updated:
-- Risks and recommendations:
+Thực hiện Task [TASK-ID] theo .ai/workflows/task-execution.md.
+Bắt đầu từ bước 1 và dừng ở các điểm quy trình yêu cầu người duyệt.
 ```
