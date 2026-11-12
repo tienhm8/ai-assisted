@@ -6,8 +6,8 @@ Nguồn chuẩn, độc lập công cụ cho Rule, Skill, Agent, Workflow. Thư 
 | --- | --- |
 | [rules/](rules/) | Quy tắc AI phải tuân thủ |
 | [skills/](skills/) | Mỗi Skill một thư mục có `SKILL.md` |
-| [agents/](agents/) | Vai/agent (Planner, Executor, Tester, Reviewer…) |
-| [workflows/](workflows/) | Chọn Skill theo Task, cổng vào/ra, bàn giao |
+| [agents/](agents/) | Vai và quyền; chỉ cần khi tách nhiều agent |
+| [workflows/](workflows/) | Các bước của một Task; loại Task nạp Rule, Skill nào |
 | [templates/](templates/) | Mẫu Plan, Bug, PR, các Report |
 | [plans/](plans/) | Plan do AI soạn (commit) |
 | [worktrees/](worktrees/) | Git worktree của AI (không commit) |

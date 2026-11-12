@@ -35,13 +35,12 @@
 | Draft / Approved | Trạng thái tài liệu. `Draft`: bản nháp. `Approved`: đã được người có thẩm quyền duyệt, được dùng làm căn cứ. |  | Bảng thuộc tính đầu mỗi tài liệu |
 | OQ | Open Question: câu hỏi mở, mã `OQ-<NN>`. | Câu hỏi mở | 00-project-overview/open-questions.md |
 | Traceability | Truy vết: liên kết BRQ → FR → AC → test (khai báo một chiều ở bảng FR và AC, tra ngược bằng cách lọc) để biết mỗi yêu cầu được làm và kiểm thử ở đâu. | Truy vết yêu cầu | .ai/skills/documentation/SKILL.md |
-| DoD | Definition of Done: danh sách điều kiện để coi một việc là hoàn thành. | Definition of Done | .ai/skills/*/SKILL.md mục 7 |
+| DoD | Definition of Done: danh sách điều kiện để coi một việc là hoàn thành. | Definition of Done | .ai/skills/*/SKILL.md mục "Hoàn thành khi" |
 | Task | Đơn vị công việc giao cho người hoặc AI, có mục tiêu, phạm vi làm/không làm, tiêu chí nghiệm thu, mức rủi ro và mức tự chủ. Mã `<KEY>-<N>`. |  | 04-project-management/task-breakdown.md |
 | Rule | Điều bắt buộc AI và người phải tuân thủ. | Quy tắc | .ai/rules/ |
 | Skill | Hướng dẫn cách làm một loại việc cụ thể (không thay Rule, không nâng mức tự chủ). | Kỹ năng | .ai/skills/ |
-| Agent | Vai thực hiện của AI, định nghĩa theo chức năng. Có 5 vai chuẩn (Planner, Executor, Tester, Reviewer, Security). AI chỉ là R trong RACI, không bao giờ là A. | Vai AI | .ai/agents/README.md |
-| Vai chi tiết | Vai cụ thể thuộc đúng một vai chuẩn (VD: Product Owner và Architect thuộc Planner; QA thuộc Tester), gồm Rule, Skill và quyền; không phải một AI riêng. | Vai chi tiết | .ai/agents/README.md |
-| Workflow | Chuỗi Skill được sắp xếp theo loại việc (T1…T15). | Quy trình | .ai/workflows/ |
+| Agent | Vai thực hiện của AI, định nghĩa theo chức năng và quyền: Planner, Executor, Tester, Reviewer, Security. Không bắt buộc là một AI riêng. AI chỉ là R trong RACI, không bao giờ là A. | Vai AI | .ai/agents/README.md |
+| Workflow | Quy trình điều phối: các bước của một Task và chuỗi Skill theo loại việc (T1…T15). | Quy trình | .ai/workflows/ |
 | RACI | Ma trận vai trò: R (thực hiện), A (chịu trách nhiệm cuối, một người duy nhất; khác A0–A4), C (được tư vấn), I (được thông báo). |  | .ai/agents/README.md |
 | R1 / R2 / R3 | Mức rủi ro review của một Task, tăng dần từ R1 đến R3; mức càng cao review càng chặt (R3 cần hai người, một người độc lập). | Mức rủi ro | .ai/rules/project-rules.md (Thang dùng chung) |
 | A0–A4 | Mức tự chủ của AI do Task cấp, từ A0 đến A4. Skill không được tự nâng mức; thiếu thì dừng và hỏi. | Mức tự chủ | .ai/rules/project-rules.md (Thang dùng chung); trần riêng của dự án: PROJECT.md §3.1 |
