@@ -188,7 +188,7 @@ Production
 Quy tắc:
 
 - Một Task tương ứng một branch hoặc một đơn vị thay đổi độc lập.
-- Không cho AI tự merge vào main.
+- Không cho AI tự merge vào `master`, `develop` hay `release/*`.
 - Không cấp quyền deploy production mặc định.
 - Không cho AI truy cập production database nếu không có cơ chế được phê duyệt.
 - Mọi thay đổi phải có Git diff và lịch sử commit.
