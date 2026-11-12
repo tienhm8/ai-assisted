@@ -19,3 +19,20 @@ Trạng thái: `Open` chưa có câu trả lời · `Assumption` giả định t
 | ID | Câu hỏi | Tài liệu / mã liên quan | Ảnh hưởng | Người quyết | Hạn | Trạng thái | Quyết định (khi Closed) |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | OQ-01 | | | | | | Open | |
+
+## Chi tiết câu hỏi
+Bắt buộc cho mọi OQ `Open` hoặc `Assumption` mà người quyết là người; đặt ngay dưới bảng. OQ chỉ xác nhận một thông tin thì chỉ cần **Bối cảnh** và **Nếu chưa quyết**. Khi `Closed`, ghi lựa chọn vào cột Quyết định và giữ phần chi tiết làm căn cứ.
+
+**Trước khi hỏi người, AI phải tra bảng này:** OQ đã `Closed` thì áp dụng quyết định, không hỏi lại. Báo cáo, plan và backlog chỉ trỏ `OQ-<NN>`, không chép lại nội dung chi tiết.
+
+```text
+### OQ-<NN>
+- Bối cảnh: <số đo, nguồn đo, ngày đo>
+- Phương án:
+  | | Nội dung | Được | Mất |
+  | --- | --- | --- | --- |
+  | A | | | |
+  | B | | | |
+- Đề xuất của AI: <A hoặc B> vì <lý do, tối đa 2 câu>
+- Nếu chưa quyết: <việc bị chặn, hoặc "không chặn">
+```

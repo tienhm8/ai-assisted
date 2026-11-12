@@ -32,7 +32,7 @@ Chưa đủ thì không lập plan code.
 5. **Soạn plan** trong .ai/plans/ theo PLAN-TEMPLATE, trạng thái Draft: file dự kiến đổi, chuỗi skill dự kiến và lý do, kế hoạch kiểm chứng (mỗi AC ứng với test nào).
 6. **Kiểm Definition of Ready** (theo task-breakdown.md) cho từng Task; Task thiếu điều kiện thì không giao, ghi OQ.
 7. **Đề xuất** Task vào task-breakdown.md và backlog.md ở dạng Proposed.
-8. **Trình Tech Lead** duyệt plan. Chưa duyệt thì không giao việc cho AI.
+8. **Trình Tech Lead** duyệt plan, chỉ khi mọi điểm cần người quyết đã là OQ đủ phần theo mục "Chi tiết câu hỏi" của open-questions (và đã tra OQ `Closed`). Chưa duyệt thì không giao việc cho AI.
 9. **Sau khi Task xong**: điền mục Kết quả của plan (đã làm gì, lệch kế hoạch, bằng chứng test).
 
 ## 5. Checklist
@@ -43,6 +43,7 @@ Chưa đủ thì không lập plan code.
 - [ ] Rủi ro và mức tự chủ ghi là đề xuất, không vượt trần.
 - [ ] Plan có kế hoạch kiểm chứng cho mọi AC.
 - [ ] Definition of Ready đã kiểm.
+- [ ] Mỗi điểm cần người quyết là một OQ đủ Bối cảnh, Phương án, Đề xuất, Nếu chưa quyết.
 
 ## 6. Việc không được làm
 
@@ -63,4 +64,4 @@ Chưa đủ thì không lập plan code.
 - Plan và Task đã đề xuất (theo ID, file)
 - Rủi ro, mức tự chủ đề xuất cần Tech Lead gán
 - OQ và Task chưa sẵn sàng
-- Điểm cần người quyết
+- Điểm cần người quyết (liệt kê mã `OQ-<NN>`)

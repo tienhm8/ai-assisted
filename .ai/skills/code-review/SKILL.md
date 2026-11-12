@@ -189,6 +189,7 @@ AI chỉ khuyến nghị kết luận; người có thẩm quyền theo mức R 
 - [ ] Mỗi AC có test truy vết và output thật.
 - [ ] Đã kích hoạt `security-review` khi chạm điều kiện bảo mật.
 - [ ] Mỗi finding có `file:dòng`, kịch bản lỗi, severity, yêu cầu sửa; điều chưa chứng minh được ghi là câu hỏi.
+- [ ] Báo cáo bàn giao: mỗi `OQ-<NN>` ở mục 4 có đủ Bối cảnh, Phương án, Đề xuất, Nếu chưa quyết ở open-questions; thiếu phần nào thì ghi finding Low.
 - [ ] Có kết luận khuyến nghị và lý do.
 
 ## 6. Việc không được làm
