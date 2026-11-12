@@ -13,9 +13,9 @@
 - Vai:
 - Lịch nạp cho bước thực thi (mỗi bước con một Skill mức đầy đủ):
 
-| Bước con | Skill (đầy đủ) | Rule thêm | Template |
-| --- | --- | --- | --- |
-| 5.1 | | | |
+| Bước con | Skill (đầy đủ) | Rule thêm | Template | Model · Effort (theo context-loading §4) |
+| --- | --- | --- | --- | --- |
+| 5.1 | | | | |
 
 - Nạp bổ sung trong khi làm (nếu có, kèm lý do):
 
