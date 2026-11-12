@@ -34,6 +34,7 @@ Mỗi AC ứng với test nào, chạy bằng lệnh nào.
 ## 5. Chuỗi Skill và lý do chọn
 
 ## 6. Rủi ro và điểm cần người quyết
+Điểm cần người quyết chỉ ghi mã `OQ-<NN>`; chi tiết (bối cảnh, phương án, đề xuất) ở [open-questions](../../docs/00-project-overview/open-questions.md).
 
 ## 7. Kết quả (điền sau khi xong)
 Đã làm gì, lệch kế hoạch ở đâu, bằng chứng test.
