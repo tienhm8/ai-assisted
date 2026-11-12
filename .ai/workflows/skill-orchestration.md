@@ -1,6 +1,6 @@
 # Skill Orchestration Workflow
 
-> Trạng thái: **Draft**. Sửa file này thuộc vùng 🔴: cần Task riêng và người duyệt.
+> Trạng thái: **Approved**. Sửa file này thuộc vùng 🔴: cần Task riêng và người duyệt.
 
 Quy trình: **nhận diện loại Task → chọn Skill → xếp thứ tự → qua cổng → bàn giao**. Chi tiết từng việc nằm trong Skill; workflow này chỉ điều phối. Khi khác `task-execution.md` hoặc Rule thì hai bên đó thắng.
 

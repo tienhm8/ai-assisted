@@ -1,6 +1,6 @@
 # Testing Rules
 
-> Trạng thái: **Draft**. Rule bắt buộc.
+> Trạng thái: **Approved**. Rule bắt buộc.
 
 1. Mỗi AC của Task có ít nhất một test; tên hoặc chú thích test ghi ID AC để truy vết.
 2. Sửa lỗi phải kèm test hồi quy: chạy thấy đỏ trước khi sửa, xanh sau khi sửa.

@@ -1,6 +1,6 @@
 # Project Rules
 
-> Trạng thái: **Draft**. Rule bắt buộc cho AI trong mọi phiên làm việc, không phụ thuộc dự án.
+> Trạng thái: **Approved**. Rule bắt buộc cho AI trong mọi phiên làm việc, không phụ thuộc dự án.
 > Gặp mâu thuẫn hoặc rule không đủ để quyết định: dừng phần bị ảnh hưởng và hỏi người có thẩm quyền, không tự chọn.
 
 1. Trước khi làm: đọc Task và các tài liệu Task chỉ tới; không nạp cả dự án.
@@ -12,7 +12,7 @@
 7. Mọi thay đổi truy vết được tới một Task đã duyệt; chỉ sửa trong phạm vi Task, theo cấu trúc thư mục hiện có.
 8. Tuân thủ mức tự chủ của Task và bản đồ vùng 🟢🟡🔴 của dự án; không tự nâng mức. Vùng 🔴 cần Task riêng và người duyệt.
 9. Đổi hành vi hoặc kiến trúc thì cập nhật tài liệu liên quan trong cùng thay đổi.
-10. Báo cáo bàn giao nêu rõ giả định, câu hỏi chưa giải quyết và kết quả kiểm tra thật.
+10. Báo cáo bàn giao nêu rõ giả định, câu hỏi chưa giải quyết và kết quả kiểm tra thật. Khi báo cho người (báo cáo, tóm tắt cuối phiên, tin nhắn hỏi), mỗi câu cần người quyết phải nêu đủ để quyết ngay: bối cảnh có số đo, phương án và hệ quả, đề xuất, việc bị chặn nếu chưa quyết. Chi tiết ghi ở mục "Chi tiết câu hỏi" của `open-questions.md`; nơi báo chỉ nêu mã `OQ-<NN>` kèm tóm tắt các phần đó, không liệt kê mỗi tên việc. Việc cần người bổ sung dữ liệu (không phải quyết định) ghi riêng.
 11. Bàn giao Task phải tổng hợp **toàn bộ** thay đổi của Task, gộp từ mọi worktree, nhánh và phiên đã làm, không chỉ phiên hiện tại. Mỗi thay đổi nêu: file và dòng, loại (thêm/sửa/xoá), nghiệp vụ mà đoạn đó phục vụ, và đề xuất tốt hơn nếu có. Gom theo nghiệp vụ, không liệt kê theo thứ tự file.
 
 ## Thang dùng chung

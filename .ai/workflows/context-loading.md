@@ -1,6 +1,6 @@
 # Context Loading: nạp gì, ở bước nào
 
-> Trạng thái: **Draft**. Sửa file này thuộc vùng 🔴: cần Task riêng và người duyệt.
+> Trạng thái: **Approved**. Sửa file này thuộc vùng 🔴: cần Task riêng và người duyệt.
 
 Nguồn chuẩn duy nhất cho câu hỏi: **một Task nạp Rule, Skill, Vai, Workflow, Template nào, và nạp ở bước nào**. Các workflow khác chỉ trỏ tới đây.
 

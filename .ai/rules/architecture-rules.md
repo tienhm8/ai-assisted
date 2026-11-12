@@ -1,6 +1,6 @@
 # Architecture Rules
 
-> Trạng thái: **Draft**. Rule bắt buộc, trung lập về kiến trúc.
+> Trạng thái: **Approved**. Rule bắt buộc, trung lập về kiến trúc.
 
 1. Chỉ triển khai theo thiết kế Approved. Mục liên quan còn Draft hoặc trống: dừng và hỏi, không tự giả định tầng, phong cách hay công nghệ.
 2. Tôn trọng các tầng và ranh giới module đã khai báo: không bỏ qua tầng, không truy cập trực tiếp dữ liệu hay nội bộ của module khác, không tạo phụ thuộc vòng.
