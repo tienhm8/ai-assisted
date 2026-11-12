@@ -12,6 +12,7 @@
 05-operations/
 ├── README.md
 ├── deployment.md
+├── gitflow.md
 ├── monitoring.md
 └── backup-recovery.md
 ```
@@ -22,6 +23,7 @@
 | --- | --- |
 | `README.md` | Hướng dẫn sử dụng, phạm vi và mối quan hệ giữa các tài liệu |
 | [deployment.md](deployment.md) | Triển khai hệ thống: môi trường, CI/CD, quy trình phát hành, rollback |
+| [gitflow.md](gitflow.md) | Quy trình nhánh Gitflow (nvie): nhánh, nhịp phát hành, luồng ví dụ release/hotfix |
 | [monitoring.md](monitoring.md) | Giám sát, log, cảnh báo và ngưỡng sự cố |
 | [backup-recovery.md](backup-recovery.md) | Sao lưu, khôi phục, RPO/RTO, diễn tập |
 

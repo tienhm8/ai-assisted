@@ -39,7 +39,7 @@ Sơ đồ/mô tả topology triển khai: thành phần, mạng, cổng, luồng
 - Cổng bắt buộc và bảo vệ nhánh:
 
 ### 6.2 Quy trình phát hành
-Luồng chuẩn: merge vào main → Staging → UAT / Regression → Production. Quy tắc cho AI xem §12 và [coding-standards](../03-engineering/coding-standards.md) §10.1.
+Luồng chuẩn theo Gitflow ([gitflow.md](gitflow.md)): `feature/*` → `develop` (Dev) → cắt `release/X.Y.0` (Staging) → UAT / Regression → merge `master` + tag `vX.Y.0` (Production) → merge ngược `develop`. Lỗi nghiêm trọng: `hotfix/X.Y.Z` từ `master`. Quy tắc cho AI xem §12 và [coding-standards](../03-engineering/coding-standards.md) §10.1.
 
 - Artifact và đánh phiên bản (tag/version):
 - Quy tắc đặt tên bản phát hành, changelog:
