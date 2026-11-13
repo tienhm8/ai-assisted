@@ -14,10 +14,10 @@ Thay `T2` bằng loại Task. Task chưa ghi loại thì lấy danh sách loại
 awk -F' \\| ' '/^\| T[0-9]+ \|/{print $1" | "$2}' .ai/workflows/task-types.md
 ```
 
-Đọc một mục trong `docs/` thay vì cả file (`s` là tiêu đề mục kèm số, ví dụ `## 5.` hoặc `### 5.2`):
+Đọc một mục trong `docs/` thay vì cả file (`s` là cấp tiêu đề và số mục, ví dụ `## 5` hoặc `### 5.2`); mục không có thì lệnh trả mã lỗi 1:
 
 ```sh
-awk -v s='## 5.' 'index($0,s)==1{p=1;n=index(s," ");print;next} p&&match($0,/^#+ /)&&RLENGTH<=n{exit} p' docs/03-engineering/error-handling.md
+awk -v s='## 5' 'BEGIN{n=index(s," ")} /^```/{f=!f} !f&&!p&&(index($0,s" ")==1||index($0,s". ")==1){p=1;print;next} p&&!f&&match($0,/^#+ /)&&RLENGTH<=n{exit} p; END{exit !p}' docs/03-engineering/error-handling.md
 ```
 
 ## Các bước
