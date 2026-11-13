@@ -105,7 +105,7 @@ Chỉ nạp file của bước đang làm, và chỉ đọc mục được nêu.
 4. ERD và danh sách bảng (module sở hữu, mức dữ liệu).
 5. Quyết định thiết kế đáng chú ý kèm lý do và phương án đã loại.
 6. Ràng buộc ↔ BR; index ↔ AP.
-7. Cache (nếu có): key, mẫu truy cập, TTL, sự kiện xoá.
+7. Cache (nếu có): theo Báo cáo của Skill `caching`.
 8. Bảo mật: cột D2/D3, mã hoá, tài khoản và quyền.
 9. Migration: file, thứ tự phát hành, mức khoá và thời gian chạy, cách quay lui.
 10. Bằng chứng kiểm chứng.

@@ -85,15 +85,24 @@ Chỉ ghi khi đã áp dụng; mỗi quyết định có ADR.
 |  | | | | | |
 
 ### 3.7 Cache
+Ngưỡng của dự án để xét điều kiện "thay đổi liên tục" và "ít được đọc" của Rule `cache`:
+
+| Ngưỡng | Giá trị |
+| --- | --- |
+| Tỉ lệ đọc/ghi tối thiểu để được cache |  |
+| Số lượt đọc tối thiểu trong một khoảng TTL |  |
+
+<!-- Điền theo từng dự án -->
+
 Chỉ ghi khi đã áp dụng; mỗi cache truy ra một AP ở §3.4 đã qua tối ưu truy vấn/index (§3.5) và ghi điều kiện được cache đã thoả thế nào. Quyết định kiến trúc (công nghệ cache, HA) ở [system-architecture](system-architecture.md) §7.
 
-| Key mẫu | Module sở hữu | AP | Khoảng trễ chấp nhận | Mức dữ liệu | L1/L2 | Mô hình đọc/ghi | TTL từng tầng (jitter) | Sự kiện xoá key (mọi đường ghi) | Chống dồn tải (ghi "hot" nếu lock giữa instance) | Warm-up (T1/T2/không) |
+| Key mẫu | Module sở hữu | AP | Khoảng trễ chấp nhận | Mức dữ liệu | L1/L2 | Mô hình đọc/ghi | TTL từng tầng (jitter) | Sự kiện xoá key (mọi đường ghi) | Chống dồn tải (ghi "hot" nếu lock giữa instance) | Warm-up (W1/W2/không) |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 |  | | | | | | | | | | |
 
 Value chứa D3: ghi cách bảo vệ ở tầng cache và người duyệt Security. Công nghệ cache, quy ước key, trần kích thước value ghi ở đây nếu chưa có ở system-architecture §7.
 
-Warm-up: trigger, timeout của T1, giới hạn N của T2, ngân sách tải CSDL (lô, đồng thời) và nơi snapshot hot list. Thứ tự chạy khi phát hành ghi ở [deployment](../05-operations/deployment.md) §9.
+Warm-up: trigger, timeout của W1, giới hạn N của W2, ngân sách tải CSDL (lô, đồng thời) và nơi snapshot hot list. Thứ tự chạy khi phát hành ghi ở [deployment](../05-operations/deployment.md) §9.
 
 ## 4. Vòng đời dữ liệu
 | Giai đoạn | Quy tắc |

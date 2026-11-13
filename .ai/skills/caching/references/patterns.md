@@ -53,7 +53,7 @@ Transaction commit → xoá key L2 → phát sự kiện invalidation → mọi 
 
 - **Sau commit:** gắn vào hook after-commit của transaction, hoặc outbox. Xoá trước commit thì một request đọc chen vào sẽ nạp lại bản cũ; transaction rollback thì đã xoá oan.
 - **Xoá, không cập nhật.** Hai request ghi đồng thời mà cùng cập nhật cache thì thứ tự observer không theo thứ tự commit, cache có thể giữ giá trị cũ tới hết TTL. Xoá thì request đọc sau nạp lại giá trị đúng.
-- **Cập nhật chỉ khi có version:** giá trị cache mang version (hoặc `updated_at` đủ chính xác); ghi bằng script so-rồi-ghi, chỉ ghi khi version mới hơn. Dùng cho key T1 (cấu hình, danh mục) khi không muốn cache trống sau ghi.
+- **Cập nhật chỉ khi có version:** giá trị cache mang version (hoặc `updated_at` đủ chính xác); ghi bằng script so-rồi-ghi, chỉ ghi khi version mới hơn. Dùng cho key W1 (cấu hình, danh mục) khi không muốn cache trống sau ghi.
 - **Đọc ngay sau ghi phải đúng:** thêm xoá kép trễ (xoá → ghi CSDL → đợi một nhịp → xoá lại) hoặc version. Không có thì TTL là lưới an toàn cuối.
 - **Xoá thất bại không được bỏ qua** như đọc thất bại: key cũ sẽ sống tới hết TTL. Retry có giới hạn; hết lượt thì đẩy vào hàng đợi xử lý lại và ghi log cảnh báo.
 - **Sự kiện invalidation L1** có retry hoặc cơ chế phục hồi. Instance mất kết nối tới kênh sự kiện thì xoá sạch L1 khi kết nối lại. TTL ngắn của L1 là lưới an toàn khi sự kiện vẫn lọt.
@@ -77,7 +77,7 @@ Transaction commit → xoá key L2 → phát sự kiện invalidation → mọi 
 | Hiện tượng | Biện pháp mặc định | Thêm khi cần |
 | --- | --- | --- |
 | Nhiều key hết hạn cùng lúc (sau deploy, warm-up, xoá nhóm) | Jitter TTL; xoá nhóm bằng version prefix | Warm-up giãn nhịp (`warmup.md`) |
-| Một key bị miss, N request cùng đi CSDL | Single-flight (§3) | Key cực hot: **stale-while-revalidate**. Lưu soft TTL < hard TTL; quá soft TTL thì vẫn trả bản cũ và chỉ một request nạp lại nền. Key hot biết trước: đưa vào T1 của warm-up |
+| Một key bị miss, N request cùng đi CSDL | Single-flight (§3) | Key cực hot: **stale-while-revalidate**. Lưu soft TTL < hard TTL; quá soft TTL thì vẫn trả bản cũ và chỉ một request nạp lại nền. Key hot biết trước: đưa vào W1 của warm-up |
 | Hỏi mã không tồn tại, luôn xuống CSDL | Validate input ở biên; negative caching | Bloom filter, chỉ khi có số liệu về lưu lượng mã rác lớn |
 | Cả tầng cache sập | Fail-open (§7); giới hạn số truy vấn đồng thời xuống CSDL | HA cho cache, circuit breaker, rate limit ở biên, theo NFR sẵn sàng |
 
@@ -95,7 +95,7 @@ Lock chống dồn tải **không phải khoá nghiệp vụ**. Chống bán tr�
 Điều kiện bắt buộc ở Rule `cache`. Cách đáp ứng:
 
 - **Chỉ cache trường cần dùng:** tạo kiểu dữ liệu riêng cho value cache theo màn hình hoặc API dùng nó, không serialize nguyên entity. Màn hình cần tên thì value chỉ có mã và tên.
-- **Key:** `<module>:<thực thể>:<mã nội bộ>`, cộng mã tenant khi đa tenant. Tra theo email hay số điện thoại thì tra CSDL ra mã nội bộ trước, không tạo key theo email.
+- **Key:** `<service>:<module>:<thực thể>:<mã nội bộ>`, cộng mã tenant khi đa tenant. Tra theo email hay số điện thoại thì tra CSDL ra mã nội bộ trước, không tạo key theo email.
 - **TLS và tài khoản:** mỗi service một tài khoản trên cache, chỉ có quyền trên tiền tố key của nó (ACL theo tiền tố nếu công nghệ hỗ trợ). Không dùng mật khẩu chung.
 - **Lưu đĩa:** cache bật snapshot hoặc append log thì đĩa mã hoá, hoặc đặt nhóm key D3 ở instance cache tắt lưu đĩa. Bản sao replica và file sao lưu của cache cũng thuộc phạm vi này.
 - **TTL ngắn:** theo khoảng trễ chấp nhận được, và không dài hơn thời hạn mà yêu cầu xoá phải có hiệu lực.
@@ -131,4 +131,4 @@ Mỗi cache là một dòng trong bảng cache của database-design. Mỗi dòn
 - Mô hình đọc/ghi: xoá hay cập nhật có version.
 - Sự kiện xoá key: mọi đường ghi chạm dữ liệu đó.
 - Biện pháp chống dồn tải; key hot (lock giữa instance) hay không.
-- Tầng warm-up (T1, T2 hoặc không), kèm trigger và ngân sách tải CSDL.
+- Tầng warm-up (W1, W2 hoặc không), kèm trigger và ngân sách tải CSDL.
