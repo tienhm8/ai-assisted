@@ -62,7 +62,7 @@ Từ đó lập **giả thuyết về điều code phải làm**, rồi mới đ
 | 2 | Có test chứng minh không? (mỗi AC có test và output thật; AC thiếu bằng chứng là High) | `references/correctness.md` |
 | 3 | Code có đặt đúng chỗ không? (tầng và trách nhiệm theo tài liệu kiến trúc của dự án) | `references/correctness.md` |
 | 4 | Chịu tải và đồng thời thì sao? (race, idempotency, retry, event sau commit) | `references/runtime.md` |
-| 5 | Hiệu năng, dữ liệu, cache (N+1, khối lượng, index, migration bảng lớn) | `references/runtime.md` |
+| 5 | Hiệu năng, dữ liệu, cache (N+1, khối lượng, index thiếu/thừa/trùng sau thay đổi, migration bảng lớn) | `references/runtime.md` |
 | 6 | Bảo mật theo OWASP Top 10 (quyền từng bản ghi, injection, XSS, lộ D3, upload, SSRF) | `references/security.md` |
 | 7 | Vận hành được không? (log, alert, cấu hình, rollback) | `references/runtime.md` |
 | 8 | Clean code và style: ưu tiên thấp nhất, không chặn PR; không comment điều formatter/linter đã bắt | — |

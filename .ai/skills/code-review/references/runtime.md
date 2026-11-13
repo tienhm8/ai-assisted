@@ -15,7 +15,8 @@
 - Truy vấn hoặc lời gọi mạng nằm trong vòng lặp (N+1), kể cả gọi gián tiếp qua thuộc tính lazy-load.
 - Truy vấn chạy trên bao nhiêu bản ghi, hôm nay và khi dữ liệu tăng; có giới hạn, phân trang, xử lý theo lô hoặc stream không, hay nạp toàn bộ vào bộ nhớ?
 - Chỉ lấy cột và dữ liệu cần dùng.
-- Điều kiện lọc, join và sắp xếp có index phù hợp không (kể cả thứ tự cột trong index ghép); điều kiện có làm index không dùng được không.
+- Index theo truy vấn mới hoặc đã đổi: điều kiện lọc, join và sắp xếp có index phù hợp không (kể cả thứ tự cột trong index ghép); điều kiện có làm index không dùng được không (`database-rules`).
+- Index sau thay đổi còn hợp lý không: index cũ còn phục vụ mẫu truy cập nào không; index mới có trùng hoặc bị index sẵn có bao phủ (cùng tiền tố cột) không; cột đổi hoặc xoá kéo theo index nào. Thêm hoặc bỏ index phải có bằng chứng theo `database-rules` và bảng index ↔ mẫu truy cập trong tài liệu thiết kế CSDL được cập nhật cùng PR; thiếu thì yêu cầu người viết điều chỉnh, reviewer không tự sửa.
 - Migration trên bảng lớn có khoá bảng lâu, có cần chạy theo lô hoặc tách bước không.
 - Có nên cache không; nếu cache: khi nào làm mất hiệu lực, thời gian sống, khoá cache có tách theo người dùng/tenant/quyền không (thiếu là lộ dữ liệu chéo), nhiều request cùng miss cache thì sao.
 - Đối chiếu NFR hiệu năng khi thay đổi nằm trên luồng nóng.
