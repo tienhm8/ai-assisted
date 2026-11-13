@@ -2,13 +2,9 @@
 
 > Trạng thái: **Approved**. Sửa file này cần Task riêng và người duyệt.
 
-Nguồn duy nhất cho câu hỏi: một loại Task nạp Rule nào, đi qua Skill nào, dùng template nào, chạy bằng hạng model và effort nào. Điều kiện nạp Rule và Skill có điều kiện ở [load-conditions.md](load-conditions.md). Nạp ở bước nào xem [task-execution.md](task-execution.md).
-
 ## 1. Bảng định tuyến
 
-`project-rules` luôn nạp cho mọi Task nên không ghi trong bảng. Tên Rule viết gọn: `git` là `git-workflow-rules`, các tên khác là `<tên>-rules`. `cache` và `document-database` nạp theo điều kiện ở load-conditions §1 với mọi loại Task.
-
-AI chỉ đọc dòng của loại Task đang làm, lọc bằng lệnh ở [task-execution.md](task-execution.md); không nạp cả bảng.
+AI chỉ đọc dòng của loại Task đang làm (lệnh lọc ở [task-execution.md](task-execution.md)). `project-rules` luôn nạp nên không ghi. Tên Rule viết gọn: `git` là `git-workflow-rules`, còn lại là `<tên>-rules`. `cache`, `document-database` nạp theo điều kiện với mọi loại Task.
 
 Ký hiệu chuỗi Skill: `→` tuần tự · `∥` song song được · `[ ]` có điều kiện (load-conditions §2) · `⏸` chờ người duyệt.
 
@@ -30,14 +26,9 @@ Ký hiệu chuỗi Skill: `→` tuần tự · `∥` song song được · `[ ]`
 | T14 | Sự cố production | security | database, architecture | incident-analysis → Task T3 riêng để sửa → continuous-improvement | BUG | M3·E3 / theo T3 |
 | T15 | Rà soát định kỳ | — | — | continuous-improvement → Task riêng cho từng đề xuất sửa Rule, Skill | — | M2·E2 / — |
 
-Chuỗi Skill là mặc định; plan được bỏ hoặc thêm Skill nhưng phải nêu lý do. Ghi chú:
+Chuỗi Skill là mặc định; plan được bỏ hoặc thêm Skill, phải nêu lý do.
 
-- **Task lai** tách thành Task con theo loại; không gộp sửa lỗi với refactor lớn.
-- **Thứ tự:** phân tích và thiết kế trước code; test cùng hoặc ngay sau code; `code-review` và `security-review` sau khi có diff và kết quả test; `documentation` khi hành vi đã ổn định.
+- **Thứ tự:** phân tích và thiết kế trước code; test cùng hoặc ngay sau code; `code-review`, `security-review` sau khi có diff và kết quả test; `documentation` khi hành vi đã ổn định.
 - **T1 → T2 không tự chuyển:** cần PO/BA duyệt (mọi FR có AC) và Kiến trúc sư duyệt (thiết kế Approved).
-- **T2:** `backend-development` làm service và logic nghiệp vụ; `api-development` làm contract, validation, handler. API chỉ chuyển tiếp tới service sẵn có thì dùng riêng `api-development`. `api-development` ∥ `frontend-development` chỉ khi API contract đã Approved.
-- **`code-review`** chạy ở phiên khác phiên viết code và không bị bỏ khi Task có diff.
-
-## 2. Model và effort
-
-Tra cột cuối của dòng loại Task ở §1; hạng, mức và ánh xạ sang công cụ thật ở [model-effort.md](model-effort.md).
+- **T2:** `backend-development` làm service, logic nghiệp vụ; `api-development` làm contract, validation, handler. API chỉ chuyển tiếp tới service sẵn có thì chỉ dùng `api-development`. `api-development` ∥ `frontend-development` chỉ khi API contract đã Approved.
+- **`code-review`** không bị bỏ khi Task có diff.
