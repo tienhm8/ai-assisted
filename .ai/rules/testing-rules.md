@@ -10,3 +10,4 @@
 6. Trước khi báo hoàn thành, chạy đủ các cổng kiểm tra của dự án (build, lint, kiểm tra kiểu, test, quét secret). Chưa có CI thì chạy cục bộ và ghi miễn trừ có thời hạn, không bỏ qua âm thầm.
 7. Không khẳng định test đạt khi chưa chạy. Báo cáo kèm lệnh đã chạy và kết quả thật; phân biệt rõ pass, fail, skipped, not-run.
 8. Dữ liệu test là dữ liệu giả hoặc đã ẩn danh; không chạm production.
+9. Test E2E viết bằng Playwright.

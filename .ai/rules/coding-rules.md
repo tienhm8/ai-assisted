@@ -28,3 +28,4 @@ Khi hai nguyên tắc kéo ngược nhau, KISS và YAGNI thắng: không thêm a
 12. Log kèm correlation ID.
 13. Giải phóng tài nguyên (kết nối, file, lock) kể cả khi lỗi.
 14. Kiểm tra dữ liệu đầu vào tại biên hệ thống.
+15. File mã nguồn tối đa 500 dòng, không tính file sinh tự động; vượt thì tách theo trách nhiệm. Áp cho file mới và file bị sửa trong Task; file cũ đang vượt chỉ tách khi Task chạm tới.

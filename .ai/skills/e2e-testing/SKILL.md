@@ -20,7 +20,7 @@ Plan thiếu thì tra đúng mục, không đọc cả file: testing-strategy §
 1. **Xác định hành trình** từ AC loại E2E.
 2. **Persona:** một tài khoản test cho mỗi vai trò trong ma trận phân quyền, cộng khách chưa đăng nhập.
 3. **Mô tả kịch bản** cho mỗi hành trình: tiền điều kiện, thao tác, hành vi UI mong đợi, thay đổi dữ liệu, hành vi khi lỗi.
-4. **Viết test** bằng công cụ của dự án; selector ổn định (role, label, test id), không gắn với bố cục. Test mang ID AC.
+4. **Viết test**; selector ổn định (role, label, test id), không gắn với bố cục. Test mang ID AC.
 5. **Ca âm:** đầu vào sai, truy cập trái phép, hành động bị cấm, phiên hết hạn, chuyển trạng thái sai, lỗi mạng, gửi trùng.
 6. **Dữ liệu:** xác định, không dùng chung bản ghi sửa được, cô lập khi chạy song song, dọn sau khi chạy.
 7. **Chạy:** test nhắm mục tiêu, bộ hành trình quan trọng, hồi quy. Khi lỗi thu ảnh chụp, trace, log.

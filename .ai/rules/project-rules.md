@@ -38,7 +38,7 @@ Trần: A3. Viết/sửa code ở Task R3: A2. A4 chỉ cho viết test ở Task
 **Mức rủi ro (R)** do Task gán; AI không tự hạ.
 - R1: thay đổi cục bộ, dễ hoàn tác, không chạm dữ liệu hay quyền.
 - R2: ảnh hưởng nhiều module hoặc hợp đồng API nội bộ.
-- R3: chạm phân quyền, tiền, dữ liệu cá nhân, migration hoặc bảo mật; cần hai người duyệt.
+- R3: chạm phân quyền, tiền, dữ liệu cá nhân, migration hoặc bảo mật; cần hai người duyệt, một người độc lập với người hoặc AI viết code.
 
 **Mức nghiêm trọng (severity)** của lỗi hoặc phát hiện review:
 - Critical: mất dữ liệu, lộ bảo mật, hệ thống ngừng hoạt động; chặn phát hành.

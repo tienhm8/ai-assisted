@@ -26,4 +26,4 @@ Vai trò thực lấy từ tài liệu kiến trúc (phần phân quyền) của
 
 ## Công cụ
 
-Ví dụ giả định dùng Playwright. Đây là lựa chọn công cụ của dự án, không phải yêu cầu của Skill.
+Ví dụ dùng Playwright.

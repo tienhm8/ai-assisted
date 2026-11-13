@@ -19,7 +19,7 @@ Có tài liệu yêu cầu cần rà (BRD, bảng FR, AC) ở Draft hoặc In Re
 2. **Rõ ràng:** câu không mơ hồ, thuật ngữ khớp glossary, actor rõ, ràng buộc đo được.
 3. **Nhất quán:** FR với BR, với NFR, với phạm vi, với phân quyền, với quyết định đã có, giữa các FR.
 4. **Kiểm thử được:** AC quan sát được, có điều kiện đầu và kết quả, có biên và luồng lỗi.
-5. **Truy vết một chiều:** mỗi FR có liên kết BRQ/BR; mỗi AC trỏ FR; mọi BR có AC. Tài liệu khai báo liên kết hai chiều là finding.
+5. **Truy vết một chiều:** mỗi FR có liên kết BRQ/BR; mỗi BRQ Must/Should có ít nhất một FR (lọc cột "BRQ nguồn" của bảng FR); mỗi AC trỏ FR; mọi BR có AC. Tài liệu khai báo liên kết hai chiều là finding.
 6. **Câu hỏi mở:** câu đang Open chặn phạm vi nào; giả định đã quá hạn rà soát; điểm mơ hồ chưa có câu hỏi mở.
 7. **Khả thi:** chỉ đánh dấu rủi ro (kỹ thuật, tích hợp, dữ liệu, hiệu năng, bảo mật) để chuyển `architecture-design`; không quyết định kiến trúc.
 8. **Phân loại finding:** Critical (chặn triển khai) · High (thiếu hoặc mâu thuẫn lớn) · Medium (chưa rõ) · Low (cải thiện tài liệu).
