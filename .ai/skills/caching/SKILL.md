@@ -5,6 +5,8 @@ description: Thiết kế, cài đặt hoặc review cache dữ liệu L1/L2: x�
 
 # Caching Skill
 
+> Trạng thái: **Approved** (Tech Lead duyệt 2026-11-13). Miễn trừ chạy thử trước khi duyệt: chạy thử ở Task đầu tiên có thêm hoặc sửa cache; điểm sai phát hiện khi đó sửa qua Task riêng.
+
 Đưa cache vào một luồng đọc sao cho nhanh hơn mà không sai: xoá sạch cache bất kỳ lúc nào thì kết quả nghiệp vụ vẫn y nguyên.
 
 ## Cổng vào
