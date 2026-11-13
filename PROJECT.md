@@ -96,10 +96,3 @@ Miễn trừ có thời hạn một yêu cầu của khung. Ví dụ: chưa có 
 | Yêu cầu được miễn | Lý do | Người duyệt | Hết hạn | Kế hoạch khắc phục |
 | --- | --- | --- | --- | --- |
 |  | | | | |
-
-**Hotfix khẩn cấp** (áp dụng [release-workflow](.ai/workflows/release-workflow.md)):
-
-| Hạng mục | Giá trị |
-| --- | --- |
-| Thời hạn bổ sung hồ sơ sau hotfix | |
-| Người duyệt hotfix | |

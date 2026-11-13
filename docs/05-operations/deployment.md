@@ -50,6 +50,13 @@ Luồng chuẩn theo Gitflow: `feature/*` → `develop` (Dev) → cắt `release
 | Prod | 2 tuần/lần theo sprint | `master` (tag) | Phát hành tính năng mới |
 | Hotfix | Khi cần | `hotfix/*` → `master` | Xử lý lỗi nghiêm trọng |
 
+**Hotfix khẩn cấp** (áp dụng [release-workflow](../../.ai/workflows/release-workflow.md); giá trị do dự án khai báo):
+
+| Hạng mục | Giá trị |
+| --- | --- |
+| Thời hạn bổ sung hồ sơ sau hotfix | |
+| Người duyệt hotfix | |
+
 - Artifact và đánh phiên bản (tag/version):
 - Quy tắc đặt tên bản phát hành, changelog:
 
