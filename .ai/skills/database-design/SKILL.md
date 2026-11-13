@@ -28,6 +28,7 @@ Chỉ nạp file của bước đang làm, và chỉ đọc mục được nêu.
 | `caching.md` | 7, chỉ khi có mẫu truy cập cần cache |
 | `security.md` | 8 |
 | `migration.md` | Bước 9: §1–§4, §6 · Bước 10: §5 |
+| `postgresql.md` hoặc `mysql-mariadb.md` (chỉ file của hệ đã chốt) | Bước 4: §9 · Bước 5: §1, §2 · Bước 6: §5, §9 · Bước 7: §3, §4 (§7 chỉ khi lên bậc partition/sharding) · Bước 8: §10 · Bước 9: §8 · Bước 10: §6 |
 | `mongodb.md` | Hệ quản trị là MongoDB: thay cho phần quan hệ ở bước 4, 5, 7, 9, 10 |
 
 ## Quy trình

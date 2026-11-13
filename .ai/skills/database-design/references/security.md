@@ -1,6 +1,6 @@
 # Database Design – Bảo mật dữ liệu
 
-> Tài liệu tham khảo của Skill `database-design`, dùng ở bước 8. Định nghĩa mức D0–D3, thuật toán và nơi quản lý khoá, yêu cầu pháp lý lấy từ tài liệu bảo mật của dự án; file này nêu cách áp xuống bảng và cột.
+> Tài liệu tham khảo của Skill `database-design`, dùng ở bước 8. Định nghĩa mức D0–D3, thuật toán và nơi quản lý khoá, yêu cầu pháp lý lấy từ tài liệu bảo mật của dự án; file này nêu cách áp xuống bảng và cột. Cú pháp riêng của hệ quản trị tra ở `postgresql.md` hoặc `mysql-mariadb.md`.
 
 ## 1. Phân loại cột
 
@@ -20,9 +20,9 @@ Với mỗi bảng, đánh dấu cột D2/D3 trong danh sách bảng của datab
 | Token phiên, token đặt lại mật khẩu, API key | Lưu băm (SHA-256 là đủ vì token ngẫu nhiên dài); hiển thị gốc một lần |
 | Dữ liệu cá nhân cần đọc lại (CMND/CCCD, số tài khoản) | Mã hoá ở ứng dụng (envelope encryption, khoá từ KMS/vault) + cột HMAC nếu cần tra cứu; cột phiên bản khoá để xoay vòng |
 | Dữ liệu D2 | Theo quy định dự án; tối thiểu mã hoá khi lưu ở mức đĩa/tablespace |
-| Toàn bộ CSDL | Mã hoá đĩa hoặc TDE (MariaDB data-at-rest encryption, MySQL InnoDB tablespace encryption); kết nối bắt buộc TLS |
+| Toàn bộ CSDL | Mã hoá đĩa hoặc TDE của hệ quản trị; kết nối bắt buộc TLS |
 
-Mã hoá trong CSDL bằng hàm SQL (`pgcrypto`, `AES_ENCRYPT`) đưa khoá vào câu lệnh và có thể lộ qua log truy vấn; ưu tiên mã hoá ở ứng dụng.
+Mã hoá trong CSDL bằng hàm SQL của hệ quản trị đưa khoá vào câu lệnh và có thể lộ qua log truy vấn; ưu tiên mã hoá ở ứng dụng.
 
 ## 3. Tài khoản và quyền
 
@@ -34,20 +34,20 @@ Mã hoá trong CSDL bằng hàm SQL (`pgcrypto`, `AES_ENCRYPT`) đưa khoá vào
 | Read-only | SELECT trên view hoặc bảng được phép, đã che D3 | Báo cáo, hỗ trợ |
 
 - Bảng audit, sổ cái: tài khoản App chỉ INSERT và SELECT, không UPDATE/DELETE.
-- Không cấp quyền cho `PUBLIC`; PostgreSQL thu hồi `CREATE` trên schema `public` (mặc định từ PG 15).
+- Không cấp quyền cho `PUBLIC` hay tài khoản mặc định; thu hồi quyền tạo đối tượng mặc định nếu hệ cấp sẵn.
 - Mỗi module (nếu tách schema) có tài khoản riêng, không đọc trực tiếp schema module khác.
 
 ## 4. Cách ly tenant
 
 - Cột `tenant_id` trong mọi bảng nghiệp vụ, đứng đầu index; FK composite có `tenant_id`.
-- PostgreSQL Row-Level Security: `ENABLE` + `FORCE ROW LEVEL SECURITY`, policy theo `current_setting('app.tenant_id')`; tài khoản App không có `BYPASSRLS` và không là owner bảng.
-- MariaDB/MySQL không có RLS: bắt buộc lọc ở tầng truy cập dữ liệu dùng chung, kèm test truy cập chéo tenant.
+- Hệ có bảo mật mức dòng (RLS): bật làm lớp thứ hai; tài khoản App không được bỏ qua policy và không là owner bảng.
+- Mọi trường hợp: lọc ở tầng truy cập dữ liệu dùng chung, kèm test truy cập chéo tenant.
 
 ## 5. Chống injection ở tầng CSDL
 
 - Truy vấn tham số hoá; tên bảng/cột động chỉ lấy từ allow-list.
-- Hàm/thủ tục lưu trữ: không ghép chuỗi trong SQL động (PostgreSQL dùng `format()` với `%I`, `%L` hoặc `EXECUTE … USING`).
-- PostgreSQL `SECURITY DEFINER`: đặt `search_path` cố định trong định nghĩa hàm.
+- Hàm/thủ tục lưu trữ: không ghép chuỗi trong SQL động; dùng cơ chế trích dẫn định danh và tham số của hệ quản trị.
+- Hàm chạy với quyền người định nghĩa: cố định đường tìm schema.
 
 ## 6. Audit
 

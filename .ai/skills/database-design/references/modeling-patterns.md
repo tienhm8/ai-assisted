@@ -1,6 +1,6 @@
 # Database Design – Mẫu mô hình hoá
 
-> Tài liệu tham khảo của Skill `database-design`, dùng ở bước 3–4 và 6. Đây là **cách làm**; quy ước riêng của dự án (đặt tên, kiểu khoá) lấy từ database-design §2 và được ưu tiên hơn.
+> Tài liệu tham khảo của Skill `database-design`, dùng ở bước 3–4 và 6. Đây là **cách làm**; quy ước riêng của dự án (đặt tên, kiểu khoá) lấy từ database-design §2 và được ưu tiên hơn. Cú pháp riêng của hệ quản trị tra ở `postgresql.md` hoặc `mysql-mariadb.md`.
 
 ## 1. Từ nghiệp vụ sang thực thể
 
@@ -25,15 +25,14 @@ Kiểm tra bản số bằng câu hỏi hai chiều: "Một A có bao nhiêu B?"
 | Đổi giá trị | Cần migration | Thêm dòng |
 | Đa ngôn ngữ nhãn | Không | Có |
 
-- PostgreSQL: ưu tiên `text` + CHECK hơn `ENUM` (thêm giá trị được, nhưng bỏ hoặc đổi thứ tự giá trị ENUM khó).
-- MariaDB/MySQL: `ENUM` lưu theo chỉ số, đổi thứ tự giá trị làm sai dữ liệu sắp xếp; ưu tiên `VARCHAR` + CHECK (MySQL ≥ 8.0.16 và MariaDB ≥ 10.2 mới thực thi CHECK).
+- Ưu tiên chuỗi + CHECK hơn `ENUM`: bỏ hoặc đổi thứ tự giá trị `ENUM` khó và có hệ sắp xếp theo chỉ số. Kiểm hệ đã chốt có thực thi CHECK không (§1 file hệ quản trị).
 
 ## 3. Cây phân cấp
 
 | Mẫu | Hợp khi | Lưu ý |
 | --- | --- | --- |
-| Adjacency list (`parent_id`) | Cây nông, ghi nhiều, đọc theo cấp | Truy vấn cả nhánh dùng CTE đệ quy (PostgreSQL, MySQL ≥ 8.0, MariaDB ≥ 10.2) |
-| Materialized path (`path` = `/1/4/9/`) | Đọc nhánh nhiều, ít di chuyển nút | Index tiền tố; PostgreSQL có `ltree` |
+| Adjacency list (`parent_id`) | Cây nông, ghi nhiều, đọc theo cấp | Truy vấn cả nhánh dùng CTE đệ quy (kiểm phiên bản hỗ trợ) |
+| Materialized path (`path` = `/1/4/9/`) | Đọc nhánh nhiều, ít di chuyển nút | Index tiền tố; kiểu cây chuyên dụng nếu hệ có |
 | Closure table (`ancestor_id, descendant_id, depth`) | Đọc tổ tiên/con cháu bất kỳ, cần FK đầy đủ | Ghi tốn thêm dòng |
 | Nested set | Hầu như chỉ đọc | Ghi rất đắt; tránh cho dữ liệu thay đổi |
 
@@ -49,15 +48,15 @@ Kiểm tra bản số bằng câu hỏi hai chiều: "Một A có bao nhiêu B?"
 | Nhu cầu | Mẫu |
 | --- | --- |
 | Biết ai đổi gì, khi nào (audit) | Bảng audit dạng append-only, ghi bởi ứng dụng hoặc trigger; không cho UPDATE/DELETE |
-| Giá trị đúng tại một thời điểm (giá, chính sách, thuế suất) | Bảng phiên bản `valid_from`, `valid_to`; chống chồng lấn bằng exclusion constraint (PostgreSQL `btree_gist` + `tstzrange`) hoặc kiểm ở ứng dụng trong transaction có khoá |
-| Truy vấn trạng thái quá khứ của cả bảng | MariaDB system-versioned table (`WITH SYSTEM VERSIONING`); PostgreSQL dùng bảng lịch sử + trigger |
+| Giá trị đúng tại một thời điểm (giá, chính sách, thuế suất) | Bảng phiên bản `valid_from`, `valid_to`; chống chồng lấn bằng exclusion constraint nếu hệ có, hoặc kiểm ở ứng dụng trong transaction có khoá |
+| Truy vấn trạng thái quá khứ của cả bảng | Bảng có phiên bản hệ thống (temporal) nếu hệ có; không thì bảng lịch sử + trigger |
 | Nguồn sự thật là chuỗi sự kiện | Event store append-only; cần ADR |
 
 ## 6. Xoá mềm
 
 - Chỉ dùng khi nghiệp vụ cần khôi phục hoặc truy vết; không mặc định cho mọi bảng.
 - Cột `deleted_at` (thời điểm) tốt hơn cờ boolean.
-- UNIQUE phải bỏ qua dòng đã xoá: PostgreSQL dùng partial unique index `WHERE deleted_at IS NULL`; MariaDB/MySQL không có partial index, dùng cột sinh (generated column) bằng NULL khi đã xoá rồi UNIQUE trên cột đó (NULL không vi phạm UNIQUE).
+- UNIQUE phải bỏ qua dòng đã xoá: partial unique index `WHERE deleted_at IS NULL`, hoặc cột sinh bằng NULL khi đã xoá rồi UNIQUE trên cột đó (NULL không vi phạm UNIQUE).
 - FK tới dòng đã xoá mềm vẫn hợp lệ; quyết định nghiệp vụ cho dòng con.
 - Dữ liệu cá nhân bị yêu cầu xoá: xoá mềm không đủ, cần xoá cứng hoặc ẩn danh hoá.
 
@@ -69,7 +68,7 @@ Kiểm tra bản số bằng câu hỏi hai chiều: "Một A có bao nhiêu B?"
 | Schema riêng mỗi tenant | Trung bình | Migration nhân theo số tenant | Vài chục đến vài trăm tenant |
 | CSDL riêng mỗi tenant | Cao | Cao | Yêu cầu pháp lý, tenant lớn |
 
-Với cột `tenant_id`: có trong mọi bảng nghiệp vụ, đứng đầu PK hoặc UNIQUE và index composite, FK composite `(tenant_id, parent_id)` để không trỏ chéo tenant; PostgreSQL bật Row-Level Security làm lớp bảo vệ thứ hai. Chọn mẫu là quyết định kiến trúc: cần ADR.
+Với cột `tenant_id`: có trong mọi bảng nghiệp vụ, đứng đầu PK hoặc UNIQUE và index composite, FK composite `(tenant_id, parent_id)` để không trỏ chéo tenant; bật bảo mật mức dòng làm lớp bảo vệ thứ hai nếu hệ có (security §4). Chọn mẫu là quyết định kiến trúc: cần ADR.
 
 ## 8. Tiền và giao dịch tài chính
 
