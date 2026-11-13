@@ -24,7 +24,13 @@ Người quyết: Tech Lead.
 | Repository | |
 
 ## 2. Công cụ AI
-Công cụ chính chỉ chọn một; công cụ khác dùng cho việc chuyên biệt. Rule và Skill ở `.ai/`, mỗi công cụ chỉ có file tích hợp mỏng trỏ về đó.
+Không cần dùng nhiều công cụ; quan trọng là phối hợp tốt. Mỗi công cụ có cấu trúc file riêng và có thể đổi theo phiên bản, nên:
+
+- **Một nguồn chuẩn:** Rule và Skill nằm ở `.ai/`, độc lập công cụ.
+- **File tích hợp mỏng:** mỗi công cụ chỉ có file trỏ về `.ai/`, không chép lại nội dung. Cần vị trí riêng thì dùng symlink hoặc script đồng bộ.
+- **Công cụ chính chỉ chọn một**; công cụ khác dùng cho việc chuyên biệt.
+- **Kiểm chứng:** sau mỗi lần đổi công cụ hoặc phiên bản, chạy thử một Task để chắc chắn đúng hướng dẫn.
+- **Nhóm công cụ cần có:** AI Coding IDE hoặc Agent, Git, kiểm thử, CI/CD, giám sát chất lượng và runtime. Ví dụ cấu hình từng công cụ: bảng ở [README](README.md).
 
 | Công cụ | Vai trò (chính / phụ) | Phiên bản | Dùng cho việc | Quyền được cấp (terminal, Git, browser, ...) |
 | --- | --- | --- | --- | --- |

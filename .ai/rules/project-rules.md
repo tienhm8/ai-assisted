@@ -12,7 +12,7 @@
 7. Mọi thay đổi truy vết được tới một Task đã duyệt; chỉ sửa trong phạm vi Task, theo cấu trúc thư mục hiện có.
 8. Tuân thủ mức tự chủ của Task; không tự nâng mức, thiếu thì dừng và hỏi. Tuân thủ bản đồ vùng của dự án: vùng 🟢 sửa trong phạm vi Task; vùng 🟡 chỉ sửa khi plan đã nêu và được duyệt; vùng 🔴 cần Task riêng và người duyệt.
 9. Đổi hành vi hoặc kiến trúc thì cập nhật tài liệu liên quan trong cùng thay đổi.
-10. Báo cáo bàn giao nêu rõ giả định, câu hỏi chưa giải quyết và kết quả kiểm tra thật. Mỗi câu cần người quyết phải nêu đủ để quyết ngay: bối cảnh có số đo, phương án và hệ quả, đề xuất, việc bị chặn nếu chưa quyết. Việc cần người bổ sung dữ liệu (không phải quyết định) ghi riêng.
+10. Báo cáo bàn giao nêu rõ giả định, câu hỏi chưa giải quyết, kết quả kiểm tra thật và phần chưa kiểm tra (kèm lý do). Mỗi câu cần người quyết phải nêu đủ để quyết ngay: bối cảnh có số đo, phương án và hệ quả, đề xuất, việc bị chặn nếu chưa quyết. Việc cần người bổ sung dữ liệu (không phải quyết định) ghi riêng.
 11. Bàn giao Task phải tổng hợp **toàn bộ** thay đổi của Task, gộp từ mọi worktree, nhánh và phiên đã làm, không chỉ phiên hiện tại; gom theo nghiệp vụ, không liệt kê theo thứ tự file.
 12. Không âm thầm bỏ qua một yêu cầu của khung. Chưa đáp ứng được thì dừng và đề nghị miễn trừ có lý do, người duyệt, thời hạn và kế hoạch khắc phục.
 13. Không deploy production và không truy cập CSDL production khi chưa có cơ chế được phê duyệt.

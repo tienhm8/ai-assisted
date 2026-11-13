@@ -26,6 +26,7 @@ Gộp từ **mọi** worktree, nhánh và phiên của Task (không chỉ phiên
 
 ## 3. Kiểm thử
 Tóm tắt và mã báo cáo kiểm thử. Phân biệt pass / fail / skipped / not-run, kèm lệnh và kết quả thật.
+**Chưa kiểm tra:** AC, tầng test hoặc trường hợp chưa kiểm, mỗi mục kèm lý do (tóm tắt từ mục "Chưa kiểm chứng" của báo cáo kiểm thử); không có thì ghi "không".
 
 ## 4. Giả định, quyết định, câu hỏi mở
 - Giả định:

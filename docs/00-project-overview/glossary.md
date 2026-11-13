@@ -20,11 +20,11 @@
 
 | Thuật ngữ | Định nghĩa | Đồng nghĩa / Tránh dùng | Nguồn |
 | --- | --- | --- | --- |
-| FR | Functional Requirement: yêu cầu chức năng, hệ thống phải làm gì. | Yêu cầu chức năng | 01-requirements/FR/ |
-| NFR | Non-Functional Requirement: yêu cầu phi chức năng (hiệu năng, bảo mật, độ sẵn sàng…). | Yêu cầu phi chức năng | 01-requirements/ |
-| AC | Acceptance Criteria: tiêu chí nghiệm thu, điều kiện kiểm thử được để coi một FR là xong. | Tiêu chí nghiệm thu | 01-requirements/acceptance-criteria.md |
+| FR | Functional Requirement: yêu cầu chức năng, hệ thống phải làm gì. Mã `FR-<MODULE>-<NN>`. | Yêu cầu chức năng | 01-requirements/FR/ |
+| NFR | Non-Functional Requirement: yêu cầu phi chức năng (hiệu năng, bảo mật, độ sẵn sàng…), mã `NFR-<NN>`. | Yêu cầu phi chức năng | 01-requirements/ |
+| AC | Acceptance Criteria: tiêu chí nghiệm thu, điều kiện kiểm thử được để coi một FR là xong. Mã `<FR>-AC<N>`. | Tiêu chí nghiệm thu | 01-requirements/acceptance-criteria.md |
 | Given / When / Then | Cách viết AC theo 3 bước: **Given** (bối cảnh ban đầu), **When** (hành động xảy ra), **Then** (kết quả mong đợi). VD: Given người dùng đã đăng nhập, When bấm "Đăng xuất", Then hệ thống quay về trang đăng nhập. | GWT | 01-requirements/acceptance-criteria.md |
-| ADR | Architecture Decision Record: ghi lại một quyết định kiến trúc lớn và lý do. | Quyết định kiến trúc | 02-architecture/ADR/ |
+| ADR | Architecture Decision Record: ghi lại một quyết định kiến trúc lớn và lý do, mã `ADR-<NNNN>`. | Quyết định kiến trúc | 02-architecture/ADR/ |
 | PO | Product Owner: người quyết định phạm vi và ưu tiên sản phẩm. |  | PROJECT.md |
 | BA | Business Analyst: người phân tích và làm rõ yêu cầu nghiệp vụ. |  | PROJECT.md |
 | E2E | End-to-end test: kiểm thử toàn luồng từ giao diện đến dữ liệu. |  | 03-engineering/testing-strategy.md |
@@ -32,7 +32,7 @@
 | BRQ | Business Requirement: một yêu cầu nghiệp vụ trong BRD, mã `BRQ-<NN>`. Mỗi BRQ được phủ bởi ít nhất một FR; FR ghi BRQ nguồn. | Yêu cầu nghiệp vụ | 01-requirements/BRD.md |
 | BR | Business Rule: quy tắc nghiệp vụ, mã `BR-<MODULE>-<NN>`. | Quy tắc nghiệp vụ | 01-requirements/business-rules.md |
 | Open / Assumption / Closed | Trạng thái của điểm chưa rõ, mã `OQ-<NN>`. `Open`: chưa có câu trả lời. `Assumption`: giả định tạm dùng để đi tiếp, cần xác nhận. `Closed`: đã quyết. | Câu hỏi mở | 00-project-overview/open-questions.md |
-| Draft / Approved | Trạng thái tài liệu. `Draft`: bản nháp. `Approved`: đã được người có thẩm quyền duyệt, được dùng làm căn cứ. |  | Bảng thuộc tính đầu mỗi tài liệu |
+| Draft / Approved | Trạng thái tài liệu: Draft → In Review → Approved → Deprecated. `Draft`: bản nháp. `Approved`: đã được người có thẩm quyền duyệt, được dùng làm căn cứ; chỉ người có thẩm quyền chuyển sang. `Deprecated`: hết hiệu lực. |  | Bảng thuộc tính đầu mỗi tài liệu |
 | OQ | Open Question: câu hỏi mở, mã `OQ-<NN>`. | Câu hỏi mở | 00-project-overview/open-questions.md |
 | Traceability | Truy vết: liên kết BRQ → FR → AC → test (khai báo một chiều ở bảng FR và AC, tra ngược bằng cách lọc) để biết mỗi yêu cầu được làm và kiểm thử ở đâu. | Truy vết yêu cầu | .ai/skills/documentation/SKILL.md |
 | DoD | Definition of Done: danh sách điều kiện để coi một việc là hoàn thành. | Definition of Done | .ai/skills/*/SKILL.md mục "Hoàn thành khi" |
@@ -61,9 +61,9 @@
 | Worktree | Môi trường cô lập, mỗi Task một nơi, để AI code và test. | Workspace cô lập | .ai/worktrees/ |
 | MoSCoW | Thang ưu tiên duy nhất của khung: `Must` bắt buộc · `Should` nên có · `Could` có thì tốt · `Won't` không làm đợt này. | Ưu tiên | 01-requirements/FR/README.md |
 | Waiver | Miễn trừ có thời hạn một yêu cầu của khung, có lý do và người duyệt; không bỏ qua âm thầm. | Miễn trừ | PROJECT.md |
-| Hallucination | AI tự tạo nghiệp vụ, API hoặc thư viện không tồn tại. | | README.md (Năm rủi ro) |
-| Context Drift | AI làm theo quyết định cũ hoặc tài liệu không còn hiệu lực. | | README.md (Năm rủi ro) |
-| False Confidence | AI báo hoàn thành nhưng chưa chạy test hoặc chưa kiểm tra hết trường hợp. | | README.md (Năm rủi ro) |
+| Hallucination | AI tự tạo nghiệp vụ, API hoặc thư viện không tồn tại. | | 03-engineering/ai-governance.md |
+| Context Drift | AI làm theo quyết định cũ hoặc tài liệu không còn hiệu lực. | | 03-engineering/ai-governance.md |
+| False Confidence | AI báo hoàn thành nhưng chưa chạy test hoặc chưa kiểm tra hết trường hợp. | | 03-engineering/ai-governance.md |
 
 ## 2. Thuật ngữ nghiệp vụ dự án
 

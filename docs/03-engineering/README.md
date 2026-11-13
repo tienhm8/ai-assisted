@@ -14,7 +14,8 @@
 ├── coding-standards.md
 ├── security-standards.md
 ├── error-handling.md
-└── testing-strategy.md
+├── testing-strategy.md
+└── ai-governance.md
 ```
 
 ## Vai trò từng file
@@ -26,6 +27,7 @@
 | [security-standards.md](security-standards.md) | Quy tắc bảo mật khi phát triển và review code |
 | [error-handling.md](error-handling.md) | Quy chuẩn xử lý exception, error, logging và phản hồi lỗi |
 | [testing-strategy.md](testing-strategy.md) | Chiến lược kiểm thử, loại test, coverage và điều kiện chất lượng |
+| [ai-governance.md](ai-governance.md) | Giải thích kiểm soát AI: việc cần duyệt, năm rủi ro |
 
 ## Thứ tự đọc và quan hệ
 
