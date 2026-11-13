@@ -21,6 +21,8 @@
 16. Trước khi dùng một API, thư viện, lệnh hoặc cấu hình, xác minh nó tồn tại ở phiên bản dự án đang dùng (đọc mã nguồn, tài liệu hoặc chạy thử); không dùng theo trí nhớ.
 17. Không chạy lệnh xoá hoặc ghi đè không hoàn tác được (xoá file ngoài phạm vi Task, xoá dữ liệu, reset lịch sử) khi chưa được người duyệt.
 18. Một lỗi sửa rồi chạy lại tối đa 3 vòng. Quá giới hạn: dừng, báo điều đã thử và đề xuất hướng tiếp.
+19. Tuân thủ độ nghiêm ngặt quy trình (S1–S3) mà dự án đã khai báo; chưa khai báo thì dừng và hỏi, không tự hạ. Ở mọi mức S, cổng tự động và review theo R3 vẫn bắt buộc.
+20. Chỉ chuẩn bị tài liệu và đề xuất ở cổng duyệt; không tự phê duyệt và không tự coi cổng là đã qua khi chưa có bằng chứng và người duyệt.
 
 ## Thang dùng chung
 

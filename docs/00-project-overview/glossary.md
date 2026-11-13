@@ -55,8 +55,8 @@
 | KPI | Key Performance Indicator: chỉ số đo hiệu quả (VD: lead time, thời gian review). |  | 04-project-management/ai-kpi.md |
 | QA | Quality Assurance: vai kiểm thử đảm bảo chất lượng. |  | agents/README.md |
 | OUT | Outcome đo được của sản phẩm, mã `OUT-<NN>`, khai báo ở vision.md; BRD tham chiếu trong Tiêu chí thành công. | Kết quả mong đợi | 00-project-overview/vision.md |
-| Cổng duyệt | Điểm duyệt giữa hai giai đoạn vòng đời `[01]`–`[08]`; chỉ sang giai đoạn sau khi giai đoạn trước được người có thẩm quyền duyệt, có bằng chứng. | Cổng, gate | README.md (Cấu trúc tài liệu) |
-| Profile / S1–S3 | Profile: bộ tailoring theo loại dự án. S1–S3: mức nghiêm ngặt về truy vết và kiểm soát, tăng dần. | Mức nghiêm ngặt | PROJECT.md |
+| Cổng duyệt (G0–G7) | Điều kiện phải đạt để kết thúc một giai đoạn vòng đời `[01]`–`[08]` và sang giai đoạn kế; G0 đứng trước `[01]`. Có người có thẩm quyền duyệt và có bằng chứng. | Cổng, gate | 04-project-management/gates-and-rigor.md §1 |
+| S1–S3 | Độ nghiêm ngặt quy trình của cả dự án (cổng duyệt, tài liệu, review, truy vết, nhật ký AI), tăng dần; độc lập với R của Task. | Mức nghiêm ngặt | 04-project-management/gates-and-rigor.md §2; giá trị của dự án: PROJECT.md §5 |
 | Plan | Kế hoạch do AI soạn, Tech Lead duyệt, nối từ đặc tả sang Task; có mục Kết quả sau khi xong. | Kế hoạch | .ai/plans/ |
 | Worktree | Môi trường cô lập, mỗi Task một nơi, để AI code và test. | Workspace cô lập | .ai/worktrees/ |
 | MoSCoW | Thang ưu tiên duy nhất của khung: `Must` bắt buộc · `Should` nên có · `Could` có thì tốt · `Won't` không làm đợt này. | Ưu tiên | 01-requirements/FR/README.md |

@@ -14,6 +14,7 @@
 ├── roadmap.md
 ├── backlog.md
 ├── task-breakdown.md
+├── gates-and-rigor.md
 └── ai-kpi.md
 ```
 
@@ -25,6 +26,7 @@
 | [roadmap.md](roadmap.md) | Lộ trình phát triển theo mốc: dự án sẽ phát triển những gì, theo thứ tự nào |
 | [backlog.md](backlog.md) | Danh sách công việc cần thực hiện, kèm ưu tiên và rủi ro |
 | [task-breakdown.md](task-breakdown.md) | Quy tắc và cấu trúc chia Task, mẫu Task Specification giao cho AI |
+| [gates-and-rigor.md](gates-and-rigor.md) | Cổng duyệt G0–G7 (người duyệt, điều kiện qua) và độ nghiêm ngặt S1–S3 |
 | [ai-kpi.md](ai-kpi.md) | Chỉ số, baseline và kết quả đo hiệu quả của AI trong phát triển |
 
 ## Thứ tự đọc và quan hệ

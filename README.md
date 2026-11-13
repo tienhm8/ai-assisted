@@ -26,6 +26,8 @@ Ký hiệu `[01]`–`[08]` trong cây là giai đoạn của vòng đời (kèm 
 - `[07]` Delivery & Operations, duyệt: Owner (tham khảo Tech Lead; DevOps thực hiện; AI không tự deploy)
 - `[08]` Continuous Improvement, duyệt: Tech Lead
 
+Cổng duyệt G0–G7 giữa các giai đoạn và độ nghiêm ngặt S1–S3: [gates-and-rigor.md](docs/04-project-management/gates-and-rigor.md).
+
 ```text
 project/
 ├── README.md                          bản đồ của repo
