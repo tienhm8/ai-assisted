@@ -18,7 +18,7 @@ Thiết kế dữ liệu như một Database Architect, không chỉ sinh câu l
 
 ## Tài liệu tham khảo
 
-Chỉ nạp file của bước đang làm, và chỉ đọc mục được nêu. `examples.md` là minh hoạ, **không nạp** trừ khi người viết Skill hoặc Task yêu cầu.
+Chỉ nạp file của bước đang làm, và chỉ đọc mục được nêu.
 
 | File trong `references/` | Nạp ở bước |
 | --- | --- |

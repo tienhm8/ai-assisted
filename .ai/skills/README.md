@@ -32,7 +32,7 @@ File này dành cho người viết và duyệt Skill; AI không cần nạp khi
 
 ## Cách tổ chức
 
-- Mỗi Skill một thư mục, `SKILL.md` là file bắt buộc. Khi cần thì thêm `references/` (chi tiết theo chủ đề hoặc theo công nghệ), `examples.md` (ví dụ minh hoạ, không phải nghiệp vụ chính thức), `scripts/`.
+- Mỗi Skill một thư mục, `SKILL.md` là file bắt buộc. Khi cần thì thêm `references/` (chi tiết theo chủ đề hoặc theo công nghệ), `examples.md` (ví dụ minh hoạ, không phải nghiệp vụ chính thức; không nạp khi làm Task trừ khi Task yêu cầu, `SKILL.md` không cần nhắc lại), `scripts/`.
 - `SKILL.md` giữ quy trình tổng quát, trung lập công nghệ. Chi tiết dài hoặc chỉ dùng ở một bước thì đưa vào `references/`, và `SKILL.md` ghi rõ bước nào nạp file nào.
 - Chọn và phối hợp Skill nằm ở workflow (`task-types`, `task-execution`), không nằm trong từng Skill.
 

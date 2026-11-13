@@ -54,7 +54,7 @@ Từ đó lập **giả thuyết về điều code phải làm**, rồi mới đ
 
 ### Bước 3: Review theo thứ tự ưu tiên
 
-`examples.md` chỉ là minh hoạ, không nạp khi review. Đi lần lượt từ ưu tiên 1 đến 8. Đọc ngữ cảnh ngoài diff khi cần; không kết luận từ diff đơn lẻ. Nạp checklist chi tiết của nhóm đang làm, chưa làm tới thì chưa nạp:
+Đi lần lượt từ ưu tiên 1 đến 8. Đọc ngữ cảnh ngoài diff khi cần; không kết luận từ diff đơn lẻ. Nạp checklist chi tiết của nhóm đang làm, chưa làm tới thì chưa nạp:
 
 | Ưu tiên | Câu hỏi chính | Checklist |
 | --- | --- | --- |
