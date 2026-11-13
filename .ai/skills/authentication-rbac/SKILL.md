@@ -15,7 +15,8 @@ Thiếu thì dừng và ghi câu hỏi mở:
 
 Việc **đổi** mô hình vai trò, quyền hoặc chính sách phiên: dừng, cần Tech Lead và Security duyệt. Trước khi sửa file auth, kiểm bản đồ vùng của dự án.
 
-Đọc: tài liệu kiến trúc và security-standards (vai trò, ma trận quyền, chính sách phiên); api-design, error-handling; FR/AC; mã xác thực và phân quyền hiện có.
+Nguồn chính: plan; mã xác thực và phân quyền hiện có.
+Plan thiếu thì tra đúng mục, không đọc cả file: system-architecture §6 Authentication & Authorization (thiết kế); security-standards §3 Authentication, §4 Authorization, §9 Logging và Audit; api-design §4 Authentication & Authorization; error-handling §5.2 Ánh xạ HTTP status.
 
 ## Quy trình
 

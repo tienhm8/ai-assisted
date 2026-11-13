@@ -12,7 +12,8 @@ Chứng minh các hành trình quan trọng chạy đúng từ góc nhìn ngư�
 - Task có AC loại E2E; hành trình lấy từ đó. Thiếu thì dừng và hỏi.
 - Có môi trường chạy với dữ liệu giả. Không có thì ghi not-run kèm lý do và đề nghị miễn trừ có thời hạn.
 
-Đọc: Task, AC loại E2E; testing-strategy, api-design, ma trận phân quyền; cấu hình tự động hoá trình duyệt hiện có.
+Nguồn chính: plan (AC loại E2E → test); cấu hình tự động hoá trình duyệt hiện có.
+Plan thiếu thì tra đúng mục, không đọc cả file: testing-strategy §4 Các tầng test, §7 Dữ liệu test (giả/ẩn danh), §8 Tự động hoá test; api-design §4 Authentication & Authorization; security-standards §4.2 Phân quyền theo vai trò.
 
 ## Quy trình
 

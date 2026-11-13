@@ -13,7 +13,8 @@ Cải thiện cấu trúc code mà giữ nguyên hành vi quan sát được.
 - Task kèm sửa lỗi hoặc thêm tính năng: tách thành Task riêng.
 - Refactor lớn cần plan được duyệt trước khi sửa.
 
-Đọc: Task, mã nguồn và test hiện có, thiết kế và ranh giới module, coding-standards.
+Nguồn chính: Task và plan; mã nguồn và test hiện có.
+Plan thiếu thì tra đúng mục, không đọc cả file: module-design §3 Phụ thuộc giữa các module, §5 Ranh giới và quyền sở hữu; system-architecture §3.3 Các tầng và trách nhiệm; coding-standards §6 Thực hành lập trình, §7 Kiến trúc và thiết kế trong code, §8 Chất lượng code.
 
 ## Quy trình
 

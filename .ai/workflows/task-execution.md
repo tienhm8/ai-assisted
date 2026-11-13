@@ -14,15 +14,21 @@ Thay `T2` bằng loại Task. Task chưa ghi loại thì lấy danh sách loại
 awk -F' \\| ' '/^\| T[0-9]+ \|/{print $1" | "$2}' .ai/workflows/task-types.md
 ```
 
+Đọc một mục trong `docs/` thay vì cả file (`s` là tiêu đề mục kèm số, ví dụ `## 5.` hoặc `### 5.2`):
+
+```sh
+awk -v s='## 5.' 'index($0,s)==1{p=1;n=index(s," ");print;next} p&&match($0,/^#+ /)&&RLENGTH<=n{exit} p' docs/03-engineering/error-handling.md
+```
+
 ## Các bước
 
 | Bước | Việc | Nạp | Đầu ra |
 | --- | --- | --- | --- |
 | 1 · Tiếp nhận | Đọc Task: mục tiêu, phạm vi, AC, mức rủi ro, mức tự chủ. Xác định loại Task; Task lai tách thành Task con, không gộp sửa lỗi với refactor lớn. Thiếu mức rủi ro, mức tự chủ hoặc độ nghiêm ngặt S: hỏi, không tự gán | Task; `project-rules`; `PROJECT.md` §2, §4; `gates-and-rigor.md` §2 khi cần áp S; dòng loại Task; [load-conditions.md](load-conditions.md) §1 | Loại Task, bộ nạp |
 | 2 · Phân tích | Đọc yêu cầu, thiết kế, code liên quan; điểm chưa rõ ghi thành câu hỏi mở | FR/BR/AC, ADR, thiết kế Task chỉ tới; code trong phạm vi | Câu hỏi mở (nếu có) |
-| 3 · Lập plan | File dự kiến đổi, quyết định thiết kế, AC → test, chuỗi Skill (bỏ hoặc thêm Skill phải nêu lý do), model và effort cho phiên thực thi | PLAN-TEMPLATE; [model-effort.md](model-effort.md); `load-conditions.md` §2 khi chuỗi có Skill `[ ]`; Rule `testing` và Rule `architecture`, `database`, `security` đã thoả điều kiện | Plan |
+| 3 · Lập plan | File dự kiến đổi, quyết định thiết kế, AC → test, chuỗi Skill (bỏ hoặc thêm Skill phải nêu lý do), model và effort cho phiên thực thi. Ghi điểm áp dụng từ tài liệu đã đọc kèm tài liệu, § và tên mục | PLAN-TEMPLATE; [model-effort.md](model-effort.md); `load-conditions.md` §2 khi chuỗi có Skill `[ ]`; Rule `testing` và Rule `architecture`, `database`, `security` đã thoả điều kiện | Plan |
 | 4 · Duyệt plan | Người duyệt, theo mục "Duyệt plan" | — | Plan Approved |
-| 5 · Thực hiện | Làm lần lượt từng Skill: cổng vào → quy trình → kết quả cần kiểm. Ghi đầu ra vào plan rồi mới nạp Skill kế | Plan; `SKILL.md` của Skill đang làm và `references/` nó chỉ tới; Rule `coding`; Rule `git-workflow` khi commit | Diff |
+| 5 · Thực hiện | Làm lần lượt từng Skill: cổng vào → quy trình → kết quả cần kiểm. Ghi đầu ra vào plan rồi mới nạp Skill kế | Plan; `SKILL.md` của Skill đang làm và `references/` nó chỉ tới; mục `docs/` Skill cho tra khi plan thiếu; Rule `coding`; Rule `git-workflow` khi commit | Diff |
 | 6 · Kiểm thử | Chạy đủ cổng kiểm tra của dự án | Skill testing tương ứng; TEST-REPORT-TEMPLATE | Output thật |
 | 7 · Tự rà | Rà diff theo AC, phạm vi và Rule đã nạp; soạn báo cáo bàn giao | DELIVERY-REPORT-TEMPLATE | Báo cáo bàn giao |
 | 8 · Review | Phiên khác review theo dòng T9; người duyệt PR | Không dùng lịch sử phiên viết code | PR được duyệt |
@@ -47,7 +53,7 @@ Chờ người duyệt trước bước 5 khi có một trong các điều kiệ
 
 ## Quy tắc chuyển bước
 
-1. **Plan là ngữ cảnh nén:** đủ để thực thi (yêu cầu, quyết định thiết kế, file dự kiến đổi, AC → test, chuỗi Skill); từ bước 5 làm theo plan, không đọc lại tài liệu plan đã tóm tắt.
+1. **Plan là ngữ cảnh nén:** đủ để thực thi (yêu cầu, điểm áp dụng từ tài liệu kèm §, quyết định thiết kế, file dự kiến đổi, AC → test, chuỗi Skill); từ bước 5 làm theo plan, không đọc lại tài liệu plan đã tóm tắt. Plan thiếu thì chỉ tra mục Skill cho phép, bằng lệnh đọc một mục, và ghi vào "Nạp bổ sung" của plan; tra không ra thì ghi câu hỏi mở.
 2. **Phiên mới cho bước 5** khi Task R2/R3 hoặc chuỗi từ 3 Skill: phiên thực thi chỉ nhận plan và Rule.
 3. **Mỗi lúc một Skill:** chưa đạt "kết quả cần kiểm" thì không nạp Skill kế.
 4. **Qua cổng bằng bằng chứng** (output test, diff, tài liệu Approved), không bằng lời khẳng định.

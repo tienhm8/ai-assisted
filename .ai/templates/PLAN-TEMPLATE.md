@@ -13,13 +13,14 @@
 - Làm:
 - Không làm:
 
-## 2. Yêu cầu liên quan
+## 2. Yêu cầu và ngữ cảnh đã nạp
 FR, BR, AC, ADR, câu hỏi mở.
+Điểm áp dụng từ tài liệu thiết kế, kỹ thuật: tài liệu, § và tên mục → điều áp dụng cho Task (ví dụ: error-handling §5.2 Ánh xạ HTTP status → lỗi hạn mức trả 422).
 
 ## 3. Rule và chuỗi Skill
 - Rule đã nạp (Rule theo điều kiện ghi kèm lý do):
 - Chuỗi Skill theo thứ tự; Skill bỏ hoặc thêm so với mặc định kèm lý do:
-- Nạp bổ sung trong khi làm (nếu có, kèm lý do):
+- Nạp bổ sung trong khi làm (tài liệu, § và tên mục, kèm lý do plan thiếu):
 
 ## 4. Thiết kế và file dự kiến thay đổi
 

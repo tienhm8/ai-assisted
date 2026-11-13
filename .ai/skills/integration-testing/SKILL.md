@@ -12,7 +12,8 @@ Chứng minh các thành phần phối hợp đúng qua ranh giới: API, CSDL, 
 - Task có AC. Thiếu thì dừng và hỏi.
 - Có môi trường test cô lập (local hoặc CSDL tạm huỷ được). Không có thì ghi not-run kèm lý do và đề nghị miễn trừ có thời hạn.
 
-Đọc: Task, AC, FR/BR liên quan; testing-strategy, api-design, database-design, tài liệu kiến trúc (ranh giới, phân quyền); hạ tầng test hiện có.
+Nguồn chính: plan (AC → test); hạ tầng test hiện có.
+Plan thiếu thì tra đúng mục, không đọc cả file: testing-strategy §4 Các tầng test, §7 Dữ liệu test (giả/ẩn danh), §10 Môi trường test; api-design §1.2 Chi tiết API (endpoint liên quan); database-design §6 Transaction và đồng thời; module-design §4 Giao tiếp giữa các module; security-standards §4 Authorization.
 
 ## Quy trình
 

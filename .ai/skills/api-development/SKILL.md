@@ -14,7 +14,8 @@ Thiếu một điều kiện thì dừng và ghi câu hỏi mở:
 - Contract của endpoint ở trạng thái Approved trong api-design.
 - Schema liên quan đã có trong database-design; chưa có thì chuyển `database-design`.
 
-Đọc: FR, AC, business-rules; api-design, database-design, module-design; error-handling, security-standards; mã API hiện có.
+Nguồn chính: plan; mã API hiện có.
+Plan thiếu thì tra đúng mục, không đọc cả file: api-design §1.2 Chi tiết API (endpoint liên quan), §3.2 Quy ước chung, §4 Authentication & Authorization; database-design §3.3 Chi tiết bảng (bảng liên quan); module-design §5 Ranh giới và quyền sở hữu; error-handling §3 Mã lỗi, §5 Phản hồi lỗi API; security-standards §5 Kiểm tra đầu vào, §8 Bảo mật API.
 
 ## Quy trình
 

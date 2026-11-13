@@ -59,6 +59,7 @@ Mỗi dòng trong Skill được nạp lại ở mọi Task dùng nó, nên:
 - **Không chép template.** Báo cáo chỉ nêu phần Skill này thêm vào.
 - **Không ghi kiến thức chung model đã biết.** Chỉ ghi quy ước đã chốt, lỗi AI hay mắc, và điểm dễ sót.
 - **Không chép chuẩn, ngưỡng, mã lỗi** từ `docs/`; nêu tên tài liệu cần đọc ở Cổng vào.
+- **Skill chạy sau plan** (code, test, refactor): Cổng vào ghi nguồn chính là plan, rồi liệt kê mục `docs/` được tra khi plan thiếu, mỗi mục kèm § và tên mục (tên giữ dẫn chiếu đúng khi đánh số lại), không nêu cả file. Đổi tiêu đề mục trong `docs/` thì rà dẫn chiếu trong Skill.
 - Một `SKILL.md` vượt khoảng 150 dòng thì tách phần chi tiết sang `references/`.
 
 ## Khi đưa Skill vào dùng

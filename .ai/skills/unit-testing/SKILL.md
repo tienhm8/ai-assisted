@@ -12,7 +12,8 @@ Chứng minh từng đơn vị code chạy đúng ở điều kiện bình thư�
 - Task có AC. Thiếu thì dừng và hỏi.
 - Framework test của dự án đã xác định; chưa có thì ghi câu hỏi mở, không tự chọn.
 
-Đọc: Task, AC, FR/BR liên quan; testing-strategy (tầng, công cụ, ngưỡng coverage); mã cần test và cấu trúc test hiện có.
+Nguồn chính: plan (AC → test); mã cần test và cấu trúc test hiện có.
+Plan thiếu thì tra đúng mục, không đọc cả file: testing-strategy §4 Các tầng test, §6 Thiết kế test, §9 Cổng chất lượng (Quality Gates).
 
 ## Quy trình
 

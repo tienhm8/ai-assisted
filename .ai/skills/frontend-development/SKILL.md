@@ -14,7 +14,8 @@ Thiếu một điều kiện thì dừng và ghi câu hỏi mở:
 - Tài liệu UI/UX và Design System của dự án.
 - API contract Approved trong api-design. Chỉ chạy song song với `api-development` khi contract đã Approved.
 
-Đọc: FR, AC; tài liệu UI/UX, Design System; api-design, system-architecture, coding-standards, security-standards; mã frontend hiện có.
+Nguồn chính: plan; tài liệu UI/UX và Design System phần màn hình liên quan; mã frontend hiện có.
+Plan thiếu thì tra đúng mục, không đọc cả file: api-design §1.2 Chi tiết API (endpoint liên quan), §3.2 Quy ước chung; system-architecture §3.3 Các tầng và trách nhiệm; coding-standards §4 Naming Convention, §11.2 Frontend; security-standards §5 Kiểm tra đầu vào, §6.3 Che dữ liệu (masking).
 
 ## Quy trình
 

@@ -13,7 +13,8 @@ Thiếu một điều kiện thì dừng và ghi câu hỏi mở:
 - FR có AC và business rule đã duyệt.
 - Thiết kế Approved: module-design, database-design; contract trong api-design nếu có endpoint hoặc tích hợp ngoài.
 
-Đọc: FR, AC, business-rules; module-design, system-architecture, database-design, api-design; error-handling, security-standards; mã backend hiện có.
+Nguồn chính: plan; mã backend hiện có.
+Plan thiếu thì tra đúng mục, không đọc cả file: module-design §3 Phụ thuộc giữa các module, §5 Ranh giới và quyền sở hữu; system-architecture §3.3 Các tầng và trách nhiệm; database-design §6 Transaction và đồng thời; api-design §1.2 Chi tiết API (endpoint liên quan), §2 Integration Specification; error-handling §3 Mã lỗi, §4 Xử lý exception, §7 Logging, §8 Retry, timeout, fallback, §9 Transaction và nhất quán dữ liệu; security-standards §4 Authorization, §5 Kiểm tra đầu vào, §9 Logging và Audit.
 
 ## Quy trình
 
