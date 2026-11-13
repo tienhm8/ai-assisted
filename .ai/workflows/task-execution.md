@@ -8,7 +8,7 @@
 
 | Bước | Việc | Nạp | Đầu ra |
 | --- | --- | --- | --- |
-| 1 · Tiếp nhận | Đọc Task: mục tiêu, phạm vi, AC, mức rủi ro, mức tự chủ. Xác định loại Task; Task lai thì tách thành Task con. Thiếu mức rủi ro, mức tự chủ hoặc độ nghiêm ngặt S: hỏi, không tự gán | Task; `project-rules`; `PROJECT.md` §3, §5; `gates-and-rigor.md` §2 khi cần áp S; `task-types.md` (dòng loại Task, §2 để chọn Rule) | Loại Task, bộ nạp |
+| 1 · Tiếp nhận | Đọc Task: mục tiêu, phạm vi, AC, mức rủi ro, mức tự chủ. Xác định loại Task; Task lai thì tách thành Task con. Thiếu mức rủi ro, mức tự chủ hoặc độ nghiêm ngặt S: hỏi, không tự gán | Task; `project-rules`; `PROJECT.md` §2, §4; `gates-and-rigor.md` §2 khi cần áp S; `task-types.md` (dòng loại Task, §2 để chọn Rule) | Loại Task, bộ nạp |
 | 2 · Phân tích | Đọc yêu cầu, thiết kế và code liên quan; ghi điểm chưa rõ thành câu hỏi mở | FR/BR/AC, ADR, thiết kế mà Task chỉ tới; code trong phạm vi | Câu hỏi mở (nếu có) |
 | 3 · Lập plan | File dự kiến đổi, quyết định thiết kế, AC → test, chuỗi Skill (bỏ hoặc thêm Skill phải nêu lý do) | PLAN-TEMPLATE; `model-effort.md`; Rule `testing` và các Rule `architecture`, `database`, `security` đã thoả điều kiện | Plan |
 | 4 · Duyệt plan | Người duyệt, theo điều kiện ở mục "Duyệt plan" | — | Plan Approved |

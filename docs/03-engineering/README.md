@@ -16,6 +16,7 @@
 ├── error-handling.md
 ├── testing-strategy.md
 ├── ai-governance.md
+├── ai-tools.md
 └── external-skills.md
 ```
 
@@ -29,6 +30,7 @@
 | [error-handling.md](error-handling.md) | Quy chuẩn xử lý exception, error, logging và phản hồi lỗi |
 | [testing-strategy.md](testing-strategy.md) | Chiến lược kiểm thử, loại test, coverage và điều kiện chất lượng |
 | [ai-governance.md](ai-governance.md) | Giải thích kiểm soát AI: việc cần duyệt, năm rủi ro |
+| [ai-tools.md](ai-tools.md) | Tích hợp công cụ AI với `.ai/`, symlink, công cụ và MCP dự án dùng |
 | [external-skills.md](external-skills.md) | Quy trình tiếp nhận Skill bên ngoài (cộng đồng, package) |
 
 ## Thứ tự đọc và quan hệ

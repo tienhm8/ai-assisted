@@ -51,4 +51,4 @@ Nhiều nguồn thì ghi đủ từng nguồn. Không ghi được nguồn thì 
 
 ## Công cụ đi kèm (MCP server)
 
-Package như Laravel Boost có thêm MCP server, tức công cụ cho AI gọi (đọc schema, tra tài liệu, đọc log, chạy lệnh). Phần này **không chép được**. Nếu dùng thì khai báo ở `PROJECT.md` §2.1 như một công cụ có giới hạn quyền. Phần guideline của package vẫn tiếp nhận theo quy trình trên; tắt tính năng tự ghi guideline vào file tích hợp (`CLAUDE.md`, `AGENTS.md`…) để file đó vẫn chỉ trỏ về `.ai/`.
+Package như Laravel Boost có thêm MCP server, tức công cụ cho AI gọi (đọc schema, tra tài liệu, đọc log, chạy lệnh). Phần này **không chép được**. Nếu dùng thì khai báo ở [ai-tools.md](ai-tools.md) §4 như một công cụ có giới hạn quyền. Phần guideline của package vẫn tiếp nhận theo quy trình trên; tắt tính năng tự ghi guideline vào file tích hợp (`CLAUDE.md`, `AGENTS.md`…) để file đó vẫn chỉ trỏ về `.ai/`.

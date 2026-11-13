@@ -11,7 +11,7 @@ Mỗi thư mục có README riêng ghi người quyết và điều kiện sang 
 ```text
 project/
 ├── README.md                    bản đồ của repo
-├── PROJECT.md                   [04] khai báo giá trị riêng của dự án (công cụ AI, mức tự chủ, vùng, dữ liệu, S, vai trò, miễn trừ)
+├── PROJECT.md                   [04] khai báo giá trị riêng của dự án (mức tự chủ, vùng, dữ liệu, S, vai trò, miễn trừ)
 ├── AGENTS.md                    điểm vào cho AI, chỉ trỏ về .ai/
 │
 ├── docs/                        hồ sơ dự án cho cả người và AI; người không dùng AI chỉ đọc docs/
@@ -49,24 +49,15 @@ Cổng G0–G7 giữa các giai đoạn và độ nghiêm ngặt S1–S3: [gates
 | `[07]` Delivery & Operations | Owner (tham khảo Tech Lead; DevOps thực hiện; AI không tự deploy) |
 | `[08]` Continuous Improvement | Tech Lead |
 
-## Công cụ AI
-
-Nguyên tắc chọn và tích hợp: [PROJECT.md](PROJECT.md) §2. Ví dụ (không bắt buộc):
-
-| Công cụ | Cách cấu hình thường dùng |
-| --- | --- |
-| Cursor | `.cursor/rules/` |
-| Claude Code | `CLAUDE.md`, `.claude/skills/` |
-| Codex | `AGENTS.md`, cấu hình và Skills tương thích |
-| GitHub Copilot | `.github/copilot-instructions.md`, `.github/instructions/` |
-
-## Lối vào
+## Bắt đầu
 
 | Bạn đang… | Đọc |
 | --- | --- |
+| Chọn công cụ AI | [ai-tools.md](docs/03-engineering/ai-tools.md) §1 |
+| Tạo symlink Tool AI | [ai-tools.md](docs/03-engineering/ai-tools.md) §2 |
 | Áp dụng cho một dự án | [PROJECT.md](PROJECT.md) |
 | Giao việc cho AI | [task-execution.md](.ai/workflows/task-execution.md), [task-types.md](.ai/workflows/task-types.md) |
 | Cần hiểu vì sao AI bị kiểm soát | [ai-governance.md](docs/03-engineering/ai-governance.md) |
 | Cần điều kiện duyệt | [gates-and-rigor.md](docs/04-project-management/gates-and-rigor.md) |
 
-Bắt đầu: (1) yêu cầu AI "tạo/cập nhật PROJECT.md cho dự án …" (mẫu trống, AI chỉ mô tả `Draft`, người xác nhận); (2) chọn công cụ, tạo file tích hợp mỏng trỏ về `.ai/`; (3) điền `docs/00-project-overview/` để PO duyệt, rồi đi tiếp `01-requirements` → `02-architecture` → lập plan và Task. Task mới bắt đầu khi `[04]` sẵn sàng.
+Bắt đầu: (1) yêu cầu AI "tạo/cập nhật PROJECT.md cho dự án …" (mẫu trống, AI chỉ mô tả `Draft`, người xác nhận); (2) chọn công cụ và tạo symlink theo [ai-tools.md](docs/03-engineering/ai-tools.md); (3) điền `docs/00-project-overview/` để PO duyệt, rồi đi tiếp `01-requirements` → `02-architecture` → lập plan và Task. Task mới bắt đầu khi `[04]` sẵn sàng.

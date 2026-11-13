@@ -11,7 +11,7 @@
 > **Mục đích.** Chuẩn bảo mật: nguyên tắc, Authentication & Authorization (quy tắc), kiểm tra đầu vào, bảo vệ dữ liệu, secret, API, logging, dependency, ánh xạ OWASP Top 10 và mức ASVS. Sàn không hạ được.
 
 ## 1. Xử lý dữ liệu theo mức (D0–D3)
-Định nghĩa D0–D3 ở [project-rules](../../.ai/rules/project-rules.md); dữ liệu của dự án thuộc mức nào và mức nào được đưa vào AI khai báo ở [PROJECT.md](../../PROJECT.md) §4, không chép lại ở đây. Với mỗi mức, ghi việc được/không được ghi log và dùng ở môi trường không phải production.
+Định nghĩa D0–D3 ở [project-rules](../../.ai/rules/project-rules.md); dữ liệu của dự án thuộc mức nào và mức nào được đưa vào AI khai báo ở [PROJECT.md](../../PROJECT.md) §3, không chép lại ở đây. Với mỗi mức, ghi việc được/không được ghi log và dùng ở môi trường không phải production.
 | Mức | Được ghi log | Được dùng ở môi trường không phải production |
 | --- | --- | --- |
 | D0 | | |
@@ -80,7 +80,7 @@ Mỗi endpoint khai báo quyền yêu cầu ([api-design](../02-architecture/api
 <!-- Bổ sung chi tiết theo công nghệ của dự án -->
 
 ## 6. Bảo vệ dữ liệu
-Dữ liệu của dự án theo mức ở [PROJECT.md](../../PROJECT.md) §4, cách xử lý ở §1; thiết kế bảo mật cho từng bảng/cột ở [database-design](../02-architecture/database-design.md) §5.
+Dữ liệu của dự án theo mức ở [PROJECT.md](../../PROJECT.md) §3, cách xử lý ở §1; thiết kế bảo mật cho từng bảng/cột ở [database-design](../02-architecture/database-design.md) §5.
 
 ### 6.1 Xử lý dữ liệu nhạy cảm
 Chỉ thu thập và lưu dữ liệu cần thiết; không đưa dữ liệu D3 vào log, URL, thông báo lỗi.
@@ -182,7 +182,7 @@ Ngoại lệ được ghi lại tại đây hoặc trong ADR ([ADR/](../02-archi
 Phiên bản đang dùng (nguồn duy nhất; đổi phiên bản thì sửa tại đây và rà lại bảng): **OWASP Top 10:2025**, **OWASP ASVS 5.0**. Không chép nội dung OWASP vào repo; chỉ trỏ mã mục (`A01:2025`) và mã yêu cầu ASVS (`V8.2.1`).
 
 ### 13.1 Mức ASVS
-Dự án khai báo mức ASVS mục tiêu ở [PROJECT.md](../../PROJECT.md) §5. Mức tối thiểu theo dữ liệu và rủi ro:
+Dự án khai báo mức ASVS mục tiêu ở [PROJECT.md](../../PROJECT.md) §4. Mức tối thiểu theo dữ liệu và rủi ro:
 
 | Điều kiện | Mức tối thiểu |
 | --- | --- |

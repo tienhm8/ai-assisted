@@ -13,7 +13,7 @@ Thiếu thì dừng và ghi câu hỏi mở:
 - FR có AC đã duyệt.
 - Thiết kế liên quan (kiến trúc, API, CSDL) đã Approved.
 
-Đọc: FR, business-rules, AC, NFR; tài liệu thiết kế và ADR liên quan; task-breakdown, backlog, roadmap; PLAN-TEMPLATE; PROJECT.md §3.
+Đọc: FR, business-rules, AC, NFR; tài liệu thiết kế và ADR liên quan; task-breakdown, backlog, roadmap; PLAN-TEMPLATE; PROJECT.md §2.
 
 ## Quy trình
 

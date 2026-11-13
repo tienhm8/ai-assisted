@@ -1,6 +1,6 @@
 # .ai — Nguồn chuẩn Rule và Skill
 
-Nguồn chuẩn, độc lập công cụ cho Rule, Skill, Agent, Workflow. Thư mục này đổi tên theo công cụ chính (ví dụ Claude Code: `.claude/`), xem [glossary](../docs/00-project-overview/glossary.md). File tích hợp của từng công cụ (`AGENTS.md`, `CLAUDE.md`, `.github/copilot-instructions.md`, …) chỉ trỏ về đây.
+Nguồn chuẩn, độc lập công cụ cho Rule, Skill, Agent, Workflow.
 
 | Thư mục | Nội dung |
 | --- | --- |

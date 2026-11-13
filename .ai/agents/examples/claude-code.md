@@ -1,6 +1,6 @@
 # Ví dụ: model và effort cho Claude Code
 
-> **Ví dụ, không bắt buộc.** Chỉ dùng khi dự án chọn Claude Code ([PROJECT.md](../../../PROJECT.md) §2). Đề xuất theo loại Task ở [task-types.md](../../workflows/task-types.md) §1; ánh xạ chính thức của dự án cũng ghi ở đó. File này chỉ minh hoạ cách ánh xạ và cấu hình.
+> **Ví dụ, không bắt buộc.** Chỉ dùng khi dự án chọn Claude Code ([ai-tools.md](../../../docs/03-engineering/ai-tools.md) §3). Đề xuất theo loại Task ở [task-types.md](../../workflows/task-types.md) §1; ánh xạ chính thức của dự án cũng ghi ở đó. File này chỉ minh hoạ cách ánh xạ và cấu hình.
 > Tên model và tham số thay đổi theo phiên bản Claude Code. Kiểm tra lại tài liệu chính thức trước khi áp dụng (cập nhật: 2026-11).
 
 ## 1. Ánh xạ hạng → model, mức → effort

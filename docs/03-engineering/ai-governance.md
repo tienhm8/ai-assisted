@@ -4,13 +4,13 @@
 | --- | --- |
 | Trạng thái | Approved |
 | Người duyệt | Tech Lead |
-| Tài liệu liên quan | ../../.ai/rules/project-rules.md, ../../PROJECT.md §3, gates-and-rigor.md |
+| Tài liệu liên quan | ../../.ai/rules/project-rules.md, ../../PROJECT.md §2, gates-and-rigor.md |
 
 > **Mục đích.** Giải thích vì sao và ở mức nào AI bị kiểm soát: việc cần người duyệt, năm rủi ro cần quản lý. Điều bắt buộc với AI nằm ở [project-rules](../../.ai/rules/project-rules.md); file này chỉ là phần giải thích cho người đọc.
 
 ## 1. Nguyên tắc
 
-AI không tự suy diễn quy tắc nghiệp vụ và không tự ý đổi kiến trúc khi chưa được phê duyệt. Định nghĩa mức tự chủ A0–A4, trần mặc định và nghĩa của vùng 🟢🟡🔴 ở [project-rules](../../.ai/rules/project-rules.md); dự án khai báo phần siết thêm và bản đồ vùng trong [PROJECT.md](../../PROJECT.md) §3 (vai ở [.ai/agents/](../../.ai/agents/README.md) không có mức riêng).
+AI không tự suy diễn quy tắc nghiệp vụ và không tự ý đổi kiến trúc khi chưa được phê duyệt. Định nghĩa mức tự chủ A0–A4, trần mặc định và nghĩa của vùng 🟢🟡🔴 ở [project-rules](../../.ai/rules/project-rules.md); dự án khai báo phần siết thêm và bản đồ vùng trong [PROJECT.md](../../PROJECT.md) §2 (vai ở [.ai/agents/](../../.ai/agents/README.md) không có mức riêng).
 
 ## 2. Việc cần người duyệt hoặc kiểm soát đặc biệt
 

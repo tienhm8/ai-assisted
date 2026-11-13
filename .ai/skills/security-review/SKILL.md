@@ -10,9 +10,9 @@ Phát hiện lỗ hổng và đánh giá hiệu quả của biện pháp bảo v
 ## Cổng vào
 
 - Phạm vi review rõ (diff, module hoặc hệ thống), kèm mức rủi ro và mức dữ liệu. Thiếu thì dừng và hỏi.
-- Mức ASVS mục tiêu đã khai báo ở PROJECT.md §5. Chưa có thì dừng và hỏi.
+- Mức ASVS mục tiêu đã khai báo ở PROJECT.md §4. Chưa có thì dừng và hỏi.
 
-Đọc: Task, AC; security-standards; tài liệu kiến trúc (vai trò, ma trận phân quyền), api-design, database-design; PROJECT.md §4; mã nguồn, cấu hình triển khai, danh sách dependency.
+Đọc: Task, AC; security-standards; tài liệu kiến trúc (vai trò, ma trận phân quyền), api-design, database-design; PROJECT.md §3; mã nguồn, cấu hình triển khai, danh sách dependency.
 
 ## Quy trình
 

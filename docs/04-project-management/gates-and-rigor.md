@@ -4,9 +4,9 @@
 | --- | --- |
 | Trạng thái | Approved |
 | Người duyệt | Tech Lead |
-| Tài liệu liên quan | ../../README.md, ../../PROJECT.md §5, task-breakdown.md |
+| Tài liệu liên quan | ../../README.md, ../../PROJECT.md §4, task-breakdown.md |
 
-> **Mục đích.** Cổng duyệt G0–G7 (điều kiện qua, người duyệt) và độ nghiêm ngặt quy trình S1–S3. Dự án khai báo mức S ở [PROJECT.md](../../PROJECT.md) §5; không chép lại ở đây.
+> **Mục đích.** Cổng duyệt G0–G7 (điều kiện qua, người duyệt) và độ nghiêm ngặt quy trình S1–S3. Dự án khai báo mức S ở [PROJECT.md](../../PROJECT.md) §4; không chép lại ở đây.
 
 ## 1. Cổng duyệt G0–G7
 Cổng là điều kiện phải đạt để kết thúc một giai đoạn và sang giai đoạn kế. G0 đứng trước `[01]`; G1–G7 đứng cuối `[01]`–`[07]`. Qua cổng bằng bằng chứng (tài liệu Approved, output test, biên bản review), không bằng lời xác nhận. AI chuẩn bị và đề xuất, không tự phê duyệt.
@@ -23,7 +23,7 @@ Cổng là điều kiện phải đạt để kết thúc một giai đoạn và
 | G7 Delivery & Operations | `[07]` | Smoke test đạt; không có sự cố nghiêm trọng trong thời gian giám sát; có thể rollback | Owner | Tech Lead tham khảo; DevOps thực hiện; AI không tự deploy |
 
 ## 2. Độ nghiêm ngặt quy trình S1–S3
-Dự án chọn một mức cho cả dự án, khai báo ở `PROJECT.md` §5. S độc lập với mức rủi ro R của từng Task. Ở mọi mức, cổng tự động và review theo R3 vẫn bắt buộc.
+Dự án chọn một mức cho cả dự án, khai báo ở `PROJECT.md` §4. S độc lập với mức rủi ro R của từng Task. Ở mọi mức, cổng tự động và review theo R3 vẫn bắt buộc.
 
 | Mức | Cổng duyệt | Tài liệu | Review | Truy vết | Nhật ký AI |
 | --- | --- | --- | --- | --- | --- |
