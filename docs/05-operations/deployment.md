@@ -4,11 +4,11 @@
 | --- | --- |
 | Trạng thái | Approved |
 | Người phụ trách |  |
-| Người duyệt | Owner |
+| Người duyệt (dự án) | Owner |
 | Phiên bản · Ngày | 0.1 ·  |
 | Tài liệu liên quan | monitoring.md, backup-recovery.md, ../02-architecture/system-architecture.md, ../02-architecture/database-design.md, ../01-requirements/NFR.md, ../../.ai/workflows/release-workflow.md, ../../.ai/skills/deployment/SKILL.md |
 
-> **Mục đích.** Triển khai hệ thống: môi trường, CI/CD, phát hành, rollback. **Người quyết phát hành: Owner (tham khảo Tech Lead).** Điều kiện: smoke test đạt, không có sự cố nghiêm trọng trong khung theo dõi, rollback dùng được. AI không tự deploy production.
+> **Mục đích.** Triển khai hệ thống: môi trường, CI/CD, phát hành, rollback. **Người quyết phát hành: Owner (tham khảo Tech Lead).** Điều kiện: cổng G7 ở [gates-and-rigor](../04-project-management/gates-and-rigor.md) §1.
 >
 > Template dùng chung cho mọi dự án: điền công nghệ, môi trường, thông số và người phụ trách khi áp dụng. Không ghi giá trị secret.
 
@@ -71,7 +71,7 @@ Chi tiết từng bước triển khai (trước · trong · sau), người th�
 - Quy trình chạy migration (thứ tự so với deploy ứng dụng, tương thích ngược):
 - Sao lưu trước khi migrate: xem [backup-recovery](backup-recovery.md).
 - Đối chiếu [database-design](../02-architecture/database-design.md) §7 (quy tắc migration; chạy migration production phải được duyệt).
-- Cache (nếu có): bản phát hành đổi version key/value thì warm-up tầng T1 của nhóm mới trước khi bản mới nhận traffic. Mất key mốc epoch thì chạy warm-up. Cấu hình ở [database-design](../02-architecture/database-design.md) §3.7.
+- Cache (nếu có): bản phát hành đổi version key/value thì warm-up tầng W1 của nhóm mới trước khi bản mới nhận traffic. Mất key mốc epoch thì chạy warm-up. Cấu hình ở [database-design](../02-architecture/database-design.md) §3.7.
 
 ## 10. Rollback Strategy
 - Điều kiện kích hoạt rollback:
@@ -88,7 +88,7 @@ Chi tiết từng bước triển khai (trước · trong · sau), người th�
 - Quyền truy cập môi trường và pipeline (nguyên tắc tối thiểu):
 - Quét bảo mật (dependency, image, cấu hình) trước khi deploy:
 - Ghi log và dấu vết kiểm toán cho mỗi lần deploy:
-- AI không tự deploy production, không truy cập production database nếu chưa có cơ chế được phê duyệt.
+- Kiểm soát AI với production: [project-rules](../../.ai/rules/project-rules.md) 13.
 
 ## 13. Deployment Checklist
 - [ ] Thiết kế/PR đã duyệt, CI xanh

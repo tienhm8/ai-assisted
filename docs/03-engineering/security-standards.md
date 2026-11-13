@@ -4,7 +4,7 @@
 | --- | --- |
 | Trạng thái | Approved |
 | Người phụ trách |  |
-| Người duyệt | Tech Lead |
+| Người duyệt (dự án) | Tech Lead |
 | Phiên bản · Ngày | 0.1 ·  |
 | Tài liệu liên quan | coding-standards.md, error-handling.md, testing-strategy.md, ../02-architecture/system-architecture.md, ../02-architecture/api-design.md, ../02-architecture/database-design.md, ../../.ai/rules/security-rules.md, ../../.ai/skills/security-review/SKILL.md, ../../.ai/skills/authentication-rbac/SKILL.md |
 
@@ -77,7 +77,7 @@ Mỗi endpoint khai báo quyền yêu cầu ([api-design](../02-architecture/api
 | Path traversal | Không ghép đường dẫn file từ đầu vào; chuẩn hoá đường dẫn và kiểm tra nằm trong thư mục cho phép. |
 | Deserialization | Không giải tuần tự hoá dữ liệu không tin cậy bằng cơ chế cho phép tạo đối tượng tuỳ ý; chỉ dùng định dạng dữ liệu thuần (JSON) có schema. |
 
-<!-- Bổ sung chi tiết theo công nghệ của dự án -->
+<!-- Điền theo từng dự án: chi tiết theo công nghệ -->
 
 ## 6. Bảo vệ dữ liệu
 Dữ liệu của dự án theo mức ở [PROJECT.md](../../PROJECT.md) §3, cách xử lý ở §1; thiết kế bảo mật cho từng bảng/cột ở [database-design](../02-architecture/database-design.md) §5.
@@ -107,7 +107,7 @@ Căn cứ pháp lý, thời hạn lưu, quyền của chủ thể dữ liệu. R
 | Kiểm soát truy cập | Ai được đọc secret từng môi trường; secret production tách biệt các môi trường khác. |
 
 Secret đã lộ (kể cả trong lịch sử Git) coi như bị xâm phạm: phải thu hồi và thay mới.
-<!-- Điền công cụ và quy trình theo từng dự án -->
+<!-- Điền theo từng dự án: công cụ, quy trình -->
 
 ## 8. Bảo mật API
 Thiết kế và giá trị cụ thể ở [api-design](../02-architecture/api-design.md) §5; mục này là quy tắc bắt buộc.
@@ -119,7 +119,7 @@ Thiết kế và giá trị cụ thể ở [api-design](../02-architecture/api-d
 | Giới hạn kích thước request | Đặt giới hạn body, upload, số phần tử/trang. |
 | Security headers | Các header bắt buộc (HSTS, `Content-Security-Policy`, `X-Content-Type-Options`, ...). |
 
-<!-- Điền giá trị theo từng dự án -->
+<!-- Điền theo từng dự án: giá trị -->
 
 ## 9. Logging và Audit
 Quy định chung ở [error-handling](error-handling.md) §7; mục này chỉ bổ sung yêu cầu bảo mật.
@@ -155,7 +155,7 @@ Chu kỳ cập nhật, quy tắc ghim phiên bản, kiểm tra license được 
 - Pipeline CI/CD: quyền tối thiểu, secret theo môi trường, thay đổi pipeline cần duyệt (vùng 🔴).
 - Artifact phát hành và bản cập nhật có kiểm tra toàn vẹn (checksum hoặc chữ ký) trước khi triển khai.
 - Dữ liệu tin cậy (cookie, token, dữ liệu gửi qua client) có chữ ký hoặc kiểm tra toàn vẹn ở server.
-<!-- Điền công cụ theo từng dự án -->
+<!-- Điền theo từng dự án: công cụ -->
 
 ## 11. Checklist phát triển an toàn
 Dùng khi tự kiểm và review ([coding-standards](coding-standards.md) §9.1).
@@ -176,7 +176,7 @@ Sàn bảo mật không hạ được; chỉ cho phép ngoại lệ tạm thời
 - Thời hạn hết hiệu lực và kế hoạch khắc phục.
 
 Ngoại lệ được ghi lại tại đây hoặc trong ADR ([ADR/](../02-architecture/ADR/README.md)).
-<!-- Danh sách ngoại lệ đang hiệu lực -->
+<!-- Điền theo từng dự án: danh sách ngoại lệ đang hiệu lực -->
 
 ## 13. OWASP Top 10 và ASVS
 Phiên bản đang dùng (nguồn duy nhất; đổi phiên bản thì sửa tại đây và rà lại bảng): **OWASP Top 10:2025**, **OWASP ASVS 5.0**. Không chép nội dung OWASP vào repo; chỉ trỏ mã mục (`A01:2025`) và mã yêu cầu ASVS (`V8.2.1`).

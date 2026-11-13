@@ -4,7 +4,7 @@
 | --- | --- |
 | Trạng thái | Approved |
 | Người phụ trách |  |
-| Người duyệt | PO |
+| Người duyệt (dự án) | PO |
 | Phiên bản · Ngày | 0.1 ·  |
 | Tài liệu liên quan | scope.md, glossary.md, open-questions.md, ../01-requirements/BRD.md |
 
@@ -30,4 +30,8 @@ Mỗi Outcome nên có mã `OUT-<NN>` để BRD (Tiêu chí thành công) tham c
 
 | Mã | Outcome | Chỉ số | Mục tiêu | Cách đo |
 | --- | --- | --- | --- | --- |
-| OUT-01 | | | | |
+| OUT-<NN> | | | | |
+
+## Lịch sử thay đổi
+| Ngày | Thay đổi | Lý do | Người duyệt |
+| --- | --- | --- | --- |

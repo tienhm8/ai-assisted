@@ -4,7 +4,7 @@
 | --- | --- |
 | Trạng thái | Approved |
 | Người phụ trách |  |
-| Người duyệt | Kiến trúc sư |
+| Người duyệt (dự án) | Kiến trúc sư |
 | Phiên bản · Ngày | 0.1 ·  |
 | Tài liệu liên quan | module-design.md, database-design.md, api-design.md, ADR/, ../00-project-overview/vision.md, ../00-project-overview/scope.md, ../00-project-overview/open-questions.md, ../01-requirements/NFR.md, ../03-engineering/security-standards.md, ../03-engineering/error-handling.md, ../05-operations/monitoring.md, ../05-operations/deployment.md, ../../.ai/rules/architecture-rules.md, ../../.ai/skills/architecture-design/SKILL.md |
 
@@ -45,7 +45,7 @@ Ví dụ: Monolith, Modular Monolith, Microservices, Event-driven. Lý do chọn
 <!-- Điền theo từng dự án -->
 
 ### 3.2 Sơ đồ kiến trúc
-<!-- Sơ đồ tổng thể (Mermaid hoặc ảnh trong repo) -->
+<!-- Điền theo từng dự án: sơ đồ tổng thể (Mermaid hoặc ảnh trong repo) -->
 
 ### 3.3 Các tầng và trách nhiệm
 | Tầng | Trách nhiệm | Được phụ thuộc vào |

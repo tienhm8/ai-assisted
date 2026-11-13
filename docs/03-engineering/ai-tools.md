@@ -3,7 +3,7 @@
 | Thuộc tính | Giá trị |
 | --- | --- |
 | Trạng thái | Draft |
-| Người duyệt | Tech Lead |
+| Người duyệt (dự án) | Tech Lead |
 | Tài liệu liên quan | ../../AGENTS.md, ../../.ai/rules/security-rules.md, external-skills.md |
 
 > **Mục đích.** Cách nối công cụ AI với `.ai/` và khai báo công cụ dự án dùng. AI không nạp file này khi làm Task.

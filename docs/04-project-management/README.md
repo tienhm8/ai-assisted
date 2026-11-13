@@ -26,11 +26,13 @@
 | [roadmap.md](roadmap.md) | Lộ trình phát triển theo mốc: dự án sẽ phát triển những gì, theo thứ tự nào |
 | [backlog.md](backlog.md) | Danh sách công việc cần thực hiện, kèm ưu tiên và rủi ro |
 | [task-breakdown.md](task-breakdown.md) | Quy tắc và cấu trúc chia Task, mẫu Task Specification giao cho AI |
-| [gates-and-rigor.md](gates-and-rigor.md) | Cổng duyệt G0–G7 (người duyệt, điều kiện qua) và độ nghiêm ngặt S1–S3 |
+| [gates-and-rigor.md](gates-and-rigor.md) | Cổng duyệt G0–G7 (người duyệt, điều kiện qua), độ nghiêm ngặt S1–S3, quy ước áp dụng khung |
 | [ai-kpi.md](ai-kpi.md) | Chỉ số, baseline và kết quả đo hiệu quả của AI trong phát triển |
 
 ## Thứ tự đọc và quan hệ
 
 `roadmap` → `backlog` → `task-breakdown` → `ai-kpi` (đo kết quả của toàn bộ chu trình).
+
+Đọc khi cần, không thuộc chuỗi: `gates-and-rigor` (khi qua cổng, khi chọn mức S, khi áp khung vào dự án).
 
 Đầu vào: [01-requirements](../01-requirements/) (FR, business rules) và [scope](../00-project-overview/scope.md). Roadmap và backlog chỉ tham chiếu FR/BR, không chép trạng thái hoàn thành FR. Task truy vết về FR qua cột FR/BR; thiết kế liên quan nằm ở [02-architecture](../02-architecture/). KPI đối chiếu với [testing-strategy](../03-engineering/testing-strategy.md) và [monitoring](../05-operations/monitoring.md).

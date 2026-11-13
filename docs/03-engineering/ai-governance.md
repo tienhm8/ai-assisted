@@ -3,8 +3,8 @@
 | Thuộc tính | Giá trị |
 | --- | --- |
 | Trạng thái | Approved |
-| Người duyệt | Tech Lead |
-| Tài liệu liên quan | ../../.ai/rules/project-rules.md, ../../PROJECT.md §2, gates-and-rigor.md |
+| Người duyệt (dự án) | Tech Lead |
+| Tài liệu liên quan | ../../.ai/rules/project-rules.md, ../../PROJECT.md §2, ../04-project-management/gates-and-rigor.md |
 
 > **Mục đích.** Giải thích vì sao và ở mức nào AI bị kiểm soát: việc cần người duyệt, năm rủi ro cần quản lý. Điều bắt buộc với AI nằm ở [project-rules](../../.ai/rules/project-rules.md); file này chỉ là phần giải thích cho người đọc.
 
@@ -18,7 +18,7 @@ AI không tự suy diễn quy tắc nghiệp vụ và không tự ý đổi ki�
 | --- | --- |
 | Thay đổi kiến trúc, thay đổi RBAC | Phải được duyệt |
 | Migration dữ liệu production | Phải được duyệt |
-| Deploy production | Có approval, AI không tự deploy |
+| Deploy production | Có approval, AI không tự deploy (project-rules 13) |
 | Quản lý secrets | Không giao AI tùy ý |
 | Xóa dữ liệu | Cần kiểm soát đặc biệt |
 

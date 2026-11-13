@@ -4,7 +4,7 @@
 | --- | --- |
 | Trạng thái | Approved |
 | Người phụ trách |  |
-| Người duyệt | PO |
+| Người duyệt (dự án) | PO |
 | Phiên bản · Ngày | 0.1 ·  |
 | Tài liệu liên quan | vision.md, scope.md, ../01-requirements/ |
 
@@ -18,7 +18,7 @@ Trạng thái: `Open` chưa có câu trả lời · `Assumption` giả định t
 
 | ID | Câu hỏi | Tài liệu / mã liên quan | Ảnh hưởng | Người quyết | Hạn | Trạng thái | Quyết định (khi Closed) |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| OQ-01 | | | | | | Open | |
+| OQ-<NN> | | | | | | | |
 
 ## Chi tiết câu hỏi
 Bắt buộc cho mọi OQ `Open` hoặc `Assumption` mà người quyết là người; đặt ngay dưới bảng. OQ chỉ xác nhận một thông tin thì chỉ cần **Bối cảnh** và **Nếu chưa quyết**. Khi `Closed`, ghi lựa chọn vào cột Quyết định và giữ phần chi tiết làm căn cứ.
@@ -36,3 +36,7 @@ Bắt buộc cho mọi OQ `Open` hoặc `Assumption` mà người quyết là ng
 - Đề xuất của AI: <A hoặc B> vì <lý do, tối đa 2 câu>
 - Nếu chưa quyết: <việc bị chặn, hoặc "không chặn">
 ```
+
+## Lịch sử thay đổi
+| Ngày | Thay đổi | Lý do | Người duyệt |
+| --- | --- | --- | --- |

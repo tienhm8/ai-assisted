@@ -4,7 +4,7 @@
 | --- | --- |
 | Trạng thái | Approved |
 | Người phụ trách |  |
-| Người duyệt | Kiến trúc sư |
+| Người duyệt (dự án) | Kiến trúc sư |
 | Phiên bản · Ngày | 0.1 ·  |
 | Tài liệu liên quan | system-architecture.md, database-design.md, api-design.md, ../01-requirements/FR/, ../01-requirements/business-rules.md, ../03-engineering/error-handling.md, ADR/, ../../.ai/rules/architecture-rules.md, ../../.ai/skills/backend-development/SKILL.md |
 
@@ -46,14 +46,14 @@ Lặp lại mẫu dưới đây cho từng module. Module nhỏ chỉ cần đi�
 
 ### 3.1 Ma trận phụ thuộc
 Hàng phụ thuộc cột. Đánh dấu `S` (gọi đồng bộ), `A` (bất đồng bộ/sự kiện), `D` (đọc chung dữ liệu, cần giải thích).
-| Module | M1 | M2 | M3 |
+| Module | <MOD-A> | <MOD-B> | <MOD-C> |
 | --- | --- | --- | --- |
-| M1 | – | | |
-| M2 | | – | |
-| M3 | | | – |
+| <MOD-A> | – | | |
+| <MOD-B> | | – | |
+| <MOD-C> | | | – |
 
 ### 3.2 Sơ đồ phụ thuộc
-<!-- Sơ đồ (Mermaid hoặc ảnh trong repo) -->
+<!-- Điền theo từng dự án: sơ đồ (Mermaid hoặc ảnh trong repo) -->
 
 ### 3.3 Quy tắc phụ thuộc
 Chiều phụ thuộc cho phép, cấm vòng phụ thuộc, cấm truy cập trực tiếp dữ liệu của module khác. Ngoại lệ phải có ADR.

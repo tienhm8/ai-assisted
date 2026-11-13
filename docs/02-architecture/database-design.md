@@ -4,7 +4,7 @@
 | --- | --- |
 | Trạng thái | Approved |
 | Người phụ trách |  |
-| Người duyệt | Kiến trúc sư |
+| Người duyệt (dự án) | Kiến trúc sư |
 | Phiên bản · Ngày | 0.1 ·  |
 | Tài liệu liên quan | system-architecture.md, module-design.md, api-design.md, ../01-requirements/business-rules.md, ../03-engineering/coding-standards.md, ../03-engineering/security-standards.md, ../05-operations/deployment.md, ../05-operations/backup-recovery.md, ../../.ai/rules/database-rules.md, ../../.ai/skills/database-design/SKILL.md |
 
@@ -35,14 +35,14 @@ Quy ước đặt tên chung cho mã nguồn ở [coding-standards](../03-engine
 | Bảng mã, collation |  |
 | Công cụ migration, thư mục, cách đặt tên file |  |
 | Tài khoản CSDL (owner, migrator, app, read-only) |  |
-| MongoDB: schema validation, `schema_version`, write concern, read preference |  |
+| Quy ước riêng của hệ quản trị đã chốt (nếu có) |  |
 
 ## 3. Mô hình dữ liệu
-Dùng MongoDB (CSDL tài liệu): bảng = collection, cột = field. §3.3 ghi cấu trúc document (field nhúng, mảng và giới hạn số phần tử) và validator; §3.5 cột "Quan hệ" ghi nhúng hay tham chiếu kèm lý do, BR không có ràng buộc ở CSDL ghi cách giữ toàn vẹn. Hướng dẫn chi tiết ở [mongodb](../../.ai/skills/database-design/references/mongodb.md).
+Hệ quản trị đã chốt ở [system-architecture](system-architecture.md) §4; chọn hoặc đổi hệ quản trị cần ADR. Thuật ngữ trong file này theo CSDL quan hệ (bảng, cột, FK); CSDL tài liệu ánh xạ bảng → collection, cột → field, và ghi ở §3.3 cấu trúc document, §3.5 cách nhúng hay tham chiếu kèm lý do.
 
 ### 3.1 ERD / mô hình dữ liệu
 Mô hình khái niệm và logic: thực thể chính và quan hệ. Mỗi thực thể thuộc một module sở hữu ([module-design](module-design.md)).
-<!-- Sơ đồ (Mermaid hoặc ảnh trong repo) -->
+<!-- Điền theo từng dự án: sơ đồ (Mermaid hoặc ảnh trong repo) -->
 
 ### 3.2 Danh sách bảng
 | Bảng | Module sở hữu | Mục đích | Khoá / ràng buộc | Dữ liệu nhạy cảm (D2/D3) |
@@ -127,7 +127,7 @@ Ranh giới transaction, mức cô lập, cách xử lý xung đột (khoá lạ
 <!-- Điền theo từng dự án -->
 
 ## 7. Migration và seed
-Quy tắc viết migration (có thể quay lui, tương thích ngược khi deploy), thứ tự chạy, seed dữ liệu, dữ liệu test (giả/ẩn danh). Mức kiểm soát khi chạy migration production: xem [README gốc](../../README.md), mục "Kiểm soát AI". Quy trình triển khai migration xem [deployment](../05-operations/deployment.md) §9.
+Quy tắc viết migration (có thể quay lui, tương thích ngược khi deploy), thứ tự chạy, seed dữ liệu, dữ liệu test (giả/ẩn danh). Mức kiểm soát khi chạy migration production: xem [ai-governance](../03-engineering/ai-governance.md) §2. Quy trình triển khai migration xem [deployment](../05-operations/deployment.md) §9.
 <!-- Điền theo từng dự án -->
 
 ## 8. Sao lưu và khôi phục

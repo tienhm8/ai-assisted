@@ -37,6 +37,8 @@
 
 `coding-standards` → `error-handling` / `security-standards` → `testing-strategy` (kiểm chứng việc tuân thủ các quy chuẩn trước đó).
 
+Đọc khi cần, không thuộc chuỗi: `ai-governance` (vì sao kiểm soát AI), `ai-tools` (khi chọn hoặc đổi công cụ AI), `external-skills` (khi tiếp nhận Skill bên ngoài).
+
 Đầu vào: [02-architecture](../02-architecture/) (kiến trúc, module, API, ADR). Quy chuẩn phải nhất quán với các quyết định kiến trúc; nếu mâu thuẫn thì xử lý bằng cách cập nhật quy chuẩn hoặc tạo ADR mới, không tự bỏ qua.
 
 Khi review, dùng cả ba checklist: [coding-standards](coding-standards.md) §9.1, [error-handling](error-handling.md) §11 và [security-standards](security-standards.md) §11.

@@ -4,7 +4,7 @@
 | --- | --- |
 | Trạng thái | Approved |
 | Người phụ trách |  |
-| Người duyệt | PO/BA |
+| Người duyệt (dự án) | PO/BA |
 | Phiên bản · Ngày | 0.1 ·  |
 | Tài liệu liên quan | FR/, business-rules.md, ../03-engineering/testing-strategy.md, ../../.ai/rules/testing-rules.md, ../../.ai/skills/requirement-analysis/SKILL.md |
 
@@ -20,7 +20,7 @@
 
 | AC ID | FR | BR kiểm chứng | Given / When / Then | Loại test | Test tham chiếu |
 | --- | --- | --- | --- | --- | --- |
-| FR-AUTH-01-AC1 | FR-AUTH-01 | BR-AUTH-01 | Given … When … Then … | unit / integration / E2E | |
+| FR-<MODULE>-<NN>-AC<N> | FR-<MODULE>-<NN> | BR-<MODULE>-<NN> | Given … When … Then … | unit / integration / E2E | |
 
 ## Lịch sử thay đổi
 | Ngày | Thay đổi | Lý do | Người duyệt |

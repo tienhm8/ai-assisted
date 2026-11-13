@@ -4,7 +4,7 @@
 | --- | --- |
 | Trạng thái | Approved |
 | Người phụ trách |  |
-| Người duyệt | Tech Lead |
+| Người duyệt (dự án) | Tech Lead |
 | Phiên bản · Ngày | 0.1 ·  |
 | Tài liệu liên quan | ../01-requirements/acceptance-criteria.md, ../01-requirements/NFR.md, coding-standards.md, security-standards.md, error-handling.md, ../05-operations/deployment.md, ../../.ai/skills/unit-testing/SKILL.md, ../../.ai/skills/integration-testing/SKILL.md, ../../.ai/skills/e2e-testing/SKILL.md |
 
@@ -47,7 +47,7 @@ Phần không kiểm thử (hệ thống ngoài, thư viện bên thứ ba) và 
 | Integration | Kiểm tra tích hợp giữa module, DB, hệ thống ngoài | | | Tạo kịch bản |
 | API | Kiểm tra request/response, mã lỗi theo [api-design](../02-architecture/api-design.md) | | | Test request/response |
 | System | Kiểm tra toàn hệ thống trong môi trường gần thật | | | |
-| E2E | Kiểm tra hành trình người dùng | | | Viết Playwright tests |
+| E2E | Kiểm tra hành trình người dùng | Playwright ([testing-rules](../../.ai/rules/testing-rules.md) 9) | | Viết Playwright tests |
 | Acceptance (UAT) | Kiểm tra nghiệp vụ với người dùng/nghiệp vụ | | | Hỗ trợ tạo test scenarios |
 | Security | Kiểm tra bảo mật | | | Phân tích lỗ hổng |
 | Regression | Tránh lỗi tái phát | | | Bổ sung test tự động |
@@ -147,11 +147,11 @@ Không được chỉ kiểm tra trường hợp người dùng có quyền truy
 - Chưa có CI thì chạy cổng **cục bộ** (hook hoặc lệnh tay), ghi kết quả thật vào báo cáo bàn giao; ghi miễn trừ có thời hạn thay vì bỏ qua âm thầm. Khi có CI, CI là nguồn kết quả chính thức.
 
 **Coverage.** Không nên áp một con số coverage duy nhất cho tất cả module. Có thể đặt mục tiêu riêng cho logic nghiệp vụ, bảo mật, tiện ích và những phần ít rủi ro hơn.
-<!-- Điền ngưỡng theo từng dự án -->
+<!-- Điền theo từng dự án: ngưỡng -->
 
 **Review theo rủi ro.** Mức R1–R3; định nghĩa R1–R3 ở [project-rules](../../.ai/rules/project-rules.md) (Thang dùng chung), cách review ở Skill [code-review](../../.ai/skills/code-review/SKILL.md). R3 cần hai người, một người độc lập; nếu thiếu người thì ghi miễn trừ.
 
-**Ví dụ chọn công cụ** (không bắt buộc): dự án TypeScript dùng ESLint + Prettier, `tsc --strict`, Vitest/Jest, Playwright, gitleaks, `npm audit`; dự án Python dùng ruff, mypy, pytest.
+**Ví dụ chọn công cụ** (không bắt buộc, trừ E2E dùng Playwright cho mọi dự án): dự án TypeScript dùng ESLint + Prettier, `tsc --strict`, Vitest/Jest, gitleaks, `npm audit`; dự án Python dùng ruff, mypy, pytest.
 
 ## 10. Môi trường test
 Các môi trường dùng để test (local, CI, staging), cấu hình, dữ liệu và cách tạo/huỷ. Môi trường triển khai ở [deployment](../05-operations/deployment.md).
@@ -161,7 +161,7 @@ Các môi trường dùng để test (local, CI, staging), cấu hình, dữ li�
 Phân biệt rõ pass / fail / skipped / not-run, kèm output thật làm bằng chứng. Báo cáo nêu số test, coverage, lỗi còn mở và test bị bỏ qua cùng lý do.
 
 ## 12. Definition of Done: điều kiện hoàn thành
-Mỗi Task chỉ được đánh dấu hoàn thành khi:
+Nguồn duy nhất của DoD; mẫu Task ([task-breakdown](../04-project-management/task-breakdown.md) mục 11) chỉ ghi thêm điều kiện riêng. Mỗi Task chỉ được đánh dấu hoàn thành khi:
 
 - [ ] Đúng yêu cầu nghiệp vụ.
 - [ ] Không vi phạm kiến trúc.

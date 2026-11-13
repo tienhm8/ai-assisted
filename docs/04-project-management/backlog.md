@@ -4,7 +4,7 @@
 | --- | --- |
 | Trạng thái | Approved |
 | Người phụ trách |  |
-| Người duyệt | Tech Lead (PO quyết ưu tiên) |
+| Người duyệt (dự án) | Tech Lead (PO quyết ưu tiên) |
 | Phiên bản · Ngày | 0.2 ·  |
 | Tài liệu liên quan | roadmap.md, task-breakdown.md, ../01-requirements/FR/, ../01-requirements/business-rules.md |
 
@@ -27,19 +27,19 @@
 | Improvement | Cải tiến không đổi nghiệp vụ |
 | Spike | Khảo sát có giới hạn thời gian để làm rõ trước khi chia Task |
 
-ID theo công cụ quản lý việc: `<KEY>-<N>` (KEY là mã dự án hoặc mã module, ví dụ PRJ-1, AUTH-01). Quan hệ cha-con (Epic → Feature → Task) ghi ở cột Cha.
+ID theo công cụ quản lý việc: `<KEY>-<N>` (KEY là mã dự án hoặc mã module, ví dụ PRJ-1, AUTH-1; không đệm số 0 để khác mã FR). Quan hệ cha-con (Epic → Feature → Task) ghi ở cột Cha.
 
 ## 3. Danh sách công việc
 
 | Task ID | Loại | Tên | Cha | FR/BR | Module | Ưu tiên | Rủi ro | Phụ thuộc | Trạng thái |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| PRJ-1 | | | | | | | R1 | | |
+| <KEY>-<N> | | | | | | | R1 | | |
 
 ## 4. Ưu tiên
 
 Dùng thang MoSCoW chung với BRD, FR, NFR: `Must` · `Should` · `Could` · `Won't` (xem [FR/README](../01-requirements/FR/README.md)). Task kế thừa ưu tiên của FR nguồn; Bug và việc kỹ thuật do PO xếp.
 
-Tiêu chí xếp thứ tự trong cùng mức: giá trị nghiệp vụ, mức phụ thuộc của việc khác, rủi ro, công sức. Rủi ro R1–R3 và mức tự chủ A0–A4 định nghĩa ở [task-breakdown](task-breakdown.md).
+Tiêu chí xếp thứ tự trong cùng mức: giá trị nghiệp vụ, mức phụ thuộc của việc khác, rủi ro, công sức. Rủi ro R1–R3 và mức tự chủ A0–A4 định nghĩa ở [project-rules](../../.ai/rules/project-rules.md) (Thang dùng chung).
 
 ## 5. Trạng thái
 
@@ -50,7 +50,7 @@ Tiêu chí xếp thứ tự trong cùng mức: giá trị nghiệp vụ, mức p
 ## 6. Làm rõ backlog (refinement)
 
 - **Tần suất:** định kỳ theo nhịp dự án, và trước mỗi mốc ở roadmap.
-- **Definition of Ready:** có FR/BR tham chiếu, ưu tiên và rủi ro đã gán, phụ thuộc đã rõ, đã có Task Specification ở [task-breakdown](task-breakdown.md).
+- **Definition of Ready:** theo [task-breakdown](task-breakdown.md) §7.
 - **Ước lượng:** ghi ở mục Estimate của Task Specification ([task-breakdown](task-breakdown.md)), không ghi ở backlog.
 - **Rà soát phụ thuộc:** kiểm tra cột Phụ thuộc khi đổi ưu tiên hoặc thứ tự.
 

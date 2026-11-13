@@ -4,7 +4,7 @@
 | --- | --- |
 | Trạng thái | Approved |
 | Người phụ trách |  |
-| Người duyệt | PO |
+| Người duyệt (dự án) | PO |
 | Phiên bản · Ngày | 0.2 ·  |
 | Tài liệu liên quan | backlog.md, ../00-project-overview/vision.md, ../00-project-overview/scope.md, ../01-requirements/FR/ |
 
@@ -21,11 +21,11 @@
 
 ## 2. Mốc và release
 
-Mỗi mốc là một release có thể bàn giao. FR/Module chỉ tham chiếu ID (`FR-<MODULE>-<NN>`); chi tiết việc cần làm nằm ở [backlog](backlog.md).
+Mỗi mốc là một release có thể bàn giao, mã `MS<N>`. FR/Module chỉ tham chiếu ID (`FR-<MODULE>-<NN>`); chi tiết việc cần làm nằm ở [backlog](backlog.md).
 
 | Mốc | Tên release | Mục tiêu | FR/Module | Ưu tiên (MoSCoW) | Dự kiến | Trạng thái |
 | --- | --- | --- | --- | --- | --- | --- |
-| M1 | | | | | | |
+| MS<N> | | | | | | |
 
 ## 3. Các giai đoạn
 

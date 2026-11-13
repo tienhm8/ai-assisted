@@ -3,10 +3,10 @@
 | Thuộc tính | Giá trị |
 | --- | --- |
 | Trạng thái | Approved |
-| Người duyệt | Tech Lead |
+| Người duyệt (dự án) | Tech Lead |
 | Tài liệu liên quan | ../../README.md, ../../PROJECT.md §4, task-breakdown.md |
 
-> **Mục đích.** Cổng duyệt G0–G7 (điều kiện qua, người duyệt) và độ nghiêm ngặt quy trình S1–S3. Dự án khai báo mức S ở [PROJECT.md](../../PROJECT.md) §4; không chép lại ở đây.
+> **Mục đích.** Cổng duyệt G0–G7 (điều kiện qua, người duyệt), độ nghiêm ngặt quy trình S1–S3 và quy ước áp dụng khung vào dự án. Dự án khai báo mức S ở [PROJECT.md](../../PROJECT.md) §4; không chép lại ở đây.
 
 ## 1. Cổng duyệt G0–G7
 Cổng là điều kiện phải đạt để kết thúc một giai đoạn và sang giai đoạn kế. G0 đứng trước `[01]`; G1–G7 đứng cuối `[01]`–`[07]`. Qua cổng bằng bằng chứng (tài liệu Approved, output test, biên bản review), không bằng lời xác nhận. AI chuẩn bị và đề xuất, không tự phê duyệt.
@@ -17,7 +17,7 @@ Cổng là điều kiện phải đạt để kết thúc một giai đoạn và
 | G1 Vision & Scope | `[01]` | Vision và phạm vi được duyệt; điểm chưa rõ đã ghi nhận | PO | BA, Tech Lead tư vấn |
 | G2 Requirements | `[02]` | Mọi FR trong phạm vi có AC kiểm thử được; điểm chưa chốt ghi `Open` | PO/BA | QA rà khả năng kiểm thử; Tech Lead tư vấn |
 | G3 Ready for Build | `[03]` | Thiết kế của phạm vi đã duyệt; có ADR cho quyết định kiến trúc quan trọng; có threat model khi cần, nhất là R3. Chưa đạt thì không code tính năng | Kiến trúc sư | Security duyệt phần liên quan bảo mật (tiền, phân quyền, dữ liệu cá nhân, migration); PO/BA xác nhận yêu cầu |
-| G4 Task Ready | `[04]` | Mỗi Task có objective, phạm vi in/out, AC, mức R và mức A | Tech Lead | Dev, QA phối hợp; Security khi cần |
+| G4 AI Context & Task Ready | `[04]` | Chuẩn ở 03-engineering và `PROJECT.md` đã Approved; mỗi Task có objective, phạm vi in/out, AC, mức R và mức A | Tech Lead | Dev, QA phối hợp; Security khi cần |
 | G5 Implementation Complete | `[05]` | Cổng tự động cục bộ đạt; báo cáo bàn giao đủ; không có thay đổi ngoài phạm vi chưa khai | Tech Lead | Tác giả chịu trách nhiệm bàn giao; AI không phê duyệt |
 | G6 Ready for Release | `[06]` | CI đạt; review đủ theo mức R; AC được xác nhận; lỗi nghiêm trọng đã xử lý hoặc được chấp nhận chính thức | Tech Lead | Reviewer theo R; QA nghiệm thu |
 | G7 Delivery & Operations | `[07]` | Smoke test đạt; không có sự cố nghiêm trọng trong thời gian giám sát; có thể rollback | Owner | Tech Lead tham khảo; DevOps thực hiện; AI không tự deploy |
@@ -42,3 +42,18 @@ S1–S3 áp dụng cho toàn dự án. Bảng dưới chỉ mang tính định h
 | Dự án dữ liệu / AI / ML | S2–S3 | Chọn theo mức độ rủi ro và yêu cầu quản trị |
 | Dự án bảo trì | S1–S2 | Tùy phạm vi thay đổi |
 | Dự án nhỏ, ít rủi ro | S1 | Tối đa 3 người, tối đa 3 tháng |
+
+## 3. Áp dụng khung vào dự án
+Tài liệu trong `docs/` là mẫu dùng chung. Trạng thái và phiên bản ghi trong repo khung là của mẫu, do Tech Lead duyệt; dòng "Người duyệt (dự án)" là người duyệt nội dung khi áp vào dự án.
+
+- Khi áp vào dự án, mọi tài liệu nội dung chuyển về `Draft`, xoá phiên bản và ngày của mẫu. Mẫu `Approved` không phải bằng chứng qua cổng G1–G7.
+- Lịch sử thay đổi là lịch sử git và PR có người duyệt. Bảng "Lịch sử thay đổi" trong file chỉ bắt buộc ở `00-project-overview` và `01-requirements` (nội dung nghiệp vụ, người duyệt không dùng git).
+- Dòng mẫu trong bảng dùng mã dạng `<...>` (ví dụ `FR-<MODULE>-<NN>`); thay bằng mã thật hoặc xoá, không giữ làm dữ liệu.
+- Nội dung trong `docs/` thuộc một trong hai loại:
+
+| Loại | Đánh dấu | Dự án được |
+| --- | --- | --- |
+| Mặc định khung | ghi "Mặc định khung" tại chỗ | Chỉnh, ghi lý do ở `PROJECT.md` §6 |
+| Chỗ dự án điền | `<!-- Điền theo từng dự án: … -->` | Điền; mục không áp dụng ghi "Không áp dụng" kèm lý do |
+
+Sàn (điều dự án chỉ được siết, không được nới) nằm ở `.ai/rules/`; `docs/` chỉ ghi giá trị dự án siết thêm.

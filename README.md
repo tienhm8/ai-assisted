@@ -19,7 +19,7 @@ project/
 │   ├── 01-requirements/         [02] phải làm gì, nghiệm thu ra sao?
 │   ├── 02-architecture/         [03] xây thế nào, đã chốt quyết định nào?
 │   ├── 03-engineering/          [04][06] code, bảo mật, lỗi, test theo chuẩn nào? kiểm soát AI ra sao?
-│   ├── 04-project-management/   [05][08] làm gì trước, chia Task ra sao, qua cổng nào?
+│   ├── 04-project-management/   [04][08] làm gì trước, chia Task ra sao, qua cổng nào?
 │   └── 05-operations/           [07] phát hành, giám sát, khôi phục thế nào?
 │
 └── .ai/                         AI làm gì, làm thế nào (dạng mệnh lệnh, không chứa giá trị riêng của dự án)

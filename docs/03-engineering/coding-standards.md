@@ -4,7 +4,7 @@
 | --- | --- |
 | Trạng thái | Approved |
 | Người phụ trách |  |
-| Người duyệt | Tech Lead |
+| Người duyệt (dự án) | Tech Lead |
 | Phiên bản · Ngày | 0.1 ·  |
 | Tài liệu liên quan | security-standards.md, error-handling.md, testing-strategy.md, ../02-architecture/system-architecture.md, ../02-architecture/module-design.md, ../../.ai/rules/coding-rules.md |
 
@@ -22,7 +22,7 @@ Stack và phiên bản chính thức ở [system-architecture](../02-architectur
 
 ## 2. Nguyên tắc chung
 Clean Code, SOLID, DRY, KISS, YAGNI và Separation of Concerns áp dụng cho mọi dự án, là điều bắt buộc ở [coding-rules](../../.ai/rules/coding-rules.md) mục "Nguyên tắc thiết kế". Mục này chỉ ghi nguyên tắc dự án bổ sung.
-<!-- Điền theo từng dự án; để trống nếu không có -->
+<!-- Điền theo từng dự án: để trống nếu không có -->
 
 ## 3. Cấu trúc dự án
 
@@ -87,7 +87,7 @@ Comment giải thích *vì sao*, không lặp lại *cái gì*. Quy định khi 
 | Quản lý tài nguyên | Luôn giải phóng kết nối, file, lock; dùng cơ chế tự đóng của ngôn ngữ. |
 
 Xử lý exception và logging theo [error-handling](error-handling.md); bảo mật khi code theo [security-standards](security-standards.md).
-<!-- Bổ sung chi tiết theo ngôn ngữ của dự án -->
+<!-- Điền theo từng dự án: chi tiết theo ngôn ngữ -->
 
 ## 7. Kiến trúc và thiết kế trong code
 Mục này chỉ nêu quy tắc khi viết code; thiết kế chính thức ở [system-architecture](../02-architecture/system-architecture.md) §3 và [module-design](../02-architecture/module-design.md) §3.
@@ -104,12 +104,12 @@ Mục này chỉ nêu quy tắc khi viết code; thiết kế chính thức ở 
 | Static analysis | Công cụ và mức cảnh báo chấp nhận được. |
 | Lint | Ruleset dùng chung; không tắt rule nếu không có lý do ghi rõ. |
 | Format | Tự động bằng công cụ, không tranh luận thủ công. |
-| Kích thước file | Mặc định khung: file mã nguồn tối đa **600 dòng**; vượt thì tách theo trách nhiệm. Áp cho file mới và file bị sửa trong Task; file cũ đang vượt chỉ tách khi có Task chạm tới, không tách ngoài phạm vi Task. Không tính file sinh tự động. Dự án chỉ được hạ ngưỡng, không nâng; nên kiểm bằng linter (ví dụ rule `max-lines`). |
+| Kích thước file | Sàn ở [coding-rules](../../.ai/rules/coding-rules.md) 15. Dự án chỉ ghi ngưỡng thấp hơn tại đây, nên kiểm bằng linter (ví dụ rule `max-lines`). |
 | Độ phức tạp | Ngưỡng cyclomatic/cognitive complexity tối đa cho hàm. |
 | Trùng lặp code | Ngưỡng trùng lặp cho phép. |
 
 Lệnh chạy ở §5.3; điều kiện chất lượng để qua CI ở [testing-strategy](testing-strategy.md).
-<!-- Điền ngưỡng theo từng dự án -->
+<!-- Điền theo từng dự án: ngưỡng -->
 
 ## 9. Code Review
 
@@ -138,7 +138,7 @@ Logic sai thì không duyệt; code xấu thì comment, không chặn PR. Nhữn
 | Độ dài lớp nhận yêu cầu (controller, handler) |  | Ví dụ: 50 dòng; vượt thường là đang chứa nghiệp vụ |
 | Độ dài lớp nghiệp vụ (service, use case) |  | Ví dụ: 200 dòng; vượt thì cân nhắc tách theo nghiệp vụ |
 | Số dependency inject vào một lớp |  | Ví dụ: 5–6 |
-<!-- Điền ngưỡng theo từng dự án và ngôn ngữ -->
+<!-- Điền theo từng dự án: ngưỡng theo ngôn ngữ -->
 
 ### 9.3 Phê duyệt
 Số người duyệt và người có quyền duyệt theo mức rủi ro. AI không tự phê duyệt hoặc tự merge.

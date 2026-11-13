@@ -4,7 +4,7 @@
 | --- | --- |
 | Trạng thái | Approved |
 | Người phụ trách |  |
-| Người duyệt | PO |
+| Người duyệt (dự án) | PO |
 | Phiên bản · Ngày | 0.1 ·  |
 | Tài liệu liên quan | vision.md, open-questions.md, ../01-requirements/BRD.md |
 
@@ -12,7 +12,7 @@
 >
 > **Người quyết định:** PO.
 >
-> **Điều kiện sang 01-requirements:** vision, scope trạng thái Approved;
+> **Điều kiện sang 01-requirements:** vision, scope trạng thái Approved; câu hỏi mở chặn phạm vi đã được xử lý (xem open-questions.md).
 
 ## 1. Trong phạm vi
 
