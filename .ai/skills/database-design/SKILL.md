@@ -18,16 +18,16 @@ Thiết kế dữ liệu như một Database Architect, không chỉ sinh câu l
 
 ## Tài liệu tham khảo
 
-Chỉ nạp file của bước đang làm.
+Chỉ nạp file của bước đang làm, và chỉ đọc mục được nêu. `examples.md` là minh hoạ, **không nạp** trừ khi người viết Skill hoặc Task yêu cầu.
 
 | File trong `references/` | Nạp ở bước |
 | --- | --- |
 | `modeling-patterns.md` | 3, 4, 6 |
 | `data-types.md` | 5 |
-| `performance-scaling.md` | 2, 7, 10 |
+| `performance-scaling.md` | Bước 2: §1 · Bước 6: §5 · Bước 7: §2, §3, §6–§8 (§7–§8 chỉ khi lên bậc partition/sharding) · Bước 10: §4 |
 | `caching.md` | 7, chỉ khi có mẫu truy cập cần cache |
 | `security.md` | 8 |
-| `migration.md` | 9, 10 |
+| `migration.md` | Bước 9: §1–§4, §6 · Bước 10: §5 |
 | `mongodb.md` | Hệ quản trị là MongoDB: thay cho phần quan hệ ở bước 4, 5, 7, 9, 10 |
 
 ## Quy trình

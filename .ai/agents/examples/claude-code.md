@@ -94,7 +94,7 @@ tools: Read, Grep, Glob
 Chỉ đọc và báo cáo (A1). Trả về đường dẫn file:dòng và kết luận; không dán nguyên nội dung file.
 ```
 
-## 4. Bảng ánh xạ ở task-types §4 (ví dụ đã điền)
+## 4. Bảng ánh xạ ở model-effort.md (ví dụ đã điền)
 
 | Hạng / mức khung | Model hoặc tham số thật |
 | --- | --- |

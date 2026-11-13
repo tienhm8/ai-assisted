@@ -54,88 +54,20 @@ Từ đó lập **giả thuyết về điều code phải làm**, rồi mới đ
 
 ### Bước 3: Review theo thứ tự ưu tiên
 
-Đi lần lượt từ ưu tiên 1 đến 8. Với mỗi câu hỏi, đọc ngữ cảnh ngoài diff khi cần; không kết luận từ diff đơn lẻ.
+`examples.md` chỉ là minh hoạ, không nạp khi review. Đi lần lượt từ ưu tiên 1 đến 8. Đọc ngữ cảnh ngoài diff khi cần; không kết luận từ diff đơn lẻ. Nạp checklist chi tiết của nhóm đang làm, chưa làm tới thì chưa nạp:
 
-**Ưu tiên 1: Code có làm đúng việc không?**
-
-- Từng AC được đáp ứng ở đâu trong code; AC nào không thấy chỗ đáp ứng.
-- Ca biên: rỗng, null/không có giá trị, giá trị biên, dữ liệu trùng, danh sách một phần tử, chuỗi rất dài, ký tự đặc biệt.
-- Chuyển trạng thái: có chặn chuyển trạng thái không hợp lệ không.
-- Xử lý lỗi: không nuốt lỗi; lỗi được phân loại theo error-handling; thông báo lỗi không lộ chi tiết nội bộ.
-- Kiểu dữ liệu: tiền và số cần chính xác không dùng số dấu phẩy động; múi giờ và định dạng thời gian nhất quán; làm tròn đúng quy tắc nghiệp vụ.
-- Ranh giới transaction: các ghi phải cùng thành công hoặc cùng thất bại có nằm chung một đơn vị nguyên tử không.
-- Quy tắc nghiệp vụ lấy từ FR/BR, không phải do code tự đặt ra; chưa rõ thì ghi câu hỏi mở.
-
-**Ưu tiên 2: Có test chứng minh không?**
-
-- Mỗi AC có test truy vết (tên/chú thích mang ID AC) và output test thật. AC không có bằng chứng là finding High.
-- Sửa lỗi có regression test đỏ trước, xanh sau.
-- Có test cho ca lỗi, ca biên và ca bị từ chối quyền, không chỉ đường đi thành công.
-- Test kiểm hành vi, không kiểm chi tiết cài đặt; không có assertion rỗng hoặc chỉ kiểm "không ném lỗi".
-- Không test bị xoá, bỏ qua hoặc làm yếu để qua cổng.
-
-**Ưu tiên 3: Code có đặt đúng chỗ không?**
-
-Lấy bản đồ tầng và trách nhiệm từ tài liệu kiến trúc của dự án; không tự áp một mô hình tầng. Kiểm theo các trách nhiệm chung:
-
-| Trách nhiệm | Câu hỏi |
-| --- | --- |
-| Biên nhận yêu cầu (handler, controller, resolver, CLI, UI component) | Chỉ điều phối (nhận yêu cầu → gọi nghiệp vụ → trả kết quả) hay đang chứa quy tắc nghiệp vụ, truy cập dữ liệu trực tiếp? |
-| Kiểm tra đầu vào và phân quyền | Làm tại biên hệ thống, theo cơ chế chung của dự án, không rải rác trong nghiệp vụ? Chỉ nhận các trường được phép (whitelist), không gán toàn bộ input vào đối tượng? |
-| Nghiệp vụ (service, use case) | Quy tắc nghiệp vụ nằm ở đây và chỉ ở một nơi? |
-| Domain (entity, model, value object) | Hành vi gắn chặt với dữ liệu (kiểm bất biến, chuyển trạng thái) nằm cùng đối tượng của nó? |
-| Truy cập dữ liệu (repository, DAO, query) | Tầng trên không tự dựng truy vấn vượt tầng; không truy cập dữ liệu của module khác ngoài interface công khai? |
-| Bất đồng bộ và side effect (job, event, consumer, gửi thông báo, gọi hệ thống ngoài) | Side effect chậm hoặc không hoàn tác được có được tách khỏi luồng chính và khỏi transaction không? |
-| Định dạng đầu ra | Trả về dạng dữ liệu đã định nghĩa cho bên ngoài, không trả nguyên đối tượng nội bộ? |
-
-Dấu hiệu cần xem xét (không phải luật; ngưỡng cụ thể theo coding-standards của dự án): hàm hoặc class vượt ngưỡng kích thước; một hàm làm nhiều việc; lồng điều kiện sâu; quá nhiều dependency; một đơn vị bị sửa vì nhiều lý do khác nhau; phụ thuộc vòng; logic trùng lặp.
-
-**Ưu tiên 4: Khi hệ thống chịu tải và chạy đồng thời thì sao?**
-
-- Hai yêu cầu cùng lúc trên cùng dữ liệu: có mẫu "đọc rồi ghi" (đọc giá trị, quyết định, ghi lại) mà không có khoá, optimistic locking hoặc cập nhật có điều kiện không?
-- Ràng buộc duy nhất có được bảo đảm ở tầng lưu trữ không, hay chỉ kiểm "đã tồn tại chưa" bằng code (dễ trùng khi đồng thời)?
-- Tác vụ chạy lại (retry, message giao hai lần, người dùng bấm hai lần): có idempotent không, có khoá idempotency cho thao tác tạo/thanh toán không?
-- Tác vụ nền: có timeout, giới hạn số lần retry, backoff, nơi xử lý khi thất bại cuối cùng; có chặn chạy chồng khi cần không?
-- Event/tác vụ nền được phát **sau khi** transaction commit, không phát trước (tránh xử lý dữ liệu chưa tồn tại hoặc đã rollback).
-- Trạng thái dùng chung trong bộ nhớ tiến trình (biến toàn cục, singleton có trạng thái) có an toàn khi nhiều request hoặc nhiều instance không?
-- Lời gọi ra ngoài có timeout; lỗi của hệ thống ngoài không kéo đổ luồng chính.
-
-**Ưu tiên 5: Hiệu năng, dữ liệu, cache**
-
-- Truy vấn hoặc lời gọi mạng nằm trong vòng lặp (N+1), kể cả gọi gián tiếp qua thuộc tính lazy-load.
-- Truy vấn chạy trên bao nhiêu bản ghi, hôm nay và khi dữ liệu tăng; có giới hạn, phân trang, xử lý theo lô hoặc stream không, hay nạp toàn bộ vào bộ nhớ?
-- Chỉ lấy cột và dữ liệu cần dùng.
-- Điều kiện lọc, join và sắp xếp có index phù hợp không (kể cả thứ tự cột trong index ghép); điều kiện có làm index không dùng được không.
-- Migration trên bảng lớn có khoá bảng lâu, có cần chạy theo lô hoặc tách bước không.
-- Có nên cache không; nếu cache: khi nào làm mất hiệu lực, thời gian sống, khoá cache có tách theo người dùng/tenant/quyền không (thiếu là lộ dữ liệu chéo), nhiều request cùng miss cache thì sao.
-- Đối chiếu NFR hiệu năng khi thay đổi nằm trên luồng nóng.
-
-**Ưu tiên 6: Bảo mật (theo OWASP Top 10)**
-
-Kiểm nhanh các lỗi hay gặp nhìn thấy được trong diff:
-
-- Thiếu kiểm quyền ở backend, đặc biệt quyền trên từng bản ghi (lấy theo ID mà không kiểm quyền sở hữu: IDOR/BOLA).
-- Gán toàn bộ input vào đối tượng (mass assignment/over-posting) thay vì chỉ nhận trường đã kiểm.
-- Injection: nối chuỗi vào truy vấn, lệnh hệ thống, template, biểu thức đường dẫn.
-- Đầu ra không được mã hoá/escape theo ngữ cảnh (XSS).
-- Trả về hoặc ghi log trường nhạy cảm, secret, token, dữ liệu D3.
-- Upload: không kiểm loại, kích thước, nội dung, nơi lưu.
-- Gọi URL do người dùng cung cấp (SSRF); đường dẫn file từ input (path traversal).
-- Thiếu giới hạn tần suất ở điểm nhạy cảm (đăng nhập, OTP, đặt lại mật khẩu).
-- Dependency mới có lỗ hổng đã biết hoặc chưa ghi lý do.
+| Ưu tiên | Câu hỏi chính | Checklist |
+| --- | --- | --- |
+| 1 | Code có làm đúng việc không? (AC, ca biên, trạng thái, lỗi, kiểu dữ liệu, transaction, BR từ FR/BR) | `references/correctness.md` |
+| 2 | Có test chứng minh không? (mỗi AC có test và output thật; AC thiếu bằng chứng là High) | `references/correctness.md` |
+| 3 | Code có đặt đúng chỗ không? (tầng và trách nhiệm theo tài liệu kiến trúc của dự án) | `references/correctness.md` |
+| 4 | Chịu tải và đồng thời thì sao? (race, idempotency, retry, event sau commit) | `references/runtime.md` |
+| 5 | Hiệu năng, dữ liệu, cache (N+1, khối lượng, index, migration bảng lớn) | `references/runtime.md` |
+| 6 | Bảo mật theo OWASP Top 10 (quyền từng bản ghi, injection, XSS, lộ D3, upload, SSRF) | `references/security.md` |
+| 7 | Vận hành được không? (log, alert, cấu hình, rollback) | `references/runtime.md` |
+| 8 | Clean code và style: ưu tiên thấp nhất, không chặn PR; không comment điều formatter/linter đã bắt | — |
 
 Diff chạm xác thực, phân quyền, dữ liệu nhạy cảm hoặc input từ bên ngoài thì kích hoạt `security-review`; không tự làm thay trong skill này.
-
-**Ưu tiên 7: Vận hành được không?**
-
-- Lỗi quan trọng được ghi log kèm ngữ cảnh và correlation ID, không ghi dữ liệu nhạy cảm.
-- Tác vụ nền thất bại thì có người biết (log, alert, hàng đợi lỗi).
-- Cần metric hoặc alert mới không; cấu hình mới đã có giá trị cho mọi môi trường chưa.
-- Có rollback được không; feature flag có kế hoạch gỡ không.
-
-**Ưu tiên 8: Clean code và style**
-
-Ưu tiên thấp nhất, không bỏ qua nhưng không chặn PR: đặt tên, độ dài, comment, code chết, import thừa, độ đọc hiểu. Những gì formatter/linter đã bắt được thì không comment.
 
 ### Bước 4: Viết finding
 

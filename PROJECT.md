@@ -37,7 +37,7 @@ Không cần dùng nhiều công cụ; quan trọng là phối hợp tốt. Mỗ
 |  | | | | |
 
 ### 2.1 Công cụ cấp cho AI (MCP server, plugin)
-Công cụ mà AI gọi được, ví dụ MCP server của Laravel Boost. Guideline đi kèm công cụ không cài thẳng mà tiếp nhận theo [skills/README](.ai/skills/README.md) mục "Tiếp nhận Skill bên ngoài". Mỗi công cụ ghi rõ môi trường được kết nối và tính năng bị tắt. Tính năng ghi dữ liệu hoặc chạy code tuỳ ý (ví dụ tinker, câu query ghi) xếp vào vùng 🟡/🔴 ở §3.2.
+Công cụ mà AI gọi được, ví dụ MCP server của Laravel Boost. Guideline đi kèm công cụ không cài thẳng mà tiếp nhận theo [external-skills.md](docs/03-engineering/external-skills.md). Mỗi công cụ ghi rõ môi trường được kết nối và tính năng bị tắt. Tính năng ghi dữ liệu hoặc chạy code tuỳ ý (ví dụ tinker, câu query ghi) xếp vào vùng 🟡/🔴 ở §3.2.
 
 | Công cụ · phiên bản | Tính năng được dùng | Môi trường kết nối | Tính năng bị tắt / giới hạn | Người duyệt |
 | --- | --- | --- | --- | --- |

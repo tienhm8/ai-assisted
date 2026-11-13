@@ -1,7 +1,7 @@
 # Agents
 
 > Trạng thái: **Draft**. Người quyết định: Tech Lead.
-> Điều kiện chuyển Approved: đã điền model và effort ở [task-types.md](../workflows/task-types.md) §4.
+> Điều kiện chuyển Approved: đã điền model và effort ở [model-effort.md](../workflows/model-effort.md).
 > Sửa file này cần Task riêng và người duyệt.
 
 Agent là **vai thực hiện** của AI: ai làm, với quyền gì. Vai là chức năng, không bắt buộc là một agent hay model riêng.

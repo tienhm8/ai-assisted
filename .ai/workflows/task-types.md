@@ -63,25 +63,7 @@ Rule đã thoả điều kiện thì không bỏ, kể cả với Task R1. Mức
 | documentation | Đổi hành vi, API, schema, kiến trúc hoặc cách vận hành |
 | architecture-design (soạn ADR) | Thiết kế dữ liệu cần partition, sharding, tách CSDL, đổi hệ quản trị hoặc chọn mẫu đa tenant |
 
-Skill dùng thêm ngoài chuỗi phải ghi vào plan và báo cáo, không âm thầm mở rộng phạm vi.
 
 ## 4. Model và effort
 
-Cột cuối bảng định tuyến là mặc định cho mọi Task cùng loại. "Plan" là phiên làm bước 1–4, "thực thi" là phiên làm bước 5–7; bước 8 dùng dòng T9. Tech Lead chốt bằng cách sửa trực tiếp cột đó và điền bảng ánh xạ dưới đây; không khai báo ở nơi khác.
-
-- **Hạng model:** M1 nhẹ (tra cứu, tóm tắt, việc theo mẫu) · M2 chuẩn (code, test, tài liệu hằng ngày) · M3 mạnh (thiết kế, review, bảo mật, sự cố).
-- **Effort:** E1 thấp · E2 trung bình · E3 cao · E4 rất cao.
-- Task R3, hoặc bước dùng `authentication-rbac` hay `security-review`: tối thiểu M3·E3.
-- Model của phiên thấp hơn hạng yêu cầu, thiếu model đúng hạng hoặc hết hạn mức: dừng và đề nghị người đổi; không tự hạ để chạy tiếp. Plan ghi model và effort cho phiên thực thi.
-
-**Ánh xạ sang công cụ thật** (ví dụ cho Claude Code: [agents/examples/claude-code.md](../agents/examples/claude-code.md)):
-
-| Hạng / mức | Model hoặc tham số thật (tên · phiên bản) |
-| --- | --- |
-| M1 · Nhẹ | |
-| M2 · Chuẩn | |
-| M3 · Mạnh | |
-| E1 · Thấp | |
-| E2 · Trung bình | |
-| E3 · Cao | |
-| E4 · Rất cao | |
+Tra cột cuối của dòng loại Task ở §1; hạng, mức và ánh xạ sang công cụ thật ở [model-effort.md](model-effort.md).
