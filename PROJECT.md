@@ -84,7 +84,7 @@ Phân vùng file/thư mục theo mức kiểm soát. Ví dụ vùng 🔴: `.ai/`
 | DevOps | |
 | Owner (người quyết phát hành) | |
 
-## 7. Lựa chọn áp dụng khung
+## 7. Lựa chọn áp dụng khung (Tailoring)
 Ghi lý do khi gộp, bỏ hoặc đổi cách dùng tài liệu cho phù hợp quy mô dự án.
 | Hạng mục | Lựa chọn | Lý do |
 | --- | --- | --- |
