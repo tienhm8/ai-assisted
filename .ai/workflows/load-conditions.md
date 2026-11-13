@@ -29,4 +29,5 @@ Rule đã thoả điều kiện thì không bỏ, kể cả Task R1; mức rủi
 | e2e-testing | Có hành trình người dùng quan trọng hoặc đổi luồng nhiều màn hình |
 | security-review | Thoả điều kiện Rule `security` ở §1. Bắt buộc với Task R3 |
 | documentation | Đổi hành vi, API, schema, kiến trúc hoặc cách vận hành |
+| caching | Thoả điều kiện Rule `cache` ở §1 và Task thêm, sửa cache hoặc thêm đường ghi vào dữ liệu đang được cache |
 | architecture-design (soạn ADR) | Thiết kế dữ liệu cần partition, sharding, tách CSDL, đổi hệ quản trị hoặc chọn mẫu đa tenant |

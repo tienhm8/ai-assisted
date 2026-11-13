@@ -1,10 +1,14 @@
 # Cache Rules
 
-> Trạng thái: **Approved**. Rule bắt buộc khi thay đổi có thêm, sửa hoặc đọc cache.
+> Trạng thái: **Draft**, bản sửa chờ duyệt; bản Approved hiện hành nằm ở nhánh chính. Rule bắt buộc khi thay đổi có thêm, sửa hoặc đọc cache.
 
-1. Chỉ thêm cache khi truy vấn đã tối ưu mà vẫn không đạt yêu cầu phi chức năng, có số liệu đo. CSDL là nguồn sự thật: xoá toàn bộ cache thì hệ thống vẫn đúng, chỉ chậm hơn.
-2. Không cache số dư và giao dịch tiền, tồn kho hoặc trạng thái đang tranh chấp, lock nghiệp vụ, secret, token, mật khẩu. Lock chống dồn tải của cache không dùng làm khoá nghiệp vụ.
-3. Ghi CSDL xong thì xoá key, không cập nhật key. Việc xoá đặt ở tầng truy cập dữ liệu của module sở hữu dữ liệu; module khác không xoá hộ.
-4. Dữ liệu phụ thuộc tenant, người xem, quyền hoặc ngôn ngữ thì key phải chứa yếu tố đó. Mọi key chứa dữ liệu có TTL kèm jitter; không cache kết quả lỗi.
-5. Cache lỗi không làm request lỗi: bỏ qua cache, đọc nguồn, ghi log. Timeout gọi cache ngắn hơn truy vấn gốc; không dùng lệnh chặn toàn server như `KEYS`.
-6. Production có cache thì có job warm-up. Job chỉ chạy trên một instance, nạp tập key chọn lọc theo lô có giới hạn tải CSDL, dùng chung hàm nạp với luồng đọc, không ghi đè dữ liệu mới hơn; job lỗi không chặn khởi động.
+1. CSDL là nguồn sự thật. Xoá toàn bộ cache thì kết quả nghiệp vụ không đổi, chỉ chậm hơn. Cache miss thì đọc nguồn; không coi miss là "không tồn tại".
+2. Tối ưu gốc trước, cache sau: truy vấn đã được tối ưu (index, viết lại truy vấn, cấu trúc bảng) và có kế hoạch thực thi sau tối ưu; cache không thay cho tối ưu gốc. Sau đó chỉ cache khi đủ cả sáu điều kiện: đọc nhiều; truy vấn hoặc tính toán tốn kém (join phức tạp, tổng hợp, gọi dịch vụ ngoài); tái tạo được từ nguồn; nghiệp vụ chấp nhận dữ liệu trễ trong một khoảng đã xác định; đã xác định TTL và mọi sự kiện làm mất hiệu lực; dữ liệu tách đúng theo người dùng, tenant và quyền.
+3. Không cache: số dư, giao dịch tài chính, trạng thái thanh toán; tồn kho hoặc trạng thái giữ chỗ đang tranh chấp; lock nghiệp vụ; secret, token, mật khẩu, OTP và trạng thái bảo mật; dữ liệu thay đổi liên tục; dữ liệu ít được đọc. Ngoại lệ cần ADR được duyệt. Lock chống dồn tải của cache không dùng làm khoá nghiệp vụ.
+4. Key cache không chứa dữ liệu D2/D3 (email, số điện thoại, số giấy tờ); dùng mã nội bộ. Dữ liệu cá nhân (D3) chỉ vào cache khi thiết kế ghi đủ các điểm sau và được Security duyệt: key có phạm vi người dùng hoặc tenant; kết nối tới cache có TLS và tài khoản riêng theo service; cache lưu xuống đĩa thì mã hoá, hoặc tắt lưu đĩa cho nhóm key đó; TTL ngắn; xoá tài khoản hoặc xoá theo yêu cầu của chủ thể dữ liệu thì xoá cả key cache trong cùng luồng; chỉ cache trường cần dùng.
+5. Chỉ xoá key sau khi transaction commit thành công. Ghi CSDL xong thì xoá key, không cập nhật key; ghi đè chỉ khi so version và chỉ ghi khi mới hơn. Việc xoá đặt ở tầng truy cập dữ liệu của module sở hữu dữ liệu; module khác phát sự kiện, không xoá hộ.
+6. Dữ liệu phụ thuộc tenant, người xem, quyền hoặc ngôn ngữ thì key phải chứa yếu tố đó. Mọi key chứa dữ liệu có TTL kèm jitter; không cache kết quả lỗi.
+7. Cache sống lâu hơn một request mà nằm riêng từng instance (L1) phải bị xoá trên mọi instance khi dữ liệu đổi, và có TTL không dài hơn TTL của cache dùng chung (L2).
+8. Gộp các request cùng miss một key để số truy vấn xuống CSDL không tăng theo số request; request chờ có giới hạn thời gian.
+9. Cache lỗi không làm request lỗi: bỏ qua cache, đọc nguồn, ghi log. Timeout gọi cache ngắn hơn truy vấn gốc, retry có giới hạn; số truy vấn đồng thời xuống CSDL có giới hạn. Không dùng lệnh chặn toàn server như `KEYS`.
+10. Production có cache thì có job warm-up. Job chỉ chạy trên một instance, nạp tập key chọn lọc theo lô có giới hạn tải CSDL, dùng chung hàm nạp với luồng đọc, không ghi đè dữ liệu mới hơn; job lỗi không chặn khởi động.

@@ -10,11 +10,11 @@ Ký hiệu chuỗi Skill: `→` tuần tự · `∥` song song được · `[ ]`
 
 | # | Loại Task | Rule luôn nạp | Rule theo điều kiện (load-conditions §1) | Chuỗi Skill | Template | Model · Effort (plan / thực thi) |
 | --- | --- | --- | --- | --- | --- | --- |
-| T1 | Tính năng mới (chưa có FR, AC) | architecture | database, security, git | [product-discovery] → requirement-analysis → requirement-review → ⏸ PO/BA → architecture-design ∥ database-design → ⏸ Kiến trúc sư → task-planning → ⏸ Tech Lead → các Task T2 | PLAN, ADR | M3·E3 / — |
-| T2 | Cài đặt tính năng (đã có FR, AC, thiết kế) | git, coding, architecture, testing | database, security | [authentication-rbac] → backend-development → api-development ∥ frontend-development → unit-testing → [integration-testing] → [e2e-testing] → [security-review] → code-review → [documentation] | PLAN, TEST-REPORT, DELIVERY-REPORT | M3·E3 / M2·E2 |
-| T3 | Sửa lỗi | git, coding, testing | architecture, database, security | bug-fixing → [integration-testing / e2e-testing] → [security-review] → code-review → [documentation] | BUG (đầu vào), DELIVERY-REPORT | M2·E3 / M2·E3 |
+| T1 | Tính năng mới (chưa có FR, AC) | architecture | database, security, git | [product-discovery] → requirement-analysis → requirement-review → ⏸ PO/BA → architecture-design ∥ database-design → [caching] → ⏸ Kiến trúc sư → task-planning → ⏸ Tech Lead → các Task T2 | PLAN, ADR | M3·E3 / — |
+| T2 | Cài đặt tính năng (đã có FR, AC, thiết kế) | git, coding, architecture, testing | database, security | [authentication-rbac] → backend-development → [caching] → api-development ∥ frontend-development → unit-testing → [integration-testing] → [e2e-testing] → [security-review] → code-review → [documentation] | PLAN, TEST-REPORT, DELIVERY-REPORT | M3·E3 / M2·E2 |
+| T3 | Sửa lỗi | git, coding, testing | architecture, database, security | bug-fixing → [caching] → [integration-testing / e2e-testing] → [security-review] → code-review → [documentation] | BUG (đầu vào), DELIVERY-REPORT | M2·E3 / M2·E3 |
 | T4 | Refactor | git, coding, architecture, testing | database | unit-testing (baseline) → refactoring → unit-testing / integration-testing (so sánh) → code-review | PLAN, DELIVERY-REPORT | M2·E3 / M2·E2 |
-| T5 | Thay đổi schema | git, database, architecture, testing | security, coding | database-design → integration-testing → code-review → documentation | PLAN, DELIVERY-REPORT | M3·E3 / M2·E3 |
+| T5 | Thay đổi schema | git, database, architecture, testing | security, coding | database-design → [caching] → integration-testing → code-review → documentation | PLAN, DELIVERY-REPORT | M3·E3 / M2·E3 |
 | T6 | Thay đổi yêu cầu | — | architecture, git | requirement-analysis → requirement-review → ⏸ PO/BA → các Task T2/T5 bị ảnh hưởng | — | M2·E3 / — |
 | T7 | Thay đổi kiến trúc hoặc contract | architecture | database, security, git | architecture-design → ⏸ Kiến trúc sư (ADR) → các Task T2/T5 bị ảnh hưởng → documentation | ADR, PLAN | M3·E4 / — |
 | T8 | Rà soát tài liệu yêu cầu | — | — | requirement-review | — | M2·E2 / — |

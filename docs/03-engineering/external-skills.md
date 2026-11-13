@@ -27,7 +27,7 @@ Chỉ lấy phần làm AI làm đúng hơn, không lấy kiến thức chung v�
 | Điều bắt buộc (cấm, phải, ngưỡng) | `docs/03-engineering/` hoặc `.ai/rules/`, vì Skill không chép chuẩn |
 | Đoạn code minh hoạ | `examples.md` |
 
-`SKILL.md` vẫn giữ trung lập công nghệ. `references/` có thể đã có file theo chủ đề (ví dụ `database-design/references/caching.md`). Nội dung chung cho nhiều công nghệ thì bổ sung vào file chủ đề đó; nội dung riêng một công nghệ thì để file `<công-nghệ>.md` riêng, mỗi file một công nghệ. Không file nào được mâu thuẫn với `SKILL.md`, `docs/` hay `.ai/rules/`.
+`SKILL.md` vẫn giữ trung lập công nghệ. `references/` có thể đã có file theo chủ đề (ví dụ `caching/references/patterns.md`). Nội dung chung cho nhiều công nghệ thì bổ sung vào file chủ đề đó; nội dung riêng một công nghệ thì để file `<công-nghệ>.md` riêng, mỗi file một công nghệ. Không file nào được mâu thuẫn với `SKILL.md`, `docs/` hay `.ai/rules/`.
 
 ## Ghi nguồn
 

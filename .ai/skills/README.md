@@ -13,6 +13,7 @@ File này dành cho người viết và duyệt Skill; AI không cần nạp khi
 | requirement-review | Kiểm tra tính đầy đủ của yêu cầu |
 | architecture-design | Thiết kế kiến trúc |
 | database-design | Thiết kế database |
+| caching | Thiết kế, cài đặt cache dữ liệu L1/L2 |
 | task-planning | Lập plan và chia Task từ FR/thiết kế đã duyệt |
 | api-development | Phát triển API |
 | frontend-development | Phát triển giao diện |

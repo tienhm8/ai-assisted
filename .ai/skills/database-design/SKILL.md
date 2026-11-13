@@ -25,7 +25,6 @@ Chỉ nạp file của bước đang làm, và chỉ đọc mục được nêu.
 | `modeling-patterns.md` | 3, 4, 6 |
 | `data-types.md` | 5 |
 | `performance-scaling.md` | Bước 2: §1 · Bước 6: §5 · Bước 7: §2, §3, §6–§8 (§7–§8 chỉ khi lên bậc partition/sharding) · Bước 10: §4 |
-| `caching.md` | 7, chỉ khi có mẫu truy cập cần cache |
 | `security.md` | 8 |
 | `migration.md` | Bước 9: §1–§4, §6 · Bước 10: §5 |
 | `postgresql.md` hoặc `mysql-mariadb.md` (chỉ file của hệ đã chốt) | Bước 4: §9 · Bước 5: §1, §2 · Bước 6: §5, §9 · Bước 7: §3, §4 (§7 chỉ khi lên bậc partition/sharding) · Bước 8: §10 · Bước 9: §8 · Bước 10: §6 |
@@ -64,7 +63,7 @@ Chỉ nạp file của bước đang làm, và chỉ đọc mục được nêu.
    - Thiết kế index từ bảng `AP-<NN>`; mỗi index ghi mẫu truy cập nó phục vụ. Loại index trùng hoặc đã bị index khác bao phủ.
    - Viết truy vấn dùng được index, có giới hạn và phân trang.
    - Giới hạn connection pool.
-   - Cache chỉ cho mẫu truy cập đã tối ưu truy vấn mà vẫn không đạt NFR.
+   - Cache chỉ sau khi đã tối ưu truy vấn và index cho mẫu truy cập đó; thoả điều kiện được cache của Rule `cache` thì chuyển phần cache sang Skill `caching`.
    - Mở rộng theo bậc, chỉ lên bậc sau khi bậc trước không đủ và có số liệu: tối ưu truy vấn và index → cache, bản sao chỉ đọc → partition → lưu trữ dữ liệu cũ → tách CSDL theo module → sharding. Từ partition trở lên ghi khoá phân vùng, lý do, hệ quả và đưa vào ADR.
 8. **Bảo mật dữ liệu.** Gán mức dữ liệu cho từng cột; băm mật khẩu, mã hoá cột D3, che dữ liệu ngoài production; tách tài khoản CSDL theo vai (sở hữu schema, chạy migration, ứng dụng, chỉ đọc); cách ly tenant; bảng audit; vòng đời dữ liệu.
 
