@@ -31,7 +31,7 @@ Cổng duyệt G0–G7 giữa các giai đoạn và độ nghiêm ngặt S1–S3
 ```text
 project/
 ├── README.md                          bản đồ của repo
-├── PROJECT.md                         [04] khai báo của dự án: công cụ AI, trần mức tự chủ, bản đồ vùng 🟢🟡🔴, dữ liệu theo mức
+├── PROJECT.md                         [04] khai báo của dự án: công cụ AI, trần mức tự chủ, bản đồ vùng 🟢🟡🔴, dữ liệu theo mức, độ nghiêm ngặt, vai trò, tailoring, miễn trừ
 │
 ├── docs/                              hồ sơ dự án (mỗi dự án viết riêng)
 │   │
