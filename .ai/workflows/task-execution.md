@@ -2,15 +2,27 @@
 
 > Trạng thái: **Approved**. Quy trình **bắt buộc** cho mọi Task giao cho AI. Sửa file này cần Task riêng và người duyệt.
 
-**Nạp đúng lúc cần, không nạp trước.** Mỗi bước chỉ nạp phần ở cột "Nạp". Bộ Rule, chuỗi Skill, template của Task tra ở dòng loại Task trong [task-types.md](task-types.md) (chỉ đọc dòng của loại đang làm, cùng §2, §3 khi cần); model và effort ở [model-effort.md](model-effort.md) khi lập plan.
+**Nạp đúng lúc cần, không nạp trước.** Mỗi bước chỉ nạp phần ở cột "Nạp". Bộ Rule, chuỗi Skill, template của Task tra ở dòng loại Task trong [task-types.md](task-types.md); chỉ đọc dòng của loại đang làm, không nạp cả bảng (lệnh lọc ở dưới); điều kiện nạp Rule và Skill có điều kiện ở [load-conditions.md](load-conditions.md); model và effort ở [model-effort.md](model-effort.md) khi lập plan.
+
+```sh
+awk -v t=T2 '!/^\| T[0-9]+ \|/ || index($0, "| " t " |")==1' .ai/workflows/task-types.md
+```
+
+Lệnh giữ phần chú thích, ghi chú và đúng một dòng `T<n>`; thay `T2` bằng loại Task đang làm. Task chưa ghi loại thì lấy danh sách loại để phân loại trước:
+
+```sh
+awk -F' \\| ' '/^\| T[0-9]+ \|/{print $1" | "$2}' .ai/workflows/task-types.md
+```
+
+Vẫn không xác định được loại thì dừng và hỏi.
 
 ## Các bước
 
 | Bước | Việc | Nạp | Đầu ra |
 | --- | --- | --- | --- |
-| 1 · Tiếp nhận | Đọc Task: mục tiêu, phạm vi, AC, mức rủi ro, mức tự chủ. Xác định loại Task; Task lai thì tách thành Task con. Thiếu mức rủi ro, mức tự chủ hoặc độ nghiêm ngặt S: hỏi, không tự gán | Task; `project-rules`; `PROJECT.md` §2, §4; `gates-and-rigor.md` §2 khi cần áp S; `task-types.md` (dòng loại Task, §2 để chọn Rule) | Loại Task, bộ nạp |
+| 1 · Tiếp nhận | Đọc Task: mục tiêu, phạm vi, AC, mức rủi ro, mức tự chủ. Xác định loại Task; Task lai thì tách thành Task con. Thiếu mức rủi ro, mức tự chủ hoặc độ nghiêm ngặt S: hỏi, không tự gán | Task; `project-rules`; `PROJECT.md` §2, §4; `gates-and-rigor.md` §2 khi cần áp S; `task-types.md` (dòng loại Task); `load-conditions.md` §1 để chọn Rule | Loại Task, bộ nạp |
 | 2 · Phân tích | Đọc yêu cầu, thiết kế và code liên quan; ghi điểm chưa rõ thành câu hỏi mở | FR/BR/AC, ADR, thiết kế mà Task chỉ tới; code trong phạm vi | Câu hỏi mở (nếu có) |
-| 3 · Lập plan | File dự kiến đổi, quyết định thiết kế, AC → test, chuỗi Skill (bỏ hoặc thêm Skill phải nêu lý do) | PLAN-TEMPLATE; `model-effort.md`; Rule `testing` và các Rule `architecture`, `database`, `security` đã thoả điều kiện | Plan |
+| 3 · Lập plan | File dự kiến đổi, quyết định thiết kế, AC → test, chuỗi Skill (bỏ hoặc thêm Skill phải nêu lý do) | PLAN-TEMPLATE; `model-effort.md`; `load-conditions.md` §2 khi chuỗi có Skill `[ ]`; Rule `testing` và các Rule `architecture`, `database`, `security` đã thoả điều kiện | Plan |
 | 4 · Duyệt plan | Người duyệt, theo điều kiện ở mục "Duyệt plan" | — | Plan Approved |
 | 5 · Thực hiện | Làm lần lượt từng Skill trong chuỗi: cổng vào → quy trình → kết quả cần kiểm. Ghi đầu ra vào plan rồi mới nạp Skill kế | Plan; `SKILL.md` của Skill đang làm và file `references/` nó chỉ tới; Rule `coding`; Rule `git-workflow` khi commit | Diff |
 | 6 · Kiểm thử | Chạy đủ cổng kiểm tra của dự án | Skill testing tương ứng; TEST-REPORT-TEMPLATE | Output thật |
