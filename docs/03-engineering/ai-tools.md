@@ -14,7 +14,7 @@
 
 | Công cụ | File vào | Skill tự kích hoạt |
 | --- | --- | --- |
-| Claude Code | `AGENTS.md` (tự đọc khi repo không có `CLAUDE.md`; có `CLAUDE.md` thì thêm dòng `@AGENTS.md`) | `.claude/skills` |
+| Claude Code | `AGENTS.md` (từ v2.1.277 tự đọc khi repo không có `CLAUDE.md`; có `CLAUDE.md` thì thêm dòng `@AGENTS.md`) | `.claude/skills` |
 | Cursor | `AGENTS.md` | Đọc `.claude/skills/` hoặc `.agents/skills/` |
 | Antigravity CLI (thay Gemini CLI) | `AGENTS.md` hoặc `GEMINI.md` | `.agents/skills` |
 | Codex | `AGENTS.md` | Skills tương thích |
@@ -29,7 +29,7 @@ mkdir -p .claude && ln -s ../.ai/skills .claude/skills   # Claude Code (Cursor c
 mkdir -p .agents && ln -s ../.ai/skills .agents/skills   # Antigravity
 ```
 
-Không đưa Rule vào `.claude/rules/`, `.cursor/rules/`: các thư mục này nạp vào mọi phiên. Trên Windows cần `git config core.symlinks true`.
+Không đưa Rule vào `.claude/rules/`, `.cursor/rules/`: Rule không có `paths` nạp từ đầu mọi phiên; `paths` chỉ lọc theo file đang sửa, không theo loại Task như [task-execution](../../.ai/workflows/task-execution.md). Trên Windows cần `git config core.symlinks true`.
 
 ## 3. Công cụ dự án dùng
 
