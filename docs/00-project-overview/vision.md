@@ -25,8 +25,8 @@
 ## 3. Tuyên bố giá trị
 <!-- Điền theo từng dự án -->
 
-## 4. Outcome đo được
-Mỗi Outcome nên có mã `OUT-<NN>` để BRD (Tiêu chí thành công) tham chiếu, không chép lại.
+## 4. Kết quả cần đạt và cách đo (Outcome)
+Mỗi kết quả (Outcome) là thay đổi thực tế dự án phải tạo ra, không phải tính năng bàn giao; nên có mã `OUT-<NN>` để BRD (Tiêu chí thành công) tham chiếu, không chép lại.
 
 | Mã | Outcome | Chỉ số | Mục tiêu | Cách đo |
 | --- | --- | --- | --- | --- |
