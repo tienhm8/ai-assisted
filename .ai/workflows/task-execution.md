@@ -79,6 +79,6 @@ Dừng phần bị ảnh hưởng, vẫn làm phần độc lập và an toàn, 
 - vượt phạm vi Task hoặc mức tự chủ; cần đổi quyền, bảo mật, dữ liệu production;
 - phát hiện secret hoặc lỗ hổng;
 - không xác định được loại Task, môi trường hay lệnh chạy;
-- không tìm ra nguyên nhân gốc, hoặc đã hết 3 vòng sửa cho một lỗi.
+- không tìm ra nguyên nhân gốc, hoặc hết giới hạn vòng sửa (`project-rules` 18).
 
 Khi dừng, nêu: đã làm gì, bị chặn ở đâu, cần ai quyết gì.

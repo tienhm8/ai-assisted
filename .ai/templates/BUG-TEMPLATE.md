@@ -44,7 +44,7 @@ Kèm thông báo lỗi, log, stack trace (đã che dữ liệu nhạy cảm, kh�
 - [ ] Hồi quy liên quan đã chạy.
 - [ ] Nguyên nhân gốc đã ghi; không tìm ra thì dừng và báo.
 - [ ] Không sửa ngoài phạm vi; không làm yếu test; không tự suy ra nghiệp vụ.
-- [ ] Tối đa 3 vòng sửa–chạy cổng; quá thì dừng và báo.
+- [ ] Không vượt giới hạn vòng sửa (`project-rules` 18).
 
 ## 10. Báo cáo bàn giao (AI điền)
 - Nguyên nhân gốc:

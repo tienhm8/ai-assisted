@@ -32,6 +32,6 @@ Các việc còn lại (đọc code, phân tích yêu cầu, viết code, viết
 | 2 | Context Drift | AI làm theo quyết định cũ hoặc tài liệu không còn hiệu lực | Rule 14 (chỉ dùng tài liệu Approved), Rule 1 (chỉ nạp tài liệu Task chỉ tới), Rule 9 (cập nhật tài liệu cùng thay đổi) |
 | 3 | Security Vulnerability | Code chạy được nhưng có lỗ hổng | Rule 19 (cổng tự động và review R3), Rule 13 và Rule 17 (không đụng production, không xoá không hoàn tác); `security-rules.md` |
 | 4 | Overengineering | AI xây dựng phức tạp hơn yêu cầu | Rule 7 (chỉ sửa trong phạm vi Task), Rule 5 và Rule 6 (không tự đổi kiến trúc, không tự thêm dependency) |
-| 5 | False Confidence | AI báo hoàn thành nhưng chưa chạy test hoặc chưa kiểm tra hết trường hợp | Rule 10 (báo kết quả kiểm tra thật và nêu rõ phần chưa kiểm tra), Rule 18 (tối đa 3 vòng sửa), Rule 20 (không tự coi cổng đã qua) |
+| 5 | False Confidence | AI báo hoàn thành nhưng chưa chạy test hoặc chưa kiểm tra hết trường hợp | Rule 10 (báo kết quả kiểm tra thật và nêu rõ phần chưa kiểm tra), Rule 18 (giới hạn vòng sửa), Rule 20 (không tự coi cổng đã qua) |
 
 Cách khắc phục không phải chỉ viết Prompt tốt hơn, mà phải có **tài liệu chuẩn** (`docs/`), **Rule** và **Skill** (`.ai/`), **CI/CD**, **Test** và **quyền hạn rõ ràng** (mức tự chủ ở Rule, bản đồ vùng trong `PROJECT.md`).
