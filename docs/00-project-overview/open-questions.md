@@ -23,7 +23,7 @@ Trạng thái: `Open` chưa có câu trả lời · `Assumption` giả định t
 ## Chi tiết câu hỏi
 Bắt buộc cho mọi OQ `Open` hoặc `Assumption` mà người quyết là người; đặt ngay dưới bảng. OQ chỉ xác nhận một thông tin thì chỉ cần **Bối cảnh** và **Nếu chưa quyết**. Khi `Closed`, ghi lựa chọn vào cột Quyết định và giữ phần chi tiết làm căn cứ.
 
-**Trước khi hỏi người, AI phải tra bảng này:** OQ đã `Closed` thì áp dụng quyết định, không hỏi lại. Báo cáo, plan và backlog chỉ trỏ `OQ-<NN>`, không chép lại nội dung chi tiết.
+**Trước khi hỏi người, AI phải tra bảng này:** OQ đã `Closed` thì áp dụng quyết định, không hỏi lại. Plan và báo cáo bàn giao ghi `OQ-<NN>` kèm bản tóm tắt đủ để quyết (vấn đề, phương án được/mất, đề xuất, nếu chưa quyết); backlog chỉ trỏ mã. Chi tiết và lịch sử chỉ nằm ở đây; khi `Closed`, quyết định ghi tại đây.
 
 ```text
 ### OQ-<NN>

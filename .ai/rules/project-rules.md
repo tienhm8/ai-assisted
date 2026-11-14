@@ -12,7 +12,7 @@
 7. Mọi thay đổi truy vết được tới một Task đã duyệt; chỉ sửa trong phạm vi Task, theo cấu trúc thư mục hiện có.
 8. Tuân thủ mức tự chủ của Task; không tự nâng mức, thiếu thì dừng và hỏi. Tuân thủ bản đồ vùng của dự án: vùng 🟢 sửa trong phạm vi Task; vùng 🟡 chỉ sửa khi plan đã nêu và được duyệt; vùng 🔴 cần Task riêng và người duyệt.
 9. Đổi hành vi hoặc kiến trúc thì cập nhật tài liệu liên quan trong cùng thay đổi.
-10. Báo cáo bàn giao nêu rõ giả định, câu hỏi chưa giải quyết, kết quả kiểm tra thật và phần chưa kiểm tra (kèm lý do). Mỗi câu cần người quyết phải nêu đủ để quyết ngay: bối cảnh có số đo, phương án và hệ quả, đề xuất, việc bị chặn nếu chưa quyết. Việc cần người bổ sung dữ liệu (không phải quyết định) ghi riêng.
+10. Báo cáo bàn giao nêu rõ giả định, câu hỏi chưa giải quyết, kết quả kiểm tra thật và phần chưa kiểm tra (kèm lý do). Việc cần người bổ sung dữ liệu (không phải quyết định) ghi riêng.
 11. Bàn giao Task phải tổng hợp **toàn bộ** thay đổi của Task, gộp từ mọi worktree, nhánh và phiên đã làm, không chỉ phiên hiện tại; gom theo nghiệp vụ, không liệt kê theo thứ tự file.
 12. Không âm thầm bỏ qua một yêu cầu của khung. Chưa đáp ứng được thì dừng và đề nghị miễn trừ có lý do, người duyệt, thời hạn và kế hoạch khắc phục.
 13. Không deploy production và không truy cập CSDL production khi chưa có cơ chế được phê duyệt.
@@ -23,6 +23,14 @@
 18. Một lỗi sửa rồi chạy lại tối đa 3 vòng. Quá giới hạn: dừng, báo điều đã thử và đề xuất hướng tiếp.
 19. Tuân thủ độ nghiêm ngặt quy trình (S1–S3) mà dự án đã khai báo; chưa khai báo thì dừng và hỏi, không tự hạ. Ở mọi mức S, cổng tự động và review theo R3 vẫn bắt buộc.
 20. Chỉ chuẩn bị tài liệu và đề xuất ở cổng duyệt; không tự phê duyệt và không tự coi cổng là đã qua khi chưa có bằng chứng và người duyệt.
+21. Mọi câu hỏi cần người quyết, ở bất kỳ đâu (trả lời trực tiếp, plan, review, báo cáo), phải đủ để người chưa đọc tài liệu nào quyết được ngay; không rút gọn để tiết kiệm token. Gồm:
+    - **Vấn đề:** một câu bằng lời thường; mã nội bộ thì giải thích.
+    - **Vì sao phát sinh:** chỗ thiếu hoặc mâu thuẫn, kèm `file:dòng` và số đo nếu có.
+    - **Phương án:** mỗi phương án nêu làm gì, được gì, mất gì, phải sửa gì.
+    - **Đề xuất** và lý do.
+    - **Nếu chưa quyết:** việc nào bị chặn, việc nào vẫn làm tiếp được.
+
+    Trước khi gửi, tự kiểm: người chưa mở file nào có chọn được không? Chưa được thì viết thêm.
 
 ## Thang dùng chung
 

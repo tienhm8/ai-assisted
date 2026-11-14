@@ -28,7 +28,7 @@ FR, BR, AC, ADR, câu hỏi mở.
 Mỗi AC ứng với test nào, chạy bằng lệnh nào.
 
 ## 6. Rủi ro và điểm cần người quyết
-Điểm cần người quyết chỉ ghi mã `OQ-<NN>`; chi tiết (bối cảnh, phương án, đề xuất) ở [open-questions](../../docs/00-project-overview/open-questions.md).
+Điểm cần người quyết ghi mã `OQ-<NN>` kèm bản tóm tắt đủ để quyết theo `project-rules` 21 (vấn đề, mỗi phương án một dòng được/mất, đề xuất, nếu chưa quyết); chi tiết và lịch sử ở [open-questions](../../docs/00-project-overview/open-questions.md).
 
 ## 7. Kết quả (điền sau khi xong)
 Đầu ra của từng Skill, lệch kế hoạch ở đâu, bằng chứng test.
