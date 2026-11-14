@@ -1,119 +1,119 @@
-# Database Design – MySQL và MariaDB
+# Database Design – MySQL and MariaDB
 
-> Tài liệu tham khảo của Skill `database-design`. Chỉ nạp khi hệ quản trị đã chốt là MySQL hoặc MariaDB (engine InnoDB), và chỉ mục của bước đang làm. Nguyên tắc nằm ở file chủ đề; file này chỉ nêu cú pháp, giới hạn và phiên bản riêng. Hai hệ đã tách nhánh: luôn kiểm đúng hệ và phiên bản dự án đang dùng.
+> Reference for Skill `database-design`. Load only when the chosen DBMS is MySQL or MariaDB (InnoDB engine), and only the section for the current step. Principles live in the topic file; this file states only specific syntax, limits and versions. The two systems have diverged: always check the exact system and version the project uses.
 
-## 1. Đặc điểm cần biết
+## 1. Key characteristics
 
-| Vấn đề | MySQL / MariaDB (InnoDB) |
+| Topic | MySQL / MariaDB (InnoDB) |
 | --- | --- |
-| DDL trong transaction | Không; mỗi DDL tự commit, migration lỗi giữa chừng để lại trạng thái dở |
-| Partial index | Không; dùng cột sinh |
-| CHECK | Chỉ thực thi từ MySQL 8.0.16, MariaDB 10.2 |
-| Chế độ SQL | Cần `STRICT_TRANS_TABLES` (hoặc tương đương) để không tự cắt chuỗi, tự đổi giá trị sai |
-| Clustered index | Theo PK: PK ngẫu nhiên hoặc rộng làm chậm ghi và phình mọi index phụ (PK nằm trong mọi index phụ) |
-| Index FK | Tự tạo nếu chưa có |
-| So sánh chuỗi | Theo collation, thường không phân biệt hoa thường |
-| Độ dài khoá index | Giới hạn byte (3072 với row format DYNAMIC); `utf8mb4` tính 4 byte/ký tự |
-| Mức cô lập mặc định | REPEATABLE READ, có gap lock |
+| DDL in transactions | No; each DDL auto-commits, a migration failing midway leaves a partial state |
+| Partial index | No; use generated columns |
+| CHECK | Enforced only from MySQL 8.0.16, MariaDB 10.2 |
+| SQL mode | Needs `STRICT_TRANS_TABLES` (or equivalent) to avoid silently truncating strings and coercing invalid values |
+| Clustered index | By PK: random or wide PKs slow writes and bloat every secondary index (PK is in every secondary index) |
+| FK index | Created automatically if missing |
+| String comparison | By collation, usually case-insensitive |
+| Index key length | Byte limit (3072 with row format DYNAMIC); `utf8mb4` counts 4 bytes/char |
+| Default isolation level | REPEATABLE READ, with gap locks |
 
-## 2. Kiểu dữ liệu
+## 2. Data types
 
-| Dữ liệu | Kiểu |
+| Data | Type |
 | --- | --- |
-| Khoá thay thế số | `BIGINT UNSIGNED AUTO_INCREMENT` |
-| Khoá UUID | MariaDB ≥ 10.7: `UUID`; MySQL: `BINARY(16)` + `UUID_TO_BIN(…, 1)` |
-| Tiền | `DECIMAL(19,4)` hoặc `BIGINT` đơn vị nhỏ nhất; không dùng `FLOAT`/`DOUBLE` |
-| Số lượng, tỉ lệ chính xác | `DECIMAL(p,s)` |
-| Số đo gần đúng | `DOUBLE` |
-| Thời điểm | `DATETIME(6)` lưu UTC (quy ước ứng dụng). `TIMESTAMP` giới hạn tới 2038 và tự đổi theo múi giờ phiên |
-| Ngày / giờ trong ngày | `DATE` / `TIME` + cột múi giờ |
-| Khoảng thời gian | Không có kiểu khoảng: hai cột `start`, `end` + CHECK `start < end` |
-| Văn bản ngắn có giới hạn | `VARCHAR(n)` |
-| Văn bản dài | `TEXT`/`MEDIUMTEXT`; bản cũ không cho DEFAULT, index cần độ dài tiền tố |
-| Bảng mã | `utf8mb4` + collation phù hợp (`utf8mb4_0900_ai_ci`, `utf8mb4_unicode_520_ci`, `uca1400` ở MariaDB mới); không dùng `utf8`/`utf8mb3` |
-| Không phân biệt hoa thường | Collation `_ci` |
+| Numeric surrogate key | `BIGINT UNSIGNED AUTO_INCREMENT` |
+| UUID key | MariaDB ≥ 10.7: `UUID`; MySQL: `BINARY(16)` + `UUID_TO_BIN(…, 1)` |
+| Money | `DECIMAL(19,4)` or `BIGINT` in smallest unit; do not use `FLOAT`/`DOUBLE` |
+| Exact quantities, ratios | `DECIMAL(p,s)` |
+| Approximate measurements | `DOUBLE` |
+| Point in time | `DATETIME(6)` stored as UTC (application convention). `TIMESTAMP` is limited to 2038 and converts by session time zone |
+| Date / time of day | `DATE` / `TIME` + time zone column |
+| Duration / range | No range type: two columns `start`, `end` + CHECK `start < end` |
+| Bounded short text | `VARCHAR(n)` |
+| Long text | `TEXT`/`MEDIUMTEXT`; older versions disallow DEFAULT, indexing needs a prefix length |
+| Encoding | `utf8mb4` + suitable collation (`utf8mb4_0900_ai_ci`, `utf8mb4_unicode_520_ci`, `uca1400` in newer MariaDB); do not use `utf8`/`utf8mb3` |
+| Case-insensitive | `_ci` collation |
 | Boolean | `BOOLEAN` (= `TINYINT(1)`) |
-| Tập giá trị cố định | `VARCHAR` + CHECK; `ENUM` lưu theo chỉ số, đổi thứ tự giá trị làm sai sắp xếp |
-| JSON | MySQL `JSON`; MariaDB `JSON` là `LONGTEXT` + CHECK `JSON_VALID` |
-| Địa chỉ IP | MariaDB `INET4`/`INET6`; MySQL `VARBINARY(16)` |
-| Nhị phân nhỏ, cột mã hoá | `VARBINARY`/`BLOB` |
-| Mật khẩu (chuỗi băm) | `VARCHAR(255)` |
-| Toạ độ địa lý | `POINT SRID 4326` + `SPATIAL` index |
+| Fixed value set | `VARCHAR` + CHECK; `ENUM` stores by index, reordering values breaks sorting |
+| JSON | MySQL `JSON`; MariaDB `JSON` is `LONGTEXT` + CHECK `JSON_VALID` |
+| IP address | MariaDB `INET4`/`INET6`; MySQL `VARBINARY(16)` |
+| Small binary, encrypted columns | `VARBINARY`/`BLOB` |
+| Password (hash) | `VARCHAR(255)` |
+| Geographic coordinates | `POINT SRID 4326` + `SPATIAL` index |
 
-`NVARCHAR` được coi là `VARCHAR` với charset `utf8mb3`: không dùng. FK phải trùng kiểu PK kể cả `UNSIGNED`, charset và collation.
+`NVARCHAR` is treated as `VARCHAR` with charset `utf8mb3`: do not use. FKs must match the PK type exactly, including `UNSIGNED`, charset and collation.
 
-## 3. Index
+## 3. Indexes
 
-- **Không có partial index:** cột phân bố lệch dùng composite có cột chọn lọc đứng sau; cột thưa dùng index thường (vẫn lưu NULL).
-- **Covering:** index phụ đã chứa PK; kế hoạch hiện `Using index` trong `Extra`.
-- **Index biểu thức:** MySQL ≥ 8.0.13 functional index; MariaDB dùng cột sinh có index.
-- **Index thừa:** MySQL `sys.schema_unused_indexes`; MariaDB bật `userstat` rồi xem `INFORMATION_SCHEMA.INDEX_STATISTICS`. Tắt thử trước khi xoá: MySQL ≥ 8.0 `INVISIBLE`, MariaDB ≥ 10.6 `IGNORED`.
-- **Loại chuyên dụng:** `FULLTEXT`, `SPATIAL`.
-- **Tạo không khoá ghi:** `ALGORITHM=INPLACE, LOCK=NONE`.
+- **No partial index:** for skewed columns use a composite with the selective column after; for sparse columns use a normal index (NULLs are still stored).
+- **Covering:** secondary indexes already contain the PK; plan shows `Using index` in `Extra`.
+- **Expression index:** MySQL ≥ 8.0.13 functional index; MariaDB uses an indexed generated column.
+- **Redundant indexes:** MySQL `sys.schema_unused_indexes`; MariaDB enable `userstat` then view `INFORMATION_SCHEMA.INDEX_STATISTICS`. Disable first before dropping: MySQL ≥ 8.0 `INVISIBLE`, MariaDB ≥ 10.6 `IGNORED`.
+- **Specialized types:** `FULLTEXT`, `SPATIAL`.
+- **Non-write-blocking creation:** `ALGORITHM=INPLACE, LOCK=NONE`.
 - **Skip scan:** MySQL ≥ 8.0.13.
-- **`LIKE 'abc%'`:** dùng được B-Tree với collation của cột.
-- **`OR` nhiều cột:** index merge trên các index riêng.
-- **Sắp xếp không dùng được index:** `Using filesort` trong `Extra`.
+- **`LIKE 'abc%'`:** can use B-Tree with the column's collation.
+- **`OR` across columns:** index merge over separate indexes.
+- **Sort not served by index:** `Using filesort` in `Extra`.
 
-## 4. Truy vấn
+## 4. Queries
 
-- Keyset: nếu bộ tối ưu không dùng index cho so sánh bộ giá trị, viết tách `created_at < ? OR (created_at = ? AND id < ?)`.
-- Đếm ước tính: `information_schema.TABLES.TABLE_ROWS`.
-- Không có materialized view: dùng bảng tổng hợp.
-- Nạp hàng loạt: `LOAD DATA`.
-- Giới hạn thời gian: MariaDB `max_statement_time`; MySQL `max_execution_time` (chỉ cho SELECT).
-- Procedure được cache theo từng kết nối.
+- Keyset: if the optimizer does not use the index for row-value comparison, split as `created_at < ? OR (created_at = ? AND id < ?)`.
+- Estimated count: `information_schema.TABLES.TABLE_ROWS`.
+- No materialized views: use summary tables.
+- Bulk load: `LOAD DATA`.
+- Timeouts: MariaDB `max_statement_time`; MySQL `max_execution_time` (SELECT only).
+- Procedures are cached per connection.
 
-## 5. Đồng thời và kết nối
+## 5. Concurrency and connections
 
-- REPEATABLE READ có gap lock: khoá cả khoảng trống giữa các khoá, dễ gây chờ hoặc deadlock khi chèn đồng thời.
-- Hàng đợi trong bảng: `FOR UPDATE SKIP LOCKED` (MySQL ≥ 8.0, MariaDB ≥ 10.6).
-- MariaDB có thể dùng thread pool.
+- REPEATABLE READ has gap locks: locks the gaps between keys too, easily causing waits or deadlocks on concurrent inserts.
+- Queue in a table: `FOR UPDATE SKIP LOCKED` (MySQL ≥ 8.0, MariaDB ≥ 10.6).
+- MariaDB can use a thread pool.
 
-## 6. Kiểm chứng và theo dõi
+## 6. Verification and monitoring
 
 | | MySQL / MariaDB |
 | --- | --- |
-| Cập nhật thống kê | `ANALYZE TABLE`; histogram: MariaDB ≥ 10.4 `ANALYZE TABLE … PERSISTENT FOR …`, MySQL 8.0 `ANALYZE TABLE … UPDATE HISTOGRAM` |
-| Lệnh | `EXPLAIN`; số liệu thực tế: MariaDB `ANALYZE FORMAT=JSON`, MySQL ≥ 8.0.18 `EXPLAIN ANALYZE` |
-| Tốt | Cột `type`: `const`, `eq_ref`, `ref`, `range` |
-| Cần xem lại | `type = ALL` (quét toàn bảng); `type = index` (quét toàn bộ index); `Extra`: `Using filesort`, `Using temporary` |
-| Index đang dùng | Cột `key` (`possible_keys` chỉ là ứng viên) |
-| Ước tính sai | Cột `rows`/`filtered` lệch thực tế |
-| Theo dõi | Slow query log (`long_query_time`), `performance_schema` |
-| Cấu hình bậc 1 | `innodb_buffer_pool_size` |
+| Update statistics | `ANALYZE TABLE`; histograms: MariaDB ≥ 10.4 `ANALYZE TABLE … PERSISTENT FOR …`, MySQL 8.0 `ANALYZE TABLE … UPDATE HISTOGRAM` |
+| Command | `EXPLAIN`; actual figures: MariaDB `ANALYZE FORMAT=JSON`, MySQL ≥ 8.0.18 `EXPLAIN ANALYZE` |
+| Good | `type` column: `const`, `eq_ref`, `ref`, `range` |
+| Needs review | `type = ALL` (full table scan); `type = index` (full index scan); `Extra`: `Using filesort`, `Using temporary` |
+| Index in use | `key` column (`possible_keys` are only candidates) |
+| Misestimate | `rows`/`filtered` columns far from actual |
+| Monitoring | Slow query log (`long_query_time`), `performance_schema` |
+| Tier 1 config | `innodb_buffer_pool_size` |
 
-## 7. Partition và sharding
+## 7. Partition and sharding
 
-- Mọi UNIQUE (kể cả PK) phải chứa khoá phân vùng.
-- **Bảng partition InnoDB không hỗ trợ FK**, cả trỏ đi lẫn trỏ đến.
+- Every UNIQUE (including PK) must include the partition key.
+- **Partitioned InnoDB tables do not support FKs**, neither referencing nor referenced.
 - Sharding: Vitess (MySQL), Spider (MariaDB).
 
 ## 8. Migration
 
-- DDL tự commit: mỗi migration chỉ một DDL, hoặc viết chạy lại được (`IF NOT EXISTS`, kiểm tra trước).
-- Giới hạn chờ khoá: `SET SESSION lock_wait_timeout = 5`.
+- DDL auto-commits: one DDL per migration, or make it rerunnable (`IF NOT EXISTS`, pre-checks).
+- Lock wait limit: `SET SESSION lock_wait_timeout = 5`.
 
-| Thao tác | Mức khoá / cách làm |
+| Operation | Lock level / approach |
 | --- | --- |
-| Thêm cột NULL / DEFAULT hằng | MySQL ≥ 8.0 `ALGORITHM=INSTANT`; MariaDB ≥ 10.3 instant ADD COLUMN |
-| Thêm cột DEFAULT biến đổi | Ghi lại bảng |
-| Đổi kiểu cột | `ALGORITHM=COPY`, khoá ghi; bảng lớn dùng công cụ online (gh-ost, pt-online-schema-change) |
-| Đặt NOT NULL | Ghi lại bảng |
-| Thêm FK | Khoá bảng con trong thời gian kiểm tra |
-| Thêm index | `ALGORITHM=INPLACE, LOCK=NONE` |
-| Thêm UNIQUE | INPLACE; dữ liệu trùng làm migration lỗi, kiểm trước |
+| Add NULL / constant DEFAULT column | MySQL ≥ 8.0 `ALGORITHM=INSTANT`; MariaDB ≥ 10.3 instant ADD COLUMN |
+| Add volatile DEFAULT column | Rewrites the table |
+| Change column type | `ALGORITHM=COPY`, blocks writes; large tables use online tools (gh-ost, pt-online-schema-change) |
+| Set NOT NULL | Rewrites the table |
+| Add FK | Locks the child table during validation |
+| Add index | `ALGORITHM=INPLACE, LOCK=NONE` |
+| Add UNIQUE | INPLACE; duplicate data fails the migration, check first |
 
-## 9. Mẫu mô hình hoá
+## 9. Modeling patterns
 
-- Tập giá trị cố định: `VARCHAR` + CHECK (CHECK chỉ thực thi từ MySQL 8.0.16, MariaDB 10.2); `ENUM` lưu theo chỉ số, đổi thứ tự làm sai sắp xếp.
-- Cây: CTE đệ quy từ MySQL 8.0, MariaDB 10.2.
-- Chống chồng lấn khoảng hiệu lực: không có exclusion constraint; kiểm ở ứng dụng trong transaction có khoá.
-- Trạng thái quá khứ của bảng: MariaDB `WITH SYSTEM VERSIONING`; MySQL dùng bảng lịch sử + trigger.
-- UNIQUE bỏ qua dòng xoá mềm: cột sinh bằng NULL khi `deleted_at` khác NULL, UNIQUE trên cột đó.
+- Fixed value set: `VARCHAR` + CHECK (CHECK enforced only from MySQL 8.0.16, MariaDB 10.2); `ENUM` stores by index, reordering breaks sorting.
+- Trees: recursive CTE from MySQL 8.0, MariaDB 10.2.
+- Preventing overlapping validity ranges: no exclusion constraint; check in the application within a locking transaction.
+- Past states of a table: MariaDB `WITH SYSTEM VERSIONING`; MySQL uses history table + trigger.
+- UNIQUE ignoring soft-deleted rows: generated column that is NULL when `deleted_at` is not NULL, UNIQUE on that column.
 
-## 10. Bảo mật
+## 10. Security
 
-- Mã hoá toàn CSDL: MariaDB data-at-rest encryption, MySQL InnoDB tablespace encryption.
-- Mã hoá bằng `AES_ENCRYPT` đưa khoá vào câu lệnh: tránh, mã hoá ở ứng dụng.
-- Không có Row-Level Security: bắt buộc lọc tenant ở tầng truy cập dữ liệu dùng chung, kèm test truy cập chéo tenant.
+- Whole-DB encryption: MariaDB data-at-rest encryption, MySQL InnoDB tablespace encryption.
+- Encryption with `AES_ENCRYPT` puts keys into statements: avoid, encrypt in the application.
+- No Row-Level Security: tenant filtering is mandatory in the shared data access layer, with cross-tenant access tests.

@@ -1,32 +1,32 @@
 # Code Review – Examples
 
-> Minh hoạ. Đây là **ví dụ minh hoạ**, không phải quy tắc chính thức của dự án. Quy trình chính ở `SKILL.md`; ngưỡng và mô hình tầng lấy từ tài liệu của dự án. Mỗi mẫu lỗi được viết trung lập rồi minh hoạ bằng vài ngôn ngữ để AI nhận ra cùng một lỗi ở stack khác.
+> Illustration. These are **illustrative examples**, not official project rules. The main procedure is in `SKILL.md`; thresholds and layer model come from project docs. Each bug pattern is described neutrally, then illustrated in several languages so the AI recognizes the same bug in other stacks.
 
-## 1. Đọc PR description (Bước 1)
+## 1. Read the PR description (Step 1)
 
-PR thiếu mục:
-
-```text
-Title: fix đơn hàng
-Body: sửa lỗi tạo đơn
-```
-
-Reviewer không đọc code, trả về:
+PR missing items:
 
 ```text
-Chưa đủ thông tin để review. Bổ sung theo mẫu PR:
-- Task/AC nào? Lỗi tái hiện thế nào?
-- Thay đổi hành vi hay chỉ refactor?
-- Có chạm schema, API, job, cache không?
-- Đã test thế nào (lệnh + kết quả)?
+Title: fix order
+Body: fix order creation bug
 ```
 
-## 2. Đặt sai chỗ (ưu tiên 3)
+Reviewer does not read the code and returns:
 
-Mẫu lỗi: quy tắc nghiệp vụ nằm ở biên nhận yêu cầu.
+```text
+Not enough information to review. Fill in per the PR template:
+- Which Task/AC? How is the bug reproduced?
+- Behavior change or refactor only?
+- Does it touch schema, API, job, cache?
+- How was it tested (command + result)?
+```
+
+## 2. Wrong placement (priority 3)
+
+Bug pattern: business rule at the request boundary.
 
 ```php
-// Laravel – controller tự tính giảm giá
+// Laravel – controller computes the discount itself
 public function store(Request $request) {
     $total = $request->subtotal;
     if ($request->user()->is_vip && $total > 1_000_000) { $total *= 0.9; }
@@ -35,7 +35,7 @@ public function store(Request $request) {
 ```
 
 ```ts
-// Express – handler tự tính giảm giá
+// Express – handler computes the discount itself
 router.post('/orders', async (req, res) => {
   let total = req.body.subtotal;
   if (req.user.isVip && total > 1_000_000) total *= 0.9;
@@ -47,15 +47,15 @@ Finding:
 
 ```text
 [Medium] app/Http/Controllers/OrderController.php:24
-Quy tắc giảm giá VIP (BR-ORD-07) nằm trong controller → luồng tạo đơn khác (API mobile, import)
-sẽ không áp dụng hoặc phải chép lại. Chuyển vào tầng nghiệp vụ (OrderService/use case).
+VIP discount rule (BR-ORD-07) lives in the controller → other order-creation flows (mobile API, import)
+will not apply it or must copy it. Move it to the business layer (OrderService/use case).
 ```
 
-Lỗi `$request->all()` / `...req.body` cùng đoạn này là finding bảo mật riêng (mục 5).
+The `$request->all()` / `...req.body` bug in the same snippet is a separate security finding (section 5).
 
-## 3. Đồng thời (ưu tiên 4)
+## 3. Concurrency (priority 4)
 
-Mẫu lỗi: đọc rồi ghi không có khoá.
+Bug pattern: read then write without a lock.
 
 ```python
 # Django
@@ -75,24 +75,24 @@ Finding:
 
 ```text
 [High] inventory/services.py:41
-Kịch bản: stock = 1, hai request mua 1 cùng lúc → cả hai đọc stock = 1, cả hai qua điều kiện,
-stock thành 0 nhưng bán 2 → âm kho.
-Hướng sửa: cập nhật có điều kiện (UPDATE ... SET stock = stock - :qty WHERE id = :id AND stock >= :qty,
-kiểm số dòng bị ảnh hưởng) hoặc khoá dòng / optimistic locking theo cơ chế dự án đã chọn.
+Scenario: stock = 1, two requests buy 1 at the same time → both read stock = 1, both pass the check,
+stock becomes 0 but 2 are sold → negative stock.
+Fix direction: conditional update (UPDATE ... SET stock = stock - :qty WHERE id = :id AND stock >= :qty,
+check affected row count) or row lock / optimistic locking per the project's chosen mechanism.
 ```
 
-Mẫu lỗi: phát event trước khi commit.
+Bug pattern: emitting an event before commit.
 
 ```text
 [High] OrderService:88
-Job gửi email xác nhận được đẩy vào hàng đợi bên trong transaction. Worker có thể chạy trước khi
-commit → không tìm thấy đơn; transaction rollback → khách vẫn nhận email.
-Hướng sửa: phát sau khi commit (after-commit hook / outbox) theo cơ chế của dự án.
+The confirmation email job is queued inside the transaction. The worker may run before
+commit → order not found; transaction rolls back → customer still gets the email.
+Fix direction: emit after commit (after-commit hook / outbox) per the project's mechanism.
 ```
 
-## 4. Hiệu năng (ưu tiên 5)
+## 4. Performance (priority 5)
 
-Mẫu lỗi: N+1.
+Bug pattern: N+1.
 
 ```php
 foreach (Order::all() as $order) { echo $order->customer->name; }   // Eloquent
@@ -110,58 +110,58 @@ Finding:
 
 ```text
 [Medium] reports/OrderReport:15
-1 truy vấn đơn + N truy vấn khách; với 10 nghìn đơn là 10.001 truy vấn. Đồng thời nạp toàn bộ
-bảng vào bộ nhớ. Hướng sửa: eager load quan hệ và xử lý theo lô/phân trang.
-(Nâng lên High nếu đây là luồng nóng có NFR hiệu năng.)
+1 order query + N customer queries; with 10 thousand orders that is 10,001 queries. It also loads the whole
+table into memory. Fix direction: eager load the relation and process in batches/pages.
+(Raise to High if this is a hot path with a performance NFR.)
 ```
 
-## 5. Bảo mật (ưu tiên 6)
+## 5. Security (priority 6)
 
-| Mẫu lỗi | Ví dụ dễ gặp | Hướng sửa |
+| Bug pattern | Common example | Fix direction |
 | --- | --- | --- |
-| Mass assignment | Laravel `Model::create($request->all())`; Rails `params.permit!`; Node `create({ ...req.body })`; Spring bind thẳng request vào entity | Chỉ nhận trường đã kiểm: Laravel `$request->validated()`, Rails strong params, DTO có whitelist |
-| IDOR | `Order::find($id)`, `repo.findById(id)` theo ID từ URL, không kiểm chủ sở hữu | Truy vấn theo phạm vi người dùng hoặc kiểm quyền trên bản ghi (policy/guard) |
-| SQL injection | `whereRaw("name = '$name'")`, `` `SELECT ... ${id}` ``, `cursor.execute(f"... {id}")` | Truy vấn tham số hoá |
-| XSS | Blade `{!! $x !!}`, React `dangerouslySetInnerHTML`, Jinja `|safe` với dữ liệu người dùng | Để engine escape mặc định; nếu cần HTML thì sanitize |
-| Lộ trường nhạy cảm | Trả nguyên entity/model ra JSON | Lớp định dạng đầu ra (resource/serializer/DTO) |
+| Mass assignment | Laravel `Model::create($request->all())`; Rails `params.permit!`; Node `create({ ...req.body })`; Spring binding request directly to entity | Accept only validated fields: Laravel `$request->validated()`, Rails strong params, DTO with whitelist |
+| IDOR | `Order::find($id)`, `repo.findById(id)` by ID from URL, no ownership check | Query scoped to the user or check per-record authorization (policy/guard) |
+| SQL injection | `whereRaw("name = '$name'")`, `` `SELECT ... ${id}` ``, `cursor.execute(f"... {id}")` | Parameterized queries |
+| XSS | Blade `{!! $x !!}`, React `dangerouslySetInnerHTML`, Jinja `|safe` with user data | Let the engine escape by default; if HTML is needed, sanitize |
+| Sensitive field exposure | Returning the raw entity/model as JSON | Output formatting layer (resource/serializer/DTO) |
 
 Finding:
 
 ```text
 [Critical] app/Http/Controllers/OrderController.php:27
-Order::create($request->all()) cho phép client gửi kèm "status":"paid", "total":0 → tạo đơn đã
-thanh toán giá 0. Dùng $request->validated() với FormRequest chỉ khai báo các trường được phép.
-Kích hoạt security-review (chạm tiền).
+Order::create($request->all()) lets the client send "status":"paid", "total":0 → creates a paid
+order priced 0. Use $request->validated() with a FormRequest declaring only allowed fields.
+Trigger security-review (touches money).
 ```
 
-## 6. Clean code (ưu tiên 8)
+## 6. Clean code (priority 8)
 
 ```text
 [Low] OrderService:120
-Hàm placeOrder ~90 dòng làm 4 việc (kiểm tồn, tính giá, lưu, thông báo). Không chặn PR;
-gợi ý tách khi có thay đổi tiếp theo trên hàm này.
+Function placeOrder ~90 lines does 4 things (check stock, price, save, notify). Does not block the PR;
+suggest splitting on the next change to this function.
 ```
 
-## 7. Báo cáo review mẫu
+## 7. Sample review report
 
 ```text
-PR #142 · Task SHOP-31 · R3 (chạm tiền)
-Hiểu biết: thêm giảm giá VIP khi tạo đơn; thay đổi hành vi; chạm bảng orders, không đổi API.
-PR description: thiếu mục rollback.
+PR #142 · Task SHOP-31 · R3 (touches money)
+Understanding: adds VIP discount on order creation; behavior change; touches orders table, no API change.
+PR description: missing rollback item.
 
 Critical
-1. OrderController.php:27 – mass assignment (mục 5)
+1. OrderController.php:27 – mass assignment (section 5)
 High
-2. InventoryService.php:41 – âm kho khi mua đồng thời (mục 3)
-3. Thiếu test cho AC-SHOP-31-02 (đơn đúng 1.000.000 có được giảm không)
+2. InventoryService.php:41 – negative stock on concurrent purchase (section 3)
+3. Missing test for AC-SHOP-31-02 (does an order of exactly 1,000,000 get the discount?)
 Medium
-4. OrderController.php:24 – quy tắc giảm giá nằm ở controller (mục 2)
-Câu hỏi
-- BR-ORD-07: ngưỡng 1.000.000 là trước hay sau thuế?
-Điểm tốt
-- Migration có bước down, test regression cho lỗi làm tròn cũ.
-Không áp dụng: ưu tiên 7 (không thêm job/cấu hình).
-Đã kích hoạt security-review.
+4. OrderController.php:24 – discount rule lives in the controller (section 2)
+Questions
+- BR-ORD-07: is the 1,000,000 threshold before or after tax?
+Good points
+- Migration has a down step, regression test for the old rounding bug.
+Not applicable: priority 7 (no new job/config).
+security-review triggered.
 
-Kết luận khuyến nghị: Không duyệt (còn 1 Critical, 2 High).
+Recommendation: Do not approve (1 Critical, 2 High remain).
 ```

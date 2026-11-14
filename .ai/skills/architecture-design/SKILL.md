@@ -1,41 +1,41 @@
 ---
 name: architecture-design
-description: Thiết kế và đánh giá kiến trúc phần mềm (ranh giới hệ thống, module, luồng dữ liệu, bảo mật, quyết định công nghệ) dựa trên yêu cầu đã duyệt; ghi vào tài liệu kiến trúc và ADR.
+description: Design and evaluate software architecture (system boundaries, modules, data flow, security, technology decisions) based on approved requirements; record in architecture docs and ADRs.
 ---
 
 # Architecture Design Skill
 
-Đề xuất kiến trúc đơn giản nhất đáp ứng yêu cầu đã duyệt: dễ bảo trì, an toàn, kiểm thử được.
+Propose the simplest architecture that meets the approved requirements: maintainable, secure, testable.
 
-## Cổng vào
+## Entry gate
 
-FR đã có AC, kèm BR và NFR liên quan. Chưa đạt thì dừng và ghi câu hỏi mở.
+FRs have ACs, with related BRs and NFRs. If not met, stop and record an open question.
 
-Đọc: vision, scope, FR/BR/NFR; kiến trúc hiện có, công nghệ đã chốt, yêu cầu bảo mật. database-design và api-design chỉ đọc nếu đã có.
+Read: vision, scope, FR/BR/NFR; existing architecture, chosen technologies, security requirements. Read database-design and api-design only if they exist.
 
-## Quy trình
+## Procedure
 
-1. **Phân tích yêu cầu:** năng lực nghiệp vụ, actor, thuộc tính chất lượng, tích hợp, ràng buộc kỹ thuật.
-2. **Ranh giới hệ thống:** ứng dụng, module, dịch vụ ngoài, trust boundary, chủ sở hữu dữ liệu.
-3. **Phong cách kiến trúc:** chọn phương án đơn giản nhất đáp ứng yêu cầu; phương án phân tán phải có lý do từ NFR.
-4. **Module:** trách nhiệm, đầu vào/ra, phụ thuộc, dữ liệu sở hữu, giao diện, ranh giới lỗi, FR phục vụ. Ghi thành bảng ở module-design.
-5. **Luồng dữ liệu:** request, xác thực, phân quyền, xử lý nghiệp vụ, truy cập dữ liệu, tích hợp ngoài, xử lý lỗi.
-6. **Ranh giới bảo mật:** xác thực, nơi thực thi phân quyền, quyền của dịch vụ, dữ liệu nhạy cảm.
-7. **Đánh giá chất lượng:** bảo trì, tin cậy, hiệu năng, mở rộng, bảo mật, quan sát, kiểm thử.
-8. **ADR:** mỗi quyết định lớn tạo `ADR-<NNNN>-<slug>.md` từ `_template.md`, trạng thái Proposed, thêm vào danh mục ADR. Tài liệu thiết kế chỉ ghi kết quả và nêu mã ADR.
-9. **Rà kiến trúc hiện có** (dự án đã có code): vi phạm ranh giới, phụ thuộc vòng, trách nhiệm trùng, coupling thừa.
+1. **Analyze requirements:** business capabilities, actors, quality attributes, integrations, technical constraints.
+2. **System boundaries:** applications, modules, external services, trust boundaries, data owners.
+3. **Architecture style:** choose the simplest option that meets requirements; a distributed option must be justified by NFRs.
+4. **Modules:** responsibility, inputs/outputs, dependencies, owned data, interfaces, error boundaries, FRs served. Record as a table in module-design.
+5. **Data flow:** request, authentication, authorization, business processing, data access, external integration, error handling.
+6. **Security boundaries:** authentication, where authorization is enforced, service permissions, sensitive data.
+7. **Quality evaluation:** maintainability, reliability, performance, scalability, security, observability, testability.
+8. **ADR:** for each major decision create `ADR-<NNNN>-<slug>.md` from `_template.md`, status Proposed, add to the ADR index. Design docs record only the outcome and cite the ADR ID.
+9. **Review existing architecture** (project already has code): boundary violations, circular dependencies, duplicated responsibilities, excess coupling.
 
-## Giới hạn
+## Limits
 
-- Không đổi công nghệ đã chốt.
-- Ghi thẳng vào system-architecture, module-design, api-design; không tạo báo cáo kiến trúc song song.
+- Do not change chosen technologies.
+- Write directly into system-architecture, module-design, api-design; do not create a parallel architecture report.
 
-## Hoàn thành khi
+## Done when
 
-- Mỗi module truy ra được FR; ranh giới, sở hữu dữ liệu và ranh giới bảo mật rõ.
-- Quyết định lớn có ADR Proposed trong danh mục.
-- Người duyệt: Kiến trúc sư; thêm Security nếu đụng tiền, phân quyền, dữ liệu cá nhân hoặc migration.
+- Every module traces to an FR; boundaries, data ownership and security boundaries are clear.
+- Major decisions have a Proposed ADR in the index.
+- Approver: Architect; add Security if it touches money, authorization, personal data or migrations.
 
-## Báo cáo
+## Report
 
-File đã sửa, module ảnh hưởng, ADR đã tạo, đánh đổi và rủi ro, người cần duyệt. Không lặp nội dung tài liệu.
+Files modified, affected modules, ADRs created, trade-offs and risks, required approvers. Do not repeat doc content.

@@ -1,42 +1,42 @@
 ---
 name: e2e-testing
-description: Thiết kế và chạy test end-to-end cho các hành trình người dùng quan trọng, truy vết về AC loại E2E, báo cáo bằng TEST-REPORT-TEMPLATE.
+description: Design and run end-to-end tests for critical user journeys, traced to E2E-type ACs, reported with TEST-REPORT-TEMPLATE.
 ---
 
 # E2E Testing Skill
 
-Chứng minh các hành trình quan trọng chạy đúng từ góc nhìn người dùng.
+Prove critical journeys work correctly from the user's perspective.
 
-## Cổng vào
+## Entry gate
 
-- Task có AC loại E2E; hành trình lấy từ đó. Thiếu thì dừng và hỏi.
-- Có môi trường chạy với dữ liệu giả. Không có thì ghi not-run kèm lý do và đề nghị miễn trừ có thời hạn.
+- The Task has E2E-type ACs; journeys come from them. If missing, stop and ask.
+- A runtime environment with fake data exists. If not, record not-run with the reason and request a time-limited waiver.
 
-Nguồn chính: plan (AC loại E2E → test); cấu hình tự động hoá trình duyệt hiện có.
-Plan thiếu thì tra đúng mục, không đọc cả file: testing-strategy §4 Các tầng test, §7 Dữ liệu test (giả/ẩn danh), §8 Tự động hoá test; api-design §4 Authentication & Authorization; security-standards §4.2 Phân quyền theo vai trò.
+Primary sources: plan (E2E-type AC → test); existing browser automation config.
+If the plan lacks something, look up the exact section, do not read the whole file: testing-strategy §4 Các tầng test, §7 Dữ liệu test (giả/ẩn danh), §8 Tự động hoá test; api-design §4 Authentication & Authorization; security-standards §4.2 Phân quyền theo vai trò.
 
-## Quy trình
+## Procedure
 
-1. **Xác định hành trình** từ AC loại E2E.
-2. **Persona:** một tài khoản test cho mỗi vai trò trong ma trận phân quyền, cộng khách chưa đăng nhập.
-3. **Mô tả kịch bản** cho mỗi hành trình: tiền điều kiện, thao tác, hành vi UI mong đợi, thay đổi dữ liệu, hành vi khi lỗi.
-4. **Viết test**; selector ổn định (role, label, test id), không gắn với bố cục. Test mang ID AC.
-5. **Ca âm:** đầu vào sai, truy cập trái phép, hành động bị cấm, phiên hết hạn, chuyển trạng thái sai, lỗi mạng, gửi trùng.
-6. **Dữ liệu:** xác định, không dùng chung bản ghi sửa được, cô lập khi chạy song song, dọn sau khi chạy.
-7. **Chạy:** test nhắm mục tiêu, bộ hành trình quan trọng, hồi quy. Khi lỗi thu ảnh chụp, trace, log.
-8. **Phân loại lỗi:** ứng dụng, timing UI, môi trường, dữ liệu test, flaky.
+1. **Identify journeys** from E2E-type ACs.
+2. **Personas:** one test account per role in the authorization matrix, plus an unauthenticated guest.
+3. **Describe scenarios** for each journey: preconditions, actions, expected UI behavior, data changes, behavior on error.
+4. **Write tests**; stable selectors (role, label, test id), not tied to layout. Tests carry the AC ID.
+5. **Negative cases:** invalid input, unauthorized access, forbidden actions, expired session, invalid state transitions, network errors, duplicate submission.
+6. **Data:** deterministic, no shared mutable records, isolated in parallel runs, cleaned up after runs.
+7. **Run:** targeted tests, the critical-journey suite, regression. On failure capture screenshots, traces, logs.
+8. **Classify failures:** application, UI timing, environment, test data, flaky.
 
-## Giới hạn
+## Limits
 
-- Không tăng timeout để che lỗi.
-- Không bỏ qua xác thực hay phân quyền trong test.
-- Không viết E2E cho từng hàm nhỏ; việc đó thuộc unit hoặc integration.
+- Do not increase timeouts to mask failures.
+- Do not bypass authentication or authorization in tests.
+- Do not write E2E for each small function; that belongs to unit or integration.
 
-## Hoàn thành khi
+## Done when
 
-- Mỗi hành trình trong phạm vi có test đạt cho luồng dương và luồng âm, đủ các vai trò liên quan.
-- Test lặp lại được; test flaky đã điều tra.
+- Each in-scope journey has passing tests for positive and negative flows, covering all relevant roles.
+- Tests are repeatable; flaky tests have been investigated.
 
-## Báo cáo
+## Report
 
-Điền TEST-REPORT-TEMPLATE: hành trình và vai trò đã test kèm AC, ảnh chụp hoặc trace khi lỗi, test flaky đã biết.
+Fill in TEST-REPORT-TEMPLATE: tested journeys and roles with ACs, screenshots or traces on failure, known flaky tests.

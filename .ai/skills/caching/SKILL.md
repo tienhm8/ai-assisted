@@ -1,63 +1,63 @@
 ---
 name: caching
-description: Thiết kế, cài đặt hoặc review cache dữ liệu L1/L2: xét điều kiện được cache, chọn key, TTL, luồng đọc có single-flight, xoá key sau commit kèm đồng bộ L1 giữa các instance, fail-open, warm-up và số đo; ghi vào bảng cache của database-design. Dùng khi thêm, sửa, đọc cache hoặc đổi dữ liệu đang được cache.
+description: Design, implement, or review L1/L2 data caches: check cache eligibility, choose key, TTL, read path with single-flight, delete keys after commit plus L1 sync across instances, fail-open, warm-up, and metrics; record in the database-design cache table. Use when adding, changing, or reading a cache, or changing cached data.
 ---
 
 # Caching Skill
 
-> Trạng thái: **Approved** (Tech Lead duyệt 2026-11-13). Miễn trừ chạy thử trước khi duyệt: chạy thử ở Task đầu tiên có thêm hoặc sửa cache; điểm sai phát hiện khi đó sửa qua Task riêng.
+> Status: **Approved** (Tech Lead approved 2026-11-13). Waiver of trial run before approval: trial run in the first Task that adds or changes a cache; errors found then are fixed via a dedicated Task.
 
-Đưa cache vào một luồng đọc sao cho nhanh hơn mà không sai: xoá sạch cache bất kỳ lúc nào thì kết quả nghiệp vụ vẫn y nguyên.
+Put a cache into a read path so it is faster without being wrong: clearing the whole cache at any time leaves business results unchanged.
 
-## Cổng vào
+## Entry gate
 
-- Mẫu truy cập `AP-<NN>` đã qua tối ưu gốc (index, truy vấn, cấu trúc bảng) ở `database-design` bước 7. Nguồn là truy vấn CSDL thì có kế hoạch thực thi sau tối ưu; đang thiết kế, chưa có CSDL thì ghi giả định, kiểm chứng ở `database-design` bước 10 trước khi cài đặt cache. Nguồn là dịch vụ ngoài hoặc tính toán thì ghi độ trễ, chi phí đo được thay cho kế hoạch thực thi.
-- Có tần suất, độ trễ mục tiêu của AP và khoảng trễ dữ liệu nghiệp vụ chấp nhận được. Thiếu khoảng trễ thì ghi câu hỏi mở cho PO/BA, không tự đặt.
-- Đã biết module sở hữu dữ liệu và mọi đường ghi chạm dữ liệu đó.
-- Cài đặt: dòng cache trong database-design §3.7 đã Approved. Chưa có thì làm bước 1–4 rồi dừng chờ duyệt.
-- Value chứa D3: cần Security duyệt thiết kế trước khi cài đặt.
+- Access pattern `AP-<NN>` has gone through root optimization (index, query, table structure) in `database-design` step 7. If the source is a DB query, there is an execution plan after optimization; if still designing with no DB yet, record an assumption and verify it in `database-design` step 10 before implementing the cache. If the source is an external service or computation, record measured latency and cost instead of an execution plan.
+- The AP has frequency, target latency, and the business-acceptable staleness window. Missing staleness window: record an open question for PO/BA; do not set it yourself.
+- The module owning the data and every write path touching that data are known.
+- Implementation: the cache row in database-design §3.7 is Approved. If not, do steps 1–4 then stop and wait for approval.
+- Value contains D3: Security must approve the design before implementation.
 
-Nguồn chính: plan; mã cache hiện có (hàm đọc dùng chung, client, cấu hình).
-Plan thiếu thì tra đúng mục: database-design §3.4 Mẫu truy cập và khối lượng, §3.7 Cache; module-design §5 Ranh giới và quyền sở hữu; system-architecture §7 Cross-cutting Concerns; error-handling §8 Retry, timeout, fallback, §9 Transaction và nhất quán dữ liệu; security-standards §1 Xử lý dữ liệu theo mức (D0–D3), §6 Bảo vệ dữ liệu; monitoring §4 Metrics; deployment §9 Database Deployment and Migration.
+Main sources: plan; existing cache code (shared read function, client, config).
+If the plan is missing something, look up the exact section: database-design §3.4 Mẫu truy cập và khối lượng, §3.7 Cache; module-design §5 Ranh giới và quyền sở hữu; system-architecture §7 Cross-cutting Concerns; error-handling §8 Retry, timeout, fallback, §9 Transaction và nhất quán dữ liệu; security-standards §1 Xử lý dữ liệu theo mức (D0–D3), §6 Bảo vệ dữ liệu; monitoring §4 Metrics; deployment §9 Database Deployment and Migration.
 
-## Tài liệu tham khảo
+## References
 
-| File trong `references/` | Nạp ở bước |
+| File in `references/` | Load at step |
 | --- | --- |
-| `patterns.md` | Bước 1: §1, §2 · Bước 2: §5, §8 · Bước 3: §3, §4, §6, §7 · Bước 4: §11 · Bước 5: §9 · Bước 6: §10 |
-| `warmup.md` | Bước 4, chỉ khi production có cache |
+| `patterns.md` | Step 1: §1, §2 · Step 2: §5, §8 · Step 3: §3, §4, §6, §7 · Step 4: §11 · Step 5: §9 · Step 6: §10 |
+| `warmup.md` | Step 4, only when production has a cache |
 
-## Quy trình
+## Procedure
 
-1. **Xét có cache không.** Dùng chi phí truy vấn **sau** tối ưu, không dùng số trước tối ưu. Đối chiếu từng điều kiện của Rule `cache` với mẫu truy cập; ghi mỗi điều kiện thoả nhờ số liệu hay giả định. "Thay đổi liên tục", "ít được đọc" đối chiếu ngưỡng ở database-design §3.7; chưa có ngưỡng thì ghi giả định kèm số liệu từ bảng AP. Thuộc danh sách không cache, hoặc thiếu một điều kiện: dừng và báo, không cache.
-2. **Key và TTL.** Định dạng key, yếu tố phân biệt (tenant, người xem, quyền, ngôn ngữ), version, TTL từng tầng theo khoảng trễ chấp nhận được, jitter. Gán mức dữ liệu cho value; D3 thì ghi đủ biện pháp bảo vệ.
-3. **Luồng đọc và ghi.**
-   - Đọc qua hàm đọc dùng chung có single-flight; chưa có thì cài trước và dùng cho mọi luồng.
-   - Liệt kê **mọi** đường ghi chạm dữ liệu (repository, update hàng loạt, SQL thô, import, job, service khác) và nơi mỗi đường xoá key sau commit.
-   - Có L1 sống lâu hơn một request: chọn kênh sự kiện xoá L1 và cách phục hồi khi sự kiện lỗi.
-   - Ghi cách fail-open và giới hạn tải CSDL khi cache sập.
-4. **Ghi thiết kế.** Thêm dòng vào bảng cache của database-design; production có cache thì khai báo nhóm warm-up. Đổi công nghệ cache hoặc HA là quyết định kiến trúc: soạn ADR nháp.
-5. **Cài đặt** theo thiết kế đã duyệt: key, TTL, hàm nạp, xoá sau commit, sự kiện L1, nhóm warm-up, số đo.
-6. **Kiểm chứng** bằng test chạy thật:
-   - Xoá sạch cache rồi chạy lại các ca nghiệp vụ: kết quả không đổi.
-   - Ghi xong đọc lại: không trả bản cũ, kể cả từ L1 của instance khác.
-   - Cache down hoặc timeout: request vẫn thành công từ CSDL.
-   - Nhiều request đồng thời cùng miss một key: số truy vấn xuống CSDL không tăng theo số request, tối đa một mỗi instance; key hot thì một.
-   - Key khác người dùng, tenant không đọc chéo được.
-   - Kiểu dữ liệu sau serialize và deserialize giữ nguyên.
+1. **Decide whether to cache.** Use query cost **after** optimization, not pre-optimization numbers. Check each condition of Rule `cache` against the access pattern; record whether each condition is met by data or by assumption. "Changes constantly" and "rarely read" are checked against thresholds in database-design §3.7; no threshold yet: record an assumption with data from the AP table. On the do-not-cache list, or missing one condition: stop and report; do not cache.
+2. **Key and TTL.** Key format, distinguishing factors (tenant, viewer, permission, language), version, TTL per tier based on the acceptable staleness window, jitter. Assign a data level to the value; D3: record all protection measures.
+3. **Read and write paths.**
+   - Read through the shared read function with single-flight; if none exists, implement it first and use it for every path.
+   - List **every** write path touching the data (repository, bulk update, raw SQL, import, job, other services) and where each path deletes keys after commit.
+   - If L1 lives longer than one request: choose the L1 invalidation event channel and how to recover when an event fails.
+   - Record how fail-open works and how DB load is limited when the cache goes down.
+4. **Record the design.** Add a row to the database-design cache table; if production has a cache, declare the warm-up group. Changing cache technology or HA is an architectural decision: draft an ADR.
+5. **Implement** per the approved design: key, TTL, loader, delete after commit, L1 event, warm-up group, metrics.
+6. **Verify** with real running tests:
+   - Clear the whole cache then rerun business cases: results unchanged.
+   - Read after write: no stale value returned, including from another instance's L1.
+   - Cache down or timeout: request still succeeds from DB.
+   - Many concurrent requests missing the same key: DB queries do not grow with request count, at most one per instance; one for hot keys.
+   - Keys of different users/tenants cannot be cross-read.
+   - Data types survive serialize and deserialize unchanged.
 
-## Giới hạn
+## Limits
 
-- Không cache danh sách lọc hoặc phân trang tự do khi chưa chỉ ra cách xoá đúng mọi key liên quan.
-- Không thêm đường ghi mới vào dữ liệu đang được cache mà thiếu bước xoá key.
-- Không tạo hàm đọc cache thứ hai khi dự án đã có.
+- Do not cache free-form filtered or paginated lists until you show how to delete every related key correctly.
+- Do not add a new write path to cached data without a key-deletion step.
+- Do not create a second cache read function when the project already has one.
 
-## Hoàn thành khi
+## Done when
 
-- Mỗi cache có dòng trong database-design, truy ra AP, ghi đủ điều kiện được cache và mọi sự kiện xoá key.
-- Các ca kiểm chứng ở bước 6 có output test thật.
-- Số đo cache đã có trong monitoring hoặc ghi rõ phần còn thiếu.
+- Each cache has a row in database-design, traceable to an AP, recording all cache-eligibility conditions and every key-deletion event.
+- The verification cases in step 6 have real test output.
+- Cache metrics are in monitoring, or the missing parts are stated.
 
-## Báo cáo
+## Report
 
-Ghi vào báo cáo bàn giao: từng key mẫu kèm điều kiện được cache, TTL, mức dữ liệu; danh sách đường ghi và nơi xoá key; cách đồng bộ L1; biện pháp chống dồn tải; nhóm warm-up; số đo đã thêm.
+Write in the handoff report: each sample key with its cache-eligibility conditions, TTL, data level; the list of write paths and where keys are deleted; how L1 is synced; stampede-prevention measures; warm-up group; metrics added.

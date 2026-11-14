@@ -1,41 +1,41 @@
 ---
 name: incident-analysis
-description: Phân tích sự cố từ log, metric, trace do người xuất và đã che dữ liệu D3, dựng timeline, tách nguyên nhân đã xác nhận khỏi giả thuyết, soạn báo cáo sự cố Draft và bug; AI chỉ đọc và báo cáo.
+description: Analyze incidents from logs, metrics, traces exported by a human with D3 data masked; build a timeline, separate confirmed causes from hypotheses, draft a Draft incident report and bugs; AI only reads and reports.
 ---
 
 # Incident Analysis Skill
 
-Hiểu điều gì đã xảy ra, vì sao và ảnh hưởng ra sao, từ dữ liệu do người cung cấp. Chỉ đọc và báo cáo (A1); người quyết định cách xử lý.
+Understand what happened, why, and the impact, from human-provided data. Only read and report (A1); a human decides how to handle it.
 
-## Cổng vào
+## Entry gate
 
-- Log, metric, trace do người có quyền xuất và đã che D3. Thấy D3 chưa che thì dừng, báo và không dùng.
-- Mô tả sự cố: thời điểm, triệu chứng, môi trường.
-- Thiếu thì dừng và nêu cần dữ liệu gì.
+- Logs, metrics, traces exported by an authorized person with D3 masked. If unmasked D3 is seen, stop, report, and do not use it.
+- Incident description: time, symptoms, environment.
+- If missing, stop and state what data is needed.
 
-Đọc: dữ liệu đã che, báo cáo người dùng; release report, báo cáo bàn giao, PR gần thời điểm sự cố; monitoring, deployment, backup-recovery; FR/AC liên quan.
+Read: masked data, user reports; release report, handoff reports, PRs near the incident time; monitoring, deployment, backup-recovery; relevant FR/AC.
 
-## Quy trình
+## Procedure
 
-1. **Dựng timeline**, ghi nguồn cho mỗi mốc: phát hiện, tăng lỗi, thay đổi, xử lý.
-2. **Liên hệ thay đổi gần nhất:** release, migration, cấu hình, hạ tầng.
-3. **Tách** nguyên nhân đã xác nhận (có bằng chứng) khỏi giả thuyết (kèm cách kiểm chứng).
-4. **Đánh giá tác động:** người dùng, module, dữ liệu, bảo mật, thời lượng.
-5. **Đề xuất hành động tức thời** (rollback hay hotfix) theo deployment và backup-recovery; người quyết.
-6. **Đề xuất phòng ngừa:** test, giám sát, cảnh báo, runbook còn thiếu.
-7. **Tạo bug** theo BUG-TEMPLATE cho mỗi lỗi.
-8. **Đề xuất Task tiếp theo** cho người quyết: sửa lỗi (T3) cho mỗi bug; kiểm tra bảo mật (T10) nếu liên quan bảo mật; cập nhật runbook (T12).
+1. **Build a timeline**, citing the source of each milestone: detection, error spike, changes, handling.
+2. **Correlate with recent changes:** release, migration, configuration, infrastructure.
+3. **Separate** confirmed causes (with evidence) from hypotheses (with how to verify).
+4. **Assess impact:** users, modules, data, security, duration.
+5. **Propose immediate action** (rollback or hotfix) per deployment and backup-recovery; a human decides.
+6. **Propose prevention:** missing tests, monitoring, alerts, runbooks.
+7. **Create a bug** per BUG-TEMPLATE for each defect.
+8. **Propose next Tasks** for a human to decide: bug fix (T3) per bug; security review (T10) if security-related; runbook update (T12).
 
-## Giới hạn
+## Limits
 
-- Không chạy lệnh trên production; không tự rollback hay hotfix.
-- Không quy lỗi cho cá nhân.
+- Do not run commands on production; do not rollback or hotfix on your own.
+- Do not blame individuals.
 
-## Hoàn thành khi
+## Done when
 
-- Mọi kết luận có bằng chứng hoặc ghi là giả thuyết.
-- Bug đã tạo; dữ liệu còn thiếu đã nêu.
+- Every conclusion has evidence or is marked as a hypothesis.
+- Bugs created; missing data stated.
 
-## Báo cáo
+## Report
 
-Báo cáo sự cố (Draft): tóm tắt, timeline, nguyên nhân gốc (đã xác nhận và giả thuyết), tác động, hành động tức thời và phòng ngừa đề xuất, dữ liệu còn thiếu, bug và câu hỏi mở đã tạo.
+Incident report (Draft): summary, timeline, root cause (confirmed and hypotheses), impact, proposed immediate action and prevention, missing data, bugs and open questions created.

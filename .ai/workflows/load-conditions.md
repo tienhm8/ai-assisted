@@ -1,33 +1,33 @@
-# Điều kiện nạp Rule và Skill
+# Rule and Skill load conditions
 
-> Trạng thái: **Approved**. Sửa file này cần Task riêng và người duyệt.
+> Status: **Approved**. Changing this file requires a dedicated Task and a reviewer.
 
-§1 nạp ở bước 1, §2 nạp ở bước 3 khi chuỗi có Skill `[ ]`.
+§1 is loaded at step 1, §2 at step 3 when the chain has a `[ ]` Skill.
 
-## 1. Điều kiện nạp Rule
+## 1. Rule load conditions
 
-| Rule | Nạp khi |
+| Rule | Load when |
 | --- | --- |
-| git | Task có commit hoặc PR |
-| coding | Sửa code, kể cả code test |
-| testing | Sửa code, viết hoặc chạy test, hoặc phải báo kết quả kiểm tra |
-| architecture | Thiết kế; chạm ranh giới module, tầng, API contract; thêm module hoặc dependency; ảnh hưởng NFR |
-| database | Chạm schema, migration, query, transaction, seed hoặc dữ liệu test trong CSDL, xoá dữ liệu |
-| cache | Thêm cache; sửa hàm đọc có cache (tham số, trường trả về, lọc tenant/quyền, kiểu dữ liệu); thêm hoặc sửa đường ghi (repository, update hàng loạt, SQL thô, migration, import, job) vào bảng có trong database-design §3.7 |
-| document-database | Đã nạp `database` và hệ quản trị là CSDL tài liệu (MongoDB, NoSQL) |
-| security | Task R3; chạm xác thực, phiên, phân quyền; dữ liệu D2/D3; input từ ngoài, upload; tích hợp bên thứ ba; thêm hoặc đổi dependency; secret, cấu hình bảo mật; phát hành |
+| git | Task has a commit or PR |
+| coding | Editing code, including test code |
+| testing | Editing code, writing or running tests, or reporting check results |
+| architecture | Design; touching module or layer boundaries, API contracts; adding a module or dependency; affecting NFRs |
+| database | Touching schema, migrations, queries, transactions, seeds or test data in the DB, deleting data |
+| cache | Adding a cache; editing a cached read function (parameters, returned fields, tenant/permission filters, data types); adding or editing a write path (repository, bulk update, raw SQL, migration, import, job) to a table listed in database-design §3.7 |
+| document-database | `database` is loaded and the DBMS is a document database (MongoDB, NoSQL) |
+| security | R3 Task; touching authentication, sessions, authorization; D2/D3 data; external input, uploads; third-party integration; adding or changing a dependency; secrets, security config; release |
 
-Rule đã thoả điều kiện thì không bỏ, kể cả Task R1; mức rủi ro chỉ đổi độ sâu kiểm tra.
+A Rule whose condition is met is never dropped, even for R1 Tasks; risk level only changes check depth.
 
-## 2. Điều kiện dùng Skill có điều kiện
+## 2. Conditional Skill conditions
 
-| Skill | Dùng khi |
+| Skill | Use when |
 | --- | --- |
-| product-discovery | Chưa có vision, scope |
-| authentication-rbac | Có đăng nhập, phiên, vai trò, quyền hoặc truy cập theo tài nguyên. Làm xong luôn kèm `security-review` và `integration-testing` |
-| integration-testing | Chạm CSDL, giao tiếp giữa module, API hoặc dịch vụ ngoài |
-| e2e-testing | Có hành trình người dùng quan trọng hoặc đổi luồng nhiều màn hình |
-| security-review | Thoả điều kiện Rule `security` ở §1. Bắt buộc với Task R3 |
-| documentation | Đổi hành vi, API, schema, kiến trúc hoặc cách vận hành |
-| caching | Thoả điều kiện Rule `cache` ở §1, trừ khi chỉ sửa đường ghi đã có mà không đổi tập dữ liệu nó chạm tới |
-| architecture-design (soạn ADR) | Thiết kế dữ liệu cần partition, sharding, tách CSDL, đổi hệ quản trị hoặc chọn mẫu đa tenant |
+| product-discovery | No vision or scope yet |
+| authentication-rbac | Login, sessions, roles, permissions, or resource-level access are involved. When done, always followed by `security-review` and `integration-testing` |
+| integration-testing | Touching the DB, inter-module communication, APIs, or external services |
+| e2e-testing | Important user journeys or a multi-screen flow change |
+| security-review | Rule `security` condition in §1 is met. Mandatory for R3 Tasks |
+| documentation | Changing behavior, API, schema, architecture, or operations |
+| caching | Rule `cache` condition in §1 is met, unless only editing an existing write path without changing the data set it touches |
+| architecture-design (draft ADR) | Data design needs partitioning, sharding, DB split, DBMS change, or a multi-tenant pattern choice |

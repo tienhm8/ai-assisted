@@ -39,17 +39,19 @@ File này dành cho người viết và duyệt Skill; AI không cần nạp khi
 
 ## Cấu trúc một SKILL.md
 
-| Mục | Nội dung |
+| Mục (tên trong file) | Nội dung |
 | --- | --- |
 | Frontmatter `name`, `description` | Skill làm gì và dùng khi nào; đủ để chọn Skill mà không cần đọc phần thân |
 | Mở đầu | Một đến hai câu về mục tiêu |
-| Cổng vào | Điều kiện bắt đầu, thiếu thì dừng; tài liệu cần đọc |
-| Quy trình | Các bước theo thứ tự |
-| Giới hạn (nếu có) | Chỉ điều riêng của Skill này |
-| Hoàn thành khi | Kết quả kiểm chứng được |
-| Báo cáo | Chỉ phần riêng của Skill; phần chung theo template |
+| Cổng vào (`Entry gate`) | Điều kiện bắt đầu, thiếu thì dừng; tài liệu cần đọc |
+| Quy trình (`Procedure`) | Các bước theo thứ tự |
+| Giới hạn (`Limits`, nếu có) | Chỉ điều riêng của Skill này |
+| Hoàn thành khi (`Done when`) | Kết quả kiểm chứng được |
+| Báo cáo (`Report`) | Chỉ phần riêng của Skill; phần chung theo template |
 
 Thiếu Cổng vào, Quy trình, Hoàn thành khi hoặc Báo cáo thì Skill chưa được chuyển Approved.
+
+Nội dung `SKILL.md` và `references/` viết bằng tiếng Anh để tiết kiệm token (`project-rules` 22); tên mục `docs/` và template được dẫn chiếu thì giữ nguyên tiếng Việt.
 
 ## Viết Skill cho gọn
 

@@ -1,31 +1,31 @@
 # Coding Rules
 
-> Trạng thái: **Approved**. Rule bắt buộc, trung lập về ngôn ngữ.
+> Status: **Approved**. Mandatory Rule, language-neutral.
 
-## Nguyên tắc thiết kế
+## Design principles (Nguyên tắc thiết kế)
 
-1. **Clean Code.** Tên nói rõ ý định. Hàm ngắn, làm một việc, không có side effect ẩn. Comment chỉ giải thích lý do, không lặp lại điều code đã nói. Không để lại import thừa hay code chết.
+1. **Clean Code.** Names state intent. Functions are short, do one thing, have no hidden side effects. Comments only explain why, not repeat what the code says. Leave no unused imports or dead code.
 2. **SOLID.**
-   - Single Responsibility: mỗi hàm, lớp, file một trách nhiệm; phải thêm việc thứ hai thì tách.
-   - Open/Closed: thêm biến thể hành vi bằng cách mở rộng qua điểm mở rộng đã có, không sửa lan sang code đang chạy đúng.
-   - Liskov Substitution: kiểu con thay được kiểu cha mà bên gọi không phải biết hay kiểm tra kiểu cụ thể.
-   - Interface Segregation: interface nhỏ, theo nhu cầu của bên dùng; không buộc bên dùng phụ thuộc vào method nó không gọi.
-   - Dependency Inversion: phụ thuộc vào abstraction và được truyền vào qua tham số hoặc interface; không tự khởi tạo phụ thuộc bên trong, không dùng trạng thái toàn cục.
-3. **DRY.** Logic nghiệp vụ chỉ có một nơi định nghĩa. Trước khi viết mới, tìm và dùng lại hàm, component, tiện ích sẵn có. Chỉ tách phần dùng chung khi đã lặp lại thật sự.
-4. **KISS.** Chọn cách đơn giản nhất đáp ứng AC; viết theo cách code xung quanh đang làm.
-5. **YAGNI.** Không viết code, tầng trừu tượng, tham số cấu hình hay điểm mở rộng cho nhu cầu chưa có trong Task.
-6. **Separation of Concerns.** Không trộn giao diện, nghiệp vụ và truy cập dữ liệu trong cùng một đơn vị code.
+   - Single Responsibility: each function, class, file has one responsibility; if a second job must be added, split.
+   - Open/Closed: add behavior variants by extending through existing extension points, not by changing working code across the board.
+   - Liskov Substitution: a subtype can replace its supertype without the caller having to know or check the concrete type.
+   - Interface Segregation: interfaces are small, shaped by consumer needs; do not force consumers to depend on methods they do not call.
+   - Dependency Inversion: depend on abstractions, injected via parameters or interfaces; do not instantiate dependencies internally, do not use global state.
+3. **DRY.** Business logic is defined in only one place. Before writing new code, find and reuse existing functions, components, utilities. Extract shared parts only when there is real repetition.
+4. **KISS.** Choose the simplest approach that meets the AC; write the way the surrounding code does.
+5. **YAGNI.** Do not write code, abstraction layers, config parameters, or extension points for needs not in the Task.
+6. **Separation of Concerns.** Do not mix UI, business logic, and data access in the same code unit.
 
-Khi hai nguyên tắc kéo ngược nhau, KISS và YAGNI thắng: không thêm abstraction để đạt SOLID hay DRY khi Task chưa cần.
+When two principles conflict, KISS and YAGNI win: do not add abstraction to achieve SOLID or DRY when the Task does not need it yet.
 
-## Quy ước và xử lý lỗi
+## Conventions and error handling
 
-7. Theo đúng ngôn ngữ, phiên bản, naming và công cụ lint/kiểm tra kiểu đã chốt cho dự án. Mục chưa chốt: dừng và hỏi, không tự chọn.
-8. Cơ chế nới lỏng kiểm tra (bỏ qua kiểu, tắt lint...) chỉ dùng khi có lý do ghi tại chỗ và reviewer chấp nhận.
-9. Không nuốt lỗi (bắt lỗi rồi bỏ qua); mọi lỗi phải được xử lý, ghi log hoặc ném tiếp.
-10. Phân loại lỗi và dùng mã lỗi chung của dự án; phản hồi lỗi không lộ stack trace, câu truy vấn hay đường dẫn nội bộ.
-11. Mọi lời gọi ra ngoài (CSDL, API, hàng đợi) có timeout; chỉ retry lỗi tạm thời và thao tác idempotent.
-12. Log kèm correlation ID.
-13. Giải phóng tài nguyên (kết nối, file, lock) kể cả khi lỗi.
-14. Kiểm tra dữ liệu đầu vào tại biên hệ thống.
-15. File mã nguồn tối đa 500 dòng, không tính file sinh tự động; vượt thì tách theo trách nhiệm. Áp cho file mới và file bị sửa trong Task; file cũ đang vượt chỉ tách khi Task chạm tới.
+7. Follow the language, version, naming, and lint/type-check tools fixed for the project. If an item is not fixed: stop and ask; do not choose yourself.
+8. Check-relaxing mechanisms (type ignores, disabling lint...) may be used only with a reason written in place and reviewer acceptance.
+9. Do not swallow errors (catch and ignore); every error must be handled, logged, or rethrown.
+10. Classify errors and use the project's shared error codes; error responses must not expose stack traces, queries, or internal paths.
+11. Every outbound call (DB, API, queue) has a timeout; retry only transient errors and idempotent operations.
+12. Logs include a correlation ID.
+13. Release resources (connections, files, locks) even on error.
+14. Validate input at the system boundary.
+15. Source files are at most 500 lines, excluding generated files; if exceeded, split by responsibility. Applies to new files and files modified in the Task; existing files already over the limit are split only when the Task touches them.

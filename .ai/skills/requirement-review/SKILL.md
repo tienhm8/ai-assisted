@@ -1,36 +1,36 @@
 ---
 name: requirement-review
-description: Rà soát yêu cầu về tính đầy đủ, rõ ràng, nhất quán, kiểm thử được và truy vết được trước khi thiết kế/triển khai; chỉ khuyến nghị, không đổi trạng thái hay sửa tài liệu.
+description: Review requirements for completeness, clarity, consistency, testability, and traceability before design/implementation; recommend only, do not change status or edit documents.
 ---
 
 # Requirement Review Skill
 
-Tìm lỗ hổng, mâu thuẫn, điểm mơ hồ và rủi ro trong yêu cầu. Chỉ đề xuất trong báo cáo: không sửa file yêu cầu.
+Find gaps, contradictions, ambiguities, and risks in requirements. Propose only in the report: do not edit requirement files.
 
-## Cổng vào
+## Entry gate
 
-Có tài liệu yêu cầu cần rà (BRD, bảng FR, AC) ở Draft hoặc In Review. Thiếu thì dừng và hỏi.
+Requirement documents to review (BRD, FR table, AC) exist in Draft or In Review. If missing, stop and ask.
 
-Đọc: BRD, bảng FR, business-rules, NFR, acceptance-criteria, scope, glossary, open-questions, tài liệu kiến trúc liên quan nếu có.
+Read: BRD, FR table, business-rules, NFR, acceptance-criteria, scope, glossary, open-questions, relevant architecture docs if any.
 
-## Quy trình
+## Procedure
 
-1. **Đầy đủ:** luồng chính, thay thế, lỗi; validate đầu vào; kết quả đầu ra; quyền; sở hữu dữ liệu; chuyển trạng thái.
-2. **Rõ ràng:** câu không mơ hồ, thuật ngữ khớp glossary, actor rõ, ràng buộc đo được.
-3. **Nhất quán:** FR với BR, với NFR, với phạm vi, với phân quyền, với quyết định đã có, giữa các FR.
-4. **Kiểm thử được:** AC quan sát được, có điều kiện đầu và kết quả, có biên và luồng lỗi.
-5. **Truy vết một chiều:** mỗi FR có liên kết BRQ/BR; mỗi BRQ Must/Should có ít nhất một FR (lọc cột "BRQ nguồn" của bảng FR); mỗi AC trỏ FR; mọi BR có AC. Tài liệu khai báo liên kết hai chiều là finding.
-6. **Câu hỏi mở:** câu đang Open chặn phạm vi nào; giả định đã quá hạn rà soát; điểm mơ hồ chưa có câu hỏi mở.
-7. **Khả thi:** chỉ đánh dấu rủi ro (kỹ thuật, tích hợp, dữ liệu, hiệu năng, bảo mật) để chuyển `architecture-design`; không quyết định kiến trúc.
-8. **Phân loại finding:** Critical (chặn triển khai) · High (thiếu hoặc mâu thuẫn lớn) · Medium (chưa rõ) · Low (cải thiện tài liệu).
+1. **Completeness:** main, alternative, error flows; input validation; outputs; permissions; data ownership; state transitions.
+2. **Clarity:** unambiguous sentences, terms match glossary, clear actors, measurable constraints.
+3. **Consistency:** FR vs. BR, vs. NFR, vs. scope, vs. authorization, vs. existing decisions, across FRs.
+4. **Testability:** AC observable, with preconditions and results, with boundaries and error flows.
+5. **One-way traceability:** each FR links to BRQ/BR; each Must/Should BRQ has at least one FR (filter the "BRQ nguồn" column of the FR table); each AC points to an FR; every BR has AC. A document declaring two-way links is a finding.
+6. **Open questions:** which scope each Open question blocks; assumptions past their review deadline; ambiguities without an open question.
+7. **Feasibility:** only flag risks (technical, integration, data, performance, security) to hand to `architecture-design`; do not make architecture decisions.
+8. **Classify findings:** Critical (blocks implementation) · High (major gap or contradiction) · Medium (unclear) · Low (documentation improvement).
 
-## Hoàn thành khi
+## Done when
 
-Đã rà đủ bảy khía cạnh ở trên; mỗi finding đủ trường; báo cáo nêu khuyến nghị và điều kiện chưa đạt.
+All seven aspects above reviewed; each finding has all fields; the report states the recommendation and unmet conditions.
 
-## Báo cáo
+## Report
 
-Một báo cáo: số yêu cầu đã rà, số finding theo mức, danh sách finding, vấn đề chặn, khuyến nghị duyệt.
+One report: number of requirements reviewed, finding count by level, finding list, blocking issues, approval recommendation.
 
-- Mỗi finding: mã `FND-<NN>` (chỉ dùng trong báo cáo này), mức độ, mã yêu cầu liên quan, mô tả, tác động, đề xuất sửa.
-- Khuyến nghị duyệt khi: mọi FR có AC, QA đã rà, không còn câu hỏi mở chặn phạm vi.
+- Each finding: ID `FND-<NN>` (used only within this report), severity, related requirement ID, description, impact, proposed fix.
+- Recommend approval when: every FR has AC, QA has reviewed, no scope-blocking open questions remain.

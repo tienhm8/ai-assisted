@@ -1,63 +1,63 @@
-# Database Design – Bảo mật dữ liệu
+# Database Design – Data security
 
-> Tài liệu tham khảo của Skill `database-design`, dùng ở bước 8. Định nghĩa mức D0–D3, thuật toán và nơi quản lý khoá, yêu cầu pháp lý lấy từ tài liệu bảo mật của dự án; file này nêu cách áp xuống bảng và cột. Cú pháp riêng của hệ quản trị tra ở `postgresql.md` hoặc `mysql-mariadb.md`.
+> Reference for Skill `database-design`, used at step 8. Definitions of levels D0–D3, algorithms, key management location and legal requirements come from the project's security documents; this file describes how to apply them to tables and columns. Look up DBMS-specific syntax in `postgresql.md` or `mysql-mariadb.md`.
 
-## 1. Phân loại cột
+## 1. Column classification
 
-Với mỗi bảng, đánh dấu cột D2/D3 trong danh sách bảng của database-design. Câu hỏi cho từng cột:
+For each table, mark D2/D3 columns in the table list of database-design. Questions per column:
 
-- Có thật cần lưu không? Không cần thì không thu thập.
-- Cần đọc lại giá trị gốc không? Không cần (mật khẩu, mã OTP, token) thì chỉ lưu băm.
-- Cần tìm kiếm chính xác theo giá trị không? Có thì thêm cột băm có khoá (HMAC) để tra cứu, giá trị gốc mã hoá riêng.
-- Ai được xem: toàn bộ, che một phần, hay không ai trừ tiến trình hệ thống?
-- Lưu bao lâu, sau đó xoá hay ẩn danh?
+- Is storing it truly needed? If not, do not collect it.
+- Is reading back the original value needed? If not (passwords, OTP codes, tokens), store only a hash.
+- Is exact-match search by value needed? If so, add a keyed hash column (HMAC) for lookup, with the original value encrypted separately.
+- Who may view it: fully, partially masked, or no one except system processes?
+- How long to keep it, then delete or anonymize?
 
-## 2. Lưu trữ theo loại dữ liệu
+## 2. Storage by data kind
 
-| Dữ liệu | Cách lưu |
+| Data | Storage method |
 | --- | --- |
-| Mật khẩu | Băm một chiều có salt, thuật toán chậm (argon2id, bcrypt, scrypt) ở ứng dụng; không mã hoá hai chiều |
-| Token phiên, token đặt lại mật khẩu, API key | Lưu băm (SHA-256 là đủ vì token ngẫu nhiên dài); hiển thị gốc một lần |
-| Dữ liệu cá nhân cần đọc lại (CMND/CCCD, số tài khoản) | Mã hoá ở ứng dụng (envelope encryption, khoá từ KMS/vault) + cột HMAC nếu cần tra cứu; cột phiên bản khoá để xoay vòng |
-| Dữ liệu D2 | Theo quy định dự án; tối thiểu mã hoá khi lưu ở mức đĩa/tablespace |
-| Toàn bộ CSDL | Mã hoá đĩa hoặc TDE của hệ quản trị; kết nối bắt buộc TLS |
+| Password | One-way salted hash with a slow algorithm (argon2id, bcrypt, scrypt) in the application; no reversible encryption |
+| Session tokens, password reset tokens, API keys | Store a hash (SHA-256 suffices since tokens are long and random); show the original once |
+| Personal data that must be read back (national ID, account number) | Application-level encryption (envelope encryption, keys from KMS/vault) + HMAC column if lookup needed; key version column for rotation |
+| D2 data | Per project rules; at minimum encryption at rest at disk/tablespace level |
+| Whole database | Disk encryption or DBMS TDE; TLS required for connections |
 
-Mã hoá trong CSDL bằng hàm SQL của hệ quản trị đưa khoá vào câu lệnh và có thể lộ qua log truy vấn; ưu tiên mã hoá ở ứng dụng.
+In-DB encryption with DBMS SQL functions puts keys into statements and may leak via query logs; prefer application-level encryption.
 
-## 3. Tài khoản và quyền
+## 3. Accounts and permissions
 
-| Tài khoản | Quyền | Dùng bởi |
+| Account | Permissions | Used by |
 | --- | --- | --- |
-| Owner | Sở hữu schema; không đăng nhập thường ngày | Quản trị |
-| Migrator | DDL trên schema của ứng dụng | Pipeline chạy migration |
-| App | SELECT/INSERT/UPDATE/DELETE trên bảng cần; EXECUTE hàm cần; không DDL | Ứng dụng |
-| Read-only | SELECT trên view hoặc bảng được phép, đã che D3 | Báo cáo, hỗ trợ |
+| Owner | Owns schema; no day-to-day login | Administration |
+| Migrator | DDL on the application schema | Migration pipeline |
+| App | SELECT/INSERT/UPDATE/DELETE on needed tables; EXECUTE on needed functions; no DDL | Application |
+| Read-only | SELECT on permitted views or tables, with D3 masked | Reporting, support |
 
-- Bảng audit, sổ cái: tài khoản App chỉ INSERT và SELECT, không UPDATE/DELETE.
-- Không cấp quyền cho `PUBLIC` hay tài khoản mặc định; thu hồi quyền tạo đối tượng mặc định nếu hệ cấp sẵn.
-- Mỗi module (nếu tách schema) có tài khoản riêng, không đọc trực tiếp schema module khác.
+- Audit tables, ledgers: App account only INSERT and SELECT, no UPDATE/DELETE.
+- Do not grant permissions to `PUBLIC` or default accounts; revoke default object-creation permissions if the DBMS grants them.
+- Each module (if schemas are split) has its own account and does not read other modules' schemas directly.
 
-## 4. Cách ly tenant
+## 4. Tenant isolation
 
-- Cột `tenant_id` trong mọi bảng nghiệp vụ, đứng đầu index; FK composite có `tenant_id`.
-- Hệ có bảo mật mức dòng (RLS): bật làm lớp thứ hai; tài khoản App không được bỏ qua policy và không là owner bảng.
-- Mọi trường hợp: lọc ở tầng truy cập dữ liệu dùng chung, kèm test truy cập chéo tenant.
+- `tenant_id` column in every business table, leading in indexes; composite FKs include `tenant_id`.
+- DBMS with row-level security (RLS): enable as a second layer; the App account must not bypass policies and must not own the tables.
+- In all cases: filter in the shared data access layer, plus cross-tenant access tests.
 
-## 5. Chống injection ở tầng CSDL
+## 5. Injection prevention at the DB layer
 
-- Truy vấn tham số hoá; tên bảng/cột động chỉ lấy từ allow-list.
-- Hàm/thủ tục lưu trữ: không ghép chuỗi trong SQL động; dùng cơ chế trích dẫn định danh và tham số của hệ quản trị.
-- Hàm chạy với quyền người định nghĩa: cố định đường tìm schema.
+- Parameterized queries; dynamic table/column names only from an allow-list.
+- Stored functions/procedures: no string concatenation in dynamic SQL; use the DBMS's identifier quoting and parameter mechanisms.
+- Functions running with definer rights: pin the schema search path.
 
 ## 6. Audit
 
-- Bảng audit ghi: ai (ID người dùng hoặc dịch vụ), làm gì, trên bản ghi nào, khi nào, từ đâu (correlation ID), giá trị trước/sau với cột không phải D3.
-- Append-only, có thể tách phân vùng theo thời gian, thời hạn lưu theo chính sách.
-- Không ghi giá trị D3 vào audit; chỉ ghi "đã đổi".
+- Audit table records: who (user or service ID), what action, on which record, when, from where (correlation ID), before/after values for non-D3 columns.
+- Append-only, may be time-partitioned, retention per policy.
+- Do not write D3 values into audit; record only "changed".
 
-## 7. Vòng đời và môi trường không phải production
+## 7. Lifecycle and non-production environments
 
-- Chính sách lưu giữ cho từng nhóm dữ liệu; job lưu trữ hoặc huỷ theo phân vùng/lô.
-- Xoá theo yêu cầu chủ thể dữ liệu: liệt kê mọi bảng chứa dữ liệu của người đó (kể cả audit, bản sao phi chuẩn hoá, bản sao lưu) và cách xử lý (xoá cứng, ẩn danh).
-- Dữ liệu dev/test/staging: dữ liệu giả hoặc bản sao đã ẩn danh không đảo ngược được; không sao chép dump production nguyên trạng.
-- Sao lưu được mã hoá; quyền khôi phục giới hạn.
+- Retention policy per data group; archive or purge jobs by partition/batch.
+- Deletion on data-subject request: list every table holding that person's data (including audit, denormalized copies, backups) and how to handle it (hard delete, anonymize).
+- Dev/test/staging data: fake data or irreversibly anonymized copies; do not copy production dumps as is.
+- Backups are encrypted; restore permissions are limited.

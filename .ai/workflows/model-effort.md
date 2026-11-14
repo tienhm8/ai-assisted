@@ -1,22 +1,22 @@
-# Model và effort theo loại Task
+# Model and effort by Task type
 
-> Trạng thái: **Approved**. Sửa file này cần Task riêng và người duyệt. Chỉ nạp ở bước 3 hoặc khi Tech Lead cấu hình.
+> Status: **Approved**. Changing this file requires a dedicated Task and a reviewer. Load only at step 3 or when the Tech Lead configures it.
 
-Cột "Model · Effort" ở [task-types.md](task-types.md) §1 là mặc định theo loại Task: "plan" là phiên bước 1–4, "thực thi" là bước 5–7; bước 8 dùng dòng T9. Tech Lead chốt bằng cách sửa cột đó và điền bảng ánh xạ dưới đây; không khai báo ở nơi khác.
+The "Model · Effort" column in [task-types.md](task-types.md) §1 is the default per Task type: "plan" is the session for steps 1–4, "execution" is steps 5–7; step 8 uses row T9. The Tech Lead finalizes it by editing that column and filling in the mapping table below; declare nowhere else.
 
-- **Hạng model:** M1 nhẹ (tra cứu, tóm tắt, việc theo mẫu) · M2 chuẩn (code, test, tài liệu hằng ngày) · M3 mạnh (thiết kế, review, bảo mật, sự cố).
-- **Effort:** E1 thấp · E2 trung bình · E3 cao · E4 rất cao.
-- Task R3, hoặc bước dùng `authentication-rbac` hay `security-review`: tối thiểu M3·E3.
-- Model của phiên thấp hơn hạng yêu cầu, thiếu model đúng hạng hoặc hết hạn mức: dừng và đề nghị người đổi; không tự hạ.
+- **Model tier:** M1 light (lookups, summaries, template work) · M2 standard (everyday code, tests, docs) · M3 strong (design, review, security, incidents).
+- **Effort:** E1 low · E2 medium · E3 high · E4 very high.
+- R3 Tasks, or steps using `authentication-rbac` or `security-review`: at least M3·E3.
+- If the session model is below the required tier, no model of the right tier exists, or quota runs out: stop and ask a human to change it; do not downgrade yourself.
 
-**Ánh xạ sang công cụ thật** (ví dụ: [claude-code.md](../agents/examples/claude-code.md)):
+**Mapping to real tools** (example: [claude-code.md](../agents/examples/claude-code.md)):
 
-| Hạng / mức | Model hoặc tham số thật (tên · phiên bản) |
+| Tier / level | Real model or parameter (name · version) |
 | --- | --- |
-| M1 · Nhẹ | |
-| M2 · Chuẩn | |
-| M3 · Mạnh | |
-| E1 · Thấp | |
-| E2 · Trung bình | |
-| E3 · Cao | |
-| E4 · Rất cao | |
+| M1 · Light | |
+| M2 · Standard | |
+| M3 · Strong | |
+| E1 · Low | |
+| E2 · Medium | |
+| E3 · High | |
+| E4 · Very high | |

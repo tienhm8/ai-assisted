@@ -11,4 +11,4 @@ Mẫu báo cáo công việc của AI, chỉ giữ cấu trúc (trường, cột
 | RELEASE-REPORT-TEMPLATE | Báo cáo phát hành | AI · Owner |
 | PR-TEMPLATE | Mô tả Pull Request trước khi yêu cầu review | Người viết PR (người hoặc AI) · Reviewer |
 
-Kết quả review code ghi theo mục "Báo cáo" của skill code-review; không có mẫu riêng. PR thiếu mục bắt buộc của PR-TEMPLATE thì bị trả về trước khi review.
+Kết quả review code ghi theo mục "Report" của skill code-review; không có mẫu riêng. PR thiếu mục bắt buộc của PR-TEMPLATE thì bị trả về trước khi review.

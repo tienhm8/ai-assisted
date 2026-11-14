@@ -1,18 +1,18 @@
 # Git Workflow Rules
 
-> Trạng thái: **Approved**
+> Status: **Approved**
 >
-> Sửa file này thuộc vùng 🔴: cần Task riêng và người duyệt.
-1. Một Task tương ứng một nhánh hoặc một đơn vị thay đổi độc lập; làm trên nhánh riêng, không làm trực tiếp trên nhánh dài hạn (`master`, `develop`) hay nhánh `release/*`.
-2. Mô hình nhánh theo Gitflow (nvie). Nhánh làm việc đặt tên `<loại>/<TASK-ID>-<mô-tả-ngắn>`, loại là `feature`, `fix`, `refactor`, `docs` hoặc `chore`, tách từ `develop` và merge lại vào `develop`; riêng `fix` cho lỗi của release đang mở thì tách từ `release/*` và merge lại vào đó. Ví dụ: `fix/PRJ-12-login-timeout`. Hai loại nhánh đặc biệt:
-   - `release/<X.Y.0>`: tách từ `develop` khi chốt sprint, deploy Staging, chỉ nhận sửa lỗi (không thêm tính năng), đóng bằng merge vào `master` (gắn tag `vX.Y.0`) và merge ngược về `develop`.
-   - `hotfix/<X.Y.Z>`: tách từ `master` để xử lý lỗi nghiêm trọng trên Production, merge vào `master` (gắn tag `vX.Y.Z`) và vào `develop` (hoặc `release/*` đang mở).
-   Merge các nhánh này dùng `--no-ff`. Tag có dạng `vMAJOR.MINOR.PATCH`: release tăng MINOR, hotfix tăng PATCH, thay đổi phá vỡ tương thích tăng MAJOR.
-3. Commit message **bắt buộc** theo Angular convention: dòng đầu `type(scope?): subject`, `type` thuộc `build`, `ci`, `chore`, `docs`, `feat`, `fix`, `perf`, `refactor`, `revert`, `style`, `test`; thân nêu `TASK-ID`. Mọi dự án có cơ chế tự động chặn commit sai cú pháp. Mỗi commit chỉ chứa file thuộc phạm vi Task. Không thêm dòng `Co-Authored-By` hay dòng ghi công AI nào vào commit message.
-4. Commit xong phải hiển thị cho người review: nhánh, hash ngắn và **toàn văn message** (dòng đầu + thân) của từng commit vừa tạo, kèm danh sách file của mỗi commit (`git show --stat --format=full`). Không chỉ báo "đã commit".
-5. Nhánh `master`, `develop` và `release/*` đang mở được bảo vệ: chỉ nhận thay đổi qua PR có review và cổng kiểm tra đạt. AI không tự merge vào các nhánh này, không tự tạo tag phát hành; người merge và gắn tag sau khi được duyệt và kiểm tra đạt (hoặc có miễn trừ có thời hạn).
-6. Không force-push, không rewrite lịch sử nhánh chung.
-7. Không dùng `--no-verify` hoặc cách tương đương để bỏ hook hay cổng kiểm tra.
-8. Không commit secret, `.env*`, dữ liệu production.
-9. Thay đổi vùng 🔴 (rule, skill, workflow, cấu hình quyền/CI) tách Task và PR riêng, không lồng vào Task tính năng.
-10. PR ghi `TASK-ID` và kèm báo cáo bàn giao (link hoặc dán, khai ở PR-TEMPLATE §1); PR không chép lại mục đã có trong báo cáo bàn giao.
+> Changing this file is in the 🔴 zone: requires a dedicated Task and a reviewer.
+1. One Task maps to one branch or one independent change unit; work on a dedicated branch, never directly on long-lived branches (`master`, `develop`) or `release/*` branches.
+2. Branching model follows Gitflow (nvie). Working branches are named `<type>/<TASK-ID>-<short-description>`, where type is `feature`, `fix`, `refactor`, `docs`, or `chore`, branched from `develop` and merged back into `develop`; except a `fix` for a bug in an open release is branched from `release/*` and merged back into it. Example: `fix/PRJ-12-login-timeout`. Two special branch types:
+   - `release/<X.Y.0>`: branched from `develop` at sprint close, deployed to Staging, accepts only bug fixes (no new features), closed by merging into `master` (tagged `vX.Y.0`) and merging back into `develop`.
+   - `hotfix/<X.Y.Z>`: branched from `master` to fix a critical Production bug, merged into `master` (tagged `vX.Y.Z`) and into `develop` (or the open `release/*`).
+   Merge these branches with `--no-ff`. Tags have the form `vMAJOR.MINOR.PATCH`: release bumps MINOR, hotfix bumps PATCH, breaking changes bump MAJOR.
+3. Commit messages **must** follow the Angular convention: first line `type(scope?): subject`, `type` is one of `build`, `ci`, `chore`, `docs`, `feat`, `fix`, `perf`, `refactor`, `revert`, `style`, `test`; body states `TASK-ID`. Every project has an automated mechanism blocking malformed commits. Each commit contains only files within the Task scope. Do not add a `Co-Authored-By` line or any AI attribution line to commit messages.
+4. After committing, show the reviewer: branch, short hash, and the **full message** (first line + body) of each commit just created, plus each commit's file list (`git show --stat --format=full`). Do not just report "committed".
+5. `master`, `develop`, and open `release/*` branches are protected: they accept changes only via PR with review and passing check gates. AI does not merge into these branches itself and does not create release tags itself; a human merges and tags after approval and passing checks (or a time-limited waiver).
+6. No force-push, no rewriting shared branch history.
+7. Do not use `--no-verify` or equivalents to bypass hooks or check gates.
+8. Do not commit secrets, `.env*`, or production data.
+9. Changes in the 🔴 zone (rules, skills, workflows, permission/CI config) go in a separate Task and PR, not bundled into a feature Task.
+10. The PR states `TASK-ID` and includes the handoff report (link or paste, declared in PR-TEMPLATE §1); the PR does not copy sections already in the handoff report.

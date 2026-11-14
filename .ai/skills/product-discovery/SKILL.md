@@ -1,39 +1,39 @@
 ---
 name: product-discovery
-description: Biến ý tưởng hoặc brief của PO và tài liệu stakeholder thành bản nháp vision, scope, glossary và open-questions trong docs/00-project-overview; không viết BRD hay FR.
+description: Turn a PO idea or brief and stakeholder documents into drafts of vision, scope, glossary, and open-questions in docs/00-project-overview; does not write BRD or FR.
 ---
 
 # Product Discovery Skill
 
-Làm rõ vấn đề, đối tượng và phạm vi từ nguồn có thật của PO và stakeholder, ghi thành bản nháp đủ để PO duyệt.
+Clarify the problem, audience, and scope from real PO and stakeholder sources, written as drafts sufficient for PO approval.
 
-## Cổng vào
+## Entry gate
 
-- Có brief hoặc tài liệu nguồn từ PO hoặc stakeholder. Thiếu thì dừng và hỏi, không tự dựng ý tưởng.
-- Biết ai là PO (người duyệt vision và scope).
+- A brief or source documents from the PO or stakeholders exist. If missing, stop and ask; do not invent ideas.
+- Know who the PO is (approver of vision and scope).
 
-Đọc: brief và quyết định đã có; vision, scope, glossary, open-questions hiện có; PROJECT.md.
+Read: brief and existing decisions; existing vision, scope, glossary, open-questions; PROJECT.md.
 
-## Quy trình
+## Procedure
 
-1. **Đọc nguồn:** đánh dấu từng ý theo nguồn (ai nói, tài liệu nào). Ý không có nguồn không được ghi như sự thật.
-2. **vision:** vấn đề, đối tượng sử dụng, kết quả đo được dạng `OUT-<NN>` (chỉ số và cách đo). Chưa đo được thì ghi câu hỏi mở, không bịa số.
-3. **scope:** trong phạm vi, ngoài phạm vi, ràng buộc. Ràng buộc, kể cả pháp lý, chỉ ghi khi có nguồn.
-4. **glossary:** thuật ngữ lấy từ nguồn. Thuật ngữ mơ hồ hoặc trùng nghĩa thì ghi câu hỏi mở.
-5. **open-questions:** mọi điểm thiếu, mâu thuẫn, giả định ghi thành `OQ-<NN>` kèm người quyết và hạn; giả định có hạn rà soát.
-6. **Rà chéo:** vision, scope, glossary dùng cùng thuật ngữ và không mâu thuẫn nhau.
-7. **Trình PO.** PO duyệt vision, scope và xử lý câu hỏi mở chặn phạm vi rồi mới chuyển `requirement-analysis`.
+1. **Read sources:** tag each point by source (who said it, which document). Points without a source must not be written as fact.
+2. **vision:** problem, target users, measurable outcomes as `OUT-<NN>` (metric and how to measure). If not yet measurable, record an open question; do not invent numbers.
+3. **scope:** in scope, out of scope, constraints. Record constraints, including legal ones, only when sourced.
+4. **glossary:** terms taken from sources. For ambiguous or synonymous terms, record an open question.
+5. **open-questions:** record every gap, contradiction, assumption as `OQ-<NN>` with decision-maker and deadline; assumptions have a review deadline.
+6. **Cross-check:** vision, scope, glossary use the same terms and do not contradict each other.
+7. **Submit to PO.** PO approves vision, scope and resolves scope-blocking open questions before moving to `requirement-analysis`.
 
-## Giới hạn
+## Limits
 
-- Không viết BRD, FR, business rule hay thiết kế kỹ thuật.
+- Do not write BRD, FR, business rules, or technical design.
 
-## Hoàn thành khi
+## Done when
 
-- Bốn tài liệu ở Draft, đủ mục theo mẫu; mỗi nội dung có nguồn hoặc được đánh dấu là giả định.
-- Mỗi `OUT-<NN>` đo được hoặc đã có câu hỏi mở.
-- Câu hỏi mở chặn phạm vi đã nêu người quyết.
+- All four documents in Draft, with all template sections; each item has a source or is marked as an assumption.
+- Each `OUT-<NN>` is measurable or has an open question.
+- Scope-blocking open questions name a decision-maker.
 
-## Báo cáo
+## Report
 
-File đã tạo hoặc sửa, `OUT-<NN>` và `OQ-<NN>` mới, nguồn đã dùng, giả định và hạn rà soát, mục cần PO duyệt.
+Files created or changed, new `OUT-<NN>` and `OQ-<NN>`, sources used, assumptions and review deadlines, items needing PO approval.

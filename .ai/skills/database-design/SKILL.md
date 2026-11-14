@@ -1,112 +1,112 @@
 ---
 name: database-design
-description: Đóng vai Database Architect cho CSDL quan hệ (PostgreSQL, MariaDB/MySQL...) và CSDL tài liệu (MongoDB): phân tích nghiệp vụ, lập mẫu truy cập, thiết kế mô hình khái niệm → logic → vật lý, chọn kiểu dữ liệu, ràng buộc, index, partition/sharding, bảo mật, rồi soạn migration có kiểm chứng; ghi vào database-design.md.
+description: Act as Database Architect for relational databases (PostgreSQL, MariaDB/MySQL...) and document databases (MongoDB): analyze business logic, list access patterns, design conceptual → logical → physical models, choose data types, constraints, indexes, partitioning/sharding, security, then write verified migrations; record in database-design.md.
 ---
 
 # Database Design Skill
 
-Thiết kế dữ liệu như một Database Architect, không chỉ sinh câu lệnh SQL: mỗi bảng, cột, ràng buộc, index và quyết định mở rộng đều có lý do truy ra nghiệp vụ hoặc mẫu truy cập.
+Design data as a Database Architect, not just generate SQL: every table, column, constraint, index and scaling decision has a reason traceable to business logic or an access pattern.
 
-## Cổng vào
+## Entry gate
 
-- **Chế độ triển khai** (migration đưa vào mã nguồn): cần FR có AC, BR liên quan và kiến trúc Approved; đã biết hệ quản trị CSDL và phiên bản. Thiếu thì dừng và ghi câu hỏi mở.
-- **Chế độ phác thảo** (thiết kế khi chưa có FR Approved): làm bước 1–8, mọi giả định ghi câu hỏi mở, kết quả gắn nhãn "Phác thảo – chưa dùng để triển khai". SQL chỉ nằm trong tài liệu thiết kế, không tạo file migration.
-- Chưa rõ hệ quản trị: hỏi. Được yêu cầu đề xuất thì so sánh phương án và soạn ADR nháp.
-- Partition, sharding, tách CSDL, đổi hệ quản trị, đa tenant: cần `architecture-design` và ADR; Skill này cung cấp phân tích dữ liệu cho ADR.
+- **Implementation mode** (migrations go into source code): requires FR with AC, related BR and Approved architecture; DBMS and version known. If missing, stop and record an open question.
+- **Sketch mode** (design before any Approved FR): do steps 1–8, record every assumption as an open question, label the result "Sketch – not for implementation" ("Phác thảo – chưa dùng để triển khai"). SQL stays only in the design document; do not create migration files.
+- DBMS unclear: ask. If asked to propose one, compare options and draft an ADR.
+- Partitioning, sharding, splitting the database, changing DBMS, multi-tenancy: require `architecture-design` and an ADR; this Skill supplies the data analysis for the ADR.
 
-Đọc: FR, BR, AC; glossary; NFR (độ trễ, thông lượng, RPO/RTO, khối lượng, thời hạn lưu); kiến trúc (module sở hữu dữ liệu, hệ quản trị và phiên bản); api-design; schema và migration hiện có; quy ước CSDL của dự án trong database-design; số liệu thật nếu có (kích thước bảng, truy vấn chậm, kế hoạch thực thi).
+Read: FR, BR, AC; glossary; NFR (latency, throughput, RPO/RTO, volume, retention period); architecture (data-owning module, DBMS and version); api-design; existing schema and migrations; the project's DB conventions in database-design; real metrics if available (table sizes, slow queries, execution plans).
 
-## Tài liệu tham khảo
+## References
 
-Chỉ nạp file của bước đang làm, và chỉ đọc mục được nêu.
+Load only the file for the current step, and read only the listed sections.
 
-| File trong `references/` | Nạp ở bước |
+| File in `references/` | Load at step |
 | --- | --- |
 | `modeling-patterns.md` | 3, 4, 6 |
 | `data-types.md` | 5 |
-| `performance-scaling.md` | Bước 2: §1 · Bước 6: §5 · Bước 7: §2, §3, §6–§8 (§7–§8 chỉ khi lên bậc partition/sharding) · Bước 10: §4 |
+| `performance-scaling.md` | Step 2: §1 · Step 6: §5 · Step 7: §2, §3, §6–§8 (§7–§8 only when moving to the partitioning/sharding tier) · Step 10: §4 |
 | `security.md` | 8 |
-| `migration.md` | Bước 9: §1–§4, §6 · Bước 10: §5 |
-| `postgresql.md` hoặc `mysql-mariadb.md` (chỉ file của hệ đã chốt) | Bước 4: §9 · Bước 5: §1, §2 · Bước 6: §5, §9 · Bước 7: §3, §4 (§7 chỉ khi lên bậc partition/sharding) · Bước 8: §10 · Bước 9: §8 · Bước 10: §6 |
-| `mongodb.md` | Hệ quản trị là MongoDB: thay cho phần quan hệ ở bước 4, 5, 7, 9, 10 |
+| `migration.md` | Step 9: §1–§4, §6 · Step 10: §5 |
+| `postgresql.md` or `mysql-mariadb.md` (only the file of the chosen DBMS) | Step 4: §9 · Step 5: §1, §2 · Step 6: §5, §9 · Step 7: §3, §4 (§7 only when moving to the partitioning/sharding tier) · Step 8: §10 · Step 9: §8 · Step 10: §6 |
+| `mongodb.md` | DBMS is MongoDB: replaces the relational parts of steps 4, 5, 7, 9, 10 |
 
-## Quy trình
+## Procedure
 
-### A · Hiểu nghiệp vụ
+### A · Understand the business
 
-1. **Phân tích nghiệp vụ.** Từ FR/BR rút ra thực thể ứng viên, sự kiện phát sinh dữ liệu, vòng đời trạng thái, quy tắc bất biến, ai tạo, sửa, xem. Mỗi điểm sau phải có câu trả lời từ tài liệu hoặc ghi câu hỏi mở:
-   - Bản số quan hệ, bắt buộc hay tuỳ chọn, có đổi theo thời gian không.
-   - Cần lịch sử (giá trị tại thời điểm giao dịch, ai đổi gì khi nào) hay chỉ trạng thái hiện tại.
-   - Định danh nghiệp vụ, duy nhất trong phạm vi nào (toàn hệ thống, theo tenant, theo cha).
-   - Đa tenant, đa tiền tệ, đa ngôn ngữ, đa múi giờ.
-   - Xoá mềm, xoá cứng, lưu trữ, xoá theo yêu cầu chủ thể dữ liệu; thời hạn lưu giữ.
-2. **Mẫu truy cập.** Lập bảng `AP-<NN>`: thao tác, điều kiện lọc, sắp xếp, phân trang, tần suất, độ trễ mục tiêu, số dòng trả về. Ước tính khối lượng mỗi bảng (hiện tại, sau 1 và 3 năm), tỉ lệ đọc/ghi, điểm nóng ghi đồng thời. Không có số liệu thì ghi giả định và câu hỏi mở.
+1. **Business analysis.** From FR/BR derive candidate entities, data-producing events, state lifecycles, invariants, who creates, edits, views. Each point below must have an answer from the documents or be recorded as an open question:
+   - Relationship cardinality, mandatory or optional, whether it changes over time.
+   - Need history (value at transaction time, who changed what when) or only current state.
+   - Business identifier, unique within what scope (whole system, per tenant, per parent).
+   - Multi-tenant, multi-currency, multi-language, multi-timezone.
+   - Soft delete, hard delete, archiving, deletion on data-subject request; retention period.
+2. **Access patterns.** Build an `AP-<NN>` table: operation, filter, sort, pagination, frequency, target latency, rows returned. Estimate volume per table (now, after 1 and 3 years), read/write ratio, concurrent-write hotspots. Without metrics, record assumptions and open questions.
 
-### B · Mô hình hoá
+### B · Modeling
 
-3. **Mô hình khái niệm.** Thực thể và quan hệ ở mức nghiệp vụ, vẽ ERD (Mermaid). Mỗi thực thể truy ra FR/BR và thuộc đúng một module sở hữu.
-4. **Mô hình logic.** Chuẩn hoá tới 3NF. Chọn mẫu cho từng tình huống (lookup, bảng liên kết, cây phân cấp, máy trạng thái, snapshot giá trị giao dịch, lịch sử thay đổi, đa tenant) và tránh phản mẫu theo file tham khảo. Phi chuẩn hoá chỉ khi mẫu truy cập cần và có số liệu; ghi cách giữ nhất quán bản sao.
-5. **Mô hình vật lý** theo hệ quản trị và phiên bản đã chốt:
-   - Kiểu dữ liệu từng cột theo file tham khảo.
-   - Khoá chính là khoá thay thế, cộng UNIQUE trên khoá nghiệp vụ; ghi lý do chọn.
-   - Mặc định NOT NULL; cột cho phép NULL phải có nghĩa "chưa biết" hoặc "không áp dụng".
-   - Cột chuẩn theo quy ước dự án: audit, phiên bản cho khoá lạc quan, xoá mềm.
-   - Tên ràng buộc và index đặt tường minh theo quy ước, không để hệ quản trị tự sinh.
+3. **Conceptual model.** Entities and relationships at business level, draw an ERD (Mermaid). Each entity traces to FR/BR and belongs to exactly one owning module.
+4. **Logical model.** Normalize to 3NF. Choose a pattern per case (lookup, junction table, hierarchy, state machine, transaction-value snapshot, change history, multi-tenancy) and avoid anti-patterns per the reference file. Denormalize only when an access pattern needs it and there are metrics; record how copies stay consistent.
+5. **Physical model** for the chosen DBMS and version:
+   - Data type per column per the reference file.
+   - Primary key is a surrogate key, plus UNIQUE on the business key; record the reason.
+   - NOT NULL by default; a nullable column must mean "unknown" or "not applicable".
+   - Standard columns per project convention: audit, version for optimistic locking, soft delete.
+   - Name constraints and indexes explicitly per convention; do not let the DBMS auto-generate names.
 
-### C · Toàn vẹn, hiệu năng, bảo mật
+### C · Integrity, performance, security
 
-6. **Toàn vẹn và đồng thời.**
-   - Ánh xạ từng BR sang ràng buộc CSDL. BR không biểu diễn được ở CSDL thì ghi nơi kiểm tra và cách tránh race condition.
-   - Khoá ngoại: RESTRICT cho dữ liệu nghiệp vụ; CASCADE chỉ cho dữ liệu phụ thuộc hoàn toàn vào cha.
-   - Mỗi thao tác ghi nhiều bảng: ranh giới transaction, mức cô lập, khoá lạc quan hay bi quan, idempotency key cho thao tác có thể gửi lặp.
-7. **Hiệu năng.**
-   - Thiết kế index từ bảng `AP-<NN>`; mỗi index ghi mẫu truy cập nó phục vụ. Loại index trùng hoặc đã bị index khác bao phủ.
-   - Viết truy vấn dùng được index, có giới hạn và phân trang.
-   - Giới hạn connection pool.
-   - Cache chỉ sau khi đã tối ưu truy vấn và index cho mẫu truy cập đó; thoả điều kiện được cache của Rule `cache` thì chuyển phần cache sang Skill `caching`.
-   - Mở rộng theo bậc, chỉ lên bậc sau khi bậc trước không đủ và có số liệu: tối ưu truy vấn và index → cache, bản sao chỉ đọc → partition → lưu trữ dữ liệu cũ → tách CSDL theo module → sharding. Từ partition trở lên ghi khoá phân vùng, lý do, hệ quả và đưa vào ADR.
-8. **Bảo mật dữ liệu.** Gán mức dữ liệu cho từng cột; băm mật khẩu, mã hoá cột D3, che dữ liệu ngoài production; tách tài khoản CSDL theo vai (sở hữu schema, chạy migration, ứng dụng, chỉ đọc); cách ly tenant; bảng audit; vòng đời dữ liệu.
+6. **Integrity and concurrency.**
+   - Map each BR to a DB constraint. A BR not expressible in the DB: record where it is checked and how race conditions are avoided.
+   - Foreign keys: RESTRICT for business data; CASCADE only for data fully dependent on the parent.
+   - Each multi-table write: transaction boundary, isolation level, optimistic or pessimistic locking, idempotency key for operations that may be resent.
+7. **Performance.**
+   - Design indexes from the `AP-<NN>` table; each index records the access pattern it serves. Remove duplicate indexes or ones covered by another index.
+   - Write queries that can use indexes, with limits and pagination.
+   - Limit the connection pool.
+   - Cache only after queries and indexes for that access pattern are optimized; if the cacheability conditions of Rule `cache` are met, hand the caching part to Skill `caching`.
+   - Scale by tiers, move to the next tier only when the previous is insufficient and there are metrics: optimize queries and indexes → cache, read replicas → partitioning → archive old data → split database by module → sharding. From partitioning upward, record the partition key, reason, consequences and put it in an ADR.
+8. **Data security.** Assign a data level to each column; hash passwords, encrypt D3 columns, mask data outside production; separate DB accounts by role (schema owner, migration runner, application, read-only); tenant isolation; audit tables; data lifecycle.
 
-### D · Migration và kiểm chứng
+### D · Migration and verification
 
-9. **Soạn migration** theo quy ước công cụ migration của dự án:
-   - Mỗi thay đổi một migration có tên mô tả, có phần lên và phần quay lui.
-   - Bảng đang có dữ liệu: mở rộng → chuyển dữ liệu → thu gọn; ghi lần phát hành nào chứa bước nào.
-   - Ghi mức khoá, thời gian chạy ước tính, tuỳ chọn online DDL; backfill tách riêng.
-   - Seed chỉ chứa dữ liệu tra cứu bắt buộc hoặc dữ liệu giả.
-10. **Kiểm chứng thật** trên CSDL không phải production, cùng hệ quản trị và phiên bản:
-    - Chạy lên → quay lui → lên lại trên CSDL sạch; thay đổi bảng có sẵn thì chạy trên bản sao schema hiện tại.
-    - Ca âm: chèn dữ liệu vi phạm từng ràng buộc quan trọng và xác nhận bị từ chối.
-    - Mẫu truy cập quan trọng: nạp dữ liệu giả đủ lớn, chạy EXPLAIN và ghi index được dùng.
-    - Phần chưa chạy được ghi not-run kèm lý do.
-11. **Ghi tài liệu.** Cập nhật database-design (ERD, bảng, ràng buộc ↔ BR, index ↔ AP, vòng đời, bảo mật, transaction, migration). Quyết định mở rộng hoặc ngoại lệ quy ước ghi ADR nháp. Không tạo báo cáo schema song song.
+9. **Write migrations** per the project's migration tool conventions:
+   - One migration per change, with a descriptive name, an up part and a rollback part.
+   - Tables with data: expand → migrate data → contract; record which release contains which step.
+   - Record lock level, estimated run time, online DDL options; backfill separately.
+   - Seed contains only mandatory lookup data or fake data.
+10. **Real verification** on a non-production database with the same DBMS and version:
+    - Run up → rollback → up again on a clean database; for changes to existing tables, run on a copy of the current schema.
+    - Negative cases: insert data violating each important constraint and confirm rejection.
+    - Important access patterns: load enough fake data, run EXPLAIN and record the index used.
+    - Anything not runnable: record not-run with reason.
+11. **Document.** Update database-design (ERD, tables, constraints ↔ BR, indexes ↔ AP, lifecycle, security, transactions, migrations). Scaling decisions or convention exceptions go into a draft ADR. Do not create a parallel schema report.
 
-## Giới hạn
+## Limits
 
-- Không sinh SQL trước khi phân tích nghiệp vụ và mẫu truy cập.
-- Không tự đặt bản số quan hệ, khoá nghiệp vụ hay quy tắc lưu giữ khi tài liệu chưa nói.
-- Không bỏ hoặc nới ràng buộc để lách lỗi; không chuyển BR từ CSDL lên ứng dụng chỉ để migration chạy được.
-- Không xoá hoặc đổi tên cột, bảng khi chưa phân tích tác động lên code, báo cáo, tích hợp và dữ liệu hiện có.
-- Không dùng tính năng của hệ quản trị khác với hệ đã chốt.
+- Do not generate SQL before analyzing business logic and access patterns.
+- Do not decide relationship cardinality, business keys or retention rules on your own when the documents are silent.
+- Do not drop or loosen constraints to work around errors; do not move a BR from the DB to the application just to make a migration run.
+- Do not drop or rename columns or tables before analyzing impact on code, reports, integrations and existing data.
+- Do not use features of a DBMS other than the chosen one.
 
-## Hoàn thành khi
+## Done when
 
-- Mọi bảng truy ra FR/BR; bảng `AP-<NN>` và ước tính khối lượng đã có, hoặc ghi rõ là giả định.
-- Mỗi BR quan trọng có ràng buộc ở CSDL hoặc nơi kiểm tra đã ghi; mỗi index phục vụ một mẫu truy cập.
-- Cột D2/D3 đã đánh dấu; tài khoản CSDL tách vai.
-- Migration (chế độ triển khai) đã chạy lên, lui, lên trên CSDL sạch; ca âm và EXPLAIN có bằng chứng.
-- Người duyệt: Kiến trúc sư; thêm Security khi có migration, tiền hoặc dữ liệu cá nhân.
+- Every table traces to FR/BR; the `AP-<NN>` table and volume estimates exist, or are clearly marked as assumptions.
+- Each important BR has a DB constraint or a recorded check location; each index serves an access pattern.
+- D2/D3 columns are marked; DB accounts are separated by role.
+- Migrations (implementation mode) have run up, rollback, up on a clean database; negative cases and EXPLAIN have evidence.
+- Reviewer: Architect; add Security when there are migrations, money or personal data.
 
-## Báo cáo
+## Report
 
-1. Chế độ, hệ quản trị và phiên bản, phạm vi nghiệp vụ.
-2. Thực thể, quy tắc bất biến, giả định và câu hỏi mở.
-3. Mẫu truy cập và ước tính khối lượng.
-4. ERD và danh sách bảng (module sở hữu, mức dữ liệu).
-5. Quyết định thiết kế đáng chú ý kèm lý do và phương án đã loại.
-6. Ràng buộc ↔ BR; index ↔ AP.
-7. Cache (nếu có): theo Báo cáo của Skill `caching`.
-8. Bảo mật: cột D2/D3, mã hoá, tài khoản và quyền.
-9. Migration: file, thứ tự phát hành, mức khoá và thời gian chạy, cách quay lui.
-10. Bằng chứng kiểm chứng.
-11. Người cần duyệt và ADR cần quyết.
+1. Mode, DBMS and version, business scope.
+2. Entities, invariants, assumptions and open questions.
+3. Access patterns and volume estimates.
+4. ERD and table list (owning module, data level).
+5. Notable design decisions with reasons and rejected options.
+6. Constraints ↔ BR; indexes ↔ AP.
+7. Cache (if any): per the Report of Skill `caching`.
+8. Security: D2/D3 columns, encryption, accounts and permissions.
+9. Migrations: files, release order, lock level and run time, rollback method.
+10. Verification evidence.
+11. Who must approve and ADRs to decide.

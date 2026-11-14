@@ -1,38 +1,38 @@
 ---
 name: task-planning
-description: Từ FR có AC và thiết kế Approved, soạn plan Draft trong .ai/plans và đề xuất các Task nhỏ cho task-breakdown và backlog để Tech Lead duyệt trước khi giao việc.
+description: From FRs with AC and Approved design, draft a Draft plan in .ai/plans and propose small Tasks for task-breakdown and backlog for Tech Lead approval before assigning work.
 ---
 
 # Task Planning Skill
 
-Chia yêu cầu đã duyệt thành plan và các Task nhỏ, kiểm chứng được, đủ rõ để giao mà không phải đoán. AI đề xuất; Tech Lead duyệt plan và gán mức rủi ro, mức tự chủ.
+Split approved requirements into a plan and small, verifiable Tasks, clear enough to assign without guessing. AI proposes; Tech Lead approves the plan and assigns risk level and autonomy level.
 
-## Cổng vào
+## Entry gate
 
-Thiếu thì dừng và ghi câu hỏi mở:
-- FR có AC đã duyệt.
-- Thiết kế liên quan (kiến trúc, API, CSDL) đã Approved.
+If missing, stop and record an open question:
+- FRs with approved AC.
+- Related design (architecture, API, DB) is Approved.
 
-Đọc: FR, business-rules, AC, NFR; tài liệu thiết kế và ADR liên quan; task-breakdown, backlog, roadmap; PLAN-TEMPLATE; PROJECT.md §2.
+Read: FR, business-rules, AC, NFR; related design docs and ADRs; task-breakdown, backlog, roadmap; PLAN-TEMPLATE; PROJECT.md §2.
 
-## Quy trình
+## Procedure
 
-1. **Đọc** FR, AC, BR, thiết kế; xác định phụ thuộc và vùng nhạy cảm.
-2. **Chia Task** theo nguyên tắc trong task-breakdown: nhỏ, một trách nhiệm; Task nhiều loại việc thì tách.
-3. **Điền từng Task:** mục tiêu, phạm vi làm và không làm, AC, phụ thuộc, ước lượng, mức rủi ro và mức tự chủ ở dạng đề xuất kèm lý do.
-4. **Song song** chỉ khi các Task không chung file, schema hay contract.
-5. **Soạn plan** trong `.ai/plans/` theo PLAN-TEMPLATE, trạng thái Draft.
-6. **Kiểm Definition of Ready** theo task-breakdown cho từng Task; Task thiếu điều kiện thì không giao, ghi câu hỏi mở.
-7. **Đề xuất Task** vào task-breakdown và backlog ở dạng Proposed.
-8. **Trình Tech Lead** khi mọi điểm cần người quyết đã là câu hỏi mở đủ phần. Chưa duyệt thì chưa giao việc.
-9. **Sau khi Task xong:** điền mục Kết quả của plan.
+1. **Read** FR, AC, BR, design; identify dependencies and sensitive areas.
+2. **Split Tasks** per the principles in task-breakdown: small, single responsibility; split Tasks that mix work types.
+3. **Fill each Task:** goal, scope (in and out), AC, dependencies, estimate, risk level and autonomy level as a proposal with rationale.
+4. **Parallelize** only when Tasks share no files, schema, or contract.
+5. **Draft the plan** in `.ai/plans/` per PLAN-TEMPLATE, status Draft.
+6. **Check Definition of Ready** per task-breakdown for each Task; do not assign a Task that lacks conditions, record an open question.
+7. **Propose Tasks** into task-breakdown and backlog as Proposed.
+8. **Submit to Tech Lead** once every point needing a decision is a complete open question. Do not assign work until approved.
+9. **After a Task is done:** fill the plan's "Kết quả" section.
 
-## Hoàn thành khi
+## Done when
 
-- Mỗi Task có phạm vi làm và không làm, AC truy vết về FR, thứ tự và phụ thuộc rõ.
-- Plan có test cho mọi AC.
-- Task đạt Definition of Ready hoặc nêu rõ thiếu gì.
+- Each Task has in/out scope, AC traced to FR, clear order and dependencies.
+- The plan has tests for every AC.
+- Tasks meet Definition of Ready or state clearly what is missing.
 
-## Báo cáo
+## Report
 
-Plan và Task đã đề xuất (mã, file), mức rủi ro và mức tự chủ đề xuất, Task chưa sẵn sàng, mã `OQ-<NN>` cần người quyết.
+Proposed plan and Tasks (IDs, files), proposed risk level and autonomy level, Tasks not ready, `OQ-<NN>` IDs needing a decision-maker.

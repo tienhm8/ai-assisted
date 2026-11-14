@@ -1,90 +1,90 @@
-# Database Design – Mẫu mô hình hoá
+# Database Design – Modeling patterns
 
-> Tài liệu tham khảo của Skill `database-design`, dùng ở bước 3–4 và 6. Đây là **cách làm**; quy ước riêng của dự án (đặt tên, kiểu khoá) lấy từ database-design §2 và được ưu tiên hơn. Cú pháp riêng của hệ quản trị tra ở `postgresql.md` hoặc `mysql-mariadb.md`.
+> Reference for Skill `database-design`, used at steps 3–4 and 6. This is **how to do it**; project-specific conventions (naming, key types) come from database-design §2 and take priority. Look up DBMS-specific syntax in `postgresql.md` or `mysql-mariadb.md`.
 
-## 1. Từ nghiệp vụ sang thực thể
+## 1. From business logic to entities
 
-| Câu trong FR/BR | Gợi ý mô hình |
+| Phrase in FR/BR | Model hint |
 | --- | --- |
-| "Mỗi X thuộc một Y" | FK `x.y_id NOT NULL` → Y |
-| "X có thể có (hoặc không) một Y" | FK cho phép NULL, hoặc bảng con 1-1 nếu thuộc tính của Y thưa |
-| "X có nhiều Y, Y thuộc nhiều X" | Bảng liên kết `x_y(x_id, y_id)` với PK hoặc UNIQUE `(x_id, y_id)` |
-| Liên kết có thuộc tính riêng (số lượng, vai trò, từ ngày) | Bảng liên kết thành thực thể có tên nghiệp vụ (ví dụ `enrollment`, `order_line`) |
-| "Trạng thái chuyển từ A sang B" | Cột trạng thái + CHECK tập giá trị; bảng lịch sử chuyển trạng thái nếu cần truy vết |
-| "Giá tại thời điểm mua" | Snapshot giá trị vào dòng giao dịch, không tham chiếu giá hiện tại |
-| "Lưu lịch sử thay đổi" | Bảng lịch sử hoặc mô hình hiệu lực theo thời gian (mục 5) |
-| "Mã duy nhất trong mỗi cửa hàng" | UNIQUE `(store_id, code)`, không UNIQUE `code` toàn bảng |
+| "Each X belongs to one Y" | FK `x.y_id NOT NULL` → Y |
+| "X may (or may not) have one Y" | Nullable FK, or a 1-1 child table if Y's attributes are sparse |
+| "X has many Y, Y belongs to many X" | Junction table `x_y(x_id, y_id)` with PK or UNIQUE `(x_id, y_id)` |
+| Link with its own attributes (quantity, role, from date) | Junction table becomes an entity with a business name (e.g. `enrollment`, `order_line`) |
+| "Status changes from A to B" | Status column + CHECK value set; status transition history table if traceability needed |
+| "Price at time of purchase" | Snapshot the value into the transaction row, do not reference the current price |
+| "Keep change history" | History table or time-validity model (section 5) |
+| "Code unique within each store" | UNIQUE `(store_id, code)`, not UNIQUE `code` table-wide |
 
-Kiểm tra bản số bằng câu hỏi hai chiều: "Một A có bao nhiêu B?" và "Một B có bao nhiêu A?", kể cả theo thời gian ("trước đây" có khác "hiện tại" không).
+Check cardinality with two-way questions: "How many B does one A have?" and "How many A does one B have?", including over time (does "before" differ from "now").
 
-## 2. Tra cứu: bảng lookup hay CHECK/enum
+## 2. Lookup: lookup table or CHECK/enum
 
-| Tiêu chí | CHECK (hoặc kiểu enum) | Bảng lookup + FK |
+| Criterion | CHECK (or enum type) | Lookup table + FK |
 | --- | --- | --- |
-| Tập giá trị | Nhỏ, ổn định, gắn với logic code | Thay đổi bởi người vận hành, có thuộc tính (nhãn, thứ tự, đang dùng) |
-| Đổi giá trị | Cần migration | Thêm dòng |
-| Đa ngôn ngữ nhãn | Không | Có |
+| Value set | Small, stable, tied to code logic | Changed by operators, has attributes (label, order, active) |
+| Changing values | Needs migration | Add a row |
+| Multi-language labels | No | Yes |
 
-- Ưu tiên chuỗi + CHECK hơn `ENUM`: bỏ hoặc đổi thứ tự giá trị `ENUM` khó và có hệ sắp xếp theo chỉ số. Kiểm hệ đã chốt có thực thi CHECK không (§1 file hệ quản trị).
+- Prefer string + CHECK over `ENUM`: removing or reordering `ENUM` values is hard and some systems sort by index. Check whether the chosen DBMS enforces CHECK (§1 of the DBMS file).
 
-## 3. Cây phân cấp
+## 3. Hierarchies
 
-| Mẫu | Hợp khi | Lưu ý |
+| Pattern | Fits when | Note |
 | --- | --- | --- |
-| Adjacency list (`parent_id`) | Cây nông, ghi nhiều, đọc theo cấp | Truy vấn cả nhánh dùng CTE đệ quy (kiểm phiên bản hỗ trợ) |
-| Materialized path (`path` = `/1/4/9/`) | Đọc nhánh nhiều, ít di chuyển nút | Index tiền tố; kiểu cây chuyên dụng nếu hệ có |
-| Closure table (`ancestor_id, descendant_id, depth`) | Đọc tổ tiên/con cháu bất kỳ, cần FK đầy đủ | Ghi tốn thêm dòng |
-| Nested set | Hầu như chỉ đọc | Ghi rất đắt; tránh cho dữ liệu thay đổi |
+| Adjacency list (`parent_id`) | Shallow tree, write-heavy, read by level | Whole-branch queries use recursive CTE (check version support) |
+| Materialized path (`path` = `/1/4/9/`) | Branch reads frequent, nodes rarely move | Prefix index; dedicated tree type if the DBMS has one |
+| Closure table (`ancestor_id, descendant_id, depth`) | Read any ancestors/descendants, need full FKs | Writes cost extra rows |
+| Nested set | Almost read-only | Very expensive writes; avoid for changing data |
 
-## 4. Máy trạng thái
+## 4. State machines
 
-- Cột `status` + CHECK tập trạng thái hợp lệ.
-- Chuyển trạng thái hợp lệ kiểm ở ứng dụng hoặc trigger, kèm điều kiện trong UPDATE (`WHERE id = ? AND status = 'pending'`) để tránh race condition.
-- Cần truy vết: bảng `<entity>_status_history(entity_id, from_status, to_status, changed_by, changed_at, reason)`.
-- Ràng buộc theo trạng thái dùng CHECK có điều kiện, ví dụ `CHECK (status <> 'paid' OR paid_at IS NOT NULL)`.
+- `status` column + CHECK on the set of valid states.
+- Check valid transitions in the application or a trigger, with a condition in the UPDATE (`WHERE id = ? AND status = 'pending'`) to avoid race conditions.
+- Traceability needed: table `<entity>_status_history(entity_id, from_status, to_status, changed_by, changed_at, reason)`.
+- State-dependent constraints use conditional CHECK, e.g. `CHECK (status <> 'paid' OR paid_at IS NOT NULL)`.
 
-## 5. Lịch sử và thời gian hiệu lực
+## 5. History and validity time
 
-| Nhu cầu | Mẫu |
+| Need | Pattern |
 | --- | --- |
-| Biết ai đổi gì, khi nào (audit) | Bảng audit dạng append-only, ghi bởi ứng dụng hoặc trigger; không cho UPDATE/DELETE |
-| Giá trị đúng tại một thời điểm (giá, chính sách, thuế suất) | Bảng phiên bản `valid_from`, `valid_to`; chống chồng lấn bằng exclusion constraint nếu hệ có, hoặc kiểm ở ứng dụng trong transaction có khoá |
-| Truy vấn trạng thái quá khứ của cả bảng | Bảng có phiên bản hệ thống (temporal) nếu hệ có; không thì bảng lịch sử + trigger |
-| Nguồn sự thật là chuỗi sự kiện | Event store append-only; cần ADR |
+| Know who changed what, when (audit) | Append-only audit table, written by application or trigger; no UPDATE/DELETE |
+| Value correct at a point in time (price, policy, tax rate) | Version table `valid_from`, `valid_to`; prevent overlap with an exclusion constraint if available, or check in the application within a locking transaction |
+| Query past state of the whole table | System-versioned (temporal) table if available; otherwise history table + trigger |
+| Source of truth is an event stream | Append-only event store; requires ADR |
 
-## 6. Xoá mềm
+## 6. Soft delete
 
-- Chỉ dùng khi nghiệp vụ cần khôi phục hoặc truy vết; không mặc định cho mọi bảng.
-- Cột `deleted_at` (thời điểm) tốt hơn cờ boolean.
-- UNIQUE phải bỏ qua dòng đã xoá: partial unique index `WHERE deleted_at IS NULL`, hoặc cột sinh bằng NULL khi đã xoá rồi UNIQUE trên cột đó (NULL không vi phạm UNIQUE).
-- FK tới dòng đã xoá mềm vẫn hợp lệ; quyết định nghiệp vụ cho dòng con.
-- Dữ liệu cá nhân bị yêu cầu xoá: xoá mềm không đủ, cần xoá cứng hoặc ẩn danh hoá.
+- Use only when the business needs restore or traceability; not by default for every table.
+- A `deleted_at` (timestamp) column is better than a boolean flag.
+- UNIQUE must ignore deleted rows: partial unique index `WHERE deleted_at IS NULL`, or a generated column that is NULL when deleted with UNIQUE on it (NULL does not violate UNIQUE).
+- FKs to soft-deleted rows remain valid; child rows are a business decision.
+- Personal data under deletion request: soft delete is not enough; hard delete or anonymize.
 
-## 7. Đa tenant
+## 7. Multi-tenancy
 
-| Mẫu | Cách ly | Chi phí vận hành | Hợp khi |
+| Pattern | Isolation | Operational cost | Fits when |
 | --- | --- | --- | --- |
-| Cột `tenant_id` trong bảng dùng chung | Logic (cần RLS hoặc kiểm tra bắt buộc) | Thấp | Nhiều tenant nhỏ |
-| Schema riêng mỗi tenant | Trung bình | Migration nhân theo số tenant | Vài chục đến vài trăm tenant |
-| CSDL riêng mỗi tenant | Cao | Cao | Yêu cầu pháp lý, tenant lớn |
+| `tenant_id` column in shared tables | Logical (needs RLS or mandatory checks) | Low | Many small tenants |
+| Schema per tenant | Medium | Migrations multiply by tenant count | Tens to hundreds of tenants |
+| Database per tenant | High | High | Legal requirements, large tenants |
 
-Với cột `tenant_id`: có trong mọi bảng nghiệp vụ, đứng đầu PK hoặc UNIQUE và index composite, FK composite `(tenant_id, parent_id)` để không trỏ chéo tenant; bật bảo mật mức dòng làm lớp bảo vệ thứ hai nếu hệ có (security §4). Chọn mẫu là quyết định kiến trúc: cần ADR.
+With a `tenant_id` column: present in every business table, leading in PK or UNIQUE and composite indexes, composite FK `(tenant_id, parent_id)` to prevent cross-tenant references; enable row-level security as a second layer if available (security §4). Choosing the pattern is an architecture decision: requires ADR.
 
-## 8. Tiền và giao dịch tài chính
+## 8. Money and financial transactions
 
-- Số tiền dùng kiểu số chính xác kèm mã tiền tệ (ISO 4217) khi đa tiền tệ.
-- Sổ cái: bút toán bất biến (append-only); sửa sai bằng bút toán đảo, không UPDATE.
-- Số dư tính từ bút toán hoặc lưu số dư kèm cột phiên bản để khoá lạc quan.
-- Idempotency key UNIQUE cho thao tác thanh toán.
+- Amounts use exact numeric types plus currency code (ISO 4217) when multi-currency.
+- Ledger: immutable (append-only) entries; correct errors with reversing entries, not UPDATE.
+- Balance computed from entries, or stored balance with a version column for optimistic locking.
+- UNIQUE idempotency key for payment operations.
 
-## 9. Phản mẫu cần tránh
+## 9. Anti-patterns to avoid
 
-| Phản mẫu | Vấn đề | Thay bằng |
+| Anti-pattern | Problem | Replace with |
 | --- | --- | --- |
-| EAV (`entity, attribute, value`) | Mất kiểu, mất ràng buộc, truy vấn phức tạp | Cột thật; thuộc tính động hiếm dùng thì cột JSON |
-| Liên kết đa hình (`target_type`, `target_id`) | Không có FK | Mỗi loại một cột FK có CHECK "đúng một cột khác NULL", hoặc bảng liên kết riêng |
-| Cột chứa danh sách (`"1,4,9"`) | Không join, không ràng buộc | Bảng liên kết |
-| Cột lặp (`phone1`, `phone2`, `phone3`) | Giới hạn cứng, truy vấn lặp | Bảng con |
-| Bảng "god" nhiều cột thưa cho nhiều loại | NULL tràn lan, ràng buộc yếu | Tách theo loại (bảng cha chung + bảng con) |
-| Lưu giá trị suy ra mà không có cách đồng bộ | Lệch dữ liệu | Tính khi đọc, cột sinh, hoặc ghi rõ cơ chế đồng bộ |
-| Khoá chính là dữ liệu nghiệp vụ có thể đổi (email, mã số thuế) | Đổi khoá lan ra mọi FK | Khoá thay thế + UNIQUE trên khoá nghiệp vụ |
+| EAV (`entity, attribute, value`) | Loses types, loses constraints, complex queries | Real columns; rarely used dynamic attributes in a JSON column |
+| Polymorphic association (`target_type`, `target_id`) | No FK | One FK column per type with CHECK "exactly one column non-NULL", or separate junction tables |
+| Column holding a list (`"1,4,9"`) | No joins, no constraints | Junction table |
+| Repeated columns (`phone1`, `phone2`, `phone3`) | Hard limit, repetitive queries | Child table |
+| "God" table with many sparse columns for many kinds | Rampant NULLs, weak constraints | Split by kind (shared parent table + child tables) |
+| Storing derived values without a sync mechanism | Data drift | Compute on read, generated column, or document the sync mechanism |
+| Primary key is mutable business data (email, tax ID) | Key changes cascade to every FK | Surrogate key + UNIQUE on the business key |

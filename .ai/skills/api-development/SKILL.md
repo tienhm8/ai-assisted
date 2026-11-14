@@ -1,33 +1,33 @@
 ---
 name: api-development
-description: Cài đặt hoặc sửa endpoint API backend đúng contract đã Approved trong api-design.md, gồm validation, guard phân quyền, ánh xạ lỗi, danh sách ca cần test và báo cáo bàn giao.
+description: Implement or modify backend API endpoints exactly per the Approved contract in api-design.md, including validation, authorization guards, error mapping, test case list and handoff report.
 ---
 
 # API Development Skill
 
-Hiện thực endpoint đúng contract đã Approved: validate đầu vào, áp guard phân quyền, trả lỗi theo ánh xạ chuẩn. Không tự tạo hay đổi contract.
+Implement endpoints exactly per the Approved contract: validate input, apply authorization guards, return errors per the standard mapping. Do not create or change contracts yourself.
 
-## Cổng vào
+## Entry gate
 
-Ngoài `project-rules` 2, cần: contract của endpoint trong api-design; schema liên quan trong database-design (chưa có thì dừng và báo).
+Besides `project-rules` 2, required: the endpoint's contract in api-design; related schema in database-design (if missing, stop and report).
 
-Nguồn chính: plan; mã API hiện có.
-Plan thiếu thì tra đúng mục, không đọc cả file: api-design §1.2 Chi tiết API (endpoint liên quan), §3.2 Quy ước chung, §4 Authentication & Authorization; database-design §3.3 Chi tiết bảng (bảng liên quan); module-design §5 Ranh giới và quyền sở hữu; error-handling §3 Mã lỗi, §5 Phản hồi lỗi API; security-standards §5 Kiểm tra đầu vào, §8 Bảo mật API.
+Primary sources: plan; existing API code.
+If the plan lacks something, look up the exact section, do not read the whole file: api-design §1.2 Chi tiết API (related endpoints), §3.2 Quy ước chung, §4 Authentication & Authorization; database-design §3.3 Chi tiết bảng (related tables); module-design §5 Ranh giới và quyền sở hữu; error-handling §3 Mã lỗi, §5 Phản hồi lỗi API; security-standards §5 Kiểm tra đầu vào, §8 Bảo mật API.
 
-## Quy trình
+## Procedure
 
-1. **Đọc** FR/AC, business rule, contract; xác định actor và yêu cầu quyền.
-2. **Đối chiếu contract** với yêu cầu. Thiếu hoặc mâu thuẫn thì dừng, ghi câu hỏi mở; đổi contract cần duyệt.
-3. **Hiện thực** theo quy ước hiện có của dự án: validation đầu vào → handler mỏng gọi service → trả response hoặc lỗi theo error-handling. Logic nghiệp vụ nằm trong service, thuộc `backend-development`.
-4. **Phân quyền:** áp guard đã có theo ma trận quyền; không tự định nghĩa quyền.
-5. **Ca cần test:** ghi vào plan §5, kèm tầng (unit, integration; e2e nếu AC yêu cầu). Phủ: thành công, đầu vào sai hoặc thiếu, chưa xác thực, sai quyền, truy cập tài nguyên của người khác, vi phạm business rule, lỗi tương tác CSDL.
+1. **Read** FR/AC, business rules, contract; identify the actor and permission requirements.
+2. **Check the contract** against the requirements. If missing or conflicting, stop and record an open question; changing the contract requires approval.
+3. **Implement** following the project's existing conventions: input validation → thin handler calling a service → return response or error per error-handling. Business logic lives in the service and belongs to `backend-development`.
+4. **Authorization:** apply existing guards per the permission matrix; do not define permissions yourself.
+5. **Test cases:** record in plan §5 with layer (unit, integration; e2e if an AC requires it). Cover: success, invalid or missing input, unauthenticated, wrong permission, access to another user's resource, business rule violation, DB interaction errors.
 
-## Hoàn thành khi
+## Done when
 
-- Endpoint khớp từng chi tiết của contract, kể cả phân trang, sắp xếp, lọc và idempotency nếu contract có.
-- Mã lỗi và định dạng lỗi theo error-handling; response không trả trường nhạy cảm ngoài contract.
-- Ca cần test ở bước 5 đã ghi vào plan.
+- The endpoint matches every detail of the contract, including pagination, sorting, filtering and idempotency if the contract specifies them.
+- Error codes and error format follow error-handling; responses return no sensitive fields beyond the contract.
+- Test cases from step 5 are recorded in the plan.
 
-## Báo cáo
+## Report
 
-Ghi vào báo cáo bàn giao của Task: endpoint đã làm hoặc sửa và contract tham chiếu.
+Write in the Task's handoff report: endpoints implemented or modified and the referenced contract.

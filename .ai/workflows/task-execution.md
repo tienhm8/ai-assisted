@@ -1,84 +1,84 @@
 # Task Execution Workflow
 
-> Trạng thái: **Approved**. Quy trình **bắt buộc** cho mọi Task. Sửa file này cần Task riêng và người duyệt.
+> Status: **Approved**. **Mandatory** workflow for every Task. Changing this file requires a dedicated Task and a reviewer.
 
-**Nạp đúng lúc cần.** Mỗi bước chỉ nạp phần ở cột "Nạp". Từ [task-types.md](task-types.md) chỉ đọc dòng của loại Task đang làm:
+**Load just in time.** Each step loads only what its "Load" column lists. From [task-types.md](task-types.md) read only the row of the current Task type:
 
 ```sh
 awk -v t=T2 '!/^\| T[0-9]+ \|/ || index($0, "| " t " |")==1' .ai/workflows/task-types.md
 ```
 
-Thay `T2` bằng loại Task. Task chưa ghi loại thì lấy danh sách loại để phân loại; vẫn không rõ thì dừng và hỏi:
+Replace `T2` with the Task type. If the Task has no type, list the types to classify it; if still unclear, stop and ask:
 
 ```sh
 awk -F' \\| ' '/^\| T[0-9]+ \|/{print $1" | "$2}' .ai/workflows/task-types.md
 ```
 
-Đọc một mục trong `docs/` thay vì cả file (`s` là cấp tiêu đề và số mục, ví dụ `## 5` hoặc `### 5.2`); mục không có thì lệnh trả mã lỗi 1:
+Read one section of `docs/` instead of the whole file (`s` is the heading level and section number, e.g. `## 5` or `### 5.2`); if the section does not exist, the command exits with code 1:
 
 ```sh
 awk -v s='## 5' 'BEGIN{n=index(s," ")} /^```/{f=!f} !f&&!p&&(index($0,s" ")==1||index($0,s". ")==1){p=1;print;next} p&&!f&&match($0,/^#+ /)&&RLENGTH<=n{exit} p; END{exit !p}' docs/03-engineering/error-handling.md
 ```
 
-## Các bước
+## Steps
 
-| Bước | Việc | Nạp | Đầu ra |
+| Step | Work | Load | Output |
 | --- | --- | --- | --- |
-| 1 · Tiếp nhận | Đọc Task: mục tiêu, phạm vi, AC, mức rủi ro, mức tự chủ. Xác định loại Task; Task lai tách thành Task con, không gộp sửa lỗi với refactor lớn. Thiếu mức rủi ro, mức tự chủ hoặc độ nghiêm ngặt S: hỏi, không tự gán | Task; `project-rules`; `PROJECT.md` §2, §4; `gates-and-rigor.md` §2 khi cần áp S; dòng loại Task; [load-conditions.md](load-conditions.md) §1 | Loại Task, bộ nạp |
-| 2 · Phân tích | Đọc yêu cầu, thiết kế, code liên quan; điểm chưa rõ ghi thành câu hỏi mở. Code cho thấy thêm điều kiện nạp Rule (ví dụ repository có cache) thì bổ sung vào bộ nạp | FR/BR/AC, ADR, thiết kế Task chỉ tới; code trong phạm vi | Câu hỏi mở (nếu có) |
-| 3 · Lập plan | File dự kiến đổi, quyết định thiết kế, AC → test, chuỗi Skill (bỏ hoặc thêm Skill phải nêu lý do), model và effort cho phiên thực thi. Ghi điểm áp dụng từ tài liệu đã đọc kèm tài liệu, § và tên mục | PLAN-TEMPLATE; [model-effort.md](model-effort.md); `load-conditions.md` §2 khi chuỗi có Skill `[ ]`; Rule `testing` và mọi Rule trong bộ nạp ở bước 1–2 | Plan |
-| 4 · Duyệt plan | Người duyệt, theo mục "Duyệt plan" | — | Plan Approved |
-| 5 · Thực hiện | Làm lần lượt từng Skill: cổng vào → quy trình → kết quả cần kiểm. Ghi đầu ra vào plan rồi mới nạp Skill kế | Plan; `SKILL.md` của Skill đang làm và `references/` nó chỉ tới; mục `docs/` Skill cho tra khi plan thiếu; Rule ghi trong plan; Rule `coding`; Rule `git-workflow` khi commit | Diff |
-| 6 · Kiểm thử | Chạy đủ cổng kiểm tra của dự án | Skill testing tương ứng; TEST-REPORT-TEMPLATE | Output thật |
-| 7 · Tự rà | Rà diff theo AC, phạm vi và Rule đã nạp; soạn báo cáo bàn giao | DELIVERY-REPORT-TEMPLATE | Báo cáo bàn giao |
-| 8 · Review | Phiên khác review theo dòng T9; người duyệt PR | Không dùng lịch sử phiên viết code | PR được duyệt |
-| 9 · Phát hành | Người merge; AI chỉ chuẩn bị theo [release-workflow.md](release-workflow.md) | — | Bản phát hành |
-| 10 · Cập nhật tri thức | Cập nhật tài liệu bị ảnh hưởng. Cần sửa Rule, Skill, workflow thì đề xuất Task riêng | Skill `documentation` | Tài liệu khớp hiện trạng |
+| 1 · Intake | Read the Task: goal, scope, AC, risk level, autonomy level. Determine the Task type; split a hybrid Task into sub-Tasks, never combine a bug fix with a large refactor. Missing risk level, autonomy level, or rigor S: ask, do not assign yourself | Task; `project-rules`; `PROJECT.md` §2, §4; `gates-and-rigor.md` §2 when applying S; Task type row; [load-conditions.md](load-conditions.md) §1 | Task type, load set |
+| 2 · Analysis | Read requirements, design, related code; unclear points become open questions. If code reveals further Rule load conditions (e.g. a repository with cache), add them to the load set | FR/BR/AC, ADR, design the Task points to; code in scope | Open questions (if any) |
+| 3 · Plan | Files to change, design decisions, AC → tests, Skill chain (dropping or adding a Skill needs a reason), model and effort for the execution session. Record applicable points from documents read, with document, § and section name | PLAN-TEMPLATE; [model-effort.md](model-effort.md); `load-conditions.md` §2 when the chain has a `[ ]` Skill; Rule `testing` and every Rule in the load set from steps 1–2 | Plan |
+| 4 · Plan approval | Reviewer, per "Plan approval" | — | Plan Approved |
+| 5 · Implement | Run each Skill in turn: entry gate → procedure → Done-when results. Record output in the plan before loading the next Skill | Plan; `SKILL.md` of the current Skill and the `references/` it points to; `docs/` sections the Skill allows when the plan lacks them; Rules listed in the plan; Rule `coding`; Rule `git-workflow` when committing | Diff |
+| 6 · Test | Run all of the project's check gates | Matching testing Skill; TEST-REPORT-TEMPLATE | Real output |
+| 7 · Self-review | Check the diff against AC, scope, and loaded Rules; draft the handoff report | DELIVERY-REPORT-TEMPLATE | Handoff report |
+| 8 · Review | Another session reviews per row T9; a reviewer approves the PR | Do not use the coding session's history | PR approved |
+| 9 · Release | A human merges; AI only prepares per [release-workflow.md](release-workflow.md) | — | Release |
+| 10 · Knowledge update | Update affected documents. Changes to Rules, Skills, workflows: propose a dedicated Task | Skill `documentation` | Docs match reality |
 
-Task chỉ phân tích hoặc thiết kế (T1, T6, T7, T8, T15) bỏ bước 5–6: Skill và Rule trong bộ nạp nạp ở bước 2, đầu ra là tài liệu Draft.
+Analysis- or design-only Tasks (T1, T6, T7, T8, T15) skip steps 5–6: Skills and Rules in the load set are loaded at step 2; output is Draft documents.
 
-## Làn nhanh cho Task R1
+## Fast lane for R1 Tasks
 
-Áp dụng khi đủ cả ba: Task R1; không thoả điều kiện nạp Rule `architecture`, `database`, `security`, `cache`; không chạm vùng 🟡/🔴.
+Applies when all three hold: R1 Task; no load condition for Rules `architecture`, `database`, `security`, `cache` is met; no 🟡/🔴 zone touched.
 
-- Plan vài dòng ngay trong phiên (file dự kiến đổi, test sẽ chạy); không tạo file plan, không chờ duyệt.
-- Một phiên, chỉ nạp Skill chính.
-- Bước 6–8 giữ nguyên; báo cáo bàn giao chỉ điền mục có nội dung.
+- A few-line plan in the session (files to change, tests to run); no plan file, no waiting for approval.
+- One session, load only the main Skill.
+- Steps 6–8 unchanged; the handoff report fills only sections with content.
 
-Phát sinh điều kiện ngoài làn nhanh: dừng, quay về bước 3.
+If a condition outside the fast lane arises: stop, go back to step 3.
 
-## Duyệt plan
+## Plan approval
 
-Chờ người duyệt trước bước 5 khi có một trong các điều kiện: Task R3; mức tự chủ ≤ A2; đổi kiến trúc, API contract, quyền, schema hoặc dữ liệu; chạm vùng 🟡; chuỗi có hành động cần phê duyệt. Còn lại làm tiếp, người duyệt kết quả cuối.
+Wait for a reviewer before step 5 when any holds: R3 Task; autonomy level ≤ A2; changes architecture, API contract, permissions, schema, or data; touches a 🟡 zone; the chain has an action requiring approval. Otherwise continue; the reviewer approves the final result.
 
-## Quy tắc chuyển bước
+## Step transition rules
 
-1. **Plan là ngữ cảnh nén:** đủ để thực thi (yêu cầu, điểm áp dụng từ tài liệu kèm §, quyết định thiết kế, file dự kiến đổi, AC → test, chuỗi Skill); từ bước 5 làm theo plan, không đọc lại tài liệu plan đã tóm tắt. Plan thiếu thì chỉ tra mục Skill cho phép, bằng lệnh đọc một mục, và ghi vào "Nạp bổ sung" của plan; tra không ra thì ghi câu hỏi mở.
-2. **Phiên mới cho bước 5** khi Task R2/R3 hoặc chuỗi từ 3 Skill: phiên thực thi chỉ nhận plan và Rule.
-3. **Mỗi lúc một Skill:** chưa đạt "kết quả cần kiểm" thì không nạp Skill kế.
-4. **Qua cổng bằng bằng chứng** (output test, diff, tài liệu Approved), không bằng lời khẳng định.
-5. **Phát sinh điều kiện** (ví dụ sửa lỗi hoá ra chạm phân quyền): nạp Rule, Skill tương ứng, ghi vào plan; nghi ngờ chạm bảo mật hay dữ liệu thì nạp. Làm đổi mức rủi ro, phạm vi, hoặc cần Skill thiết kế: dừng và báo.
+1. **The plan is compressed context:** enough to execute (requirements, applicable points from documents with §, design decisions, files to change, AC → tests, Skill chain); from step 5 follow the plan, do not reread documents the plan summarized. If the plan lacks something, look up only sections the Skill allows, with the one-section command, and record it under "Nạp bổ sung" in the plan; if not found, record an open question.
+2. **New session for step 5** when the Task is R2/R3 or the chain has 3+ Skills: the execution session receives only the plan and Rules.
+3. **One Skill at a time:** do not load the next Skill until the Done-when results are met.
+4. **Pass gates with evidence** (test output, diff, Approved documents), not with claims.
+5. **A condition arises** (e.g. a bug fix turns out to touch authorization): load the matching Rule and Skill, record it in the plan; when in doubt about security or data, load. If it changes risk level or scope, or needs a design Skill: stop and report.
 
-## Khi có lỗi
+## On errors
 
-| Phát hiện | Quay lại |
+| Finding | Go back to |
 | --- | --- |
-| Test fail do code | Skill đang code hoặc `bug-fixing`, chạy lại test |
-| Test fail do môi trường, dữ liệu test | Sửa môi trường; không nới assertion |
-| Review nêu lỗi logic | Skill code tương ứng, chạy lại test và review |
-| Finding bảo mật Critical/High | Skill code tương ứng, chạy lại `security-review` phần bị ảnh hưởng |
-| Yêu cầu thiếu hoặc mâu thuẫn | **Dừng**; `requirement-review`, chờ người quyết |
-| Thiết kế không khả thi | `architecture-design` hoặc `database-design`; đổi kiến trúc cần duyệt |
+| Test fails due to code | The coding Skill in progress or `bug-fixing`, rerun tests |
+| Test fails due to environment or test data | Fix the environment; do not loosen assertions |
+| Review reports a logic bug | Matching coding Skill, rerun tests and review |
+| Critical/High security finding | Matching coding Skill, rerun `security-review` on the affected part |
+| Requirement missing or conflicting | **Stop**; `requirement-review`, wait for a human decision |
+| Design not feasible | `architecture-design` or `database-design`; architecture changes need approval |
 
-## Dừng và hỏi
+## Stop and ask
 
-Dừng phần bị ảnh hưởng, vẫn làm phần độc lập và an toàn, khi:
+Stop the affected part, still do independent and safe parts, when:
 
-- tài liệu mâu thuẫn hoặc thiếu quyết định;
-- gặp cổng duyệt chưa có người duyệt hoặc bằng chứng (cổng nào, người nào: `gates-and-rigor.md` §1);
-- vượt phạm vi Task hoặc mức tự chủ; cần đổi quyền, bảo mật, dữ liệu production;
-- phát hiện secret hoặc lỗ hổng;
-- không xác định được loại Task, môi trường hay lệnh chạy;
-- không tìm ra nguyên nhân gốc, hoặc hết giới hạn vòng sửa (`project-rules` 18).
+- documents conflict or a decision is missing;
+- an approval gate has no reviewer or evidence (which gate, which person: `gates-and-rigor.md` §1);
+- it exceeds Task scope or autonomy level; it needs changes to permissions, security, or production data;
+- a secret or vulnerability is found;
+- the Task type, environment, or run command cannot be determined;
+- the root cause cannot be found, or the fix-round limit is reached (`project-rules` 18).
 
-Khi dừng, nêu: đã làm gì, bị chặn ở đâu, cần ai quyết gì.
+When stopping, state: what was done, where it is blocked, who must decide what.

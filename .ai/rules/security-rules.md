@@ -1,14 +1,14 @@
 # Security Rules
 
-> Trạng thái: **Approved**. Rule bắt buộc. Không hạ được; cần ngoại lệ thì phải có lý do, biện pháp bù, người duyệt và thời hạn.
+> Status: **Approved**. Mandatory Rule. Cannot be lowered; an exception requires a reason, compensating controls, an approver, and an expiry date.
 
-1. Phân quyền kiểm tra ở phía server, không tin quyền do client gửi; mặc định từ chối khi chưa khai báo quyền.
-2. Kiểm tra quyền trên chính bản ghi được truy cập, không chỉ kiểm tra vai trò.
-3. Dùng truy vấn tham số hoá và mã hoá đầu ra theo ngữ cảnh; không nối chuỗi từ đầu vào vào câu truy vấn.
-4. Không hardcode secret; secret lấy từ nơi lưu trữ được duyệt. Secret đã lộ coi như bị xâm phạm: báo ngay.
-5. Áp dụng đặc quyền tối thiểu cho người dùng, dịch vụ và tài khoản CSDL.
-6. Ghi log sự kiện bảo mật: đăng nhập thành công/thất bại, đổi quyền, truy cập bị từ chối, đổi cấu hình bảo mật.
-7. Đổi dependency thì chạy quét lỗ hổng và kiểm tra license; mọi commit chạy quét secret.
-8. Không tắt hay nới kiểm tra bảo mật (lint, scan, xác thực) để test qua.
-9. Thay đổi phân quyền, tiền, dữ liệu cá nhân hoặc migration cần Tech Lead và Security duyệt. AI không tự quản lý secret.
-10. Công cụ cấp cho AI (MCP server, plugin) không kết nối production hoặc dữ liệu D2/D3.
+1. Authorization is checked server-side; do not trust permissions sent by the client; deny by default when permissions are not declared.
+2. Check permissions on the actual record being accessed, not only the role.
+3. Use parameterized queries and context-aware output encoding; do not concatenate input into queries.
+4. Do not hardcode secrets; get secrets from an approved store. A leaked secret is considered compromised: report immediately.
+5. Apply least privilege to users, services, and DB accounts.
+6. Log security events: successful/failed logins, permission changes, denied access, security configuration changes.
+7. When dependencies change, run vulnerability scanning and license checks; every commit runs secret scanning.
+8. Do not disable or relax security checks (lint, scan, authentication) to make tests pass.
+9. Changes to authorization, money, personal data, or migrations require Tech Lead and Security approval. AI does not manage secrets on its own.
+10. Tools given to AI (MCP servers, plugins) do not connect to production or D2/D3 data.

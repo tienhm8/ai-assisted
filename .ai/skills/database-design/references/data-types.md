@@ -1,44 +1,44 @@
-# Database Design – Chọn kiểu dữ liệu
+# Database Design – Choosing data types
 
-> Tài liệu tham khảo của Skill `database-design`, dùng ở bước 5. Kiểu chuẩn đã chốt ở database-design §2 được ưu tiên; file này dùng khi đề xuất hoặc khi dự án chưa chốt. Tên kiểu cụ thể tra ở file của hệ quản trị đã chốt (`postgresql.md` §2, `mysql-mariadb.md` §2). Luôn kiểm phiên bản hệ quản trị trước khi dùng một kiểu.
+> Reference for Skill `database-design`, used at step 5. Standard types fixed in database-design §2 take priority; use this file when proposing or when the project has not fixed them. Look up concrete type names in the chosen DBMS file (`postgresql.md` §2, `mysql-mariadb.md` §2). Always check the DBMS version before using a type.
 
-## 1. Bảng tra theo loại dữ liệu
+## 1. Lookup table by data kind
 
-| Dữ liệu | Chọn | Tránh |
+| Data | Choose | Avoid |
 | --- | --- | --- |
-| Khoá thay thế số | Số nguyên 64 bit tự tăng | Số nguyên 32 bit với bảng giao dịch (dễ cạn) |
-| Khoá UUID | UUID có thứ tự thời gian (v7), lưu bằng kiểu UUID gốc hoặc nhị phân 16 byte | UUID ngẫu nhiên (v4) trên hệ có clustered index theo PK: phân mảnh index, chậm ghi |
-| Tiền | Số thập phân chính xác (19,4) hoặc số nguyên đơn vị nhỏ nhất | Số dấu phẩy động; kiểu tiền phụ thuộc locale |
-| Số lượng, tỉ lệ chính xác | Số thập phân `(p,s)` theo nghiệp vụ | |
-| Số đo khoa học, toạ độ gần đúng | Số dấu phẩy động độ chính xác kép | Dùng khi không chấp nhận sai số |
-| Thời điểm (sự kiện đã xảy ra) | Kiểu thời điểm có múi giờ, hoặc lưu UTC theo quy ước ứng dụng | Kiểu giới hạn năm 2038 hoặc tự đổi theo múi giờ phiên |
-| Ngày (sinh nhật, ngày hiệu lực) | Kiểu ngày | Lưu ngày dạng thời điểm |
-| Giờ địa phương, lịch hẹn tương lai | Giờ địa phương + cột múi giờ IANA | Đổi sang UTC sớm |
-| Khoảng thời gian | Kiểu khoảng nếu hệ có; không thì hai cột `start`, `end` + CHECK `start < end` | |
-| Văn bản ngắn có giới hạn nghiệp vụ | Chuỗi độ dài thay đổi, giới hạn `n` có căn cứ | `255` theo thói quen |
-| Văn bản dài | Kiểu văn bản dài | Index toàn cột (thường cần tiền tố hoặc full-text) |
-| Bảng mã | UTF-8 đầy đủ (4 byte/ký tự) ở mức CSDL/bảng | Biến thể UTF-8 3 byte (thiếu emoji, một số ký tự); `NCHAR`/`NVARCHAR` |
-| So sánh không phân biệt hoa thường | Collation/kiểu không phân biệt hoa thường, hoặc index trên dạng chuẩn hoá | Email: UNIQUE trên dạng chưa chuẩn hoá |
-| Boolean | Kiểu boolean | Cờ có hơn hai trạng thái: dùng cột trạng thái |
-| Tập giá trị cố định | Chuỗi + CHECK (xem modeling-patterns §2) | `ENUM` khi giá trị có thể đổi hoặc đổi thứ tự |
-| JSON | Kiểu JSON (nhị phân nếu có) cho thuộc tính bán cấu trúc | Khoá JSON bị truy vấn thường xuyên: đưa ra cột thật |
-| Địa chỉ IP | Kiểu IP gốc nếu có; không thì nhị phân 16 byte | Chuỗi |
-| Dữ liệu nhị phân, file | Đường dẫn/khoá object storage + checksum | Lưu file trong CSDL; nhị phân chỉ cho dữ liệu nhỏ (khoá, chữ ký) |
-| Mật khẩu | Chuỗi chứa giá trị băm (argon2id/bcrypt) | Mật khẩu thô hay mã hoá hai chiều |
-| Dữ liệu mã hoá ở mức cột | Nhị phân, kèm cột phiên bản khoá nếu xoay vòng khoá | |
-| Số điện thoại, mã bưu chính, số tài khoản | Chuỗi | Kiểu số: mất số 0 đầu, không phải đại lượng tính toán |
-| Toạ độ địa lý | Kiểu không gian SRID 4326 + spatial index | Cần extension/engine: ghi ADR |
+| Numeric surrogate key | 64-bit auto-increment integer | 32-bit integer for transaction tables (easily exhausted) |
+| UUID key | Time-ordered UUID (v7), stored as native UUID type or 16-byte binary | Random UUID (v4) on systems with PK-clustered index: index fragmentation, slow writes |
+| Money | Exact decimal (19,4) or integer in smallest unit | Floating point; locale-dependent money type |
+| Exact quantities, ratios | Decimal `(p,s)` per business needs | |
+| Scientific measurements, approximate coordinates | Double-precision floating point | Using it where error is unacceptable |
+| Instant (event that happened) | Timestamp with time zone, or UTC by application convention | Types limited to year 2038 or auto-converted by session time zone |
+| Date (birthday, effective date) | Date type | Storing dates as timestamps |
+| Local time, future appointments | Local time + IANA time zone column | Converting to UTC early |
+| Time range | Range type if available; otherwise two columns `start`, `end` + CHECK `start < end` | |
+| Short text with business limit | Variable-length string, limit `n` with justification | `255` by habit |
+| Long text | Long text type | Full-column index (usually needs prefix or full-text) |
+| Character set | Full UTF-8 (4 bytes/char) at DB/table level | 3-byte UTF-8 variant (missing emoji, some characters); `NCHAR`/`NVARCHAR` |
+| Case-insensitive comparison | Case-insensitive collation/type, or index on normalized form | Email: UNIQUE on non-normalized form |
+| Boolean | Boolean type | Flag with more than two states: use a status column |
+| Fixed value set | String + CHECK (see modeling-patterns §2) | `ENUM` when values may change or be reordered |
+| JSON | JSON type (binary if available) for semi-structured attributes | Frequently queried JSON keys: move to real columns |
+| IP address | Native IP type if available; otherwise 16-byte binary | String |
+| Binary data, files | Object storage path/key + checksum | Storing files in the DB; binary only for small data (keys, signatures) |
+| Password | String holding a hash (argon2id/bcrypt) | Plain or reversibly encrypted password |
+| Column-level encrypted data | Binary, plus key version column if keys rotate | |
+| Phone number, postal code, account number | String | Numeric type: loses leading zeros, not a computed quantity |
+| Geographic coordinates | Spatial type SRID 4326 + spatial index | Needs extension/engine: record ADR |
 
-## 2. Quy tắc chọn
+## 2. Selection rules
 
-1. **Theo nghĩa nghiệp vụ, không theo dữ liệu mẫu.** "Mã đơn hàng gồm chữ số" vẫn là văn bản nếu không dùng để tính toán.
-2. **Nhỏ nhất đủ dùng có dự phòng tăng trưởng.** Ước tính giá trị lớn nhất sau nhiều năm; PK giao dịch dùng 64 bit.
-3. **Kiểu của FK trùng kiểu của PK được tham chiếu**, kể cả dấu, charset và collation.
-4. **NOT NULL mặc định**, DEFAULT chỉ khi giá trị mặc định có nghĩa nghiệp vụ.
-5. **Không lưu giá trị định dạng** (tiền có dấu phân cách, ngày dạng chuỗi).
-6. **Ghi rõ đơn vị** trong tên cột khi không hiển nhiên (`weight_grams`, `duration_seconds`).
-7. **Cột sinh (generated column)** cho giá trị suy ra cần index hoặc ràng buộc; không lưu giá trị suy ra bằng tay.
-8. **Unicode đặt ở mức CSDL/bảng**, không dùng `NCHAR`/`NVARCHAR` (cách của SQL Server).
-9. **Chuỗi độ dài cố định chỉ cho giá trị cố định thật** (mã quốc gia ISO, mã tiền tệ): kiểu cố định đệm khoảng trắng, tốn chỗ, so sánh khó lường.
-10. **Kiểu nhỏ hơn giúp index nhỏ hơn**, nhất là khi PK nằm trong mọi index phụ (clustered index); nhưng không đánh đổi khả năng tăng trưởng (quy tắc 2).
-11. **Kiểm khác biệt hành vi của hệ đã chốt** trước khi dùng: DDL có rollback được không, CHECK có thực thi không, chế độ SQL chặt, độ dài khoá index, so sánh chuỗi mặc định (§1 của file hệ quản trị).
+1. **By business meaning, not sample data.** "Order code consists of digits" is still text if not used for computation.
+2. **Smallest sufficient with growth headroom.** Estimate the max value over many years; transaction PKs use 64 bits.
+3. **FK type matches the referenced PK type**, including sign, charset and collation.
+4. **NOT NULL by default**, DEFAULT only when the default has business meaning.
+5. **Do not store formatted values** (money with separators, dates as strings).
+6. **State the unit** in the column name when not obvious (`weight_grams`, `duration_seconds`).
+7. **Generated columns** for derived values needing an index or constraint; do not store derived values manually.
+8. **Set Unicode at DB/table level**, do not use `NCHAR`/`NVARCHAR` (the SQL Server way).
+9. **Fixed-length strings only for truly fixed values** (ISO country code, currency code): fixed types pad with spaces, waste space, compare unpredictably.
+10. **Smaller types give smaller indexes**, especially when the PK is in every secondary index (clustered index); but do not trade away growth capacity (rule 2).
+11. **Check behavior differences of the chosen DBMS** before use: whether DDL can roll back, whether CHECK is enforced, strict SQL mode, index key length, default string comparison (§1 of the DBMS file).

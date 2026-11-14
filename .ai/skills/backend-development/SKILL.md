@@ -1,41 +1,41 @@
 ---
 name: backend-development
-description: Cài đặt logic nghiệp vụ backend, service, truy cập dữ liệu, tích hợp và tác vụ nền trong ranh giới module và thiết kế đã Approved, kèm danh sách ca cần test và báo cáo bàn giao.
+description: Implement backend business logic, services, data access, integrations and background jobs within Approved module boundaries and design, with a test case list and handoff report.
 ---
 
 # Backend Development Skill
 
-Hiện thực logic nghiệp vụ, truy cập dữ liệu và tích hợp ở backend: đúng business rule, đúng ranh giới module, dễ test.
+Implement backend business logic, data access and integrations: correct business rules, correct module boundaries, easy to test.
 
-## Cổng vào
+## Entry gate
 
-Ngoài `project-rules` 2, cần: business rule liên quan; thiết kế gồm module-design, database-design, và contract trong api-design nếu có endpoint hoặc tích hợp ngoài.
+Besides `project-rules` 2, required: related business rules; design including module-design, database-design, and the api-design contract if there are endpoints or external integrations.
 
-Nguồn chính: plan; mã backend hiện có.
-Plan thiếu thì tra đúng mục, không đọc cả file: module-design §3 Phụ thuộc giữa các module, §5 Ranh giới và quyền sở hữu; system-architecture §3.3 Các tầng và trách nhiệm; database-design §6 Transaction và đồng thời; api-design §1.2 Chi tiết API (endpoint liên quan), §2 Integration Specification; error-handling §3 Mã lỗi, §4 Xử lý exception, §7 Logging, §8 Retry, timeout, fallback, §9 Transaction và nhất quán dữ liệu; security-standards §4 Authorization, §5 Kiểm tra đầu vào, §9 Logging và Audit.
+Primary sources: plan; existing backend code.
+If the plan lacks something, look up the exact section, do not read the whole file: module-design §3 Phụ thuộc giữa các module, §5 Ranh giới và quyền sở hữu; system-architecture §3.3 Các tầng và trách nhiệm; database-design §6 Transaction và đồng thời; api-design §1.2 Chi tiết API (related endpoints), §2 Integration Specification; error-handling §3 Mã lỗi, §4 Xử lý exception, §7 Logging, §8 Retry, timeout, fallback, §9 Transaction và nhất quán dữ liệu; security-standards §4 Authorization, §5 Kiểm tra đầu vào, §9 Logging và Audit.
 
-## Quy trình
+## Procedure
 
-1. **Phân tích:** thao tác nghiệp vụ, actor, tiền điều kiện, ràng buộc, chuyển trạng thái, kịch bản lỗi.
-2. **Khảo sát mã hiện có:** cấu trúc, service, tầng truy cập dữ liệu, tiện ích dùng chung, cách xử lý lỗi và log. Tái dùng trước khi tạo mới.
-3. **Thiết kế service:** trách nhiệm, đầu vào/ra, phụ thuộc, ranh giới transaction. Ranh giới module theo module-design.
-4. **Hiện thực:** chuyển trạng thái tường minh; kiểm bất biến quan trọng; truy vấn tránh N+1.
-5. **Lỗi và log:** theo error-handling; ghi log sự kiện nghiệp vụ, thất bại và sự kiện bảo mật.
-6. **Tích hợp ngoài:** timeout, retry, idempotency, rate limit theo spec trong api-design; thiếu spec thì dừng, ghi câu hỏi mở.
-7. **Phân quyền:** dùng cơ chế kiểm quyền đã có; thiếu thì xử lý theo task-execution, mục "Quy tắc chuyển bước" điều 5 (Phát sinh điều kiện); không tự thêm.
-8. **Ca cần test:** ghi vào plan §5 các ca phủ business rule, kịch bản lỗi, transaction, kèm tầng (unit, integration).
+1. **Analyze:** business operations, actors, preconditions, constraints, state transitions, error scenarios.
+2. **Survey existing code:** structure, services, data access layer, shared utilities, error handling and logging. Reuse before creating new.
+3. **Design services:** responsibility, inputs/outputs, dependencies, transaction boundaries. Module boundaries per module-design.
+4. **Implement:** explicit state transitions; check key invariants; avoid N+1 queries.
+5. **Errors and logging:** per error-handling; log business events, failures and security events.
+6. **External integrations:** timeout, retry, idempotency, rate limit per the spec in api-design; if the spec is missing, stop and record an open question.
+7. **Authorization:** use existing permission-check mechanisms; if missing, handle per task-execution, section "Step transition rules" item 5 (A condition arises); do not add them yourself.
+8. **Test cases:** record in plan §5 cases covering business rules, error scenarios, transactions, with layer (unit, integration).
 
-## Giới hạn
+## Limits
 
-- Cần đổi schema thì dừng và báo; không tự đổi.
-- Không thêm service hoặc abstraction mà Task không cần.
+- If a schema change is needed, stop and report; do not change it yourself.
+- Do not add services or abstractions the Task does not need.
 
-## Hoàn thành khi
+## Done when
 
-- Logic đúng từng AC và business rule liên quan; không gọi chéo module trái thiết kế.
-- Transaction bao đủ các ghi phải cùng thành công hoặc cùng thất bại.
-- Ca cần test ở bước 8 đã ghi vào plan.
+- Logic satisfies every AC and related business rule; no cross-module calls contrary to the design.
+- Transactions cover all writes that must succeed or fail together.
+- Test cases from step 8 are recorded in the plan.
 
-## Báo cáo
+## Report
 
-Ghi vào báo cáo bàn giao của Task: service đã tạo hoặc sửa, tương tác CSDL, tích hợp ngoài.
+Write in the Task's handoff report: services created or modified, DB interactions, external integrations.

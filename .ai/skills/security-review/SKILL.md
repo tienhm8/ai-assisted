@@ -1,49 +1,49 @@
 ---
 name: security-review
-description: Đánh giá rủi ro bảo mật của thay đổi hoặc hệ thống: xác thực, phân quyền, xử lý dữ liệu, input, phụ thuộc và cấu hình; có bằng chứng chạy thật và quy trình ngoại lệ.
+description: Assess security risk of a change or system: authentication, authorization, data handling, input, dependencies, and configuration; with real run evidence and an exception process.
 ---
 
 # Security Review Skill
 
-Phát hiện lỗ hổng và đánh giá hiệu quả của biện pháp bảo vệ, dựa trên bằng chứng chạy thật khi có thể.
+Find vulnerabilities and assess the effectiveness of protections, based on real run evidence when possible.
 
-## Cổng vào
+## Entry gate
 
-- Phạm vi review rõ (diff, module hoặc hệ thống), kèm mức rủi ro và mức dữ liệu. Thiếu thì dừng và hỏi.
-- Mức ASVS mục tiêu đã khai báo ở PROJECT.md §4. Chưa có thì dừng và hỏi.
+- Review scope is clear (diff, module, or system), with risk level and data level. If missing, stop and ask.
+- Target ASVS level is declared in PROJECT.md §4. If not, stop and ask.
 
-Đọc: Task, AC; security-standards; tài liệu kiến trúc (vai trò, ma trận phân quyền), api-design, database-design; PROJECT.md §3; mã nguồn, cấu hình triển khai, danh sách dependency.
+Read: Task, AC; security-standards; architecture docs (roles, authorization matrix), api-design, database-design; PROJECT.md §3; source code, deployment configuration, dependency list.
 
-## Quy trình
+## Procedure
 
-1. **Bề mặt tấn công:** endpoint công khai, đã xác thực, quản trị; upload; tích hợp ngoài; điểm nhận input; nơi lưu dữ liệu nhạy cảm. Gán mức dữ liệu.
-2. **Xác thực:** lưu mật khẩu, đăng nhập, phiên, token, hết hạn, thu hồi, vòng đời tài khoản, rate limit và chống brute-force.
-3. **Phân quyền:** thiếu kiểm quyền, leo thang đặc quyền, IDOR/BOLA, quyền trên từng bản ghi, ranh giới vai trò, truy cập chéo ứng dụng.
-4. **Input và output:** injection (SQL, lệnh), XSS, CSRF, SSRF, path traversal, deserialization; upload (loại, kích thước, nội dung, nơi lưu, quyền truy cập).
-5. **Bảo vệ dữ liệu:** lộ dữ liệu nhạy cảm, quản lý secret, mã hoá khi truyền và khi lưu, sao lưu; D3 trong log, URL, thông báo lỗi.
-6. **Audit log:** đủ sự kiện bảo mật và không chứa D3.
-7. **Dependency:** lỗ hổng đã biết, gói hết hỗ trợ, quyền thừa, rủi ro chuỗi cung ứng.
-8. **Cấu hình:** biến môi trường, mức lộ CSDL, CORS, HTTPS, security headers; toàn vẹn pipeline và artifact.
-9. **Đối chiếu OWASP Top 10 và ASVS** theo bảng ánh xạ trong security-standards: mỗi mục ghi áp dụng hay không kèm lý do; mục áp dụng thì đối chiếu chương ASVS tới mức dự án khai báo.
-10. **Chạy bằng chứng thật:** quét secret, quét dependency, test ranh giới quyền (sai vai trò, sai chủ sở hữu, chưa đăng nhập). Công cụ chưa có thì ghi not-run kèm lý do; not-run không có nghĩa là an toàn.
-11. **Đánh giá finding** theo tác động, khả năng xảy ra, khả năng khai thác. Gắn mã OWASP Top 10 và mã yêu cầu ASVS nếu xác định được.
-12. **Xử lý:** Critical/High tạo bug theo BUG-TEMPLATE và báo Tech Lead, Security. Chưa sửa thì chặn merge, hoặc có ngoại lệ theo security-standards §12 Quản lý ngoại lệ bảo mật. Kiểm lại sau khi sửa.
+1. **Attack surface:** public, authenticated, admin endpoints; uploads; external integrations; input entry points; where sensitive data is stored. Assign data levels.
+2. **Authentication:** password storage, login, sessions, tokens, expiry, revocation, account lifecycle, rate limiting and brute-force protection.
+3. **Authorization:** missing checks, privilege escalation, IDOR/BOLA, per-record permissions, role boundaries, cross-application access.
+4. **Input and output:** injection (SQL, command), XSS, CSRF, SSRF, path traversal, deserialization; uploads (type, size, content, storage location, access permissions).
+5. **Data protection:** sensitive data exposure, secret management, encryption in transit and at rest, backups; D3 in logs, URLs, error messages.
+6. **Audit log:** sufficient security events and no D3.
+7. **Dependencies:** known vulnerabilities, end-of-life packages, excess permissions, supply chain risk.
+8. **Configuration:** environment variables, DB exposure, CORS, HTTPS, security headers; pipeline and artifact integrity.
+9. **Map against OWASP Top 10 and ASVS** per the mapping table in security-standards: for each item record applicable or not with reason; for applicable items check the ASVS chapters up to the project's declared level.
+10. **Run real evidence:** secret scan, dependency scan, permission boundary tests (wrong role, wrong owner, not logged in). If a tool is unavailable, record not-run with the reason; not-run does not mean safe.
+11. **Rate findings** by impact, likelihood, exploitability. Tag OWASP Top 10 code and ASVS requirement ID if identifiable.
+12. **Handle:** for Critical/High, create a bug per BUG-TEMPLATE and notify Tech Lead, Security. If unfixed, block merge, or have an exception per security-standards §12 Quản lý ngoại lệ bảo mật. Recheck after the fix.
 
-## Giới hạn
+## Limits
 
-- Không kiểm thử ngoài phạm vi được phép; không khai thác production.
-- Không kết luận an toàn chỉ nhờ đọc code.
-- Không tự đổi chính sách bảo mật.
+- Do not test outside the permitted scope; do not exploit production.
+- Do not conclude safety from reading code alone.
+- Do not change security policy on your own.
 
-## Hoàn thành khi
+## Done when
 
-- Đã đi hết phạm vi; mỗi finding có bằng chứng, tác động, mức nghiêm trọng, biện pháp.
-- Critical/High đã sửa, chặn merge, hoặc có ngoại lệ còn hạn.
+- Entire scope covered; each finding has evidence, impact, severity, remediation.
+- Critical/High are fixed, merge-blocked, or have an unexpired exception.
 
-## Báo cáo
+## Report
 
-- Phạm vi, bề mặt tấn công, mức dữ liệu, mức ASVS mục tiêu.
-- Bảng OWASP Top 10: áp dụng hay không, chương ASVS đã đối chiếu, kết quả.
-- Bằng chứng: lệnh, output; not-run kèm lý do.
-- Finding theo mức nghiêm trọng, kèm mã OWASP/ASVS và mã bug.
-- Ngoại lệ đang áp dụng; rủi ro còn lại; yêu cầu kiểm lại.
+- Scope, attack surface, data level, target ASVS level.
+- OWASP Top 10 table: applicable or not, ASVS chapters checked, result.
+- Evidence: commands, output; not-run with reason.
+- Findings by severity, with OWASP/ASVS codes and bug IDs.
+- Active exceptions; residual risk; recheck requirements.

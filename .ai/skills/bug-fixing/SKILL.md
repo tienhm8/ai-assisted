@@ -1,40 +1,40 @@
 ---
 name: bug-fixing
-description: Sửa lỗi theo Bug Report (BUG-TEMPLATE) so với yêu cầu và AC đã duyệt - tái hiện, tìm nguyên nhân gốc, sửa tối thiểu, thêm test hồi quy; dừng khi lỗi do yêu cầu sai/thiếu.
+description: Fix bugs from a Bug Report (BUG-TEMPLATE) against approved requirements and AC - reproduce, find root cause, minimal fix, add regression test; stop when the bug stems from wrong/missing requirements.
 ---
 
 # Bug Fixing Skill
 
-Sửa đúng nguyên nhân gốc của lỗi (sai khác so với yêu cầu và AC đã duyệt) bằng thay đổi tối thiểu, không gây hồi quy.
+Fix the root cause of a bug (deviation from approved requirements and AC) with a minimal change, without causing regressions.
 
-## Cổng vào
+## Entry gate
 
-Đầu vào là Bug Report theo BUG-TEMPLATE. Thiếu một mục sau thì dừng và yêu cầu bổ sung: mã bug, FR/BR/AC bị vi phạm, Task sửa lỗi, mức nghiêm trọng, mức rủi ro.
+Input is a Bug Report per BUG-TEMPLATE. If any of the following is missing, stop and request it: bug ID, violated FR/BR/AC, bug-fix Task, severity, risk level.
 
-Đọc: Bug Report, Task, FR/BR/AC liên quan, mã nguồn và test liên quan.
+Read: Bug Report, Task, related FR/BR/AC, related source code and tests.
 
-## Quy trình
+## Procedure
 
-1. **Xác định yêu cầu bị vi phạm.** AC thiếu, mơ hồ hoặc tài liệu mâu thuẫn: dừng, ghi câu hỏi mở và báo. Lỗi do yêu cầu sai thì không sửa ở đây.
-2. **Tái hiện** ở local hoặc staging; che dữ liệu nhạy cảm. Không tái hiện được thì nói rõ, không tuyên bố đã tái hiện.
-3. **Tìm nguyên nhân gốc**, phân biệt với triệu chứng. Không xác lập được thì dừng và báo.
-4. **Đánh giá tác động:** module, vai trò, dữ liệu, bảo mật, hồi quy. Cần sửa dữ liệu production thì tách Task riêng, có duyệt.
-5. **Đề xuất sửa:** nguyên nhân, cách sửa, file, rủi ro, test. Chờ duyệt trước khi sửa nếu Task R3, mức tự chủ A2, hoặc đụng phân quyền, kiến trúc, schema, contract.
-6. **Viết test hồi quy** ở tầng thấp nhất tái hiện được lỗi; chạy thấy đỏ trước khi sửa.
-7. **Sửa tối thiểu** đúng nguyên nhân gốc; không refactor kèm.
-8. **Chạy** test hồi quy (phải xanh), cổng kiểm tra của dự án và hồi quy liên quan.
+1. **Identify the violated requirement.** If the AC is missing or ambiguous, or docs conflict: stop, record an open question and report. If the bug stems from a wrong requirement, do not fix it here.
+2. **Reproduce** locally or on staging; mask sensitive data. If it cannot be reproduced, say so clearly; do not claim it was reproduced.
+3. **Find the root cause**, distinguished from symptoms. If it cannot be established, stop and report.
+4. **Assess impact:** modules, roles, data, security, regressions. If production data must be fixed, split into a separate Task, with approval.
+5. **Propose the fix:** cause, fix approach, files, risks, tests. Wait for approval before fixing if the Task is R3, autonomy level A2, or touches authorization, architecture, schema, contract.
+6. **Write a regression test** at the lowest layer that reproduces the bug; run it and see it red before fixing.
+7. **Fix minimally** at the root cause; no accompanying refactoring.
+8. **Run** the regression test (must be green), the project's check gates and related regressions.
 
-## Giới hạn
+## Limits
 
-- Không che lỗi bằng cách nuốt lỗi hoặc workaround.
-- Không sửa business rule.
+- Do not mask bugs by swallowing errors or using workarounds.
+- Do not modify business rules.
 
-## Hoàn thành khi
+## Done when
 
-- Nguyên nhân gốc đã ghi.
-- Test hồi quy đỏ trước, xanh sau, kèm output cả hai lần.
-- Cổng kiểm tra và hồi quy liên quan đạt.
+- Root cause is recorded.
+- Regression test red before, green after, with output of both runs.
+- Check gates and related regressions pass.
 
-## Báo cáo
+## Report
 
-Điền mục "Kết quả sửa" của BUG-TEMPLATE (nguyên nhân gốc, test hồi quy). Phần còn lại ghi vào báo cáo bàn giao theo DELIVERY-REPORT-TEMPLATE.
+Fill in the "Kết quả sửa" section of BUG-TEMPLATE (root cause, regression test). Write the rest in the handoff report per DELIVERY-REPORT-TEMPLATE.

@@ -1,50 +1,50 @@
 ---
 name: documentation
-description: Tạo và cập nhật tài liệu dự án (yêu cầu, kiến trúc, kỹ thuật, quản lý, vận hành, ADR nháp) cho khớp quyết định đã duyệt và hiện trạng hệ thống; không tự chuyển Approved, không tự quyết nghiệp vụ.
+description: Create and update project docs (requirements, architecture, engineering, management, operations, draft ADRs) to match approved decisions and the current system; do not set Approved yourself, do not decide business logic yourself.
 ---
 
 # Documentation Skill
 
-Giữ tài liệu khớp với quyết định đã duyệt và hệ thống thật, không trùng lặp.
+Keep docs consistent with approved decisions and the real system, without duplication.
 
-## Cổng vào
+## Entry gate
 
-- Task nêu thay đổi cần ghi tài liệu. Thiếu thì dừng và hỏi.
-- Xác định được nguồn (quyết định, yêu cầu, thiết kế đã duyệt). Không có nguồn thì ghi câu hỏi mở, không tự điền.
+- The Task states the changes to document. If missing, stop and ask.
+- The source (approved decision, requirement, design) can be identified. If there is no source, record an open question; do not fill it in yourself.
 
-Đọc: Task, diff hoặc mô tả thay đổi, tài liệu hiện có liên quan, ADR liên quan.
+Read: Task, diff or change description, related existing docs, related ADRs.
 
-## Quy trình
+## Procedure
 
-1. **Xác định tài liệu bị ảnh hưởng:**
+1. **Identify affected docs:**
 
-   | Thay đổi | Tài liệu |
+   | Change | Doc |
    | --- | --- |
-   | Hành vi, quy tắc nghiệp vụ, AC | `01-requirements` |
-   | Kiến trúc, schema, API, module | `02-architecture` |
-   | Chuẩn code, bảo mật, kiểm thử, xử lý lỗi | `03-engineering` |
-   | Tiến độ, backlog, KPI | `04-project-management` |
-   | Triển khai, giám sát, sao lưu | `05-operations` |
-   | Câu hỏi mở, giả định | open-questions |
+   | Behavior, business rules, AC | `01-requirements` |
+   | Architecture, schema, API, modules | `02-architecture` |
+   | Coding standards, security, testing, error handling | `03-engineering` |
+   | Progress, backlog, KPI | `04-project-management` |
+   | Deployment, monitoring, backup | `05-operations` |
+   | Open questions, assumptions | open-questions |
 
-2. **Xác minh nguồn** theo thứ tự ưu tiên: quyết định nghiệp vụ đã duyệt, yêu cầu Approved, thiết kế và ADR Approved, rồi mới tới hiện trạng code và tài liệu cũ. Hiện trạng code không tự thành yêu cầu. Nguồn mâu thuẫn thì báo, không tự chọn.
-3. **Viết hoặc cập nhật** theo cấu trúc, cách đặt tên và mã chuẩn của dự án; giữ nguyên mã có sẵn.
-4. **Một nơi duy nhất:** mỗi quy tắc, quyết định, trạng thái chỉ có một nơi quản lý; nơi khác tham chiếu bằng mã.
-5. **Truy vết một chiều:** FR giữ liên kết tới BRQ/BR; AC trỏ tới FR; không tạo liên kết ngược.
-6. **ADR**, chỉ khi quyết định thuộc diện cần ADR theo hướng dẫn của thư mục ADR: tạo `ADR-<NNNN>-<slug>.md` từ `_template.md` với số kế tiếp, trạng thái Proposed, ít nhất hai phương án; thêm một dòng vào danh mục. Quyết định nhỏ, dễ đảo ngược thì ghi ở tài liệu thiết kế.
-7. **Rà lệch:** đối chiếu tài liệu với code, schema, API đang có; liệt kê chỗ lỗi thời, mâu thuẫn, còn thiếu.
+2. **Verify sources** in priority order: approved business decisions, Approved requirements, Approved designs and ADRs, then current code and old docs. Current code does not by itself become a requirement. If sources conflict, report; do not choose yourself.
+3. **Write or update** per the project's structure, naming and standard IDs; keep existing IDs unchanged.
+4. **Single source:** each rule, decision, status is managed in only one place; other places reference it by ID.
+5. **One-way traceability:** FRs keep links to BRQ/BR; ACs point to FRs; do not create back-links.
+6. **ADR**, only when the decision requires an ADR per the ADR folder's guidance: create `ADR-<NNNN>-<slug>.md` from `_template.md` with the next number, status Proposed, at least two options; add one row to the index. Small, easily reversible decisions go in the design doc.
+7. **Check drift:** compare docs with existing code, schema, API; list outdated, conflicting and missing parts.
 
-## Giới hạn
+## Limits
 
-- Không xoá quyết định lịch sử khi chưa có lý do.
-- Không sửa tài liệu ngoài phạm vi Task.
+- Do not delete historical decisions without a reason.
+- Do not modify docs outside the Task's scope.
 
-## Hoàn thành khi
+## Done when
 
-- Mọi tài liệu bị ảnh hưởng đã cập nhật hoặc ghi lý do không cần.
-- Không có nội dung lặp ở hai nơi; mã chuẩn được giữ.
-- ADR (nếu có) ở Proposed và đã vào danh mục.
+- Every affected doc is updated or has a recorded reason it is not needed.
+- No content is duplicated in two places; standard IDs are kept.
+- ADRs (if any) are Proposed and in the index.
 
-## Báo cáo
+## Report
 
-Ghi vào báo cáo bàn giao của Task: tài liệu đã tạo hoặc sửa, ADR đã tạo, mâu thuẫn nguồn, chỗ lỗi thời và khoảng trống còn lại.
+Write in the Task's handoff report: docs created or modified, ADRs created, source conflicts, outdated spots and remaining gaps.

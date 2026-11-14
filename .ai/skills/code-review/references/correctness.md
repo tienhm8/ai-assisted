@@ -1,32 +1,32 @@
-# Code Review – Checklist đúng việc, test, đúng chỗ (ưu tiên 1–3)
+# Code Review – Checklist for correctness, tests, placement (priorities 1–3)
 
-## Ưu tiên 1: Code có làm đúng việc không?
+## Priority 1: Does the code do the right thing?
 
-- Từng AC được đáp ứng ở đâu trong code; AC nào không thấy chỗ đáp ứng.
-- Ca biên và dữ liệu trùng.
-- Chuyển trạng thái: có chặn chuyển trạng thái không hợp lệ không.
-- Xử lý lỗi: không nuốt lỗi; lỗi được phân loại theo error-handling; thông báo lỗi không lộ chi tiết nội bộ.
-- Kiểu dữ liệu: tiền và số cần chính xác không dùng số dấu phẩy động; múi giờ và định dạng thời gian nhất quán; làm tròn đúng quy tắc nghiệp vụ.
-- Ranh giới transaction: các ghi phải cùng thành công hoặc cùng thất bại có nằm chung một đơn vị nguyên tử không.
-- Quy tắc nghiệp vụ lấy từ FR/BR, không phải do code tự đặt ra; chưa rõ thì ghi câu hỏi mở.
+- Where in the code each AC is met; which AC has no place meeting it.
+- Edge cases and duplicate data.
+- State transitions: are invalid transitions blocked?
+- Error handling: errors are not swallowed; errors are classified per error-handling; error messages do not leak internal details.
+- Data types: money and numbers needing precision do not use floating point; time zones and time formats are consistent; rounding follows business rules.
+- Transaction boundaries: are writes that must succeed or fail together in one atomic unit?
+- Business rules come from FR/BR, not invented by the code; if unclear, record an open question.
 
-## Ưu tiên 2: Có test chứng minh không?
+## Priority 2: Are there tests proving it?
 
-- Đối chiếu test trong diff với `testing-rules` 1–5; mỗi AC có output test thật.
-- Test kiểm hành vi, không kiểm chi tiết cài đặt; không có assertion rỗng hoặc chỉ kiểm "không ném lỗi".
+- Check tests in the diff against `testing-rules` 1–5; each AC has real test output.
+- Tests check behavior, not implementation details; no empty assertions or assertions that only check "does not throw".
 
-## Ưu tiên 3: Code có đặt đúng chỗ không?
+## Priority 3: Is the code in the right place?
 
-Lấy bản đồ tầng và trách nhiệm từ tài liệu kiến trúc của dự án; không tự áp một mô hình tầng. Kiểm theo các trách nhiệm chung:
+Take the layer and responsibility map from the project's architecture docs; do not impose your own layer model. Check against these general responsibilities:
 
-| Trách nhiệm | Câu hỏi |
+| Responsibility | Question |
 | --- | --- |
-| Biên nhận yêu cầu (handler, controller, resolver, CLI, UI component) | Chỉ điều phối (nhận yêu cầu → gọi nghiệp vụ → trả kết quả) hay đang chứa quy tắc nghiệp vụ, truy cập dữ liệu trực tiếp? |
-| Kiểm tra đầu vào và phân quyền | Làm tại biên hệ thống, theo cơ chế chung của dự án, không rải rác trong nghiệp vụ? Chỉ nhận các trường được phép (whitelist), không gán toàn bộ input vào đối tượng? |
-| Nghiệp vụ (service, use case) | Quy tắc nghiệp vụ nằm ở đây và chỉ ở một nơi? |
-| Domain (entity, model, value object) | Hành vi gắn chặt với dữ liệu (kiểm bất biến, chuyển trạng thái) nằm cùng đối tượng của nó? |
-| Truy cập dữ liệu (repository, DAO, query) | Tầng trên không tự dựng truy vấn vượt tầng; không truy cập dữ liệu của module khác ngoài interface công khai? |
-| Bất đồng bộ và side effect (job, event, consumer, gửi thông báo, gọi hệ thống ngoài) | Side effect chậm hoặc không hoàn tác được có được tách khỏi luồng chính và khỏi transaction không? |
-| Định dạng đầu ra | Trả về dạng dữ liệu đã định nghĩa cho bên ngoài, không trả nguyên đối tượng nội bộ? |
+| Request boundary (handler, controller, resolver, CLI, UI component) | Does it only orchestrate (receive request → call business logic → return result), or does it contain business rules or direct data access? |
+| Input validation and authorization | Done at the system boundary, via the project's shared mechanism, not scattered in business logic? Accepts only allowed fields (whitelist), not assigning all input to the object? |
+| Business logic (service, use case) | Are business rules here and in only one place? |
+| Domain (entity, model, value object) | Is behavior tightly bound to data (invariant checks, state transitions) kept with its object? |
+| Data access (repository, DAO, query) | Upper layers do not build queries bypassing the layer; no access to another module's data outside its public interface? |
+| Async and side effects (job, event, consumer, notifications, external system calls) | Are slow or irreversible side effects separated from the main flow and from the transaction? |
+| Output formatting | Returns the data shape defined for external use, not raw internal objects? |
 
-Dấu hiệu cần xem xét (không phải luật; ngưỡng cụ thể theo coding-standards của dự án): hàm hoặc class vượt ngưỡng kích thước; một hàm làm nhiều việc; lồng điều kiện sâu; quá nhiều dependency; một đơn vị bị sửa vì nhiều lý do khác nhau; phụ thuộc vòng; logic trùng lặp.
+Signals to examine (not laws; concrete thresholds per the project's coding-standards): function or class over size threshold; one function doing many things; deeply nested conditions; too many dependencies; one unit changed for many different reasons; circular dependencies; duplicated logic.

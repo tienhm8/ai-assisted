@@ -1,114 +1,114 @@
 ---
 name: code-review
-description: Review một thay đổi code (PR) không phụ thuộc ngôn ngữ, theo thứ tự ưu tiên đúng việc → test → đúng chỗ → đồng thời → hiệu năng → bảo mật → vận hành → clean code; đọc PR description trước khi đọc code, mỗi finding có vị trí, kịch bản lỗi và severity.
+description: Review a code change (PR), language-agnostic, in priority order correctness → tests → placement → concurrency → performance → security → operability → clean code; read the PR description before the code; every finding has a location, failure scenario, and severity.
 ---
 
 # Code Review Skill
 
-Xác nhận thay đổi làm đúng việc, đúng phạm vi Task, đặt đúng chỗ trong kiến trúc, chịu được tải và đồng thời, an toàn, vận hành được, và có bằng chứng kiểm thử thật trước khi merge.
+Confirm before merge that the change does the right thing, stays within Task scope, sits in the right place in the architecture, withstands load and concurrency, is safe, is operable, and has real test evidence.
 
-**Logic sai thì không duyệt; code xấu thì comment, không chặn PR.**
+**Wrong logic: do not approve; ugly code: comment, do not block the PR.**
 
-## Cổng vào
+## Entry gate
 
-Thiếu một mục thì dừng, nêu mục thiếu và trả PR về người viết; không review code:
+If any item is missing, stop, state the missing item, and return the PR to the author; do not review the code:
 
-- PR description đủ các mục ở Bước 1.
-- Task có phạm vi, AC, mức rủi ro.
-- Cổng tự động (build, lint, kiểm tra kiểu, test, quét secret) đã xanh: lấy từ CI; chưa có CI thì từ lần chạy cục bộ ghi trong PR, kèm lệnh và output.
-- Kích thước PR trong ngưỡng của dự án; vượt ngưỡng thì đề nghị tách, trừ khi PR ghi lý do (code sinh tự động, đổi tên hàng loạt…).
+- PR description has all items in Step 1.
+- Task has scope, AC, risk level.
+- Automated gates (build, lint, type check, test, secret scan) are green: taken from CI; no CI yet, then from a local run recorded in the PR, with command and output.
+- PR size is within the project threshold; over threshold, suggest splitting, unless the PR states a reason (generated code, mass rename…).
 
-Đọc: PR description, Task, AC, FR/BR liên quan; tài liệu kiến trúc (tầng, ranh giới module, hướng phụ thuộc), coding-standards, error-handling, testing-strategy, NFR; git diff **và ngữ cảnh ngoài diff** (nơi gọi tới đoạn code đổi, schema, migration, cấu hình, test hiện có); báo cáo test và báo cáo bàn giao.
+Read: PR description, Task, AC, related FR/BR; architecture docs (layers, module boundaries, dependency direction), coding-standards, error-handling, testing-strategy, NFR; git diff **and context outside the diff** (callers of the changed code, schema, migrations, config, existing tests); test report and handoff report.
 
-## Quy trình
+## Procedure
 
-### Bước 1: Đọc PR description trước, chưa đọc code
+### Step 1: Read the PR description first, not the code yet
 
-Từ PR description, trả lời được các câu sau; câu nào không trả lời được thì ghi finding hoặc câu hỏi, không tự suy ra từ code:
+From the PR description, answer the following; any you cannot answer becomes a finding or question; do not infer it from the code:
 
-1. Vấn đề gì đang được giải quyết, liên kết Task và AC nào?
-2. Thay đổi hành vi hay chỉ refactor? Refactor thì hành vi bên ngoài phải giữ nguyên.
-3. Ảnh hưởng tới đâu: dữ liệu/schema, API/hợp đồng với bên gọi, job/tác vụ nền/message, cache, cấu hình/biến môi trường, quyền truy cập?
-4. Ngoài phạm vi: những gì cố ý không làm?
-5. Đã kiểm thử thế nào, bằng chứng ở đâu?
-6. Thay đổi dữ liệu: khối lượng bị ảnh hưởng, có khoá bảng không, có tương thích ngược với code đang chạy không?
-7. Breaking change, cần feature flag, thứ tự deploy (code trước hay migration trước), cách rollback?
+1. What problem is being solved, linked to which Task and AC?
+2. Behavior change or refactor only? If refactor, external behavior must stay the same.
+3. What is affected: data/schema, API/contract with callers, jobs/background tasks/messages, cache, config/environment variables, access permissions?
+4. Out of scope: what is intentionally not done?
+5. How was it tested, where is the evidence?
+6. Data changes: affected volume, table locks, backward compatible with running code?
+7. Breaking change, feature flag needed, deploy order (code first or migration first), how to roll back?
 
-Từ đó lập **giả thuyết về điều code phải làm**, rồi mới đọc diff để kiểm giả thuyết.
+From that, form a **hypothesis of what the code must do**, then read the diff to test the hypothesis.
 
-### Bước 2: Đối chiếu Task với diff
+### Step 2: Compare Task with diff
 
-- Liệt kê file đổi, module bị ảnh hưởng; so với phạm vi trong phiếu Task và mục "ngoài phạm vi" của PR.
-- Báo file thuộc vùng 🟡/🔴 và file ngoài phạm vi.
-- Báo test bị xoá, tắt hoặc làm yếu; cột/bảng bị xoá ngoài phạm vi; dependency mới chưa ghi lý do.
-- PR nói "chỉ refactor" mà diff đổi hành vi (đổi điều kiện, giá trị trả về, thứ tự side effect): finding.
+- List changed files and affected modules; compare with the scope in the Task ticket and the PR's "out of scope" item.
+- Report files in the 🟡/🔴 zone and files out of scope.
+- Report tests deleted, disabled, or weakened; columns/tables deleted out of scope; new dependencies without a stated reason.
+- PR says "refactor only" but the diff changes behavior (changed conditions, return values, side-effect order): finding.
 
-### Bước 3: Review theo thứ tự ưu tiên
+### Step 3: Review in priority order
 
-Đi lần lượt từ ưu tiên 1 đến 8. Nạp checklist của nhóm đang làm, chưa làm tới thì chưa nạp:
+Go through priorities 1 to 8 in order. Load the checklist of the group in progress; do not load ones not yet reached:
 
-| Ưu tiên | Câu hỏi chính | Checklist |
+| Priority | Main question | Checklist |
 | --- | --- | --- |
-| 1 | Code có làm đúng việc không? (AC, ca biên, trạng thái, lỗi, kiểu dữ liệu, transaction, BR từ FR/BR) | `references/correctness.md` |
-| 2 | Có test chứng minh không? (mỗi AC có test và output thật) | `references/correctness.md` |
-| 3 | Code có đặt đúng chỗ không? (tầng và trách nhiệm theo tài liệu kiến trúc của dự án) | `references/correctness.md` |
-| 4 | Chịu tải và đồng thời thì sao? (race, idempotency, retry, event sau commit) | `references/runtime.md` |
-| 5 | Hiệu năng, dữ liệu, cache (N+1, khối lượng, index thiếu/thừa/trùng sau thay đổi, migration bảng lớn) | `references/runtime.md` |
-| 6 | Bảo mật theo OWASP Top 10 (quyền từng bản ghi, injection, XSS, lộ D3, upload, SSRF) | `references/security.md` |
-| 7 | Vận hành được không? (log, alert, cấu hình, rollback) | `references/runtime.md` |
-| 8 | Clean code và style; không comment điều formatter/linter đã bắt | — |
+| 1 | Does the code do the right thing? (AC, edge cases, states, errors, data types, transactions, BR from FR/BR) | `references/correctness.md` |
+| 2 | Are there tests proving it? (each AC has a test and real output) | `references/correctness.md` |
+| 3 | Is the code in the right place? (layer and responsibility per the project's architecture docs) | `references/correctness.md` |
+| 4 | What about load and concurrency? (race, idempotency, retry, event after commit) | `references/runtime.md` |
+| 5 | Performance, data, cache (N+1, volume, missing/redundant/duplicate indexes after the change, large-table migrations) | `references/runtime.md` |
+| 6 | Security per OWASP Top 10 (per-record authorization, injection, XSS, D3 exposure, upload, SSRF) | `references/security.md` |
+| 7 | Is it operable? (logs, alerts, config, rollback) | `references/runtime.md` |
+| 8 | Clean code and style; do not comment on what formatter/linter already catches | — |
 
-Diff chạm xác thực, phân quyền, dữ liệu nhạy cảm hoặc input từ bên ngoài thì kích hoạt `security-review`; không tự làm thay trong skill này.
+If the diff touches authentication, authorization, sensitive data, or external input, trigger `security-review`; do not do it yourself in this skill.
 
-### Bước 4: Viết finding
+### Step 4: Write findings
 
-Mỗi finding phải có:
+Each finding must have:
 
-- Vị trí `file:dòng`.
-- **Kịch bản lỗi cụ thể**: đầu vào hoặc trạng thái nào → kết quả sai gì. Không dựng được kịch bản thì ghi là **câu hỏi**, không ghi là lỗi.
-- Severity theo thang chung; thường gặp:
+- Location `file:line`.
+- **Concrete failure scenario**: which input or state → what wrong result. If you cannot build a scenario, record it as a **question**, not a bug.
+- Severity on the shared scale; common cases:
 
-| Severity | Thường gặp |
+| Severity | Common cases |
 | --- | --- |
-| Critical | Mất/hỏng dữ liệu, lỗ hổng bảo mật khai thác được |
-| High | Logic sai so với AC/BR, race condition gây sai dữ liệu, AC không có test, migration không rollback được |
-| Medium | Đặt sai tầng, N+1 hoặc thiếu index trên dữ liệu còn nhỏ, thiếu xử lý lỗi ở nhánh phụ, thiếu log/alert |
-| Low | Clean code, đặt tên, cấu trúc nhỏ |
+| Critical | Data loss/corruption, exploitable security vulnerability |
+| High | Logic wrong vs AC/BR, race condition corrupting data, AC without test, migration not rollbackable |
+| Medium | Wrong layer, N+1 or missing index on still-small data, missing error handling in a secondary branch, missing log/alert |
+| Low | Clean code, naming, minor structure |
 
-- Yêu cầu sửa hoặc hướng sửa.
+- Fix request or fix direction.
 
-Gợi ý và điểm cần theo dõi không phải lỗi: ghi vào mục câu hỏi và gợi ý, không gắn severity.
+Suggestions and points to watch are not bugs: put them in the questions and suggestions section, without severity.
 
-Quy tắc trình bày:
+Presentation rules:
 
-- Gộp finding cùng nguyên nhân thành một; finding Low và gợi ý giới hạn số lượng, chỉ giữ những cái có giá trị nhất, để finding quan trọng không bị chìm.
-- Ghi nhận điểm tốt cụ thể của thay đổi.
-- Giọng góp ý hướng vào code, không hướng vào người viết.
+- Merge findings with the same cause into one; cap the number of Low findings and suggestions, keeping only the most valuable, so important findings are not buried.
+- Acknowledge specific good points of the change.
+- Feedback tone targets the code, not the author.
 
-### Bước 5: Kết luận khuyến nghị
+### Step 5: Recommendation
 
-- **Không duyệt**: còn Critical/High, hoặc cổng vào không đạt.
-- **Duyệt có điều kiện**: còn Medium; nêu rõ điều kiện (sửa trong PR hay tạo Task kèm hạn).
-- **Duyệt**: chỉ còn Low, gợi ý, hoặc không có finding.
+- **Do not approve**: Critical/High remain, or the entry gate failed.
+- **Approve with conditions**: Medium remain; state the conditions clearly (fix in this PR or create a Task with a deadline).
+- **Approve**: only Low, suggestions, or no findings.
 
-## Giới hạn
+## Limits
 
-- Không cho rằng code đúng chỉ vì test pass.
-- Không kết luận về đồng thời, hiệu năng hay kiến trúc chỉ từ diff; đọc ngữ cảnh ngoài diff.
-- Không viết lại code trong lúc review.
+- Do not assume code is correct just because tests pass.
+- Do not conclude on concurrency, performance, or architecture from the diff alone; read context outside the diff.
+- Do not rewrite code during review.
 
-## Hoàn thành khi
+## Done when
 
-- Đã đi đủ 8 ưu tiên theo thứ tự; ưu tiên không áp dụng có ghi lý do.
-- Mọi finding đủ các phần ở Bước 4.
-- Có kết luận khuyến nghị kèm lý do.
+- All 8 priorities covered in order; non-applicable priorities have a stated reason.
+- Every finding has all parts in Step 4.
+- There is a recommendation with reasons.
 
-## Báo cáo
+## Report
 
-- Tóm tắt PR theo hiểu biết của reviewer: vấn đề, đổi hành vi hay refactor, phạm vi ảnh hưởng; mức rủi ro; file đã review, gồm file vùng 🟡/🔴 và file ngoài phạm vi.
-- Mục còn thiếu trong PR description.
-- Finding theo mức nghiêm trọng; câu hỏi và gợi ý cho người viết.
-- Đánh giá test: AC có hoặc thiếu bằng chứng, nguồn kết quả cổng (CI hay cục bộ).
-- Ưu tiên không áp dụng và lý do; có dùng `security-review` không.
-- Điểm tốt đáng ghi nhận.
-- Kết luận khuyến nghị và điều kiện.
+- PR summary as the reviewer understands it: problem, behavior change or refactor, impact scope; risk level; files reviewed, including 🟡/🔴 zone files and out-of-scope files.
+- Missing items in the PR description.
+- Findings by severity; questions and suggestions for the author.
+- Test assessment: AC with or without evidence, source of gate results (CI or local).
+- Non-applicable priorities and reasons; whether `security-review` was used.
+- Notable good points.
+- Recommendation and conditions.

@@ -1,129 +1,129 @@
-# Cache dữ liệu (L1/L2): mẫu thiết kế và cài đặt
+# Data cache (L1/L2): design and implementation patterns
 
-Điều bắt buộc nằm ở Rule `cache`; file này chỉ ghi cách làm.
+Mandatory rules are in Rule `cache`; this file only describes how.
 
-## 1. Mô hình
+## 1. Model
 
-- **L1:** cache cục bộ, trong một request hoặc trong RAM của một process. Tuỳ chọn.
-- **L2:** cache dùng chung giữa các instance. Công nghệ cụ thể theo kiến trúc của dự án.
-- **CSDL:** nguồn sự thật duy nhất.
-- Cache là lớp đặt trên truy vấn đã tối ưu, không phải cách né tối ưu. Truy vấn chậm vì thiếu index thì cache chỉ che lỗi: mỗi lần miss, warm-up hay cache sập, truy vấn chậm đó lại chạy.
-- Dữ liệu có cache thì đọc tầng gần trước: L1 → L2 → CSDL. Dữ liệu không thoả điều kiện cache thì đọc thẳng CSDL.
+- **L1:** local cache, within one request or in one process's RAM. Optional.
+- **L2:** cache shared across instances. Concrete technology per the project's architecture.
+- **DB:** the single source of truth.
+- Cache is a layer on top of an optimized query, not a way to dodge optimization. A query slow from a missing index is only hidden by a cache: on every miss, warm-up, or cache outage, that slow query runs again.
+- Cached data reads the nearest tier first: L1 → L2 → DB. Data not meeting cache conditions reads DB directly.
 
-## 2. Phân loại dữ liệu
+## 2. Data classification
 
-Bảng dưới là gợi ý ban đầu. Mỗi cache vẫn phải đủ sáu điều kiện ở Rule `cache`.
+The table below is an initial suggestion. Each cache must still meet all six conditions in Rule `cache`.
 
-| Loại dữ liệu | Cache? | Điều kiện kèm |
+| Data type | Cache? | Accompanying condition |
 | --- | --- | --- |
-| Master data, reference data, danh sách category | Có | |
-| Cấu hình hệ thống | Có | |
-| Product catalog | Có | |
-| Kết quả truy vấn đọc nhiều | Có | Key xác định được từ tham số, xoá đúng được |
-| Báo cáo tổng hợp | Có | |
-| Dashboard statistics | Có | Nghiệp vụ chấp nhận trễ; ghi rõ khoảng trễ |
-| User profile | Có | Invalidation đủ mọi đường ghi; theo §8 nếu chứa D3 |
-| Permission / Role | Có điều kiện | Đổi quyền thì xoá ngay, kể cả L1 trên mọi instance; TTL ngắn |
-| Search result | Có điều kiện | TTL ngắn; giới hạn số key (chỉ trang đầu, tham số phổ biến) |
-| Danh sách lọc hoặc phân trang tự do | Không mặc định | Tổ hợp key vô hạn, không xoá đúng được. Cần thì xoá theo nhóm bằng version prefix, chỉ khi tần suất ghi thấp |
+| Master data, reference data, category lists | Yes | |
+| System configuration | Yes | |
+| Product catalog | Yes | |
+| Read-heavy query results | Yes | Key determinable from parameters, deletable correctly |
+| Aggregate reports | Yes | |
+| Dashboard statistics | Yes | Business accepts staleness; state the staleness window |
+| User profile | Yes | Invalidation covers every write path; per §8 if it contains D3 |
+| Permission / Role | Conditional | On permission change, delete immediately, including L1 on every instance; short TTL |
+| Search result | Conditional | Short TTL; limit key count (first page, common parameters only) |
+| Free-form filtered or paginated lists | Not by default | Unbounded key combinations, cannot delete correctly. If needed, delete by group with version prefix, only when write frequency is low |
 
-Câu hỏi quyết định khoảng trễ: *"Người dùng thấy dữ liệu cũ X phút thì có ai bị thiệt không?"* Có thì không cache, hoặc giảm X.
+Question that decides the staleness window: *"If users see data X minutes old, is anyone harmed?"* If yes, do not cache, or reduce X.
 
-## 3. Luồng đọc
-
-```
-L1 hit           → trả
-L1 miss, L2 hit  → nạp L1 → trả
-L2 miss          → single-flight → đọc CSDL → ghi L2 rồi L1 → trả
-L2 lỗi           → bỏ qua cache → đọc CSDL → trả; ghi log, đếm fail-open
-```
-
-- **Phân biệt miss với lỗi:** miss là key không có; lỗi là timeout, mất kết nối, deserialize hỏng. Miss thì nạp và ghi lại cache; lỗi thì không ghi lại, chỉ đọc nguồn. Đo riêng hai số này.
-- **Single-flight là mặc định** và đặt trong một hàm đọc dùng chung (dạng `remember(key, ttl, loader)`), không viết lại ở từng luồng:
-  - Trong một process: gộp các request cùng key vào một promise.
-  - Giữa các instance: lock `SET NX` có TTL, chỉ cho key được đánh dấu hot. Key hot đánh dấu ở cột "Chống dồn tải" của bảng cache trong database-design, dựa trên tần suất ở bảng AP. Key thường chấp nhận tối đa một truy vấn mỗi instance.
-  - Request chờ có giới hạn (vd 5 × 50 ms; ngưỡng thật tính theo độ trễ mục tiêu của AP). Hết hạn thì tự đọc CSDL, không trả lỗi; số truy vấn đồng thời xuống CSDL vẫn bị giới hạn bởi connection pool.
-- **Vị trí trong Repository:** bọc repository đọc bằng một lớp có cache (decorator) hoặc tách query repository; cả hai gọi `remember`. Service giữ nguyên interface, không biết dữ liệu có cache.
-- **Luồng ghi bỏ qua cache:** hàm dùng cho luồng ghi (`findForUpdate`, đọc trong transaction đang ghi) đọc thẳng CSDL. Sửa trên bản cache rồi lưu là ghi đè thay đổi mới hơn (lost update).
-- **Read model:** ánh xạ kết quả sang kiểu riêng cho value rồi mới cache. Entity ORM qua serialize mất quan hệ lazy và identity map.
-
-## 4. Luồng ghi và invalidation
+## 3. Read path
 
 ```
-Transaction commit → xoá key L2 → phát sự kiện invalidation → mọi instance xoá L1
+L1 hit           → return
+L1 miss, L2 hit  → load L1 → return
+L2 miss          → single-flight → read DB → write L2 then L1 → return
+L2 error         → skip cache → read DB → return; log, count fail-open
 ```
 
-- **Sau commit:** gắn vào hook after-commit của transaction, hoặc outbox. Xoá trước commit thì một request đọc chen vào sẽ nạp lại bản cũ; transaction rollback thì đã xoá oan.
-- **Xoá, không cập nhật.** Hai request ghi đồng thời mà cùng cập nhật cache thì thứ tự observer không theo thứ tự commit, cache có thể giữ giá trị cũ tới hết TTL. Xoá thì request đọc sau nạp lại giá trị đúng.
-- **Cập nhật chỉ khi có version:** giá trị cache mang version (hoặc `updated_at` đủ chính xác); ghi bằng script so-rồi-ghi, chỉ ghi khi version mới hơn. Dùng cho key W1 (cấu hình, danh mục) khi không muốn cache trống sau ghi.
-- **Đọc ngay sau ghi phải đúng:** thêm xoá kép trễ (xoá → ghi CSDL → đợi một nhịp → xoá lại) hoặc version. Không có thì TTL là lưới an toàn cuối.
-- **Xoá thất bại không được bỏ qua** như đọc thất bại: key cũ sẽ sống tới hết TTL. Retry có giới hạn; hết lượt thì đẩy vào hàng đợi xử lý lại và ghi log cảnh báo.
-- **Sự kiện invalidation L1** có retry hoặc cơ chế phục hồi. Instance mất kết nối tới kênh sự kiện thì xoá sạch L1 khi kết nối lại. TTL ngắn của L1 là lưới an toàn khi sự kiện vẫn lọt.
-- **Observer của ORM không bắt được** update hàng loạt, SQL thô, migration, import, job, service khác ghi cùng CSDL: các đường này tự xoá key sau commit hoặc phát sự kiện.
-- **Cache tổng hợp ở module khác** nghe sự kiện của module sở hữu và tự xoá key của mình.
-- Không dùng write-behind (ghi cache trước, đẩy xuống CSDL sau) cho dữ liệu nghiệp vụ.
+- **Distinguish miss from error:** miss means key absent; error means timeout, lost connection, broken deserialize. On miss, load and write back to cache; on error, do not write back, only read the source. Measure these two separately.
+- **Single-flight is the default** and lives in one shared read function (shaped like `remember(key, ttl, loader)`), not rewritten in each path:
+  - Within a process: merge requests for the same key into one promise.
+  - Across instances: `SET NX` lock with TTL, only for keys marked hot. Hot keys are marked in the "Chống dồn tải" column of the database-design cache table, based on frequency in the AP table. Normal keys accept at most one query per instance.
+  - Waiting requests are bounded (e.g. 5 × 50 ms; real threshold derived from the AP's target latency). On timeout, read DB directly, do not return an error; concurrent DB queries are still bounded by the connection pool.
+- **Placement in Repository:** wrap the read repository with a caching layer (decorator) or split out a query repository; both call `remember`. Service keeps its interface and does not know data is cached.
+- **Write paths bypass cache:** functions used by write paths (`findForUpdate`, reads inside a writing transaction) read DB directly. Modifying a cached copy and saving overwrites newer changes (lost update).
+- **Read model:** map results to a dedicated value type before caching. ORM entities lose lazy relations and identity map through serialization.
 
-## 5. Key và TTL
+## 4. Write path and invalidation
 
-- **Định dạng key** theo quy ước của dự án; mặc định `<service>:<module>:<thực thể>:<mã>[:<biến thể>]`. Nhìn key là biết module sở hữu và xoá được theo nhóm.
-- **Version trong key** (`v42:…`) khi đổi cấu trúc value hoặc cần xoá cả nhóm: tăng version là cả nhóm mất hiệu lực.
-- **TTL theo loại dữ liệu**, không dùng một TTL chung. Danh mục, cấu hình: phút đến giờ. Dữ liệu hiển thị: ngắn. Quyền: ngắn.
-- **TTL của L1:** sống lâu hơn một request thì giữ vài giây đến vài chục giây.
-- **Jitter ±10–20%** để các key nạp cùng lúc không hết hạn cùng giây.
-- **Negative caching:** kết quả rỗng hợp lệ (mã không tồn tại) được cache với TTL ngắn.
-- **Xoá theo nhóm:** version prefix hoặc `SCAN` theo lô.
+```
+Transaction commit → delete L2 key → emit invalidation event → every instance deletes L1
+```
 
-## 6. Chống dồn tải
+- **After commit:** attach to the transaction's after-commit hook, or outbox. Deleting before commit lets an interleaved read reload the old value; on rollback the delete was needless.
+- **Delete, do not update.** If two concurrent writes both update the cache, observer order does not follow commit order, and the cache may hold the old value until TTL expires. Deleting lets the next read reload the correct value.
+- **Update only with a version:** the cached value carries a version (or a sufficiently precise `updated_at`); write with a compare-then-write script, writing only when the version is newer. Use for W1 keys (config, catalogs) when you do not want the cache empty after a write.
+- **Read right after write must be correct:** add delayed double delete (delete → write DB → wait a beat → delete again) or versioning. Without it, TTL is the last safety net.
+- **Failed deletes must not be ignored** like failed reads: the old key lives until TTL expires. Retry with a limit; when exhausted, push to a reprocessing queue and log a warning.
+- **L1 invalidation events** have retry or a recovery mechanism. An instance that loses its connection to the event channel clears all of L1 on reconnect. Short L1 TTL is the safety net when events still slip through.
+- **ORM observers do not catch** bulk updates, raw SQL, migrations, imports, jobs, other services writing the same DB: these paths delete keys after commit or emit events themselves.
+- **Aggregate caches in other modules** listen to the owning module's events and delete their own keys.
+- Do not use write-behind (write cache first, flush to DB later) for business data.
 
-| Hiện tượng | Biện pháp mặc định | Thêm khi cần |
+## 5. Key and TTL
+
+- **Key format** per project convention; default `<service>:<module>:<thực thể>:<mã>[:<biến thể>]`. The key shows the owning module and allows group deletion.
+- **Version in key** (`v42:…`) when changing value structure or needing to delete a whole group: bumping the version invalidates the whole group.
+- **TTL by data type**, not one shared TTL. Catalogs, config: minutes to hours. Display data: short. Permissions: short.
+- **L1 TTL:** if it lives longer than one request, keep a few seconds to a few tens of seconds.
+- **Jitter ±10–20%** so keys loaded together do not expire in the same second.
+- **Negative caching:** valid empty results (nonexistent ID) may be cached with a short TTL.
+- **Group deletion:** version prefix or batched `SCAN`.
+
+## 6. Stampede prevention
+
+| Symptom | Default measure | Add when needed |
 | --- | --- | --- |
-| Nhiều key hết hạn cùng lúc (sau deploy, warm-up, xoá nhóm) | Jitter TTL; xoá nhóm bằng version prefix | Warm-up giãn nhịp (`warmup.md`) |
-| Một key bị miss, N request cùng đi CSDL | Single-flight (§3) | Key cực hot: **stale-while-revalidate**. Lưu soft TTL < hard TTL; quá soft TTL thì vẫn trả bản cũ và chỉ một request nạp lại nền. Key hot biết trước: đưa vào W1 của warm-up |
-| Hỏi mã không tồn tại, luôn xuống CSDL | Validate input ở biên; negative caching | Bloom filter, chỉ khi có số liệu về lưu lượng mã rác lớn |
-| Cả tầng cache sập | Fail-open (§7); giới hạn số truy vấn đồng thời xuống CSDL | HA cho cache, circuit breaker, rate limit ở biên, theo NFR sẵn sàng |
+| Many keys expire at once (after deploy, warm-up, group delete) | TTL jitter; group delete via version prefix | Paced warm-up (`warmup.md`) |
+| One key misses, N requests hit DB together | Single-flight (§3) | Extremely hot key: **stale-while-revalidate**. Store soft TTL < hard TTL; past soft TTL still return the old value and only one request reloads in the background. Hot keys known in advance: put in warm-up W1 |
+| Lookups for nonexistent IDs always hit DB | Validate input at the boundary; negative caching | Bloom filter, only with data showing large junk-ID traffic |
+| Whole cache tier down | Fail-open (§7); limit concurrent DB queries | Cache HA, circuit breaker, rate limit at the boundary, per availability NFR |
 
-Chống bán trùng, ghi trùng dùng transaction, khoá ở CSDL hoặc distributed lock riêng, không dùng lock chống dồn tải.
+Preventing double-selling and duplicate writes uses transactions, DB locks, or a separate distributed lock, not the stampede-prevention lock.
 
-## 7. Lỗi và fail-open
+## 7. Errors and fail-open
 
-- Connection pool tới cache có giới hạn.
-- Cache sập thì mọi request đổ xuống CSDL: giới hạn đồng thời (pool, bulkhead) để CSDL không sập theo. Circuit breaker giúp bỏ qua cache ngay thay vì chờ timeout ở từng request.
-- Không phụ thuộc thứ tự xử lý request giữa các instance.
+- Connection pool to the cache is bounded.
+- When the cache is down, all requests fall to DB: limit concurrency (pool, bulkhead) so the DB does not go down too. A circuit breaker helps skip the cache immediately instead of waiting for a timeout per request.
+- Do not depend on request processing order across instances.
 
-## 8. Dữ liệu cá nhân (D3)
+## 8. Personal data (D3)
 
-Điều kiện bắt buộc ở Rule `cache`. Cách đáp ứng:
+Mandatory conditions are in Rule `cache`. How to meet them:
 
-- **Chỉ cache trường cần dùng:** tạo kiểu dữ liệu riêng cho value cache theo màn hình hoặc API dùng nó, không serialize nguyên entity. Màn hình cần tên thì value chỉ có mã và tên.
-- **Key:** `<service>:<module>:<thực thể>:<mã nội bộ>`, cộng mã tenant khi đa tenant. Tra theo email hay số điện thoại thì tra CSDL ra mã nội bộ trước, không tạo key theo email.
-- **TLS và tài khoản:** mỗi service một tài khoản trên cache, chỉ có quyền trên tiền tố key của nó (ACL theo tiền tố nếu công nghệ hỗ trợ). Không dùng mật khẩu chung.
-- **Lưu đĩa:** cache bật snapshot hoặc append log thì đĩa mã hoá, hoặc đặt nhóm key D3 ở instance cache tắt lưu đĩa. Bản sao replica và file sao lưu của cache cũng thuộc phạm vi này.
-- **TTL ngắn:** theo khoảng trễ chấp nhận được, và không dài hơn thời hạn mà yêu cầu xoá phải có hiệu lực.
-- **Xoá theo yêu cầu:** luồng xoá tài khoản gọi xoá mọi key D3 của người đó (liệt kê trong dòng cache ở database-design), kể cả L1 trên mọi instance; test chứng minh sau khi xoá không còn đọc được từ cache.
+- **Cache only needed fields:** create a dedicated type for the cache value per the screen or API using it; do not serialize the whole entity. If a screen needs a name, the value has only ID and name.
+- **Key:** `<service>:<module>:<thực thể>:<mã nội bộ>`, plus tenant ID when multi-tenant. When looking up by email or phone, query DB for the internal ID first; do not build keys from email.
+- **TLS and accounts:** one cache account per service, with permission only on its key prefix (prefix ACL if the technology supports it). Do not use shared passwords.
+- **Disk persistence:** if the cache enables snapshot or append log, encrypt the disk, or put the D3 key group on a cache instance with persistence off. Replicas and cache backup files are also in this scope.
+- **Short TTL:** per the acceptable staleness window, and no longer than the deadline by which deletion requests must take effect.
+- **Delete on request:** the account-deletion flow deletes every D3 key of that person (listed in the database-design cache row), including L1 on every instance; a test proves that after deletion nothing can be read from cache.
 
-## 9. Bẫy
+## 9. Pitfalls
 
-- **Serialize làm mất kiểu:** qua JSON, ngày giờ, số lớn, số thập phân thành chuỗi. Đọc ra phải chuyển lại kiểu, có test.
-- **Value lớn:** giới hạn kích thước value theo trần của dự án; vượt thì chỉ cache phần cần dùng, hoặc nén.
-- **Thiếu `maxmemory` và eviction policy:** cache đầy thì lỗi ghi. Policy chỉ evict key có TTL thì key thiếu TTL không bao giờ bị đẩy ra.
+- **Serialization loses types:** through JSON, datetimes, big numbers, decimals become strings. Convert types back on read, with tests.
+- **Large values:** limit value size per the project ceiling; if exceeded, cache only the needed part, or compress.
+- **Missing `maxmemory` and eviction policy:** a full cache fails writes. A policy that only evicts keys with TTL never evicts keys lacking TTL.
 
-## 10. Đo lường
+## 10. Metrics
 
-Tối thiểu:
+Minimum:
 
-- Hit rate và miss rate của L1, L2.
-- Latency gọi L2 (p95, p99); số lần timeout, lỗi và fail-open.
-- Bộ nhớ đã dùng; eviction rate.
-- Tải CSDL khi miss.
-- Số lần single-flight phải chờ; hot key.
-- Số lần xoá key thất bại; số sự kiện invalidation lỗi và độ trễ.
+- L1, L2 hit rate and miss rate.
+- L2 call latency (p95, p99); count of timeouts, errors, and fail-opens.
+- Memory used; eviction rate.
+- DB load on miss.
+- Count of single-flight waits; hot keys.
+- Count of failed key deletions; count and latency of failed invalidation events.
 
-Không có số đo thì không chứng minh được cache có ích, và không biết khi nào nó hỏng.
+Without metrics you cannot prove the cache helps, nor know when it breaks.
 
-## 11. Ghi vào thiết kế
+## 11. Recording in the design
 
-Mỗi cache là một dòng trong bảng cache của database-design. Ngoài các cột của bảng, ghi thêm:
+Each cache is one row in the database-design cache table. Besides the table columns, also record:
 
-- Khoảng trễ chấp nhận được bằng số, không ghi "ngắn" hay "vài phút".
-- Value chứa D3: cách bảo vệ theo §8.
-- Có warm-up: trigger và ngân sách tải CSDL của nhóm.
+- Acceptable staleness window as a number, not "short" or "a few minutes".
+- Value contains D3: protection per §8.
+- Has warm-up: the group's trigger and DB load budget.

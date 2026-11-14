@@ -1,60 +1,59 @@
-# Warm-up cache
+# Cache warm-up
 
-Mẫu chống dồn tải và hàm nạp dùng chung ở `patterns.md` §3, §6. Phạm vi job chọn lọc: chỉ nạp những key mà thiếu thì request đầu tiên chậm hoặc CSDL bị dội. Mọi key khác để luồng đọc tự nạp khi miss.
+Stampede-prevention patterns and the shared loader are in `patterns.md` §3, §6. The job's scope is selective: load only keys whose absence makes the first request slow or floods the DB. All other keys are loaded by the read path on miss.
 
-## 1. Khi nào chạy
+## 1. When to run
 
-L2 không mất dữ liệu khi deploy lại ứng dụng, nên deploy bình thường **không** cần warm-up lại. Job chạy theo dấu hiệu, không chạy mù mỗi lần deploy:
+L2 does not lose data when the application is redeployed, so a normal deploy does **not** need re-warm-up. The job runs on signals, not blindly on every deploy:
 
-| Trigger | Cách nhận biết |
+| Trigger | How to detect |
 | --- | --- |
-| Cache mất dữ liệu (restart, failover, flush) | Mất key mốc `<service>:cache:epoch`. Job ghi key này sau khi xong tầng 1 |
-| Đổi format của key hoặc value | Tăng version prefix của nhóm, khiến nhóm mới rỗng. Warm-up nhóm mới **trước** khi bản code đọc version mới nhận traffic |
-| Invalidate một nhóm lớn (đổi cấu hình, import hàng loạt) | Sự kiện do module sở hữu phát ra |
-| Trước giờ cao điểm đã biết | Lịch |
-| Refresh-ahead cho tầng 1 | Chạy định kỳ với chu kỳ nhỏ hơn TTL |
+| Cache lost data (restart, failover, flush) | Marker key `<service>:cache:epoch` missing. The job writes this key after finishing tier 1 |
+| Key or value format change | Bump the group's version prefix, leaving the new group empty. Warm up the new group **before** the code reading the new version takes traffic |
+| Invalidating a large group (config change, bulk import) | Event emitted by the owning module |
+| Before known peak hours | Schedule |
+| Refresh-ahead for tier 1 | Run periodically with a period shorter than TTL |
 
-## 2. Phân tầng
+## 2. Tiers
 
-| Tầng | Nội dung | Cách nạp | Chặn mở traffic |
+| Tier | Content | How to load | Blocks opening traffic |
 | --- | --- | --- | --- |
-| W1 · bắt buộc | Key mà hầu hết request đều cần: cấu hình, danh mục, quyền theo vai trò. Số lượng nhỏ, liệt kê được hết | Nạp toàn bộ; refresh-ahead định kỳ | Có, với timeout. Quá hạn thì vẫn mở traffic (fail-open) |
-| W2 · hot | Chi tiết bản ghi, top N theo truy cập thực tế | Chạy nền sau khi mở traffic, có giới hạn tốc độ | Không |
-| Còn lại | — | Luồng đọc tự nạp khi miss | — |
+| W1 · mandatory | Keys nearly every request needs: config, catalogs, role permissions. Small, fully enumerable | Load all; periodic refresh-ahead | Yes, with timeout. On timeout, open traffic anyway (fail-open) |
+| W2 · hot | Record details, top N by actual access | Run in background after opening traffic, rate-limited | No |
+| Rest | — | Read path loads on miss | — |
 
-Không nạp cả CSDL: tốn bộ nhớ, đẩy key hot ra ngoài, và chính job trở thành nguồn dồn tải.
+Do not load the whole DB: it wastes memory, pushes hot keys out, and the job itself becomes a stampede source.
 
-## 3. Quản lý tập key warm-up
+## 3. Managing the warm-up key set
 
-Cần có cơ chế, nhưng là **registry của nhóm** chứ không phải danh sách key ghi cứng. Danh sách cứng sẽ lệch ngay khi dữ liệu thay đổi.
+A mechanism is needed, but it is a **group registry**, not a hard-coded key list. A hard-coded list drifts as soon as data changes.
 
-- **Registry trong code:** mỗi module khai báo nhóm warm-up của mình gồm tên nhóm, tầng, hàm liệt kê mã, hàm nạp, N tối đa, cỡ lô và mức đồng thời.
-  - Hàm liệt kê mã: W1 truy vấn toàn bộ; W2 đọc hot list.
-  - Hàm nạp **là chính hàm của luồng đọc**: cùng key, cùng serializer, cùng TTL.
-  - Module sở hữu dữ liệu sở hữu nhóm warm-up của nó.
-- **Hot list cho W2:**
-  - Lấy mẫu truy cập (vài phần trăm request) và ghi vào sorted set `<service>:<module>:hot:<thực thể>` bằng `ZINCRBY`, chia theo cửa sổ ngày.
-  - Định kỳ cắt còn khoảng 2N phần tử.
-  - Định kỳ snapshot hot list ra nơi lưu bền (CSDL hoặc file). Lý do: cache mất thì hot list mất theo, đúng lúc cần nó nhất.
-  - Chưa có snapshot thì lấy theo nguồn nghiệp vụ (bản ghi được cập nhật hoặc dùng gần đây), hoặc chỉ chạy W1.
-- **Key mốc epoch:** không đặt TTL. Nếu eviction policy xoá mất key này thì job chạy thừa một lần. Việc đó vô hại vì job idempotent.
+- **Registry in code:** each module declares its warm-up groups: group name, tier, ID-listing function, loader, max N, batch size, and concurrency.
+  - ID-listing function: W1 queries everything; W2 reads the hot list.
+  - The loader **is the read path's own function**: same key, same serializer, same TTL.
+  - The module owning the data owns its warm-up group.
+- **Hot list for W2:**
+  - Sample access (a few percent of requests) and record into sorted set `<service>:<module>:hot:<thực thể>` via `ZINCRBY`, split by daily window.
+  - Periodically trim to about 2N elements.
+  - Periodically snapshot the hot list to durable storage (DB or file). Reason: when the cache is lost, the hot list is lost with it, exactly when it is needed most.
+  - No snapshot yet: derive from business sources (recently updated or used records), or run W1 only.
+- **Epoch marker key:** no TTL. If the eviction policy evicts this key, the job runs one extra time. That is harmless because the job is idempotent.
 
-## 4. Luật chạy job
+## 4. Job rules
 
-- **Chỉ một instance chạy:** lock phân tán có TTL và gia hạn định kỳ, hoặc scheduler có dedupe. N instance cùng warm-up là tự gây herd.
-- **Có ngân sách tải CSDL:**
-  - Nạp theo lô, giới hạn đồng thời và chỉ dùng một phần nhỏ connection pool.
-  - Đọc từ bản sao chỉ đọc nếu có.
-  - Khi độ trễ CSDL tăng thì tạm dừng.
-- **Rải thời điểm hết hạn:** key nạp đồng loạt cần TTL rải rộng hơn jitter thường, ví dụ ngẫu nhiên trong khoảng TTL × [0,5; 1]. Nếu không, đúng một TTL sau chúng cùng hết hạn.
-- **Không ghi đè dữ liệu mới hơn:**
-  - W2 chỉ ghi khi key chưa tồn tại (`SET NX`).
-  - Refresh-ahead của W1 ghi đè có so version hoặc timestamp.
-- **Chạy lại được:** lưu checkpoint tiến độ; lỗi giữa chừng thì lần sau chạy tiếp.
-- **Job lỗi:** ghi log và cảnh báo.
-- **Đo:**
-  - Hit ratio trong 5–15 phút đầu sau trigger.
-  - Thời gian chạy W1.
-  - Số key đã nạp và số key lỗi.
-  - Tải CSDL trong lúc job chạy.
-
+- **Only one instance runs:** distributed lock with TTL and periodic renewal, or a scheduler with dedupe. N instances warming up together cause a self-inflicted herd.
+- **Has a DB load budget:**
+  - Load in batches, limit concurrency, and use only a small share of the connection pool.
+  - Read from a read-only replica if available.
+  - Pause when DB latency rises.
+- **Spread expiry times:** bulk-loaded keys need TTL spread wider than normal jitter, e.g. random within TTL × [0.5; 1]. Otherwise they all expire exactly one TTL later.
+- **Do not overwrite newer data:**
+  - W2 writes only when the key does not exist (`SET NX`).
+  - W1 refresh-ahead overwrites with version or timestamp comparison.
+- **Rerunnable:** store progress checkpoints; on failure midway, the next run continues.
+- **Job failure:** log and alert.
+- **Measure:**
+  - Hit ratio in the first 5–15 minutes after the trigger.
+  - W1 run time.
+  - Count of keys loaded and keys failed.
+  - DB load while the job runs.

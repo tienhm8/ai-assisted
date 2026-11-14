@@ -1,42 +1,42 @@
 ---
 name: deployment
-description: Chuẩn bị và kiểm tra phát hành (xác nhận sẵn sàng, soạn lệnh, runbook, kế hoạch rollback, release notes, release report); AI không thực thi trên production, việc thực thi do người có quyền làm sau khi Owner duyệt.
+description: Prepare and check releases (confirm readiness, draft commands, runbook, rollback plan, release notes, release report); AI does not execute on production, execution is done by an authorized person after Owner approval.
 ---
 
 # Deployment Skill
 
-AI chuẩn bị và kiểm tra bản phát hành; người có quyền thực thi. Ngoài production, AI chỉ chạy khi Task cấp quyền rõ ràng.
+AI prepares and checks the release; an authorized person executes. Outside production, AI runs only when the Task explicitly grants permission.
 
-## Cổng vào
+## Entry gate
 
-- Task phát hành nêu phiên bản, môi trường đích, mức rủi ro. Thiếu thì dừng và hỏi.
-- Mọi PR trong bản phát hành đã được người merge vào `develop` hoặc `release/*` và đạt cổng kiểm tra; PR chưa đạt thì loại khỏi danh sách và báo.
-- Tài liệu vận hành (triển khai, giám sát, sao lưu và khôi phục) đã có ở mục cần dùng; còn trống thì dừng và hỏi.
+- The release Task states version, target environment, risk level. If missing, stop and ask.
+- Every PR in the release has been merged by a human into `develop` or `release/*` and passed check gates; exclude PRs that have not passed from the list and report them.
+- Operations docs (deployment, monitoring, backup and restore) exist in the needed sections; if still empty, stop and ask.
 
-Đọc: Task phát hành, danh sách Task/PR đã merge, commit hoặc tag; tài liệu vận hành; migration; báo cáo kiểm thử; RELEASE-REPORT-TEMPLATE.
+Read: release Task, list of merged Tasks/PRs, commits or tags; operations docs; migrations; test reports; RELEASE-REPORT-TEMPLATE.
 
-## Quy trình
+## Procedure
 
-1. **Xác định** môi trường đích và người có quyền thực thi.
-2. **Kiểm tra sẵn sàng:** Task trong phạm vi đã xong, PR đã review và đạt cổng, không còn finding Critical/High mở, kiểm thử đã chạy thật. Cổng nào hỏng thì dừng.
-3. **Cấu hình:** liệt kê **tên** biến môi trường và cấu hình cần có ở môi trường đích. Không đọc, tạo, xoay hay ghi giá trị secret.
-4. **Thứ tự merge và migration:** thứ tự merge khi có migration hoặc hợp đồng API phá vỡ tương thích; thứ tự migration, tương thích khi phiên bản ứng dụng và CSDL chồng nhau, thời gian chạy, nguy cơ khoá bảng, có phá huỷ không, backup trước khi chạy, đường quay lui. Rollback code không tự đảo thay đổi CSDL; ghi rõ cách khôi phục dữ liệu.
-5. **Chuẩn bị thực thi:** soạn lệnh, runbook từng bước và script migration theo cơ chế triển khai đã duyệt; không tự nghĩ lệnh deploy. Lệnh cắt release, đóng release, hotfix lấy từ `references/gitflow-release.md`.
-6. **Release notes** từ các Task đã merge, viết cho người dùng cuối, kèm Task/FR và PR.
-7. **Kế hoạch rollback:** điều kiện kích hoạt, các bước, người quyết, đã thử ngoài production chưa.
-8. **Kiểm chứng:** chạy hồi quy và smoke test ở staging hoặc local. Sau khi người deploy, đối chiếu health check và giám sát theo ngưỡng của dự án; vượt ngưỡng thì đề nghị rollback.
-9. **Điền release report** và ghi bài học; Owner duyệt hoặc hoãn.
+1. **Identify** the target environment and the authorized person who executes.
+2. **Check readiness:** in-scope Tasks are done, PRs reviewed and passed gates, no open Critical/High findings, tests actually run. If any gate fails, stop.
+3. **Configuration:** list the **names** of environment variables and configuration required in the target environment. Do not read, create, rotate or write secret values.
+4. **Merge and migration order:** merge order when there are migrations or backward-incompatible API contracts; migration order, compatibility while app and DB versions overlap, run time, table-lock risk, whether destructive, backup before running, rollback path. Code rollback does not revert DB changes; state clearly how to restore data.
+5. **Prepare execution:** draft commands, a step-by-step runbook and migration scripts per the approved deployment mechanism; do not invent deploy commands. Commands to cut a release, close a release, hotfix come from `references/gitflow-release.md`.
+6. **Release notes** from merged Tasks, written for end users, with Task/FR and PR.
+7. **Rollback plan:** trigger conditions, steps, decision maker, whether tested outside production.
+8. **Verify:** run regression and smoke tests on staging or local. After a human deploys, compare health checks and monitoring against the project's thresholds; if thresholds are exceeded, recommend rollback.
+9. **Fill in the release report** and record lessons; Owner approves or postpones.
 
-Trường hợp đặc biệt:
-- **Hotfix khẩn:** Task riêng, phân tích tối thiểu, vẫn qua `code-review`; hồ sơ bổ sung trong thời hạn dự án khai báo, có người duyệt hotfix.
-- **Chưa có staging, server hoặc CI/CD:** làm ở môi trường thay thế đã khai báo và đề nghị miễn trừ có thời hạn, có người duyệt.
+Special cases (Trường hợp đặc biệt):
+- **Urgent hotfix:** separate Task, minimal analysis, still goes through `code-review`; supplementary records within the project's declared deadline, with a hotfix approver.
+- **No staging, server or CI/CD yet:** work in the declared substitute environment and request a time-limited waiver, with an approver.
 
-## Hoàn thành khi
+## Done when
 
-- Lệnh, runbook, release notes, kế hoạch rollback đã soạn; migration đã đánh giá.
-- Smoke test và hồi quy đã chạy, có output thật.
-- Người có quyền đã xác nhận deploy hoặc Owner đã hoãn; kết quả sau deploy đã ghi vào report.
+- Commands, runbook, release notes, rollback plan are drafted; migrations are assessed.
+- Smoke tests and regression have run, with real output.
+- The authorized person has confirmed the deploy or the Owner has postponed; post-deploy results are recorded in the report.
 
-## Báo cáo
+## Report
 
-Điền RELEASE-REPORT-TEMPLATE. Việc cần người thực hiện ghi trong báo cáo bàn giao của Task kèm mã release report.
+Fill in RELEASE-REPORT-TEMPLATE. Record actions needing a human in the Task's handoff report with the release report ID.

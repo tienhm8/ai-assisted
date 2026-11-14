@@ -1,62 +1,62 @@
 # Database Design – Migration
 
-> Tài liệu tham khảo của Skill `database-design`, dùng ở bước 9–10. Công cụ migration, thư mục, cách đặt tên file lấy theo dự án (database-design §7); file này nêu cách viết migration an toàn, không phụ thuộc công cụ. Cú pháp riêng của hệ quản trị tra ở `postgresql.md` hoặc `mysql-mariadb.md`.
+> Reference for Skill `database-design`, used at steps 9–10. Migration tool, directory and file naming follow the project (database-design §7); this file describes how to write safe migrations, tool-independent. Look up DBMS-specific syntax in `postgresql.md` or `mysql-mariadb.md`.
 
-## 1. Cấu trúc một migration
+## 1. Structure of a migration
 
-- Tên mô tả hành động: `<timestamp>_create_order`, `<timestamp>_add_order_paid_at`, `<timestamp>_backfill_order_paid_at`.
-- Một migration một mục đích; đổi cấu trúc và chuyển dữ liệu tách migration riêng.
-- Có phần lên và phần quay lui. Quay lui làm mất dữ liệu (xoá cột đã có dữ liệu) thì ghi rõ trong migration và trong báo cáo.
-- Đặt tên ràng buộc, index tường minh để quay lui và migration sau tham chiếu được.
-- Không phụ thuộc code ứng dụng (model, ORM) có thể đổi sau này; migration dữ liệu dùng SQL hoặc truy vấn độc lập.
-- Hệ có DDL trong transaction: gói migration trong transaction (trừ lệnh không chạy được trong transaction). Hệ DDL tự commit: mỗi migration chỉ một DDL hoặc viết sao cho chạy lại được (`IF NOT EXISTS`, kiểm tra trước).
+- Name describes the action: `<timestamp>_create_order`, `<timestamp>_add_order_paid_at`, `<timestamp>_backfill_order_paid_at`.
+- One migration, one purpose; structure changes and data migration go in separate migrations.
+- Has an up part and a rollback part. If rollback loses data (dropping a column that has data), state it in the migration and in the report.
+- Name constraints and indexes explicitly so rollbacks and later migrations can reference them.
+- Do not depend on application code (models, ORM) that may change later; data migrations use SQL or standalone queries.
+- DBMS with transactional DDL: wrap the migration in a transaction (except statements that cannot run in a transaction). DBMS with auto-commit DDL: one DDL per migration, or write it to be rerunnable (`IF NOT EXISTS`, pre-checks).
 
-## 2. Mở rộng → chuyển dữ liệu → thu gọn (expand / migrate / contract)
+## 2. Expand → migrate data → contract (expand / migrate / contract)
 
-Thay đổi trên bảng đang dùng chia qua nhiều lần phát hành để phiên bản cũ và mới của ứng dụng cùng chạy được.
+Changes to tables in use are split across several releases so old and new application versions can run together.
 
-| Thay đổi | Lần phát hành 1 (mở rộng) | Lần 2 (chuyển) | Lần 3 (thu gọn) |
+| Change | Release 1 (expand) | Release 2 (migrate) | Release 3 (contract) |
 | --- | --- | --- | --- |
-| Thêm cột bắt buộc | Thêm cột cho phép NULL (hoặc có DEFAULT) | Code ghi cột mới; backfill theo lô | Đặt NOT NULL (cách không khoá lâu: §8 file hệ quản trị) |
-| Đổi tên cột | Thêm cột mới; code ghi cả hai | Backfill; code đọc cột mới | Bỏ cột cũ |
-| Đổi kiểu cột | Thêm cột kiểu mới; ghi cả hai | Backfill; chuyển đọc | Bỏ cột cũ |
-| Tách bảng | Tạo bảng mới; ghi cả hai | Backfill; chuyển đọc | Bỏ cột ở bảng cũ |
-| Xoá cột/bảng | Code ngừng dùng | — | Xoá (sau ít nhất một chu kỳ phát hành) |
+| Add required column | Add nullable column (or with DEFAULT) | Code writes new column; backfill in batches | Set NOT NULL (non-long-locking method: §8 of the DBMS file) |
+| Rename column | Add new column; code writes both | Backfill; code reads new column | Drop old column |
+| Change column type | Add column of new type; write both | Backfill; switch reads | Drop old column |
+| Split table | Create new table; write both | Backfill; switch reads | Drop columns from old table |
+| Drop column/table | Code stops using it | — | Drop (after at least one release cycle) |
 
-## 3. Thao tác và mức khoá
+## 3. Operations and lock levels
 
-Trước khi viết migration trên bảng có dữ liệu, tra mức khoá và cách làm không khoá của từng thao tác ở §8 file hệ quản trị đã chốt. Nguyên tắc chung:
+Before writing a migration on a table with data, look up the lock level and non-locking method of each operation in §8 of the chosen DBMS file. General principles:
 
-- Thêm cột cho phép NULL hoặc DEFAULT hằng thường nhanh; DEFAULT biến đổi (`now()`, hàm) ghi lại toàn bảng.
-- Đổi kiểu cột, đặt NOT NULL thường ghi lại hoặc quét bảng dưới khoá: dùng mở rộng → chuyển → thu gọn (§2), hoặc ràng buộc kiểm sau (thêm chưa kiểm, rồi kiểm) nếu hệ hỗ trợ.
-- Thêm index, UNIQUE, FK trên bảng lớn: dùng chế độ không khoá ghi hoặc công cụ online; dữ liệu trùng làm migration lỗi, kiểm trước.
+- Adding a nullable column or one with a constant DEFAULT is usually fast; a volatile DEFAULT (`now()`, functions) rewrites the whole table.
+- Changing column type or setting NOT NULL usually rewrites or scans the table under lock: use expand → migrate → contract (§2), or deferred-validation constraints (add unvalidated, then validate) if supported.
+- Adding indexes, UNIQUE, FK on large tables: use non-write-blocking mode or online tools; duplicate data fails the migration, check beforehand.
 
-Luôn đặt giới hạn chờ khoá (vài giây) để migration không treo hàng đợi truy vấn. Lỗi do khoá thì thử lại sau, không tăng timeout vô hạn.
+Always set a lock wait timeout (a few seconds) so the migration does not stall the query queue. On lock errors, retry later; do not raise the timeout indefinitely.
 
-## 4. Backfill (chuyển dữ liệu)
+## 4. Backfill (data migration)
 
-- Tách khỏi migration đổi cấu trúc; có thể là job hoặc script chạy riêng.
-- Chạy theo lô theo khoá chính (`WHERE id > ? ORDER BY id LIMIT n`), commit mỗi lô, có điểm dừng nghỉ.
-- Chạy lại được (idempotent): chỉ cập nhật dòng chưa xử lý (`WHERE new_col IS NULL`).
-- Theo dõi độ trễ replica khi có bản sao.
-- Ghi số dòng dự kiến, thời gian ước tính, cách kiểm tra hoàn tất (truy vấn đối soát).
+- Separate from the structure-change migration; may be a job or a separately run script.
+- Run in batches by primary key (`WHERE id > ? ORDER BY id LIMIT n`), commit each batch, with pause points.
+- Rerunnable (idempotent): update only unprocessed rows (`WHERE new_col IS NULL`).
+- Monitor replica lag when replicas exist.
+- Record expected row count, estimated time, how to verify completion (reconciliation query).
 
-## 5. Kiểm chứng trước khi bàn giao
+## 5. Verification before handoff
 
-Chạy trên CSDL không phải production, cùng hệ quản trị và phiên bản (ví dụ container):
+Run on a non-production database with the same DBMS and version (e.g. a container):
 
-1. CSDL sạch: lên toàn bộ → quay lui migration mới → lên lại. Không lỗi, schema sau lần lên thứ hai giống lần đầu.
-2. Schema hiện tại có dữ liệu giả: lên migration mới, chạy backfill, kiểm đối soát.
-3. Ca âm ràng buộc: chèn dữ liệu vi phạm NOT NULL, UNIQUE, CHECK, FK; xác nhận bị từ chối với đúng tên ràng buộc.
-4. EXPLAIN cho AP quan trọng sau khi nạp dữ liệu giả đủ lớn.
-5. So sánh schema dump trước/sau (hoặc diff do công cụ migration sinh) để chắc không có thay đổi ngoài ý muốn.
+1. Clean database: full up → roll back the new migration → up again. No errors; schema after the second up matches the first.
+2. Current schema with fake data: up the new migration, run backfill, check reconciliation.
+3. Constraint negative cases: insert data violating NOT NULL, UNIQUE, CHECK, FK; confirm rejection with the correct constraint name.
+4. EXPLAIN for important APs after loading enough fake data.
+5. Compare schema dumps before/after (or the diff generated by the migration tool) to ensure no unintended changes.
 
-Ghi lệnh và kết quả. Không có môi trường để chạy thì ghi not-run kèm lý do; không khẳng định migration chạy được khi chưa chạy.
+Record commands and results. Without an environment to run in, record not-run with reason; do not claim a migration works before running it.
 
-## 6. Ghi chú triển khai đi kèm migration
+## 6. Deployment notes accompanying a migration
 
-- Thứ tự so với deploy ứng dụng (trước, sau, hay tách nhiều lần phát hành).
-- Mức khoá và thời gian ước tính trên khối lượng production (từ số liệu dự án, không từ dữ liệu thật đưa vào AI).
-- Có cần sao lưu riêng hoặc cửa sổ bảo trì không.
-- Cách quay lui và giới hạn của quay lui (dữ liệu ghi sau migration có bị mất không).
-- Truy vấn kiểm tra sau triển khai.
+- Order relative to application deploy (before, after, or split across several releases).
+- Lock level and estimated time at production volume (from project metrics, not from real data given to the AI).
+- Whether a dedicated backup or maintenance window is needed.
+- Rollback method and its limits (whether data written after the migration is lost).
+- Post-deployment check queries.

@@ -1,45 +1,45 @@
 ---
 name: requirement-analysis
-description: Phân tích nhu cầu nghiệp vụ thành yêu cầu phần mềm có thể truy vết (BRQ, FR, business rules, NFR, acceptance criteria) và ghi vào đúng tài liệu yêu cầu; điểm chưa rõ ghi vào open-questions.
+description: Analyze business needs into traceable software requirements (BRQ, FR, business rules, NFR, acceptance criteria) and write them into the correct requirement documents; unclear points go into open-questions.
 ---
 
 # Requirement Analysis Skill
 
-Biến nhu cầu nghiệp vụ thành yêu cầu rõ ràng, kiểm thử được, truy vết được, đủ cho kiến trúc sư, developer và QA dùng.
+Turn business needs into clear, testable, traceable requirements, sufficient for architects, developers, and QA.
 
-## Cổng vào
+## Entry gate
 
-- Vision và scope đã Approved, hoặc có nguồn từ stakeholder đã duyệt. Chưa có vision, scope thì chuyển `product-discovery`.
+- Vision and scope are Approved, or there is an approved stakeholder source. If vision and scope are missing, switch to `product-discovery`.
 
-Đọc: vision, scope, BRD, FR, business-rules, NFR, acceptance-criteria hiện có; glossary; open-questions; nguồn từ stakeholder.
+Read: existing vision, scope, BRD, FR, business-rules, NFR, acceptance-criteria; glossary; open-questions; stakeholder sources.
 
-## Quy ước
+## Conventions
 
-- Mã: `BRQ-<NN>`, `FR-<MODULE>-<NN>`, `BR-<MODULE>-<NN>`, `NFR-<NN>`, `<FR>-AC<N>`, `OQ-<NN>`.
-- Truy vết một chiều: FR giữ liên kết tới BRQ và BR; AC trỏ tới FR và BR nó kiểm chứng. Không khai báo chiều ngược lại, không lập ma trận truy vết riêng.
+- IDs: `BRQ-<NN>`, `FR-<MODULE>-<NN>`, `BR-<MODULE>-<NN>`, `NFR-<NN>`, `<FR>-AC<N>`, `OQ-<NN>`.
+- One-way traceability: FR holds links to BRQ and BR; AC points to the FR and BR it verifies. Do not declare the reverse direction; do not build a separate traceability matrix.
 
-## Quy trình
+## Procedure
 
-1. **Bối cảnh:** vấn đề, mục tiêu, người dùng, phạm vi và ngoài phạm vi, ràng buộc. Ghi mục tiêu vào BRD.
-2. **Actor:** vai trò, trách nhiệm, quyền; không giả định mọi actor có quyền như nhau.
-3. **FR:** ghi vào bảng FR của `FR/FR-<MODULE>.md`, mỗi FR một câu. Chỉ FR rủi ro cao hoặc mơ hồ mới thêm chi tiết (điều kiện tiên quyết, luồng chính, luồng lỗi) dưới bảng.
-4. **Business rule:** chỉ ghi vào business-rules khi có nguồn đã duyệt, ghi rõ nguồn. Chưa có nguồn thì ghi câu hỏi mở.
-5. **NFR:** mỗi NFR có chỉ số và cách đo; không đo được thì ghi câu hỏi mở.
-6. **AC:** dạng Given / When / Then, kết quả quan sát được; gồm luồng lỗi và giá trị biên.
-7. **Phụ thuộc** giữa FR, module, API, thực thể dữ liệu, dịch vụ ngoài, vai trò: ghi tại FR liên quan.
-8. **Điểm chưa rõ:** mơ hồ, thiếu quyết định, mâu thuẫn, giả định đều ghi vào open-questions; giả định có hạn rà soát.
+1. **Context:** problem, goals, users, scope and out of scope, constraints. Record goals in the BRD.
+2. **Actors:** roles, responsibilities, permissions; do not assume all actors have the same permissions.
+3. **FR:** write into the FR table of `FR/FR-<MODULE>.md`, one sentence per FR. Only high-risk or ambiguous FRs get extra detail (preconditions, main flow, error flows) below the table.
+4. **Business rule:** write into business-rules only with an approved source, stating the source. Without a source, record an open question.
+5. **NFR:** each NFR has a metric and how to measure; if not measurable, record an open question.
+6. **AC:** Given / When / Then form, observable results; include error flows and boundary values.
+7. **Dependencies** between FRs, modules, APIs, data entities, external services, roles: record at the relevant FR.
+8. **Unclear points:** ambiguities, missing decisions, contradictions, assumptions all go into open-questions; assumptions have a review deadline.
 
-## Giới hạn
+## Limits
 
-- Không trộn FR với chi tiết triển khai kỹ thuật.
-- Sửa FR đã Approved phải ghi lịch sử thay đổi (ngày, FR, thay đổi, lý do, người duyệt).
+- Do not mix FRs with technical implementation details.
+- Changing an Approved FR must record change history (date, FR, change, reason, approver).
 
-## Hoàn thành khi
+## Done when
 
-- Mọi FR có nguồn BRQ và có AC; mọi BR có nguồn và có AC.
-- Mọi NFR đo được; mã duy nhất; thuật ngữ khớp glossary.
-- Sẵn sàng chuyển `requirement-review`.
+- Every FR has a BRQ source and AC; every BR has a source and AC.
+- Every NFR is measurable; IDs are unique; terms match the glossary.
+- Ready to move to `requirement-review`.
 
-## Báo cáo
+## Report
 
-Yêu cầu đã tạo hoặc sửa (theo mã và file), BR và nguồn, `OQ-<NN>` mới, giả định và hạn rà soát, mục cần người duyệt. Không lặp nội dung đã nằm trong tài liệu.
+Requirements created or changed (by ID and file), BRs and sources, new `OQ-<NN>`, assumptions and review deadlines, items needing an approver. Do not repeat content already in the documents.
