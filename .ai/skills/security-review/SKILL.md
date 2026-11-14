@@ -25,15 +25,15 @@ Phát hiện lỗ hổng và đánh giá hiệu quả của biện pháp bảo v
 7. **Dependency:** lỗ hổng đã biết, gói hết hỗ trợ, quyền thừa, rủi ro chuỗi cung ứng.
 8. **Cấu hình:** biến môi trường, mức lộ CSDL, CORS, HTTPS, security headers; toàn vẹn pipeline và artifact.
 9. **Đối chiếu OWASP Top 10 và ASVS** theo bảng ánh xạ trong security-standards: mỗi mục ghi áp dụng hay không kèm lý do; mục áp dụng thì đối chiếu chương ASVS tới mức dự án khai báo.
-10. **Chạy bằng chứng thật:** quét secret, quét dependency, test ranh giới quyền (sai vai trò, sai chủ sở hữu, chưa đăng nhập). Công cụ chưa có thì ghi not-run kèm lý do; không suy ra là an toàn.
+10. **Chạy bằng chứng thật:** quét secret, quét dependency, test ranh giới quyền (sai vai trò, sai chủ sở hữu, chưa đăng nhập). Công cụ chưa có thì ghi not-run kèm lý do; not-run không có nghĩa là an toàn.
 11. **Đánh giá finding** theo tác động, khả năng xảy ra, khả năng khai thác. Gắn mã OWASP Top 10 và mã yêu cầu ASVS nếu xác định được.
-12. **Xử lý:** Critical/High tạo bug theo BUG-TEMPLATE và báo Tech Lead, Security. Chưa sửa thì chặn merge, hoặc có ngoại lệ ghi lý do, biện pháp bù, người duyệt và thời hạn. Kiểm lại sau khi sửa.
+12. **Xử lý:** Critical/High tạo bug theo BUG-TEMPLATE và báo Tech Lead, Security. Chưa sửa thì chặn merge, hoặc có ngoại lệ theo security-standards §12 Quản lý ngoại lệ bảo mật. Kiểm lại sau khi sửa.
 
 ## Giới hạn
 
 - Không kiểm thử ngoài phạm vi được phép; không khai thác production.
 - Không kết luận an toàn chỉ nhờ đọc code.
-- Chỉ khuyến nghị; không tự đổi chính sách bảo mật.
+- Không tự đổi chính sách bảo mật.
 
 ## Hoàn thành khi
 

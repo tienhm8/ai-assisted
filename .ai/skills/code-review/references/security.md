@@ -12,6 +12,3 @@ Kiểm nhanh các lỗi hay gặp nhìn thấy được trong diff:
 - Upload: không kiểm loại, kích thước, nội dung, nơi lưu.
 - Gọi URL do người dùng cung cấp (SSRF); đường dẫn file từ input (path traversal).
 - Thiếu giới hạn tần suất ở điểm nhạy cảm (đăng nhập, OTP, đặt lại mật khẩu).
-- Dependency mới có lỗ hổng đã biết hoặc chưa ghi lý do.
-
-Diff chạm xác thực, phân quyền, dữ liệu nhạy cảm hoặc input từ bên ngoài thì kích hoạt `security-review`; không tự làm thay trong skill này.

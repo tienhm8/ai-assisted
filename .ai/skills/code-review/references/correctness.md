@@ -3,7 +3,7 @@
 ## Ưu tiên 1: Code có làm đúng việc không?
 
 - Từng AC được đáp ứng ở đâu trong code; AC nào không thấy chỗ đáp ứng.
-- Ca biên: rỗng, null/không có giá trị, giá trị biên, dữ liệu trùng, danh sách một phần tử, chuỗi rất dài, ký tự đặc biệt.
+- Ca biên và dữ liệu trùng.
 - Chuyển trạng thái: có chặn chuyển trạng thái không hợp lệ không.
 - Xử lý lỗi: không nuốt lỗi; lỗi được phân loại theo error-handling; thông báo lỗi không lộ chi tiết nội bộ.
 - Kiểu dữ liệu: tiền và số cần chính xác không dùng số dấu phẩy động; múi giờ và định dạng thời gian nhất quán; làm tròn đúng quy tắc nghiệp vụ.
@@ -12,11 +12,8 @@
 
 ## Ưu tiên 2: Có test chứng minh không?
 
-- Mỗi AC có test truy vết (tên/chú thích mang ID AC) và output test thật. AC không có bằng chứng là finding High.
-- Sửa lỗi có regression test đỏ trước, xanh sau.
-- Có test cho ca lỗi, ca biên và ca bị từ chối quyền, không chỉ đường đi thành công.
+- Đối chiếu test trong diff với `testing-rules` 1–5; mỗi AC có output test thật.
 - Test kiểm hành vi, không kiểm chi tiết cài đặt; không có assertion rỗng hoặc chỉ kiểm "không ném lỗi".
-- Không test bị xoá, bỏ qua hoặc làm yếu để qua cổng.
 
 ## Ưu tiên 3: Code có đặt đúng chỗ không?
 
