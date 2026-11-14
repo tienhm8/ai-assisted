@@ -2,10 +2,10 @@
 
 | Thuộc tính | Giá trị |
 | --- | --- |
-| Trạng thái | Approved |
+| Trạng thái | Draft |
 | Người phụ trách |  |
 | Người duyệt (dự án) | Kiến trúc sư |
-| Phiên bản · Ngày | 0.1 ·  |
+| Phiên bản · Ngày |  |
 | Tài liệu liên quan | system-architecture.md, database-design.md, api-design.md, ../01-requirements/FR/, ../01-requirements/business-rules.md, ../03-engineering/error-handling.md, ADR/, ../../.ai/rules/architecture-rules.md, ../../.ai/skills/backend-development/SKILL.md |
 
 > **Mục đích.** Module Architecture: chia module, trách nhiệm, API nội bộ và chiều phụ thuộc.

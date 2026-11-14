@@ -2,10 +2,10 @@
 
 | Thuộc tính | Giá trị |
 | --- | --- |
-| Trạng thái | Approved |
+| Trạng thái | Draft |
 | Người phụ trách |  |
 | Người duyệt (dự án) | Kiến trúc sư |
-| Phiên bản · Ngày | 0.1 ·  |
+| Phiên bản · Ngày |  |
 | Tài liệu liên quan | module-design.md, database-design.md, api-design.md, ADR/, ../00-project-overview/vision.md, ../00-project-overview/scope.md, ../00-project-overview/open-questions.md, ../01-requirements/NFR.md, ../03-engineering/security-standards.md, ../03-engineering/error-handling.md, ../05-operations/monitoring.md, ../05-operations/deployment.md, ../../.ai/rules/architecture-rules.md, ../../.ai/skills/architecture-design/SKILL.md |
 
 > **Mục đích.** Kiến trúc tổng thể, ranh giới, chiều phụ thuộc, tích hợp ngoài, thiết kế Authentication & Authorization. Người quyết và điều kiện sẵn sàng build: xem [README](README.md).

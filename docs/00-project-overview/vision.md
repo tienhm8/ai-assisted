@@ -2,10 +2,10 @@
 
 | Thuộc tính | Giá trị |
 | --- | --- |
-| Trạng thái | Approved |
+| Trạng thái | Draft |
 | Người phụ trách |  |
 | Người duyệt (dự án) | PO |
-| Phiên bản · Ngày | 0.1 ·  |
+| Phiên bản · Ngày |  |
 | Tài liệu liên quan | scope.md, glossary.md, open-questions.md, ../01-requirements/BRD.md |
 
 > **Mục đích.** Dự án giải quyết vấn đề gì, dành cho ai, đầu ra giai đoạn 1.

@@ -2,10 +2,10 @@
 
 | Thuộc tính | Giá trị |
 | --- | --- |
-| Trạng thái | Approved |
+| Trạng thái | Draft |
 | Người phụ trách |  |
 | Người duyệt (dự án) | PO |
-| Phiên bản · Ngày | 0.1 ·  |
+| Phiên bản · Ngày |  |
 | Tài liệu liên quan | vision.md, scope.md, ../01-requirements/ |
 
 > **Mục đích.** Nơi duy nhất ghi câu hỏi mở và giả định của dự án; các tài liệu khác chỉ trỏ tới mã `OQ-<NN>`. AI gặp điểm chưa rõ thì ghi vào đây, không tự trả lời hay triển khai theo phỏng đoán.

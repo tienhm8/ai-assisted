@@ -2,10 +2,10 @@
 
 | Thuộc tính | Giá trị |
 | --- | --- |
-| Trạng thái | Approved |
+| Trạng thái | Draft |
 | Người phụ trách |  |
 | Người duyệt (dự án) | Owner |
-| Phiên bản · Ngày | 0.1 ·  |
+| Phiên bản · Ngày |  |
 | Tài liệu liên quan | deployment.md, backup-recovery.md, ../01-requirements/NFR.md, ../02-architecture/system-architecture.md, ../03-engineering/error-handling.md, ../03-engineering/security-standards.md, ../../.ai/workflows/release-workflow.md |
 
 > **Mục đích.** Giám sát, log, cảnh báo và ngưỡng sự cố.

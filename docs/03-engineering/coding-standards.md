@@ -2,10 +2,10 @@
 
 | Thuộc tính | Giá trị |
 | --- | --- |
-| Trạng thái | Approved |
+| Trạng thái | Draft |
 | Người phụ trách |  |
 | Người duyệt (dự án) | Tech Lead |
-| Phiên bản · Ngày | 0.1 ·  |
+| Phiên bản · Ngày |  |
 | Tài liệu liên quan | security-standards.md, error-handling.md, testing-strategy.md, ../02-architecture/system-architecture.md, ../02-architecture/module-design.md, ../../.ai/rules/coding-rules.md |
 
 > **Mục đích.** Convention code của dự án: cấu trúc source code, naming, format, lint, thực hành lập trình, ngưỡng review. Cụ thể hoá các quy tắc ở [.ai/rules/coding-rules.md](../../.ai/rules/coding-rules.md), không trái chúng.

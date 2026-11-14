@@ -2,7 +2,7 @@
 
 | Thuộc tính | Giá trị |
 | --- | --- |
-| Trạng thái | Approved |
+| Trạng thái | Draft |
 | Người duyệt (dự án) | Tech Lead |
 | Tài liệu liên quan | ../../.ai/rules/project-rules.md, ../../PROJECT.md §2, ../04-project-management/gates-and-rigor.md |
 

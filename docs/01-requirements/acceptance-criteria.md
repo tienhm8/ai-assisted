@@ -2,10 +2,10 @@
 
 | Thuộc tính | Giá trị |
 | --- | --- |
-| Trạng thái | Approved |
+| Trạng thái | Draft |
 | Người phụ trách |  |
 | Người duyệt (dự án) | PO/BA |
-| Phiên bản · Ngày | 0.1 ·  |
+| Phiên bản · Ngày |  |
 | Tài liệu liên quan | FR/, business-rules.md, ../03-engineering/testing-strategy.md, ../../.ai/rules/testing-rules.md, ../../.ai/skills/requirement-analysis/SKILL.md |
 
 > **Mục đích.** Định nghĩa "làm xong" của từng FR: các điều kiện cụ thể để kiểm thử và nghiệm thu.

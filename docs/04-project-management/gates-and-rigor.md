@@ -2,7 +2,7 @@
 
 | Thuộc tính | Giá trị |
 | --- | --- |
-| Trạng thái | Approved |
+| Trạng thái | Draft |
 | Người duyệt (dự án) | Tech Lead |
 | Tài liệu liên quan | ../../README.md, ../../PROJECT.md §4, task-breakdown.md |
 
@@ -44,9 +44,9 @@ S1–S3 áp dụng cho toàn dự án. Bảng dưới chỉ mang tính định h
 | Dự án nhỏ, ít rủi ro | S1 | Tối đa 3 người, tối đa 3 tháng |
 
 ## 3. Áp dụng khung vào dự án
-Tài liệu trong `docs/` là mẫu dùng chung. Trạng thái và phiên bản ghi trong repo khung là của mẫu, do Tech Lead duyệt; dòng "Người duyệt (dự án)" là người duyệt nội dung khi áp vào dự án.
+Tài liệu trong `docs/` là mẫu dùng chung và luôn ở trạng thái `Draft`, không ghi phiên bản, ngày. Việc Tech Lead duyệt mẫu ghi bằng PR có người duyệt trong repo khung, không ghi vào dòng Trạng thái. Dòng "Người duyệt (dự án)" là người duyệt nội dung khi áp vào dự án.
 
-- Khi áp vào dự án, mọi tài liệu nội dung chuyển về `Draft`, xoá phiên bản và ngày của mẫu. Mẫu `Approved` không phải bằng chứng qua cổng G1–G7.
+- Chỉ người duyệt của dự án chuyển một tài liệu sang `Approved`, sau khi nội dung dự án đã điền. Repo khung không chứa tài liệu `Approved` nào trong `docs/`.
 - Lịch sử thay đổi là lịch sử git và PR có người duyệt. Bảng "Lịch sử thay đổi" trong file chỉ bắt buộc ở `00-project-overview` và `01-requirements` (nội dung nghiệp vụ, người duyệt không dùng git).
 - Dòng mẫu trong bảng dùng mã dạng `<...>` (ví dụ `FR-<MODULE>-<NN>`); thay bằng mã thật hoặc xoá, không giữ làm dữ liệu.
 - Nội dung trong `docs/` thuộc một trong hai loại:

@@ -2,10 +2,10 @@
 
 | Thuộc tính | Giá trị |
 | --- | --- |
-| Trạng thái | Approved |
+| Trạng thái | Draft |
 | Người phụ trách |  |
 | Người duyệt (dự án) | Owner |
-| Phiên bản · Ngày | 0.1 ·  |
+| Phiên bản · Ngày |  |
 | Tài liệu liên quan | monitoring.md, backup-recovery.md, ../02-architecture/system-architecture.md, ../02-architecture/database-design.md, ../01-requirements/NFR.md, ../../.ai/workflows/release-workflow.md, ../../.ai/skills/deployment/SKILL.md |
 
 > **Mục đích.** Triển khai hệ thống: môi trường, CI/CD, phát hành, rollback. **Người quyết phát hành: Owner (tham khảo Tech Lead).** Điều kiện: cổng G7 ở [gates-and-rigor](../04-project-management/gates-and-rigor.md) §1.

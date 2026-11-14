@@ -2,10 +2,10 @@
 
 | Thuộc tính | Giá trị |
 | --- | --- |
-| Trạng thái | Approved |
+| Trạng thái | Draft |
 | Người phụ trách |  |
 | Người duyệt (dự án) | PO/BA |
-| Phiên bản · Ngày | 0.1 ·  |
+| Phiên bản · Ngày |  |
 | Tài liệu liên quan | ../03-engineering/security-standards.md, ../05-operations/monitoring.md, ../../.ai/skills/requirement-review/SKILL.md |
 
 > **Mục đích.** Yêu cầu phi chức năng đo được: hiệu năng, bảo mật, sẵn sàng, khả năng bảo trì, tuân thủ. Mã: NFR-<NN>.

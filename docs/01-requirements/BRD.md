@@ -2,10 +2,10 @@
 
 | Thuộc tính | Giá trị |
 | --- | --- |
-| Trạng thái | Approved |
+| Trạng thái | Draft |
 | Người phụ trách |  |
 | Người duyệt (dự án) | PO/BA |
-| Phiên bản · Ngày | 0.1 ·  |
+| Phiên bản · Ngày |  |
 | Tài liệu liên quan | ../00-project-overview/vision.md, FR/, NFR.md, business-rules.md, ../../.ai/skills/requirement-review/SKILL.md |
 
 > **Mục đích.** Yêu cầu nghiệp vụ ở mức mục tiêu và giá trị để suy ra FR/NFR.

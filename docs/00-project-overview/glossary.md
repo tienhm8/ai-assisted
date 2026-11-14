@@ -2,10 +2,10 @@
 
 | Thuộc tính | Giá trị |
 | --- | --- |
-| Trạng thái | Approved |
+| Trạng thái | Draft |
 | Người phụ trách |  |
 | Người duyệt (dự án) | PO (§2 Thuật ngữ nghiệp vụ dự án) |
-| Phiên bản · Ngày | 0.1 ·  |
+| Phiên bản · Ngày |  |
 | Tài liệu liên quan | vision.md, scope.md, ../../README.md |
 
 > **Mục đích.** Thuật ngữ dùng thống nhất cho người và AI. AI không tự đặt nghĩa mới.

@@ -2,10 +2,10 @@
 
 | Thuộc tính | Giá trị |
 | --- | --- |
-| Trạng thái | Approved |
+| Trạng thái | Draft |
 | Người phụ trách |  |
 | Người duyệt (dự án) | Tech Lead |
-| Phiên bản · Ngày | 0.1 ·  |
+| Phiên bản · Ngày |  |
 | Tài liệu liên quan | ../01-requirements/acceptance-criteria.md, ../01-requirements/NFR.md, coding-standards.md, security-standards.md, error-handling.md, ../05-operations/deployment.md, ../../.ai/skills/unit-testing/SKILL.md, ../../.ai/skills/integration-testing/SKILL.md, ../../.ai/skills/e2e-testing/SKILL.md |
 
 > **Mục đích.** Chiến lược kiểm thử và cổng chất lượng tự động: mục tiêu, phạm vi, các tầng test, thiết kế test, dữ liệu test, tự động hoá, quality gate, Definition of Done. Test ghi ID AC.

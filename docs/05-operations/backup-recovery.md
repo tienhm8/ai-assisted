@@ -2,10 +2,10 @@
 
 | Thuộc tính | Giá trị |
 | --- | --- |
-| Trạng thái | Approved |
+| Trạng thái | Draft |
 | Người phụ trách |  |
 | Người duyệt (dự án) | Owner |
-| Phiên bản · Ngày | 0.1 ·  |
+| Phiên bản · Ngày |  |
 | Tài liệu liên quan | deployment.md, monitoring.md, ../01-requirements/NFR.md, ../02-architecture/database-design.md, ../03-engineering/security-standards.md, ../../.ai/rules/database-rules.md, ../../.ai/workflows/release-workflow.md |
 
 > **Mục đích.** Sao lưu, khôi phục, RPO/RTO, diễn tập.

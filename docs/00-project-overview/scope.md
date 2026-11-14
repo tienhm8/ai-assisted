@@ -2,10 +2,10 @@
 
 | Thuộc tính | Giá trị |
 | --- | --- |
-| Trạng thái | Approved |
+| Trạng thái | Draft |
 | Người phụ trách |  |
 | Người duyệt (dự án) | PO |
-| Phiên bản · Ngày | 0.1 ·  |
+| Phiên bản · Ngày |  |
 | Tài liệu liên quan | vision.md, open-questions.md, ../01-requirements/BRD.md |
 
 > **Mục đích.** Ranh giới dự án: trong phạm vi, ngoài phạm vi, ràng buộc; câu hỏi mở ghi ở [open-questions.md](open-questions.md).

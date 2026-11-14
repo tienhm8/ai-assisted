@@ -2,10 +2,10 @@
 
 | Thuộc tính | Giá trị |
 | --- | --- |
-| Trạng thái | Approved |
+| Trạng thái | Draft |
 | Người phụ trách |  |
 | Người duyệt (dự án) | Tech Lead (PO quyết ưu tiên) |
-| Phiên bản · Ngày | 0.2 ·  |
+| Phiên bản · Ngày |  |
 | Tài liệu liên quan | roadmap.md, task-breakdown.md, ../01-requirements/FR/, ../01-requirements/business-rules.md |
 
 > **Mục đích.** Danh sách việc chờ, ưu tiên. Task có ID theo công cụ quản lý việc (<KEY>-<N>). Backlog chỉ liệt kê và xếp thứ tự; Objective, Scope, AC chi tiết của từng Task nằm ở [task-breakdown](task-breakdown.md), không chép vào đây.
