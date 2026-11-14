@@ -15,16 +15,14 @@ Sửa đúng nguyên nhân gốc của lỗi (sai khác so với yêu cầu và 
 
 ## Quy trình
 
-1. **Xác định yêu cầu bị vi phạm.** AC thiếu, mơ hồ hoặc tài liệu mâu thuẫn: dừng, ghi câu hỏi mở và chuyển `requirement-review`. Lỗi do yêu cầu sai thì không sửa ở đây.
+1. **Xác định yêu cầu bị vi phạm.** AC thiếu, mơ hồ hoặc tài liệu mâu thuẫn: dừng, ghi câu hỏi mở và báo. Lỗi do yêu cầu sai thì không sửa ở đây.
 2. **Tái hiện** ở local hoặc staging; che dữ liệu nhạy cảm. Không tái hiện được thì nói rõ, không tuyên bố đã tái hiện.
 3. **Tìm nguyên nhân gốc**, phân biệt với triệu chứng. Không xác lập được thì dừng và báo.
 4. **Đánh giá tác động:** module, vai trò, dữ liệu, bảo mật, hồi quy. Cần sửa dữ liệu production thì tách Task riêng, có duyệt.
 5. **Đề xuất sửa:** nguyên nhân, cách sửa, file, rủi ro, test. Chờ duyệt trước khi sửa nếu Task R3, mức tự chủ A2, hoặc đụng phân quyền, kiến trúc, schema, contract.
-6. **Viết test hồi quy** bằng `unit-testing` hoặc `integration-testing`; chạy thấy đỏ trước khi sửa.
+6. **Viết test hồi quy** ở tầng thấp nhất tái hiện được lỗi; chạy thấy đỏ trước khi sửa.
 7. **Sửa tối thiểu** đúng nguyên nhân gốc; không refactor kèm.
 8. **Chạy** test hồi quy (phải xanh), cổng kiểm tra của dự án và hồi quy liên quan.
-
-Lỗi Critical trên production: hotfix là Task riêng, vẫn qua `code-review`.
 
 ## Giới hạn
 

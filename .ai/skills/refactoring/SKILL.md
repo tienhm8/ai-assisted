@@ -19,9 +19,9 @@ Plan thiếu thì tra đúng mục, không đọc cả file: module-design §3 P
 ## Quy trình
 
 1. **Hiểu hành vi hiện tại:** giao diện công khai, quy tắc nghiệp vụ, phụ thuộc, vùng đã có test.
-2. **Baseline:** chạy test liên quan và ghi lại lỗi có sẵn. Chỗ chưa có test thì bổ sung test mô tả hành vi hiện tại bằng `unit-testing`.
+2. **Baseline:** lấy kết quả test trước refactor trong plan; chưa có thì chạy test liên quan và ghi lại lỗi có sẵn. Chỗ chưa có test thì bổ sung test mô tả hành vi hiện tại trước khi sửa.
 3. **Chọn mục tiêu:** chỉ những vấn đề ảnh hưởng tới Task (lặp, hàm hoặc lớp quá lớn, điều kiện rối, phụ thuộc chặt hoặc vòng, tên khó hiểu, khó test).
-4. **Kiểm ràng buộc:** cần đổi schema, contract, API, ranh giới module thì dừng xin duyệt và chuyển Skill tương ứng.
+4. **Kiểm ràng buộc:** cần đổi schema, contract, API, ranh giới module thì dừng và báo.
 5. **Refactor từng bước nhỏ**, chạy test sau mỗi bước.
 6. **So với baseline:** đầu vào/ra, lỗi, quyền truy cập, thứ tự side effect không đổi.
 

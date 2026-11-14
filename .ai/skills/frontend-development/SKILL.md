@@ -1,6 +1,6 @@
 ---
 name: frontend-development
-description: Cài đặt trang, component, form, state và tích hợp API ở frontend theo yêu cầu Approved, thiết kế UI/UX và API contract, kèm test và báo cáo bàn giao.
+description: Cài đặt trang, component, form, state và tích hợp API ở frontend theo yêu cầu Approved, thiết kế UI/UX và API contract, kèm danh sách ca cần test và báo cáo bàn giao.
 ---
 
 # Frontend Development Skill
@@ -9,10 +9,7 @@ Hiện thực giao diện đúng FR/AC, thiết kế UI/UX và API contract; x�
 
 ## Cổng vào
 
-Thiếu một điều kiện thì dừng và ghi câu hỏi mở:
-- FR có AC đã duyệt.
-- Tài liệu UI/UX và Design System của dự án.
-- API contract Approved trong api-design. Chỉ chạy song song với `api-development` khi contract đã Approved.
+Ngoài `project-rules` 2, cần: tài liệu UI/UX và Design System của dự án; API contract trong api-design.
 
 Nguồn chính: plan; tài liệu UI/UX và Design System phần màn hình liên quan; mã frontend hiện có.
 Plan thiếu thì tra đúng mục, không đọc cả file: api-design §1.2 Chi tiết API (endpoint liên quan), §3.2 Quy ước chung; system-architecture §3.3 Các tầng và trách nhiệm; coding-standards §4 Naming Convention, §11.2 Frontend; security-standards §5 Kiểm tra đầu vào, §6.3 Che dữ liệu (masking).
@@ -26,7 +23,7 @@ Plan thiếu thì tra đúng mục, không đọc cả file: api-design §1.2 Ch
 5. **Tích hợp API** đúng contract; xử lý lỗi HTTP, mất mạng, đang tải.
 6. **Quyền hiển thị** lấy từ backend hoặc session. Ẩn UI không phải kiểm quyền. Xử lý phiên hết hạn và phản hồi bị từ chối.
 7. **Truy cập và đáp ứng** theo Design System.
-8. **Test** bằng `unit-testing` (component, form) và `e2e-testing` (luồng chính theo AC).
+8. **Ca cần test:** ghi vào plan §5, tầng unit (component, form) và e2e (luồng chính theo AC).
 
 ## Giới hạn
 
@@ -37,7 +34,7 @@ Plan thiếu thì tra đúng mục, không đọc cả file: api-design §1.2 Ch
 ## Hoàn thành khi
 
 - Giao diện khớp UI/UX và từng AC; trạng thái tải, lỗi, rỗng đều có.
-- Test đã chạy, có output thật.
+- Ca cần test ở bước 8 đã ghi vào plan.
 
 ## Báo cáo
 

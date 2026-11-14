@@ -24,7 +24,7 @@ Hiểu điều gì đã xảy ra, vì sao và ảnh hưởng ra sao, từ dữ l
 5. **Đề xuất hành động tức thời** (rollback hay hotfix) theo deployment và backup-recovery; người quyết.
 6. **Đề xuất phòng ngừa:** test, giám sát, cảnh báo, runbook còn thiếu.
 7. **Tạo bug** theo BUG-TEMPLATE cho mỗi lỗi.
-8. **Chuyển tiếp:** `bug-fixing`; `security-review` nếu liên quan bảo mật; `documentation` cho runbook; `continuous-improvement`.
+8. **Đề xuất Task tiếp theo** cho người quyết: sửa lỗi (T3) cho mỗi bug; kiểm tra bảo mật (T10) nếu liên quan bảo mật; cập nhật runbook (T12).
 
 ## Giới hạn
 
