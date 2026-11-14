@@ -13,6 +13,7 @@ project/
 ├── README.md                    bản đồ của repo
 ├── PROJECT.md                   [04] khai báo giá trị riêng của dự án (mức tự chủ, vùng, dữ liệu, S, vai trò, miễn trừ)
 ├── AGENTS.md                    điểm vào cho AI, chỉ trỏ về .ai/
+├── project/                     mã nguồn các repo con; mỗi repo tự commit, repo cha không theo dõi (.gitignore)
 │
 ├── docs/                        hồ sơ dự án cho cả người và AI; người không dùng AI chỉ đọc docs/
 │   ├── 00-project-overview/     [01] làm gì, cho ai, ranh giới ở đâu?
