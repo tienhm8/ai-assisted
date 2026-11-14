@@ -133,6 +133,7 @@ Không được chỉ kiểm tra trường hợp người dùng có quyền truy
 | Kiểm tra kiểu | Nếu ngôn ngữ hỗ trợ, bật chế độ nghiêm ngặt | Có lỗi |
 | Unit test + coverage | Ngưỡng theo module/rủi ro | Fail hoặc dưới ngưỡng |
 | Integration/E2E | Theo rủi ro | Test bắt buộc fail |
+| Commit message | Mọi commit, chạy ở hook `commit-msg` | Sai cú pháp Angular ([git-workflow-rules](../../.ai/rules/git-workflow-rules.md) mục 3) |
 | Secret scanning | Mọi commit | Phát hiện secret |
 | Dependency/SCA, license | Khi đổi dependency | Lỗ hổng high/critical, license cấm |
 | SAST | Mức nghiêm ngặt S2 trở lên | Phát hiện high |
@@ -151,7 +152,7 @@ Không được chỉ kiểm tra trường hợp người dùng có quyền truy
 
 **Review theo rủi ro.** Mức R1–R3; định nghĩa R1–R3 ở [project-rules](../../.ai/rules/project-rules.md) (Thang dùng chung), cách review ở Skill [code-review](../../.ai/skills/code-review/SKILL.md). R3 cần hai người, một người độc lập; nếu thiếu người thì ghi miễn trừ.
 
-**Ví dụ chọn công cụ** (không bắt buộc, trừ E2E dùng Playwright cho mọi dự án): dự án TypeScript dùng ESLint + Prettier, `tsc --strict`, Vitest/Jest, gitleaks, `npm audit`; dự án Python dùng ruff, mypy, pytest.
+**Ví dụ chọn công cụ** (không bắt buộc, trừ E2E dùng Playwright cho mọi dự án): kiểm tra commit message dùng commitlint ở hook `commit-msg` của husky; dự án TypeScript dùng ESLint + Prettier, `tsc --strict`, Vitest/Jest, gitleaks, `npm audit`; dự án Python dùng ruff, mypy, pytest.
 
 ## 10. Môi trường test
 Các môi trường dùng để test (local, CI, staging), cấu hình, dữ liệu và cách tạo/huỷ. Môi trường triển khai ở [deployment](../05-operations/deployment.md).
