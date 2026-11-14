@@ -14,6 +14,14 @@ Besides `project-rules` 2, required: related business rules; design including mo
 Primary sources: plan; existing backend code.
 If the plan lacks something, look up the exact section, do not read the whole file: module-design §3 Phụ thuộc giữa các module, §5 Ranh giới và quyền sở hữu; system-architecture §3.3 Các tầng và trách nhiệm; database-design §6 Transaction và đồng thời; api-design §1.2 Chi tiết API (related endpoints), §2 Integration Specification; error-handling §3 Mã lỗi, §4 Xử lý exception, §7 Logging, §8 Retry, timeout, fallback, §9 Transaction và nhất quán dữ liệu; security-standards §4 Authorization, §5 Kiểm tra đầu vào, §9 Logging và Audit.
 
+## References
+
+Load only the file of the framework the backend uses, and read only the listed sections.
+
+| File in `references/` | Load at step |
+| --- | --- |
+| `nestjs.md` (NestJS only) | Step 2: §1 · Step 3: §1, §2 · Step 4: §3, §5, §6 · Step 5: §4 · Step 8: §7 |
+
 ## Procedure
 
 1. **Analyze:** business operations, actors, preconditions, constraints, state transitions, error scenarios.
