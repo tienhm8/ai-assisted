@@ -13,7 +13,7 @@
 | testing | Sửa code, viết hoặc chạy test, hoặc phải báo kết quả kiểm tra |
 | architecture | Thiết kế; chạm ranh giới module, tầng, API contract; thêm module hoặc dependency; ảnh hưởng NFR |
 | database | Chạm schema, migration, query, transaction, seed hoặc dữ liệu test trong CSDL, xoá dữ liệu |
-| cache | Thêm, sửa, đọc cache; đổi dữ liệu đang được cache |
+| cache | Thêm cache; sửa hàm đọc có cache (tham số, trường trả về, lọc tenant/quyền, kiểu dữ liệu); thêm hoặc sửa đường ghi (repository, update hàng loạt, SQL thô, migration, import, job) vào bảng có trong database-design §3.7 |
 | document-database | Đã nạp `database` và hệ quản trị là CSDL tài liệu (MongoDB, NoSQL) |
 | security | Task R3; chạm xác thực, phiên, phân quyền; dữ liệu D2/D3; input từ ngoài, upload; tích hợp bên thứ ba; thêm hoặc đổi dependency; secret, cấu hình bảo mật; phát hành |
 
@@ -29,5 +29,5 @@ Rule đã thoả điều kiện thì không bỏ, kể cả Task R1; mức rủi
 | e2e-testing | Có hành trình người dùng quan trọng hoặc đổi luồng nhiều màn hình |
 | security-review | Thoả điều kiện Rule `security` ở §1. Bắt buộc với Task R3 |
 | documentation | Đổi hành vi, API, schema, kiến trúc hoặc cách vận hành |
-| caching | Thoả điều kiện Rule `cache` ở §1 và Task thêm, sửa cache hoặc thêm đường ghi vào dữ liệu đang được cache |
+| caching | Thoả điều kiện Rule `cache` ở §1, trừ khi chỉ sửa đường ghi đã có mà không đổi tập dữ liệu nó chạm tới |
 | architecture-design (soạn ADR) | Thiết kế dữ liệu cần partition, sharding, tách CSDL, đổi hệ quản trị hoặc chọn mẫu đa tenant |

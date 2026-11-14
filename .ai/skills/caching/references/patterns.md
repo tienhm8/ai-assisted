@@ -43,7 +43,9 @@ L2 lỗi           → bỏ qua cache → đọc CSDL → trả; ghi log, đếm
   - Trong một process: gộp các request cùng key vào một promise.
   - Giữa các instance: lock `SET NX` có TTL, chỉ cho key được đánh dấu hot. Key hot đánh dấu ở cột "Chống dồn tải" của bảng cache trong database-design, dựa trên tần suất ở bảng AP. Key thường chấp nhận tối đa một truy vấn mỗi instance.
   - Request chờ có giới hạn (vd 5 × 50 ms; ngưỡng thật tính theo độ trễ mục tiêu của AP). Hết hạn thì tự đọc CSDL, không trả lỗi; số truy vấn đồng thời xuống CSDL vẫn bị giới hạn bởi connection pool.
-- Dự án đã có hàm đọc cache dùng chung thì dùng lại, không tạo hàm thứ hai.
+- **Vị trí trong Repository:** bọc repository đọc bằng một lớp có cache (decorator) hoặc tách query repository; cả hai gọi `remember`. Service giữ nguyên interface, không biết dữ liệu có cache.
+- **Luồng ghi bỏ qua cache:** hàm dùng cho luồng ghi (`findForUpdate`, đọc trong transaction đang ghi) đọc thẳng CSDL. Sửa trên bản cache rồi lưu là ghi đè thay đổi mới hơn (lost update).
+- **Read model:** ánh xạ kết quả sang kiểu riêng cho value rồi mới cache. Entity ORM qua serialize mất quan hệ lazy và identity map.
 
 ## 4. Luồng ghi và invalidation
 
@@ -57,20 +59,19 @@ Transaction commit → xoá key L2 → phát sự kiện invalidation → mọi 
 - **Đọc ngay sau ghi phải đúng:** thêm xoá kép trễ (xoá → ghi CSDL → đợi một nhịp → xoá lại) hoặc version. Không có thì TTL là lưới an toàn cuối.
 - **Xoá thất bại không được bỏ qua** như đọc thất bại: key cũ sẽ sống tới hết TTL. Retry có giới hạn; hết lượt thì đẩy vào hàng đợi xử lý lại và ghi log cảnh báo.
 - **Sự kiện invalidation L1** có retry hoặc cơ chế phục hồi. Instance mất kết nối tới kênh sự kiện thì xoá sạch L1 khi kết nối lại. TTL ngắn của L1 là lưới an toàn khi sự kiện vẫn lọt.
-- **Mọi đường ghi phải đi qua tầng truy cập dữ liệu hoặc tự phát sự kiện:** update hàng loạt, SQL thô, migration, import, job, service khác ghi cùng CSDL. Observer của ORM không bắt được các đường này.
-- **Gom việc xoá ở module sở hữu dữ liệu.** Cache tổng hợp ở module khác nghe sự kiện và tự xoá key của mình.
+- **Observer của ORM không bắt được** update hàng loạt, SQL thô, migration, import, job, service khác ghi cùng CSDL: các đường này tự xoá key sau commit hoặc phát sự kiện.
+- **Cache tổng hợp ở module khác** nghe sự kiện của module sở hữu và tự xoá key của mình.
 - Không dùng write-behind (ghi cache trước, đẩy xuống CSDL sau) cho dữ liệu nghiệp vụ.
 
 ## 5. Key và TTL
 
 - **Định dạng key** theo quy ước của dự án; mặc định `<service>:<module>:<thực thể>:<mã>[:<biến thể>]`. Nhìn key là biết module sở hữu và xoá được theo nhóm.
-- **Key không chứa dữ liệu nhạy cảm:** dùng mã nội bộ, không dùng email, số điện thoại, số giấy tờ. Key hiện ra trong log và công cụ giám sát.
 - **Version trong key** (`v42:…`) khi đổi cấu trúc value hoặc cần xoá cả nhóm: tăng version là cả nhóm mất hiệu lực.
 - **TTL theo loại dữ liệu**, không dùng một TTL chung. Danh mục, cấu hình: phút đến giờ. Dữ liệu hiển thị: ngắn. Quyền: ngắn.
-- **TTL của L1 ≤ TTL của L2**; L1 sống lâu hơn một request thì giữ vài giây đến vài chục giây.
+- **TTL của L1:** sống lâu hơn một request thì giữ vài giây đến vài chục giây.
 - **Jitter ±10–20%** để các key nạp cùng lúc không hết hạn cùng giây.
-- **Negative caching:** kết quả rỗng hợp lệ (mã không tồn tại) được cache với TTL ngắn. Không cache lỗi hoặc ngoại lệ.
-- **Xoá theo nhóm:** version prefix hoặc `SCAN` theo lô. Không dùng `KEYS`.
+- **Negative caching:** kết quả rỗng hợp lệ (mã không tồn tại) được cache với TTL ngắn.
+- **Xoá theo nhóm:** version prefix hoặc `SCAN` theo lô.
 
 ## 6. Chống dồn tải
 
@@ -81,12 +82,11 @@ Transaction commit → xoá key L2 → phát sự kiện invalidation → mọi 
 | Hỏi mã không tồn tại, luôn xuống CSDL | Validate input ở biên; negative caching | Bloom filter, chỉ khi có số liệu về lưu lượng mã rác lớn |
 | Cả tầng cache sập | Fail-open (§7); giới hạn số truy vấn đồng thời xuống CSDL | HA cho cache, circuit breaker, rate limit ở biên, theo NFR sẵn sàng |
 
-Lock chống dồn tải **không phải khoá nghiệp vụ**. Chống bán trùng, ghi trùng dùng transaction, khoá ở CSDL hoặc distributed lock riêng.
+Chống bán trùng, ghi trùng dùng transaction, khoá ở CSDL hoặc distributed lock riêng, không dùng lock chống dồn tải.
 
 ## 7. Lỗi và fail-open
 
-- Cache lỗi thì bỏ qua cache, đọc nguồn, ghi log; không trả lỗi cho người dùng vì cache.
-- Timeout gọi cache ngắn hơn hẳn truy vấn gốc; connection pool tới cache có giới hạn; retry có giới hạn, không retry vô hạn.
+- Connection pool tới cache có giới hạn.
 - Cache sập thì mọi request đổ xuống CSDL: giới hạn đồng thời (pool, bulkhead) để CSDL không sập theo. Circuit breaker giúp bỏ qua cache ngay thay vì chờ timeout ở từng request.
 - Không phụ thuộc thứ tự xử lý request giữa các instance.
 
@@ -122,13 +122,8 @@ Không có số đo thì không chứng minh được cache có ích, và không
 
 ## 11. Ghi vào thiết kế
 
-Mỗi cache là một dòng trong bảng cache của database-design. Mỗi dòng ghi:
+Mỗi cache là một dòng trong bảng cache của database-design. Ngoài các cột của bảng, ghi thêm:
 
-- Key mẫu và module sở hữu.
-- AP phục vụ và sáu điều kiện của Rule `cache` đã thoả thế nào (khoảng trễ chấp nhận được ghi bằng số).
-- Mức dữ liệu cao nhất trong value; D3 thì ghi cách bảo vệ theo §8.
-- L1, L2 hay cả hai; TTL từng tầng (đã có jitter).
-- Mô hình đọc/ghi: xoá hay cập nhật có version.
-- Sự kiện xoá key: mọi đường ghi chạm dữ liệu đó.
-- Biện pháp chống dồn tải; key hot (lock giữa instance) hay không.
-- Tầng warm-up (W1, W2 hoặc không), kèm trigger và ngân sách tải CSDL.
+- Khoảng trễ chấp nhận được bằng số, không ghi "ngắn" hay "vài phút".
+- Value chứa D3: cách bảo vệ theo §8.
+- Có warm-up: trigger và ngân sách tải CSDL của nhóm.

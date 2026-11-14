@@ -18,7 +18,7 @@
 - Index theo truy vấn mới hoặc đã đổi: điều kiện lọc, join và sắp xếp có index phù hợp không (kể cả thứ tự cột trong index ghép); điều kiện có làm index không dùng được không (`database-rules`).
 - Index sau thay đổi còn hợp lý không: index cũ còn phục vụ mẫu truy cập nào không; index mới có trùng hoặc bị index sẵn có bao phủ (cùng tiền tố cột) không; cột đổi hoặc xoá kéo theo index nào. Thêm hoặc bỏ index phải có bằng chứng theo `database-rules` và bảng index ↔ mẫu truy cập trong tài liệu thiết kế CSDL được cập nhật cùng PR; thiếu thì yêu cầu người viết điều chỉnh, reviewer không tự sửa.
 - Migration trên bảng lớn có khoá bảng lâu, có cần chạy theo lô hoặc tách bước không.
-- Có nên cache không (điều kiện ở `cache-rules`); nếu cache: xoá key sau commit ở mọi đường ghi, L1 của instance khác có bị xoá không, thời gian sống, khoá cache có tách theo người dùng/tenant/quyền không (thiếu là lộ dữ liệu chéo), key có chứa dữ liệu nhạy cảm không, nhiều request cùng miss cache thì sao.
+- Có nên cache không (điều kiện ở `cache-rules`); nếu cache: chỉ đặt ở repository hoặc adapter, luồng ghi không đọc qua cache, xoá key sau commit ở mọi đường ghi, L1 của instance khác có bị xoá không, thời gian sống, khoá cache có tách theo người dùng/tenant/quyền không (thiếu là lộ dữ liệu chéo), key có chứa dữ liệu nhạy cảm không, nhiều request cùng miss cache thì sao.
 - Đối chiếu NFR hiệu năng khi thay đổi nằm trên luồng nóng.
 
 ## Ưu tiên 7: Vận hành được không?

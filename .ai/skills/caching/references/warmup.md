@@ -51,7 +51,7 @@ Cần có cơ chế, nhưng là **registry của nhóm** chứ không phải dan
   - W2 chỉ ghi khi key chưa tồn tại (`SET NX`).
   - Refresh-ahead của W1 ghi đè có so version hoặc timestamp.
 - **Chạy lại được:** lưu checkpoint tiến độ; lỗi giữa chừng thì lần sau chạy tiếp.
-- **Fail-open:** job lỗi không chặn khởi động, chỉ ghi log và cảnh báo.
+- **Job lỗi:** ghi log và cảnh báo.
 - **Đo:**
   - Hit ratio trong 5–15 phút đầu sau trigger.
   - Thời gian chạy W1.

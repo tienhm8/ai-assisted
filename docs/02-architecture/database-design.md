@@ -96,9 +96,9 @@ Ngưỡng của dự án để xét điều kiện "thay đổi liên tục" và
 
 Chỉ ghi khi đã áp dụng; mỗi cache truy ra một AP ở §3.4 đã qua tối ưu truy vấn/index (§3.5) và ghi điều kiện được cache đã thoả thế nào. Quyết định kiến trúc (công nghệ cache, HA) ở [system-architecture](system-architecture.md) §7.
 
-| Key mẫu | Module sở hữu | AP | Khoảng trễ chấp nhận | Mức dữ liệu | L1/L2 | Mô hình đọc/ghi | TTL từng tầng (jitter) | Sự kiện xoá key (mọi đường ghi) | Chống dồn tải (ghi "hot" nếu lock giữa instance) | Warm-up (W1/W2/không) |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-|  | | | | | | | | | | |
+| Key mẫu | Module sở hữu | Repository | AP | Khoảng trễ chấp nhận | Mức dữ liệu (cao nhất trong value) | L1/L2 | Mô hình đọc/ghi (xoá / cập nhật có version) | TTL từng tầng (jitter) | Sự kiện xoá key (mọi đường ghi) | Chống dồn tải (ghi "hot" nếu lock giữa instance) | Warm-up (W1/W2/không) |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+|  | | | | | | | | | | | |
 
 Value chứa D3: ghi cách bảo vệ ở tầng cache và người duyệt Security. Công nghệ cache, quy ước key, trần kích thước value ghi ở đây nếu chưa có ở system-architecture §7.
 

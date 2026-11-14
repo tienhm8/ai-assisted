@@ -1,6 +1,6 @@
 # Cache Rules
 
-> Trạng thái: **Approved** (Tech Lead duyệt 2026-11-13). Rule bắt buộc khi thay đổi có thêm, sửa hoặc đọc cache.
+> Trạng thái: **Approved** (Tech Lead duyệt 2026-11-13). Rule bắt buộc khi thay đổi làm đổi key, value hoặc thời điểm xoá cache (điều kiện nạp ở `load-conditions` §1).
 
 1. CSDL là nguồn sự thật. Xoá toàn bộ cache thì kết quả nghiệp vụ không đổi, chỉ chậm hơn. Cache miss thì đọc nguồn; không coi miss là "không tồn tại".
 2. Tối ưu gốc trước, cache sau: truy vấn đã được tối ưu (index, viết lại truy vấn, cấu trúc bảng); cache không thay cho tối ưu gốc. Nguồn là truy vấn CSDL thì có kế hoạch thực thi sau tối ưu; chưa có CSDL để chạy thì ghi là giả định và kiểm chứng trước khi cài đặt. Sau đó chỉ cache khi đủ cả sáu điều kiện: đọc nhiều; truy vấn hoặc tính toán tốn kém (join phức tạp, tổng hợp, gọi dịch vụ ngoài); tái tạo được từ nguồn; nghiệp vụ chấp nhận dữ liệu trễ trong một khoảng đã xác định; đã xác định TTL và mọi sự kiện làm mất hiệu lực; dữ liệu tách đúng theo người dùng, tenant và quyền.
@@ -12,3 +12,4 @@
 8. Gộp các request cùng miss một key để số truy vấn xuống CSDL không tăng theo số request; request chờ có giới hạn thời gian.
 9. Cache lỗi không làm request lỗi: bỏ qua cache, đọc nguồn, ghi log. Timeout gọi cache ngắn hơn truy vấn gốc, retry có giới hạn; số truy vấn đồng thời xuống CSDL có giới hạn. Không dùng lệnh chặn toàn server như `KEYS`.
 10. Production có cache thì có job warm-up. Job chỉ chạy trên một instance, nạp tập key chọn lọc theo lô có giới hạn tải CSDL, dùng chung hàm nạp với luồng đọc, không ghi đè dữ liệu mới hơn; job lỗi không chặn khởi động.
+11. Cache chỉ đặt ở repository của module sở hữu dữ liệu, hoặc ở adapter gọi dịch vụ ngoài; controller và service không gọi cache. Luồng ghi đọc dữ liệu từ CSDL, không qua cache. Value là read model chỉ gồm trường cần dùng, không phải entity ORM.
