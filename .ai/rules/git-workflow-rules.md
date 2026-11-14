@@ -15,4 +15,4 @@
 7. Không dùng `--no-verify` hoặc cách tương đương để bỏ hook hay cổng kiểm tra.
 8. Không commit secret, `.env*`, dữ liệu production.
 9. Thay đổi vùng 🔴 (rule, skill, workflow, cấu hình quyền/CI) tách Task và PR riêng, không lồng vào Task tính năng.
-10. PR ghi `TASK-ID` và kèm báo cáo bàn giao.
+10. PR ghi `TASK-ID` và kèm báo cáo bàn giao (link hoặc dán, khai ở PR-TEMPLATE §1); PR không chép lại mục đã có trong báo cáo bàn giao.

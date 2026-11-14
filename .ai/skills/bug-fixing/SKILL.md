@@ -37,4 +37,4 @@ Sửa đúng nguyên nhân gốc của lỗi (sai khác so với yêu cầu và 
 
 ## Báo cáo
 
-Điền mục "Báo cáo bàn giao" của BUG-TEMPLATE.
+Điền mục "Kết quả sửa" của BUG-TEMPLATE (nguyên nhân gốc, test hồi quy). Phần còn lại ghi vào báo cáo bàn giao theo DELIVERY-REPORT-TEMPLATE.

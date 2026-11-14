@@ -26,7 +26,7 @@ Câu hỏi quyết định cho mỗi quan hệ, trả lời từ AP, không đo�
 4. Con có được truy vấn riêng (không qua cha) không?
 5. Bản sao nhúng có cần đồng bộ khi nguồn đổi không, hay là snapshot tại thời điểm giao dịch?
 
-Ghi lựa chọn và lý do vào bảng quyết định thiết kế (báo cáo bàn giao mục 5).
+Ghi lựa chọn và lý do vào bảng quyết định thiết kế (mục 5 phần Báo cáo của Skill `database-design`).
 
 ## 2. Mẫu mô hình nên dùng
 
