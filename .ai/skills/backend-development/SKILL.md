@@ -21,6 +21,7 @@ Load only the file of the framework the backend uses, and read only the listed s
 | File in `references/` | Load at step |
 | --- | --- |
 | `nestjs.md` (NestJS only) | Step 2: §1 · Step 3: §1, §2 · Step 4: §3, §5, §6 · Step 5: §4 · Step 8: §7 |
+| `prisma.md` (Prisma ORM only) | Step 2: §1 · Step 3: §1 · Step 4: §2, §3, §4 · Step 5: §5 |
 
 ## Procedure
 
