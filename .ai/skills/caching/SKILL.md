@@ -42,6 +42,7 @@ If the plan is missing something, look up the exact section: database-design §3
 6. **Verify** with real running tests:
    - Clear the whole cache then rerun business cases: results unchanged.
    - Read after write: no stale value returned, including from another instance's L1.
+   - A read missing the key runs concurrently with a write: the cache does not end up holding the old value (unless the cache row records "accept TTL").
    - Cache down or timeout: request still succeeds from DB.
    - Many concurrent requests missing the same key: DB queries do not grow with request count, at most one per instance; one for hot keys.
    - Keys of different users/tenants cannot be cross-read.

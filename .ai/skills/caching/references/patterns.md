@@ -42,9 +42,11 @@ L2 error         → skip cache → read DB → return; log, count fail-open
 - **Single-flight is the default** and lives in one shared read function (shaped like `remember(key, ttl, loader)`), not rewritten in each path:
   - Within a process: merge requests for the same key into one promise.
   - Across instances: `SET NX` lock with TTL, only for keys marked hot. Hot keys are marked in the "Chống dồn tải" column of the database-design cache table, based on frequency in the AP table. Normal keys accept at most one query per instance.
+    - Lock TTL ≥ loader timeout, otherwise a second loader runs while the first is still loading. Only the owner releases the lock (token check); a plain delete can remove another instance's lock. Redis: `redis.md` §3.
   - Waiting requests are bounded (e.g. 5 × 50 ms; real threshold derived from the AP's target latency). On timeout, read DB directly, do not return an error; concurrent DB queries are still bounded by the connection pool.
 - **Placement in Repository:** wrap the read repository with a caching layer (decorator) or split out a query repository; both call `remember`. Service keeps its interface and does not know data is cached.
 - **Write paths bypass cache:** functions used by write paths (`findForUpdate`, reads inside a writing transaction) read DB directly. Modifying a cached copy and saving overwrites newer changes (lost update).
+- **Loader reads the primary.** With DB read replicas, a loader reading a replica right after delete-after-commit can reload the old row and cache it for a full TTL. Read a replica only when the acceptable staleness window covers max replica lag plus TTL; record it in the cache row. Same for warm-up.
 - **Read model:** map results to a dedicated value type before caching. ORM entities lose lazy relations and identity map through serialization.
 
 ## 4. Write path and invalidation
@@ -55,6 +57,11 @@ Transaction commit → delete L2 key → emit invalidation event → every insta
 
 - **After commit:** attach to the transaction's after-commit hook, or outbox. Deleting before commit lets an interleaved read reload the old value; on rollback the delete was needless.
 - **Delete, do not update.** If two concurrent writes both update the cache, observer order does not follow commit order, and the cache may hold the old value until TTL expires. Deleting lets the next read reload the correct value.
+- **Stale write-back race:** delete-after-commit alone does not prevent it. Read A misses and loads the old row; write B commits and deletes the key; A then writes the old value, which lives until TTL. Choose one per cache, record it in the cache row:
+  - **Invalidation marker (default when read-after-write matters):** the delete step first sets a short marker for the key (TTL ≥ loader timeout), then deletes the key. Write-back is an atomic conditional write: skip if the marker exists, just return the DB value. Marker and key must be usable in one atomic step (Redis: one Lua script, same hash slot, `redis.md` §3, §5).
+  - **Version overwrite:** writes overwrite with version comparison instead of deleting, and write-back also compares versions (W1 keys).
+  - **Accept TTL:** only when the staleness window ≥ that key's TTL.
+- **Cache failover can undo deletes:** with asynchronous replication, deletes acknowledged shortly before a failover may be lost and old values reappear. For groups whose staleness window is shorter than TTL, the failover runbook clears the group (version prefix bump or batched scan + delete) then triggers warm-up (`warmup.md` §1); otherwise record that TTL covers it.
 - **Update only with a version:** the cached value carries a version (or a sufficiently precise `updated_at`); write with a compare-then-write script, writing only when the version is newer. Use for W1 keys (config, catalogs) when you do not want the cache empty after a write.
 - **Read right after write must be correct:** add delayed double delete (delete → write DB → wait a beat → delete again) or versioning. Without it, TTL is the last safety net.
 - **Failed deletes must not be ignored** like failed reads: the old key lives until TTL expires. Retry with a limit; when exhausted, push to a reprocessing queue and log a warning.
@@ -127,3 +134,4 @@ Each cache is one row in the database-design cache table. Besides the table colu
 - Acceptable staleness window as a number, not "short" or "a few minutes".
 - Value contains D3: protection per §8.
 - Has warm-up: the group's trigger and DB load budget.
+- Stale write-back guard chosen (§4), loader source primary or replica with reason (§3), failover handling (§4).

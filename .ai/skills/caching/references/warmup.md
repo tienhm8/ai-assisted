@@ -13,6 +13,7 @@ L2 does not lose data when the application is redeployed, so a normal deploy doe
 | Invalidating a large group (config change, bulk import) | Event emitted by the owning module |
 | Before known peak hours | Schedule |
 | Refresh-ahead for tier 1 | Run periodically with a period shorter than TTL |
+| Cache failover (deletes may be lost) | Failover event or alert from the cache's HA; runbook per `patterns.md` §4 |
 
 ## 2. Tiers
 
@@ -44,11 +45,11 @@ A mechanism is needed, but it is a **group registry**, not a hard-coded key list
 - **Only one instance runs:** distributed lock with TTL and periodic renewal, or a scheduler with dedupe. N instances warming up together cause a self-inflicted herd.
 - **Has a DB load budget:**
   - Load in batches, limit concurrency, and use only a small share of the connection pool.
-  - Read from a read-only replica if available.
+  - Read from a read-only replica only if the cache row allows replica reads (`patterns.md` §3); otherwise read the primary within the load budget.
   - Pause when DB latency rises.
 - **Spread expiry times:** bulk-loaded keys need TTL spread wider than normal jitter, e.g. random within TTL × [0.5; 1]. Otherwise they all expire exactly one TTL later.
 - **Do not overwrite newer data:**
-  - W2 writes only when the key does not exist (`SET NX`).
+  - W2 writes only when the key does not exist and no invalidation marker exists (`patterns.md` §4), in one atomic step.
   - W1 refresh-ahead overwrites with version or timestamp comparison.
 - **Rerunnable:** store progress checkpoints; on failure midway, the next run continues.
 - **Job failure:** log and alert.
