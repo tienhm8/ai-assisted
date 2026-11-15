@@ -18,6 +18,12 @@
 | Đưa khung vào một dự án đã có code, đang chạy hoặc đang bảo trì | §2, rồi §4 |
 | Đã áp dụng xong, cần giao việc cho AI hằng ngày | §5 |
 | Gặp tình huống lạ | §6 |
+| Chọn công cụ AI | [ai-tools](03-engineering/ai-tools.md) §1 |
+| Tạo symlink cho công cụ AI | [ai-tools](03-engineering/ai-tools.md) §2 |
+| Khai báo giá trị riêng của dự án | [PROJECT.md](../PROJECT.md) |
+| Cần biết AI làm một Task qua những bước nào | [task-execution](../.ai/workflows/task-execution.md), [task-types](../.ai/workflows/task-types.md) |
+| Cần hiểu vì sao AI bị kiểm soát | [ai-governance](03-engineering/ai-governance.md) |
+| Cần điều kiện duyệt | [gates-and-rigor](04-project-management/gates-and-rigor.md) |
 
 ## 2. Năm khái niệm cần biết trước
 

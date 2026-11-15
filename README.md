@@ -53,14 +53,4 @@ Cổng G0–G7 giữa các giai đoạn và độ nghiêm ngặt S1–S3: [gates
 
 ## Bắt đầu
 
-| Bạn đang… | Đọc |
-| --- | --- |
-| Chọn công cụ AI | [ai-tools.md](docs/03-engineering/ai-tools.md) §1 |
-| Tạo symlink Tool AI | [ai-tools.md](docs/03-engineering/ai-tools.md) §2 |
-| Áp dụng cho dự án mới hoặc dự án cũ | [getting-started.md](docs/getting-started.md) |
-| Khai báo giá trị riêng của dự án | [PROJECT.md](PROJECT.md) |
-| Giao việc cho AI | [task-execution.md](.ai/workflows/task-execution.md), [task-types.md](.ai/workflows/task-types.md) |
-| Cần hiểu vì sao AI bị kiểm soát | [ai-governance.md](docs/03-engineering/ai-governance.md) |
-| Cần điều kiện duyệt | [gates-and-rigor.md](docs/04-project-management/gates-and-rigor.md) |
-
-Hướng dẫn từng bước, gồm cả dự án đang chạy: [getting-started.md](docs/getting-started.md).
+Xem [docs/getting-started.md](docs/getting-started.md): hướng dẫn cho dự án mới và dự án cũ, kèm bảng chọn tài liệu cần đọc theo việc bạn đang làm.
