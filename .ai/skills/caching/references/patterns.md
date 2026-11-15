@@ -63,7 +63,7 @@ Transaction commit → delete L2 key → emit invalidation event → every insta
   - **Accept TTL:** only when the staleness window ≥ that key's TTL.
 - **Cache failover can undo deletes:** with asynchronous replication, deletes acknowledged shortly before a failover may be lost and old values reappear. For groups whose staleness window is shorter than TTL, the failover runbook clears the group (version prefix bump or batched scan + delete) then triggers warm-up (`warmup.md` §1); otherwise record that TTL covers it.
 - **Update only with a version:** the cached value carries a version (or a sufficiently precise `updated_at`); write with a compare-then-write script, writing only when the version is newer. Use for W1 keys (config, catalogs) when you do not want the cache empty after a write.
-- **Read right after write must be correct:** add delayed double delete (delete → write DB → wait a beat → delete again) or versioning. Without it, TTL is the last safety net.
+- **Read right after write must be correct:** use the stale write-back guard above (marker or version); never delete before commit.
 - **Failed deletes must not be ignored** like failed reads: the old key lives until TTL expires. Retry with a limit; when exhausted, push to a reprocessing queue and log a warning.
 - **L1 invalidation events** have retry or a recovery mechanism. An instance that loses its connection to the event channel clears all of L1 on reconnect. Short L1 TTL is the safety net when events still slip through.
 - **ORM observers do not catch** bulk updates, raw SQL, migrations, imports, jobs, other services writing the same DB: these paths delete keys after commit or emit events themselves.
@@ -77,7 +77,10 @@ Transaction commit → delete L2 key → emit invalidation event → every insta
 - **TTL by data type**, not one shared TTL. Catalogs, config: minutes to hours. Display data: short. Permissions: short.
 - **L1 TTL:** if it lives longer than one request, keep a few seconds to a few tens of seconds.
 - **Jitter ±10–20%** so keys loaded together do not expire in the same second.
-- **Negative caching:** valid empty results (nonexistent ID) may be cached with a short TTL.
+- **Negative caching:** only when the AP table shows significant lookups of nonexistent IDs; only for lookups by ID or natural key, not lists.
+  - Store a dedicated sentinel value (e.g. `{"_neg":1}`), distinct from a miss; `null` or empty string reads like a miss in many clients, so the DB is hit every time.
+  - TTL short, not longer than the acceptable staleness window.
+  - The create path deletes the empty-result keys after commit, including natural-key ones (slug, code); list them in the cache row as write-path deletion events.
 - **Group deletion:** version prefix or batched `SCAN`.
 
 ## 6. Stampede prevention
@@ -86,7 +89,7 @@ Transaction commit → delete L2 key → emit invalidation event → every insta
 | --- | --- | --- |
 | Many keys expire at once (after deploy, warm-up, group delete) | TTL jitter; group delete via version prefix | Paced warm-up (`warmup.md`) |
 | One key misses, N requests hit DB together | Single-flight (§3) | Extremely hot key: **stale-while-revalidate**. Store soft TTL < hard TTL; past soft TTL still return the old value and only one request reloads in the background. Hot keys known in advance: put in warm-up W1 |
-| Lookups for nonexistent IDs always hit DB | Validate input at the boundary; negative caching | Bloom filter, only with data showing large junk-ID traffic |
+| Lookups for nonexistent IDs always hit DB | Validate input at the boundary | Negative caching (§5), when the AP table shows it; Bloom filter, only with data showing large junk-ID traffic |
 | Whole cache tier down | Fail-open (§7); limit concurrent DB queries | Cache HA, circuit breaker, rate limit at the boundary, per availability NFR |
 
 Preventing double-selling and duplicate writes uses transactions, DB locks, or a separate distributed lock, not the stampede-prevention lock.
