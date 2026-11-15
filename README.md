@@ -16,6 +16,7 @@ project/
 ├── project/                     mã nguồn các repo con; mỗi repo tự commit, repo cha không theo dõi (.gitignore)
 │
 ├── docs/                        hồ sơ dự án cho cả người và AI; người không dùng AI chỉ đọc docs/
+│   ├── getting-started.md       hướng dẫn áp dụng khung cho dự án mới và dự án cũ
 │   ├── 00-project-overview/     [01] làm gì, cho ai, ranh giới ở đâu?
 │   ├── 01-requirements/         [02] phải làm gì, nghiệm thu ra sao?
 │   ├── 02-architecture/         [03] xây thế nào, đã chốt quyết định nào?
@@ -56,9 +57,10 @@ Cổng G0–G7 giữa các giai đoạn và độ nghiêm ngặt S1–S3: [gates
 | --- | --- |
 | Chọn công cụ AI | [ai-tools.md](docs/03-engineering/ai-tools.md) §1 |
 | Tạo symlink Tool AI | [ai-tools.md](docs/03-engineering/ai-tools.md) §2 |
-| Áp dụng cho một dự án | [PROJECT.md](PROJECT.md) |
+| Áp dụng cho dự án mới hoặc dự án cũ | [getting-started.md](docs/getting-started.md) |
+| Khai báo giá trị riêng của dự án | [PROJECT.md](PROJECT.md) |
 | Giao việc cho AI | [task-execution.md](.ai/workflows/task-execution.md), [task-types.md](.ai/workflows/task-types.md) |
 | Cần hiểu vì sao AI bị kiểm soát | [ai-governance.md](docs/03-engineering/ai-governance.md) |
 | Cần điều kiện duyệt | [gates-and-rigor.md](docs/04-project-management/gates-and-rigor.md) |
 
-Bắt đầu: (1) yêu cầu AI "tạo/cập nhật PROJECT.md cho dự án …" (mẫu trống, AI chỉ mô tả `Draft`, người xác nhận); (2) chọn công cụ và tạo symlink theo [ai-tools.md](docs/03-engineering/ai-tools.md); (3) điền `docs/00-project-overview/` để PO duyệt, rồi đi tiếp `01-requirements` → `02-architecture` → lập plan và Task. Task mới bắt đầu khi `[04]` sẵn sàng.
+Hướng dẫn từng bước, gồm cả dự án đang chạy: [getting-started.md](docs/getting-started.md).
