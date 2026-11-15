@@ -14,6 +14,14 @@ Beyond `project-rules` 2, requires: the project's UI/UX docs and Design System; 
 Primary sources: plan; UI/UX docs and Design System for the relevant screens; existing frontend code.
 If the plan lacks something, look up only the exact section, do not read the whole file: api-design §1.2 Chi tiết API (relevant endpoints), §3.2 Quy ước chung; system-architecture §3.3 Các tầng và trách nhiệm; coding-standards §4 Naming Convention, §11.2 Frontend; security-standards §5 Kiểm tra đầu vào, §6.3 Che dữ liệu (masking).
 
+## References
+
+Load only the file of the framework the frontend uses, and read only the listed sections.
+
+| File in `references/` | Load at step |
+| --- | --- |
+| `nextjs.md` (Next.js App Router only) | Step 2: §1 · Step 3: §1, §2, §5, §6 · Step 4: §4 · Step 5: §2, §3 · Step 6: §4 |
+
 ## Procedure
 
 1. **Analyze:** users, screens, displayed data, interactions, loading/error/empty states, permission-dependent behavior.
