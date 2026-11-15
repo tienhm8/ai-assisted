@@ -53,7 +53,7 @@ Chỉ ghi dòng dự án siết thấp hơn trần mặc định, hoặc danh m�
 Định nghĩa S1–S3 và cách chọn ở [gates-and-rigor](docs/04-project-management/gates-and-rigor.md).
 | Hạng mục | Giá trị |
 | --- | --- |
-| Độ nghiêm ngặt quy trình (S1–S3) | |
+| Độ nghiêm ngặt quy trình (S1–S3) | Chọn theo [gates-and-rigor](docs/04-project-management/gates-and-rigor.md) §2 (bảng "Chọn mức nào?") |
 | Lý do chọn S | Theo loại dự án (§1), quy mô, yêu cầu pháp lý hoặc hợp đồng |
 | Mức ASVS mục tiêu (L1–L3) | Không thấp hơn mức tối thiểu ở [security-standards](docs/03-engineering/security-standards.md) §13.1 |
 | Lý do chọn mức ASVS | Theo mức dữ liệu (§3), có tài khoản/phân quyền, tiền, ràng buộc pháp lý |
