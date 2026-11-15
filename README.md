@@ -53,4 +53,4 @@ Cổng G0–G7 giữa các giai đoạn và độ nghiêm ngặt S1–S3: [gates
 
 ## Bắt đầu
 
-Xem [docs/getting-started.md](docs/getting-started.md): hướng dẫn cho dự án mới và dự án cũ, kèm bảng chọn tài liệu cần đọc theo việc bạn đang làm.
+Xem [docs/getting-started.md](docs/getting-started.md)
