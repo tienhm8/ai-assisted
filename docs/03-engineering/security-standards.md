@@ -2,22 +2,22 @@
 
 | Thuộc tính | Giá trị |
 | --- | --- |
-| Trạng thái | Approved |
+| Trạng thái | Draft |
 | Người phụ trách |  |
-| Người duyệt |  |
-| Phiên bản · Ngày | 0.1 ·  |
+| Người duyệt (dự án) | Tech Lead |
+| Phiên bản · Ngày |  |
 | Tài liệu liên quan | coding-standards.md, error-handling.md, testing-strategy.md, ../02-architecture/system-architecture.md, ../02-architecture/api-design.md, ../02-architecture/database-design.md, ../../.ai/rules/security-rules.md, ../../.ai/skills/security-review/SKILL.md, ../../.ai/skills/authentication-rbac/SKILL.md |
 
 > **Mục đích.** Chuẩn bảo mật: nguyên tắc, Authentication & Authorization (quy tắc), kiểm tra đầu vào, bảo vệ dữ liệu, secret, API, logging, dependency, ánh xạ OWASP Top 10 và mức ASVS. Sàn không hạ được.
 
-## 1. Mức dữ liệu dự án (D0–D3) và quy tắc đưa vào AI
-Định nghĩa D0–D3 xem [glossary](../00-project-overview/glossary.md); mức dữ liệu của dự án khai báo ở [PROJECT.md](../../PROJECT.md). Với mỗi mức, ghi loại dữ liệu của dự án và việc được/không được đưa vào AI, log, môi trường không phải production.
-| Mức | Dữ liệu của dự án | Được đưa vào AI | Được ghi log |
-| --- | --- | --- | --- |
-| D0 | | | |
-| D1 | | | |
-| D2 | | | |
-| D3 | | Không | Không |
+## 1. Xử lý dữ liệu theo mức (D0–D3)
+Định nghĩa D0–D3 ở [project-rules](../../.ai/rules/project-rules.md); dữ liệu của dự án thuộc mức nào và mức nào được đưa vào AI khai báo ở [PROJECT.md](../../PROJECT.md) §3, không chép lại ở đây. Với mỗi mức, ghi việc được/không được ghi log và dùng ở môi trường không phải production.
+| Mức | Được ghi log | Được dùng ở môi trường không phải production |
+| --- | --- | --- |
+| D0 | | |
+| D1 | | |
+| D2 | | |
+| D3 | Không | |
 
 <!-- Điền theo từng dự án -->
 
@@ -77,10 +77,10 @@ Mỗi endpoint khai báo quyền yêu cầu ([api-design](../02-architecture/api
 | Path traversal | Không ghép đường dẫn file từ đầu vào; chuẩn hoá đường dẫn và kiểm tra nằm trong thư mục cho phép. |
 | Deserialization | Không giải tuần tự hoá dữ liệu không tin cậy bằng cơ chế cho phép tạo đối tượng tuỳ ý; chỉ dùng định dạng dữ liệu thuần (JSON) có schema. |
 
-<!-- Bổ sung chi tiết theo công nghệ của dự án -->
+<!-- Điền theo từng dự án: chi tiết theo công nghệ -->
 
 ## 6. Bảo vệ dữ liệu
-Mức dữ liệu ở §1; thiết kế bảo mật cho từng bảng/cột ở [database-design](../02-architecture/database-design.md) §5.
+Dữ liệu của dự án theo mức ở [PROJECT.md](../../PROJECT.md) §3, cách xử lý ở §1; thiết kế bảo mật cho từng bảng/cột ở [database-design](../02-architecture/database-design.md) §5.
 
 ### 6.1 Xử lý dữ liệu nhạy cảm
 Chỉ thu thập và lưu dữ liệu cần thiết; không đưa dữ liệu D3 vào log, URL, thông báo lỗi.
@@ -107,7 +107,7 @@ Căn cứ pháp lý, thời hạn lưu, quyền của chủ thể dữ liệu. R
 | Kiểm soát truy cập | Ai được đọc secret từng môi trường; secret production tách biệt các môi trường khác. |
 
 Secret đã lộ (kể cả trong lịch sử Git) coi như bị xâm phạm: phải thu hồi và thay mới.
-<!-- Điền công cụ và quy trình theo từng dự án -->
+<!-- Điền theo từng dự án: công cụ, quy trình -->
 
 ## 8. Bảo mật API
 Thiết kế và giá trị cụ thể ở [api-design](../02-architecture/api-design.md) §5; mục này là quy tắc bắt buộc.
@@ -119,7 +119,7 @@ Thiết kế và giá trị cụ thể ở [api-design](../02-architecture/api-d
 | Giới hạn kích thước request | Đặt giới hạn body, upload, số phần tử/trang. |
 | Security headers | Các header bắt buộc (HSTS, `Content-Security-Policy`, `X-Content-Type-Options`, ...). |
 
-<!-- Điền giá trị theo từng dự án -->
+<!-- Điền theo từng dự án: giá trị -->
 
 ## 9. Logging và Audit
 Quy định chung ở [error-handling](error-handling.md) §7; mục này chỉ bổ sung yêu cầu bảo mật.
@@ -155,7 +155,7 @@ Chu kỳ cập nhật, quy tắc ghim phiên bản, kiểm tra license được 
 - Pipeline CI/CD: quyền tối thiểu, secret theo môi trường, thay đổi pipeline cần duyệt (vùng 🔴).
 - Artifact phát hành và bản cập nhật có kiểm tra toàn vẹn (checksum hoặc chữ ký) trước khi triển khai.
 - Dữ liệu tin cậy (cookie, token, dữ liệu gửi qua client) có chữ ký hoặc kiểm tra toàn vẹn ở server.
-<!-- Điền công cụ theo từng dự án -->
+<!-- Điền theo từng dự án: công cụ -->
 
 ## 11. Checklist phát triển an toàn
 Dùng khi tự kiểm và review ([coding-standards](coding-standards.md) §9.1).
@@ -176,13 +176,13 @@ Sàn bảo mật không hạ được; chỉ cho phép ngoại lệ tạm thời
 - Thời hạn hết hiệu lực và kế hoạch khắc phục.
 
 Ngoại lệ được ghi lại tại đây hoặc trong ADR ([ADR/](../02-architecture/ADR/README.md)).
-<!-- Danh sách ngoại lệ đang hiệu lực -->
+<!-- Điền theo từng dự án: danh sách ngoại lệ đang hiệu lực -->
 
 ## 13. OWASP Top 10 và ASVS
 Phiên bản đang dùng (nguồn duy nhất; đổi phiên bản thì sửa tại đây và rà lại bảng): **OWASP Top 10:2025**, **OWASP ASVS 5.0**. Không chép nội dung OWASP vào repo; chỉ trỏ mã mục (`A01:2025`) và mã yêu cầu ASVS (`V8.2.1`).
 
 ### 13.1 Mức ASVS
-Dự án khai báo mức ASVS mục tiêu ở [PROJECT.md](../../PROJECT.md) §5. Mức tối thiểu theo dữ liệu và rủi ro:
+Dự án khai báo mức ASVS mục tiêu ở [PROJECT.md](../../PROJECT.md) §4. Mức tối thiểu theo dữ liệu và rủi ro:
 
 | Điều kiện | Mức tối thiểu |
 | --- | --- |
@@ -195,15 +195,15 @@ Yêu cầu ASVS ở mức đã khai báo mà chưa đạt thì ghi ngoại lệ 
 ### 13.2 Ánh xạ OWASP Top 10:2025
 | Mã | Rủi ro | Quy định trong khung | Chương ASVS 5.0 liên quan |
 | --- | --- | --- | --- |
-| A01:2025 | Broken Access Control | §4; [security-rules](../../.ai/rules/security-rules.md) 1–2, 6; §5 (SSRF) | V8 Authorization |
+| A01:2025 | Broken Access Control | §4; [security-rules](../../.ai/rules/security-rules.md) 1–2, 5; §5 (SSRF) | V8 Authorization |
 | A02:2025 | Security Misconfiguration | §2 Secure by Default; §8 (CORS, headers); [deployment](../05-operations/deployment.md) | V13 Configuration, V3 Web Frontend Security |
-| A03:2025 | Software Supply Chain Failures | §10; security-rules 8 | V15 Secure Coding and Architecture |
+| A03:2025 | Software Supply Chain Failures | §10; security-rules 7 | V15 Secure Coding and Architecture |
 | A04:2025 | Cryptographic Failures | §3.1, §6.2; §7 | V11 Cryptography, V12 Secure Communication |
 | A05:2025 | Injection | §5; security-rules 3 | V1 Encoding and Sanitization, V2 Validation and Business Logic, V5 File Handling |
 | A06:2025 | Insecure Design | Threat model ở [system-architecture](../02-architecture/system-architecture.md) §8; §2 | V15 Secure Coding and Architecture, V2 Validation and Business Logic |
 | A07:2025 | Authentication Failures | §3 | V6 Authentication, V7 Session Management, V9 Self-contained Tokens, V10 OAuth and OIDC |
 | A08:2025 | Software or Data Integrity Failures | §10.4; §5 (Deserialization) | V15 Secure Coding and Architecture, V4 API and Web Service |
-| A09:2025 | Security Logging and Alerting Failures | §9; security-rules 7 | V16 Security Logging and Error Handling |
+| A09:2025 | Security Logging and Alerting Failures | §9; security-rules 6 | V16 Security Logging and Error Handling |
 | A10:2025 | Mishandling of Exceptional Conditions | §2 Fail Securely; [error-handling](error-handling.md) | V16 Security Logging and Error Handling |
 
 Bảng này là danh mục để review; điểm còn trống của dự án (các mục `<!-- Điền theo từng dự án -->`) vẫn phải điền thì mới coi là phủ.

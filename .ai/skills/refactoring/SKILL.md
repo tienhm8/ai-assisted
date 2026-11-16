@@ -1,60 +1,40 @@
 ---
 name: refactoring
-description: Cải thiện cấu trúc nội bộ của code (dễ đọc, dễ bảo trì) mà giữ nguyên hành vi quan sát được; có baseline test trước và so sánh sau, không đổi schema/contract/API.
+description: Improve internal code structure (readability, maintainability) while keeping observable behavior unchanged; baseline tests before and compare after; no schema/contract/API changes.
 ---
 
 # Refactoring Skill
 
-## 1. Mục tiêu
+Improve code structure while keeping observable behavior unchanged.
 
-Cải thiện cấu trúc code mà không đổi hành vi nghiệp vụ đã duyệt.
+## Entry gate
 
-## 2. Cổng vào
+- The refactor Task states its scope clearly. If missing, stop and ask.
+- Task bundled with a bug fix or new feature: split into a separate Task.
+- A large refactor needs an approved plan before editing.
 
-- Có Task refactor nêu rõ phạm vi, mức rủi ro và mức tự chủ. Thiếu thì dừng và hỏi.
-- Task **lai** (refactor kèm sửa lỗi hoặc thêm tính năng): tách thành Task riêng, không làm chung.
-- Refactor lớn cần plan được duyệt trước khi sửa; ngưỡng "lớn" do plan chốt.
+Primary sources: Task and plan; existing source code and tests.
+If the plan lacks something, look up only the exact section, do not read the whole file: module-design §3 Phụ thuộc giữa các module, §5 Ranh giới và quyền sở hữu; system-architecture §3.3 Các tầng và trách nhiệm; coding-standards §6 Thực hành lập trình, §7 Kiến trúc và thiết kế trong code, §8 Chất lượng code.
 
-## 3. Đầu vào
+## Procedure
 
-Task, mã nguồn và bộ test hiện có, thiết kế/ranh giới module đã duyệt, chuẩn code của dự án, nợ kỹ thuật đã biết.
+1. **Understand current behavior:** public interface, business rules, dependencies, areas already tested.
+2. **Baseline:** take pre-refactor test results from the plan; if none, run relevant tests and record pre-existing failures. Where tests are missing, add tests describing current behavior before editing.
+3. **Choose targets:** only issues affecting the Task (duplication, oversized functions or classes, tangled conditionals, tight or circular dependencies, unclear names, hard to test).
+4. **Check constraints:** if schema, contract, API, or module boundary changes are needed, stop and report.
+5. **Refactor in small steps**, running tests after each step.
+6. **Compare with baseline:** inputs/outputs, errors, access permissions, side-effect order unchanged.
 
-## 4. Quy trình
+## Limits
 
-1. **Hiểu hành vi hiện tại:** giao diện công khai, quy tắc nghiệp vụ, phụ thuộc, vùng được test.
-2. **Baseline:** chạy test liên quan trước (dùng unit-testing để bổ sung test mô tả hành vi cho chỗ chưa có), ghi lại lỗi có sẵn. Không đổ lỗi có sẵn cho refactor.
-3. **Xác định mục tiêu:** chỉ những mùi code ảnh hưởng thực sự tới Task (lặp, hàm/lớp quá lớn, điều kiện rối, phụ thuộc chặt hoặc vòng, đặt tên khó hiểu, khó test).
-4. **Kiểm tra ràng buộc:** refactor **không đổi schema, contract hay API**; cần đổi thì chuyển database-design hoặc api-development và cần duyệt (ADR nếu thuộc diện). Cần đổi ranh giới module hay kiến trúc đã duyệt thì **dừng xin duyệt**.
-5. **Plan** (refactor lớn): vấn đề, cấu trúc mong muốn, file, rủi ro, test; chờ duyệt.
-6. **Refactor từng bước nhỏ**, chạy test sau mỗi bước; tối đa 3 vòng sửa–chạy khi test đỏ, quá thì dừng và báo.
-7. **So sánh với baseline:** đầu vào/ra, lỗi, quyền truy cập, thứ tự hiệu ứng phụ không đổi. Không khẳng định cải thiện hiệu năng khi chưa đo.
-8. **Cập nhật tài liệu** nếu cấu trúc đã ghi ở tài liệu thiết kế bị đổi (skill documentation).
-9. **Bàn giao** cho code-review ở phiên khác.
+- Do not add features, change behavior, or bundle bug fixes.
+- Do not claim performance improvements without measuring.
 
-## 5. Checklist
+## Done when
 
-- [ ] Task không lai; phạm vi rõ.
-- [ ] Baseline test đã chạy và ghi lại trước khi sửa.
-- [ ] Thay đổi nhỏ, tăng dần; không đổi schema/contract/API.
-- [ ] Test sau refactor đạt và khớp baseline; test không bị xoá hay làm yếu.
-- [ ] Không thêm tính năng; quyền truy cập không đổi.
+- Post-refactor tests match the baseline; no test deleted or weakened.
+- The project's check gate passes.
 
-## 6. Việc không được làm
+## Report
 
-- Không thêm tính năng, không đổi hành vi nghiệp vụ, không gộp sửa lỗi vào refactor.
-- Không đổi schema, contract, API, ranh giới module khi chưa được duyệt.
-- Không viết lại quy mô lớn khi chưa có plan được duyệt.
-- Không xoá hay làm yếu test cho dễ qua.
-- Không tối ưu hiệu năng khi thiếu số đo.
-- Không tự duyệt refactor của mình.
-
-## 7. Tiêu chí hoàn thành (DoD)
-
-- Mục tiêu refactor đạt, hành vi giữ nguyên (so với baseline).
-- Cổng kiểm tra của dự án đạt, có bằng chứng.
-- Đã bàn giao cho code-review ở phiên khác, không tự duyệt.
-- Nợ kỹ thuật còn lại được ghi.
-
-## 8. Báo cáo bàn giao
-
-Điền DELIVERY-REPORT-TEMPLATE, nêu thêm: vấn đề đã xử lý, file đã sửa, kết quả baseline so với sau refactor, đánh giá giữ nguyên hành vi, cải thiện đạt được, nợ kỹ thuật còn lại.
+Write in the Task's handoff report: issues addressed, baseline vs. post-refactor results, remaining technical debt.

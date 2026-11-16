@@ -44,15 +44,12 @@ Kèm thông báo lỗi, log, stack trace (đã che dữ liệu nhạy cảm, kh�
 - [ ] Hồi quy liên quan đã chạy.
 - [ ] Nguyên nhân gốc đã ghi; không tìm ra thì dừng và báo.
 - [ ] Không sửa ngoài phạm vi; không làm yếu test; không tự suy ra nghiệp vụ.
-- [ ] Tối đa 3 vòng sửa–chạy cổng; quá thì dừng và báo.
+- [ ] Không vượt giới hạn vòng sửa (`project-rules` 18).
 
-## 10. Báo cáo bàn giao (AI điền)
+## 10. Kết quả sửa (AI điền)
+Chỉ phần riêng của lỗi; file đã sửa, AC, kiểm thử khác, tài liệu và rủi ro ghi ở báo cáo bàn giao (DELIVERY-REPORT) của Task sửa lỗi, không chép lại.
 - Nguyên nhân gốc:
-- Test hồi quy (tên) và kết quả trước/sau:
-- AC được phủ lại:
-- File đã sửa:
-- Tài liệu cần cập nhật:
-- Rủi ro còn lại:
+- Test hồi quy (tên) và kết quả đỏ trước / xanh sau:
 
 ## 11. Duyệt
 - Người duyệt bản sửa (bắt buộc nếu R3 hoặc Critical):

@@ -1,66 +1,33 @@
 ---
 name: api-development
-description: Cài đặt hoặc sửa endpoint API backend đúng contract đã Approved trong api-design.md, gồm validation, guard phân quyền, ánh xạ lỗi, test và báo cáo bàn giao.
+description: Implement or modify backend API endpoints exactly per the Approved contract in api-design.md, including validation, authorization guards, error mapping, test case list and handoff report.
 ---
 
 # API Development Skill
 
-## 1. Mục tiêu
+Implement endpoints exactly per the Approved contract: validate input, apply authorization guards, return errors per the standard mapping. Do not create or change contracts yourself.
 
-Hiện thực endpoint đúng contract đã Approved: validate đầu vào, áp guard phân quyền, trả lỗi theo ánh xạ chuẩn, có test và bằng chứng. Không tự tạo hay đổi contract.
+## Entry gate
 
-## 2. Cổng vào
+Besides `project-rules` 2, required: the endpoint's contract in api-design; related schema in database-design (if missing, stop and report).
 
-Dừng và ghi `open-questions.md` (OQ-<NN>) nếu thiếu một trong các điều kiện:
-- FR có AC (acceptance-criteria.md) đã duyệt.
-- Contract endpoint ở trạng thái Approved trong api-design.md.
-- Schema liên quan đã có (database-design.md); chưa có thì chuyển skill `database-design`.
+Primary sources: plan; existing API code.
+If the plan lacks something, look up the exact section, do not read the whole file: api-design §1.2 Chi tiết API (related endpoints), §3.2 Quy ước chung, §4 Authentication & Authorization; database-design §3.3 Chi tiết bảng (related tables); module-design §5 Ranh giới và quyền sở hữu; error-handling §3 Mã lỗi, §5 Phản hồi lỗi API; security-standards §5 Kiểm tra đầu vào, §8 Bảo mật API.
 
-## 3. Đầu vào
+## Procedure
 
-- FR, acceptance-criteria.md, business-rules.md
-- api-design.md (contract), database-design.md, module-design.md
-- error-handling.md (ánh xạ lỗi), security-standards.md
-- Mã nguồn API hiện có
+1. **Read** FR/AC, business rules, contract; identify the actor and permission requirements.
+2. **Check the contract** against the requirements. If missing or conflicting, stop and record an open question; changing the contract requires approval.
+3. **Implement** following the project's existing conventions: input validation → thin handler calling a service → return response or error per error-handling. Business logic lives in the service and belongs to `backend-development`.
+4. **Authorization:** apply existing guards per the permission matrix; do not define permissions yourself.
+5. **Test cases:** record in plan §5 with layer (unit, integration; e2e if an AC requires it). Cover: success, invalid or missing input, unauthenticated, wrong permission, access to another user's resource, business rule violation, DB interaction errors.
 
-## 4. Quy trình
+## Done when
 
-1. **Đọc**: FR/AC, business rule, contract; xác định actor và yêu cầu quyền.
-2. **Đối chiếu contract**: so khớp yêu cầu với contract Approved trong api-design.md. Thiếu hoặc mâu thuẫn thì dừng, ghi OQ. Đổi contract là việc cần duyệt, không tự chế.
-3. **Hiện thực**: validation đầu vào → handler mỏng gọi service → trả response/lỗi theo error-handling.md. Logic nghiệp vụ trong service thuộc `backend-development`. Theo quy ước hiện có của dự án.
-4. **Phân quyền**: áp guard theo `authentication-rbac`; không tự định nghĩa quyền.
-5. **Test**: gọi `unit-testing` / `integration-testing` (và `e2e-testing` nếu AC yêu cầu). Phủ: thành công, đầu vào sai, chưa xác thực, sai quyền, truy cập tài nguyên người khác, vi phạm business rule.
-6. **Tự review**: chuyển `code-review`; vùng bảo mật chuyển `security-review`.
-7. **Bàn giao**: theo mục 8.
+- The endpoint matches every detail of the contract, including pagination, sorting, filtering and idempotency if the contract specifies them.
+- Error codes and error format follow error-handling; responses return no sensitive fields beyond the contract.
+- Test cases from step 5 are recorded in the plan.
 
-## 5. Checklist
+## Report
 
-- [ ] Endpoint khớp từng chi tiết contract Approved.
-- [ ] Mọi đầu vào ngoài hệ thống được validate ở backend.
-- [ ] Guard phân quyền ở backend, không tin client.
-- [ ] Mã lỗi/định dạng lỗi theo error-handling.md; không lộ stack trace hay dữ liệu nhạy cảm.
-- [ ] Không hardcode secret.
-- [ ] Đổi schema có migration và đã qua `database-design`.
-
-## 6. Việc không được làm
-
-- Không bịa business rule hoặc contract.
-- Không bỏ qua hay nới phân quyền.
-- Không sửa module không liên quan.
-- Không đổi schema khi chưa có migration được duyệt.
-- Yêu cầu mâu thuẫn thì dừng và hỏi.
-
-## 7. Tiêu chí hoàn thành (DoD)
-
-- Cổng vào thoả; endpoint khớp contract.
-- Test đã chạy có bằng chứng; test skip/fail được ghi rõ.
-- Checklist đạt; review hoàn tất.
-- Tài liệu bị ảnh hưởng đã cập nhật hoặc ghi lại cần cập nhật.
-
-## 8. Báo cáo bàn giao
-
-- Endpoint đã làm/sửa và contract tham chiếu
-- File thay đổi
-- Test đã chạy và kết quả
-- Quyết định cần duyệt, OQ còn mở
-- Rủi ro còn lại
+Write in the Task's handoff report: endpoints implemented or modified and the referenced contract.

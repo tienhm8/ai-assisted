@@ -1,15 +1,13 @@
 # workflows
 
-Quy trình nhiều bước gắn với vòng đời và các điểm duyệt của người (điều kiện duyệt và người quyết ghi ngay trong tài liệu liên quan). Mỗi workflow nêu bước, người duyệt, bằng chứng cần có ở mỗi cổng.
+Điều phối: chọn Skill, xếp thứ tự, dừng ở đâu. Workflow không chép lại nội dung Skill hay Rule. Sửa workflow cần Task riêng và người duyệt.
 
-| File | Nội dung | Trạng thái |
-| --- | --- | --- |
-| [context-loading.md](context-loading.md) | Nạp gì cho Task nào: nhóm Rule, Skill, vai, workflow, template theo loại Task (T1–T15) và giai đoạn | Approved |
-| [task-execution.md](task-execution.md) | Quy trình 10 bước AI thực hiện một Task (bắt buộc) | Approved |
-| [skill-orchestration.md](skill-orchestration.md) | Quy trình điều phối: nhận diện Task, chọn Skill, phối hợp, kiểm tra điều kiện đầu ra, bàn giao | Approved |
-| [skill-selection.md](skill-selection.md) | Bảng chọn Skill theo công việc và chuỗi Skill theo loại Task (T1–T15) | Approved |
-| [release-workflow.md](release-workflow.md) | Chuẩn bị phát hành; người quyết định và deploy (Owner quyết) | Approved |
+| File | Trả lời câu hỏi |
+| --- | --- |
+| [task-execution.md](task-execution.md) | Một Task đi qua những bước nào, mỗi bước nạp gì, khi nào dừng |
+| [task-types.md](task-types.md) | Loại Task (T1–T15) nạp Rule nào, dùng chuỗi Skill nào, template và model nào |
+| [load-conditions.md](load-conditions.md) | Điều kiện nạp Rule và dùng Skill có điều kiện; chỉ nạp khi cần |
+| [model-effort.md](model-effort.md) | Hạng model, mức effort và ánh xạ sang công cụ thật |
+| [release-workflow.md](release-workflow.md) | Chuẩn bị phát hành ra sao, ai quyết và ai deploy |
 
-Workflow theo loại việc (feature, bug fix, refactor, đổi yêu cầu, đổi kiến trúc, sự cố bảo mật, phát hành) hiện được biểu diễn dưới dạng **chuỗi Skill** trong [skill-selection.md](skill-selection.md). Chỉ tách thành file riêng khi một loại cần thêm bước, người duyệt hoặc bằng chứng mà chuỗi Skill chưa diễn tả được.
-
-Quy ước: workflow chỉ điều phối, không chép lại nội dung Skill hay Rule. Sửa workflow thuộc vùng 🔴.
+Chỉ thêm file workflow mới khi một loại việc cần bước, người duyệt hoặc bằng chứng mà chuỗi Skill trong `task-types.md` không diễn tả được.

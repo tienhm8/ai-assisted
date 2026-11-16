@@ -1,52 +1,36 @@
 ---
 name: requirement-review
-description: Rà soát yêu cầu về tính đầy đủ, rõ ràng, nhất quán, kiểm thử được và truy vết được trước khi thiết kế/triển khai; chỉ khuyến nghị, không đổi trạng thái hay sửa tài liệu.
+description: Review requirements for completeness, clarity, consistency, testability, and traceability before design/implementation; recommend only, do not change status or edit documents.
 ---
 
 # Requirement Review Skill
 
-## 1. Mục tiêu
+Find gaps, contradictions, ambiguities, and risks in requirements. Propose only in the report: do not edit requirement files.
 
-Tìm lỗ hổng, mâu thuẫn, điểm mơ hồ và rủi ro trong yêu cầu. Skill chỉ **đề xuất trong báo cáo**: không sửa trực tiếp file yêu cầu, không đổi trạng thái, không duyệt thay stakeholder.
+## Entry gate
 
-## 2. Cổng vào
+Requirement documents to review (BRD, FR table, AC) exist in Draft or In Review. If missing, stop and ask.
 
-- Có tài liệu yêu cầu cần rà (BRD, bảng FR, AC) ở trạng thái Draft hoặc In Review. Thiếu thì dừng và hỏi.
+Read: BRD, FR table, business-rules, NFR, acceptance-criteria, scope, glossary, open-questions, relevant architecture docs if any.
 
-## 3. Đầu vào
+## Procedure
 
-BRD, bảng FR, business-rules.md, NFR.md, acceptance-criteria.md, phạm vi, glossary, open-questions.md, và tài liệu kiến trúc liên quan (nếu có).
+1. **Completeness:** main, alternative, error flows; input validation; outputs; permissions; data ownership; state transitions.
+2. **Clarity:** unambiguous sentences, terms match glossary, clear actors, measurable constraints.
+3. **Consistency:** FR vs. BR, vs. NFR, vs. scope, vs. authorization, vs. existing decisions, across FRs.
+4. **Testability:** AC observable, with preconditions and results, with boundaries and error flows.
+5. **One-way traceability:** each FR links to BRQ/BR; each Must/Should BRQ has at least one FR (filter the "BRQ nguồn" column of the FR table); each AC points to an FR; every BR has AC. A document declaring two-way links is a finding.
+6. **Open questions:** which scope each Open question blocks; assumptions past their review deadline; ambiguities without an open question.
+7. **Feasibility:** only flag risks (technical, integration, data, performance, security) to hand to `architecture-design`; do not make architecture decisions.
+8. **Classify findings:** Critical (blocks implementation) · High (major gap or contradiction) · Medium (unclear) · Low (documentation improvement).
 
-## 4. Quy trình
+## Done when
 
-1. **Đầy đủ:** luồng chính, thay thế, lỗi; validate đầu vào; kết quả đầu ra; quyền; sở hữu dữ liệu; chuyển trạng thái; xử lý lỗi.
-2. **Rõ ràng:** câu không mơ hồ, thuật ngữ khớp glossary, actor rõ, ràng buộc đo được.
-3. **Nhất quán:** FR với BR, FR với NFR, với phạm vi, với phân quyền, với quyết định đã có, giữa các FR.
-4. **Kiểm thử được:** AC quan sát được, có điều kiện đầu và kết quả, có biên và luồng lỗi.
-5. **Truy vết (một chiều):** mỗi FR có liên kết BRQ/BR; mỗi AC trỏ FR; mọi BR có AC. Báo lỗi nếu tài liệu khai báo liên kết hai chiều.
-6. **Open-questions:** OQ trạng thái Open chặn phạm vi nào; giả định đã hết hạn rà soát; điểm mơ hồ phát hiện được mà chưa có OQ.
-7. **Khả thi:** chỉ đánh dấu rủi ro (kỹ thuật, tích hợp, dữ liệu, hiệu năng, bảo mật) rồi chuyển architecture-design; không quyết định kiến trúc.
-8. **Phân loại:** Critical (chặn triển khai) · High (thiếu/mâu thuẫn lớn) · Medium (chưa rõ) · Low (cải thiện tài liệu).
+All seven aspects above reviewed; each finding has all fields; the report states the recommendation and unmet conditions.
 
-## 5. Checklist
+## Report
 
-- [ ] Đầy đủ, rõ ràng, nhất quán, kiểm thử được, truy vết một chiều (xem các bước ở mục 4).
-- [ ] Mọi FR có AC; mọi BR có AC.
-- [ ] Không còn OQ Open chặn phạm vi chưa được nêu trong báo cáo.
+One report: number of requirements reviewed, finding count by level, finding list, blocking issues, approval recommendation.
 
-## 6. Việc không được làm
-
-- Không viết lại yêu cầu đã Approved, không biến giả định thành yêu cầu, không bịa hành vi nghiệp vụ.
-- Giữ nguyên ID yêu cầu.
-
-## 7. Tiêu chí hoàn thành (DoD)
-
-Mọi mục ở §3 đã được kiểm, mọi finding đủ trường ở §5, báo cáo nêu rõ khuyến nghị và điều kiện chưa đạt.
-
-## 8. Báo cáo bàn giao (báo cáo rà soát)
-
-Một báo cáo duy nhất gồm: tóm tắt (số yêu cầu đã rà, số finding theo mức), danh sách finding, vấn đề chặn, khuyến nghị duyệt.
-
-Mỗi finding: mã finding `FND-NN` (chỉ dùng trong báo cáo này), mức độ, ID yêu cầu liên quan (FR/BR/AC/NFR/OQ), mô tả, tác động, đề xuất sửa.
-
-**Khuyến nghị duyệt** dựa trên điều kiện: mọi FR có AC; QA đã rà; OQ đã ghi đầy đủ và không còn OQ Open chặn phạm vi. Đây chỉ là khuyến nghị; người có thẩm quyền mới duyệt.
+- Each finding: ID `FND-<NN>` (used only within this report), severity, related requirement ID, description, impact, proposed fix.
+- Recommend approval when: every FR has AC, QA has reviewed, no scope-blocking open questions remain.

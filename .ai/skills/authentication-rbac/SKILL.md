@@ -1,69 +1,35 @@
 ---
 name: authentication-rbac
-description: Cài đặt và rà soát xác thực, phân quyền, RBAC, quản lý phiên và kiểm quyền theo tài nguyên theo chính sách truy cập đã Approved; mặc định từ chối, kiểm ở backend.
+description: Implement and review authentication, authorization, RBAC, session management and resource-level permission checks per the Approved access policy; deny by default, check on the backend.
 ---
 
 # Authentication & RBAC Skill
 
-## 1. Mục tiêu
+Implement authentication and authorization exactly per the approved policy, enforced on the backend, deny by default. R3 work by default.
 
-Hiện thực xác thực và phân quyền đúng chính sách đã duyệt, thực thi ở backend, mặc định từ chối.
+## Entry gate
 
-## 2. Cổng vào
+Besides `project-rules` 2, the design must have a role model, permission matrix, session policy. Undecided parts are open questions; do not infer them.
 
-Dừng và ghi `open-questions.md` (OQ-<NN>) nếu thiếu:
-- FR có AC và thiết kế Approved: RBAC, Permission Matrix, Session Policy.
-- Chính sách chưa chốt: coi là OQ, không tự suy diễn.
+**Changing** the role model, permissions or session policy: stop, requires Tech Lead and Security approval. Before modifying auth files, check the project's zone map.
 
-Việc **đổi mô hình vai trò, quyền hoặc chính sách phiên** thì dừng: cần Tech Lead + Security duyệt. Trước khi sửa file auth, kiểm bản đồ vùng 🟢🟡🔴 của dự án.
+Primary sources: plan; existing authentication and authorization code.
+If the plan lacks something, look up the exact section, do not read the whole file: system-architecture §6 Authentication & Authorization (design); security-standards §3 Authentication, §4 Authorization, §9 Logging và Audit; api-design §4 Authentication & Authorization; error-handling §5.2 Ánh xạ HTTP status.
 
-Mặc định mức rủi ro R3: bắt buộc chạy `security-review`.
+## Procedure
 
-## 3. Đầu vào
+1. **Read the approved policy:** authentication method, roles, permissions, resource scope, session boundaries, account lifecycle.
+2. **Authentication** per the approved architecture: registration, login, logout, passwords, account status.
+3. **Backend authorization:** check role, permission, ownership, scope; deny by default. Do not assume any role has all permissions.
+4. **Application boundaries:** if the system has multiple applications, keep access boundaries and session policy per spec; block cross-application access.
+5. **Sessions** per security-standards, including expiry and revocation.
+6. **Permission-boundary test cases:** record in plan §5, integration layer (e2e if needed). Cover: unauthenticated, wrong role, wrong owner, out of scope, expired or revoked session, client-supplied fake role, cross-application access. Response codes per error-handling.
 
-- Tài liệu kiến trúc và bảo mật của dự án (RBAC, Permission Matrix, Session Policy)
-- Đặc tả API, quy ước xử lý lỗi, FR/AC
-- Mã xác thực/phân quyền hiện có
+## Done when
 
-## 4. Quy trình
+- Every in-scope resource has backend permission checks, deny by default.
+- Test cases from step 6 are recorded in the plan.
 
-1. **Đọc chính sách đã duyệt**: phương thức xác thực, vai trò, quyền, phạm vi tài nguyên, ranh giới phiên, vòng đời tài khoản.
-2. **Thiết kế xác thực** theo kiến trúc đã duyệt (đăng ký, đăng nhập, đăng xuất, mật khẩu, trạng thái tài khoản).
-3. **Phân quyền ở backend**: kiểm vai trò, quyền, sở hữu, phạm vi; mặc định từ chối; không dựa vào hiển thị UI.
-4. **Ranh giới ứng dụng**: nếu hệ thống có nhiều ứng dụng, giữ ranh giới truy cập và chính sách phiên theo spec; chặn truy cập chéo trái phép.
-5. **Truy cập theo tài nguyên**: người dùng chỉ truy cập tài nguyên được cấp; không giả định vai trò nào có quyền tuyệt đối.
-6. **Phiên**: theo security-standards.md; không tự đặt chính sách phiên chưa chốt.
-7. **Test ranh giới quyền**: gọi `integration-testing` (và `e2e-testing` nếu cần). Phủ: chưa xác thực, sai vai trò, sai chủ sở hữu, ngoài phạm vi, phiên hết hạn/thu hồi, vai trò giả từ client, truy cập chéo ứng dụng. Mã 401/403/404 theo error-handling.md.
-8. **Rà soát**: gọi `security-review`.
-9. **Bàn giao**: theo mục 8.
+## Report
 
-## 5. Checklist
-
-- [ ] Xác thực thực thi đúng; mật khẩu xử lý an toàn.
-- [ ] Phân quyền ở backend, default-deny.
-- [ ] Kiểm sở hữu và phạm vi.
-- [ ] Thu hồi phiên được xét.
-- [ ] Không chính sách chưa chốt nào bị ngầm giả định.
-
-## 6. Việc không được làm
-
-- Không bỏ qua phân quyền backend.
-- Không tin vai trò do client gửi.
-- Không tự gán quyền ngầm; không mặc định Admin có mọi quyền.
-- Không đổi vai trò/quyền/chính sách phiên đã duyệt khi chưa có duyệt.
-- Không nới xác thực để test qua.
-
-## 7. Tiêu chí hoàn thành (DoD)
-
-- Cổng vào thoả; phân quyền thực thi ở backend và đã test ranh giới.
-- `security-review` hoàn tất; phát hiện nghiêm trọng đã xử lý.
-- Thay đổi nhạy cảm đã được duyệt.
-- Tài liệu bị ảnh hưởng đã cập nhật hoặc ghi lại cần cập nhật.
-
-## 8. Báo cáo bàn giao
-
-- Thay đổi xác thực, vai trò/quyền, phiên
-- API/tài nguyên được bảo vệ
-- Test ranh giới quyền đã chạy và kết quả
-- Phát hiện từ security-review, rủi ro còn lại
-- Quyết định cần duyệt, OQ còn mở
+Write in the Task's handoff report: changes to authentication, roles, permissions, sessions; protected resources.

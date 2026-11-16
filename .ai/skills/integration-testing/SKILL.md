@@ -1,67 +1,42 @@
 ---
 name: integration-testing
-description: Thiết kế và chạy integration test để kiểm chứng tương tác giữa API, service, CSDL và phụ thuộc ngoài, truy vết về AC, báo cáo bằng TEST-REPORT-TEMPLATE.
+description: Design and run integration tests verifying interactions between API, services, DB, and external dependencies, traced to AC, reported with TEST-REPORT-TEMPLATE.
 ---
 
 # Integration Testing Skill
 
-## 1. Mục tiêu
+Prove components cooperate correctly across boundaries: API, DB, authorization, external systems.
 
-Chứng minh các thành phần phối hợp đúng qua các ranh giới đã định (API, CSDL, phân quyền, hệ thống ngoài).
+## Entry gate
 
-## 2. Cổng vào
+- Task has AC. If missing, stop and ask.
+- An isolated test environment exists (local or disposable temporary DB). If not, record not-run with the reason and request a time-limited waiver.
 
-- Task có AC (`<FR>-AC<N>`) và mức rủi ro; thiếu thì dừng và hỏi.
-- Có môi trường test cô lập (local hoặc CSDL tạm có thể huỷ). Không có thì ghi not-run kèm lý do và miễn trừ có thời hạn.
+Primary sources: plan (AC → test); existing test infrastructure.
+If the plan lacks something, look up only the exact section, do not read the whole file: testing-strategy §4 Các tầng test, §7 Dữ liệu test (giả/ẩn danh), §10 Môi trường test; api-design §1.2 Chi tiết API (relevant endpoints); database-design §6 Transaction và đồng thời; module-design §4 Giao tiếp giữa các module; security-standards §4 Authorization.
 
-## 3. Đầu vào
+## Procedure
 
-- Task, acceptance-criteria, FR/BR liên quan
-- testing-strategy, api-design, database-design, tài liệu kiến trúc (ranh giới, phân quyền)
-- Rules: testing-rules, security-rules, database-rules
-- Hạ tầng test hiện có
+1. **Identify boundaries:** API–service, service–DB, service–service, authentication–authorization, application–external system, producer–consumer.
+2. **List scenarios** per AC: success, bad request, DB constraint violation, transaction failure, concurrency, timeout, external system failure, insufficient permission (wrong role, wrong owner, not logged in).
+3. **Prepare the environment:** isolated test DB, migrations applied, deterministic data, fake credentials, isolated external dependencies.
+4. **Write tests** checking real data flow, request/response contract, persistence, transactions and rollback, error propagation, authorization enforcement. Use real infrastructure at the boundary under test; tests carry AC IDs.
+5. **Data consistency:** foreign keys, unique, atomicity, concurrent updates, duplicate requests, recovery from partial failure.
+6. **Migration** (when schema changes): run from scratch on a clean DB, check the restore path.
+7. **Run and classify failures:** application, environment, test data, configuration, external dependency.
+8. **Clean up** test data and resources.
 
-## 4. Quy trình
+## Limits
 
-1. **Xác định ranh giới**: API-service, service-CSDL, service-service, xác thực-phân quyền, ứng dụng-hệ thống ngoài, producer-consumer.
-2. **Liệt kê kịch bản** theo AC: thành công, request sai, vi phạm ràng buộc CSDL, giao dịch lỗi, đồng thời, timeout, hệ thống ngoài lỗi, và **ca không đủ quyền** (vai trò sai, sai chủ sở hữu bản ghi, chưa đăng nhập).
-3. **Chuẩn bị môi trường**: CSDL test cô lập, áp migration, dữ liệu xác định, thông tin xác thực test là giả (không dùng secret thật), cô lập phụ thuộc ngoài.
-4. **Dữ liệu**: chỉ dữ liệu giả hoặc ẩn danh. Không dùng và không chạm dữ liệu production, kể cả khi được duyệt.
-5. **Viết test** kiểm: luồng dữ liệu thật, hợp đồng request/response, lưu trữ, giao dịch và rollback, lan truyền lỗi, thực thi phân quyền. Dùng hạ tầng thật ở ranh giới đang kiểm.
-6. **Nhất quán dữ liệu**: khoá ngoại, unique, nguyên tử, cập nhật đồng thời, request trùng, phục hồi khi lỗi từng phần.
-7. **Kiểm tra migration** (khi đổi schema): chạy trên CSDL sạch từ đầu đến cuối, kiểm cách khôi phục (rollback hoặc dựng lại), ghi lệnh và output.
-8. **Chạy và phân tích lỗi**: phân loại lỗi ứng dụng, môi trường, dữ liệu test, cấu hình, phụ thuộc ngoài. Chưa có CI thì chạy tại máy và ghi miễn trừ có thời hạn.
-9. **Dọn dẹp** dữ liệu và tài nguyên test.
+- Do not use production data, even if approved.
+- Do not replace integration tests entirely with mocks.
+- Do not hide environment errors.
 
-## 5. Checklist
+## Done when
 
-- [ ] Mỗi ranh giới quan trọng có test, mang ID AC.
-- [ ] Có ca thành công, lỗi, và không đủ quyền.
-- [ ] Ràng buộc CSDL, giao dịch, rollback được kiểm.
-- [ ] Lỗi phụ thuộc ngoài được kiểm.
-- [ ] Dữ liệu giả/ẩn danh, thông tin xác thực test là giả.
-- [ ] Migration đã chạy trên DB sạch và có cách khôi phục (nếu đổi schema).
-- [ ] Test lặp lại được, dọn dẹp an toàn.
+- Each important boundary has tests for success, failure, and insufficient-permission cases.
+- Tests are repeatable in the isolated environment.
 
-## 6. Việc không được làm
+## Report
 
-- Dùng hoặc chạm dữ liệu production, kể cả khi được duyệt.
-- Thay toàn bộ integration test bằng mock.
-- Bỏ qua lỗi ràng buộc CSDL hoặc che lỗi môi trường mà không báo.
-- Xoá, tắt, làm yếu test hoặc hạ ngưỡng để qua cổng.
-- Sửa cấu hình production; đưa secret thật vào test.
-
-## 7. Tiêu chí hoàn thành (DoD)
-
-- Mọi AC trong phạm vi có test đạt; AC chưa có test ghi vào "Còn thiếu".
-- Test chạy trong môi trường cô lập, kết quả lặp lại được.
-- Lỗi đã xử lý hoặc ghi lại; không có skipped nào chưa báo.
-
-## 8. Báo cáo bàn giao
-
-Điền TEST-REPORT-TEMPLATE, gồm:
-- Ranh giới đã test, kịch bản, AC tương ứng (file::tên)
-- Môi trường dùng (local/DB tạm, phiên bản)
-- Lệnh đã chạy và output thật; pass / fail / skipped / not-run kèm lý do
-- Kết quả kiểm migration (nếu có)
-- Phát hiện về toàn vẹn dữ liệu, còn thiếu và rủi ro còn lại
+Fill TEST-REPORT-TEMPLATE: boundaries and scenarios tested with AC, environment used, migration check results, data integrity findings.

@@ -4,7 +4,7 @@
 >
 > **Người quyết: PO/BA** (QA rà khả năng kiểm thử).
 >
-> **Điều kiện duyệt (cổng G2):** mọi FR trong phạm vi có AC kiểm thử được; QA đã rà; điểm chưa rõ ghi vào [open-questions](../00-project-overview/open-questions.md). **Chưa đạt thì không sang thiết kế/code.**
+> **Điều kiện duyệt:** mọi FR trong phạm vi có AC kiểm thử được; QA đã rà; điểm chưa rõ ghi vào [open-questions](../00-project-overview/open-questions.md). **Chưa đạt thì không sang thiết kế/code.**
 
 ## Cấu trúc
 

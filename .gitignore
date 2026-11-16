@@ -1,3 +1,6 @@
 # Worktrees của AI: không commit nội dung; giữ lại thư mục bằng .gitkeep
 .ai/worktrees/*
 !.ai/worktrees/.gitkeep
+# Repo con của dự án: mỗi repo tự commit, repo cha không theo dõi
+project/*
+!project/.gitkeep

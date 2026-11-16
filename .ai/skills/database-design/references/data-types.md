@@ -1,56 +1,44 @@
-# Database Design – Chọn kiểu dữ liệu
+# Database Design – Choosing data types
 
-> Tài liệu tham khảo của Skill `database-design`, dùng ở bước 5. Kiểu chuẩn đã chốt ở database-design §2 được ưu tiên; bảng này dùng khi đề xuất hoặc khi dự án chưa chốt. Luôn kiểm phiên bản hệ quản trị trước khi dùng một kiểu.
+> Reference for Skill `database-design`, used at step 5. Standard types fixed in database-design §2 take priority; use this file when proposing or when the project has not fixed them. Look up concrete type names in the chosen DBMS file (`postgresql.md` §2, `mysql-mariadb.md` §2). Always check the DBMS version before using a type.
 
-## 1. Bảng tra nhanh
+## 1. Lookup table by data kind
 
-| Dữ liệu | PostgreSQL | MariaDB / MySQL | Ghi chú |
-| --- | --- | --- | --- |
-| Khoá thay thế số | `bigint GENERATED ALWAYS AS IDENTITY` | `BIGINT UNSIGNED AUTO_INCREMENT` | `int` dễ cạn với bảng giao dịch |
-| Khoá UUID | `uuid` (sinh UUIDv7 ở ứng dụng hoặc `uuidv7()` từ PG 18) | MariaDB ≥ 10.7: `UUID`; MySQL: `BINARY(16)` + `UUID_TO_BIN(…, 1)` | UUID ngẫu nhiên (v4) làm phân mảnh index clustered của InnoDB; ưu tiên UUID có thứ tự thời gian |
-| Tiền | `numeric(19,4)` hoặc số nguyên đơn vị nhỏ nhất (`bigint`) | `DECIMAL(19,4)` hoặc `BIGINT` | Không dùng `float`/`double`/`real`; PostgreSQL không dùng kiểu `money` (phụ thuộc locale) |
-| Số lượng, tỉ lệ chính xác | `numeric(p,s)` | `DECIMAL(p,s)` | Chọn `p,s` theo nghiệp vụ |
-| Số đo khoa học, toạ độ gần đúng | `double precision` | `DOUBLE` | Chỉ khi chấp nhận sai số |
-| Thời điểm (sự kiện đã xảy ra) | `timestamptz` | `DATETIME(6)` lưu UTC (quy ước ứng dụng) | MySQL/MariaDB `TIMESTAMP` giới hạn tới 2038 và tự đổi theo múi giờ phiên |
-| Ngày (sinh nhật, ngày hiệu lực) | `date` | `DATE` | Không lưu ngày dạng thời điểm |
-| Giờ trong ngày, lịch hẹn theo giờ địa phương | `time` + cột múi giờ IANA | `TIME` + cột múi giờ | Sự kiện tương lai theo giờ địa phương: lưu giờ địa phương + múi giờ, không đổi sang UTC sớm |
-| Khoảng thời gian | `interval`; khoảng ngày giờ: `tstzrange`/`daterange` | Hai cột `start`, `end` + CHECK `start < end` | |
-| Văn bản ngắn có giới hạn nghiệp vụ | `text` + CHECK `char_length(x) <= n` hoặc `varchar(n)` | `VARCHAR(n)` | `n` có căn cứ nghiệp vụ, không đặt `255` theo thói quen |
-| Văn bản dài | `text` | `TEXT`/`MEDIUMTEXT` | MariaDB/MySQL: cột TEXT không có giá trị mặc định ở bản cũ, index cần độ dài tiền tố |
-| Bảng mã | UTF-8 (mặc định của CSDL) | `utf8mb4` + collation phù hợp (`utf8mb4_0900_ai_ci`, `utf8mb4_unicode_520_ci`, `uca1400` ở MariaDB mới) | Không dùng `utf8`/`utf8mb3` (thiếu emoji, một số ký tự) |
-| So sánh không phân biệt hoa thường | `citext` hoặc index trên `lower(x)` | Collation `_ci` | Email: UNIQUE trên dạng đã chuẩn hoá |
-| Boolean | `boolean` | `BOOLEAN` (= `TINYINT(1)`) | Cờ có nhiều hơn hai trạng thái thì dùng cột trạng thái |
-| Tập giá trị cố định | `text` + CHECK | `VARCHAR` + CHECK | Xem modeling-patterns §2 |
-| JSON | `jsonb` | MySQL `JSON`; MariaDB `JSON` (là `LONGTEXT` + CHECK `JSON_VALID`) | Chỉ cho thuộc tính bán cấu trúc; truy vấn thường xuyên vào khoá JSON thì đưa ra cột thật |
-| Địa chỉ IP | `inet` | MariaDB `INET4`/`INET6`; MySQL `VARBINARY(16)` | |
-| Dữ liệu nhị phân, file | Không lưu file trong CSDL; lưu đường dẫn/khóa object storage + checksum | Như trên | `bytea`/`BLOB` chỉ cho dữ liệu nhỏ (khoá, chữ ký) |
-| Mật khẩu | `text` chứa chuỗi băm (argon2id/bcrypt) | `VARCHAR(255)` | Không bao giờ lưu mật khẩu thô hay mã hoá hai chiều |
-| Dữ liệu mã hoá ở mức cột | `bytea` | `VARBINARY`/`BLOB` | Kèm cột phiên bản khoá nếu có xoay vòng khoá |
-| Số điện thoại, mã bưu chính, số tài khoản | `text`/`VARCHAR` | `VARCHAR` | Không dùng kiểu số: mất số 0 đầu, không phải đại lượng tính toán |
-| Toạ độ địa lý | PostGIS `geography(Point, 4326)` | `POINT SRID 4326` + spatial index | Cần extension/engine: ghi vào ADR |
-
-## 2. Quy tắc chọn
-
-1. **Theo nghĩa nghiệp vụ, không theo dữ liệu mẫu.** "Mã đơn hàng gồm chữ số" vẫn là văn bản nếu không dùng để tính toán.
-2. **Nhỏ nhất đủ dùng có dự phòng tăng trưởng.** Ước tính giá trị lớn nhất sau nhiều năm; PK giao dịch dùng 64 bit.
-3. **Kiểu của FK trùng kiểu của PK được tham chiếu**, kể cả `UNSIGNED` và collation ở MariaDB/MySQL.
-4. **NOT NULL mặc định**, DEFAULT chỉ khi giá trị mặc định có nghĩa nghiệp vụ.
-5. **Không lưu giá trị định dạng** (tiền có dấu phân cách, ngày dạng chuỗi).
-6. **Ghi rõ đơn vị** trong tên cột khi không hiển nhiên (`weight_grams`, `duration_seconds`).
-7. **Cột sinh (generated column)** cho giá trị suy ra cần index hoặc ràng buộc; không lưu giá trị suy ra bằng tay.
-8. **Không dùng `NCHAR`/`NVARCHAR` để có Unicode.** Đó là cách của SQL Server; PostgreSQL không có kiểu này, MariaDB/MySQL coi `NVARCHAR` là `VARCHAR` với charset `utf8mb3` (thiếu emoji, một số ký tự). Đặt `utf8mb4` ở mức CSDL/bảng và dùng `VARCHAR`/`TEXT`.
-9. **`CHAR(n)` chỉ cho giá trị độ dài cố định thật** (mã quốc gia ISO, mã tiền tệ). Chuỗi độ dài thay đổi dùng `VARCHAR`/`text`: `CHAR` đệm khoảng trắng, tốn chỗ và gây so sánh khó lường; PostgreSQL khuyến nghị không dùng `char(n)`.
-10. **Kiểu nhỏ hơn giúp index nhỏ hơn**, nhất là với InnoDB nơi PK nằm trong mọi index phụ; nhưng không đánh đổi khả năng tăng trưởng (quy tắc 2).
-
-## 3. Khác biệt hay gây lỗi giữa PostgreSQL và MariaDB/MySQL
-
-| Vấn đề | PostgreSQL | MariaDB / MySQL |
+| Data | Choose | Avoid |
 | --- | --- | --- |
-| DDL trong transaction | Có (rollback được cả DDL) | Không; mỗi DDL tự commit, migration lỗi giữa chừng để lại trạng thái dở |
-| Partial index | Có | Không; dùng cột sinh |
-| CHECK | Luôn thực thi | MySQL ≥ 8.0.16, MariaDB ≥ 10.2 |
-| Chế độ SQL | Chặt | Cần `STRICT_TRANS_TABLES` (hoặc tương đương) để không tự cắt chuỗi, tự đổi giá trị sai |
-| Clustered index | Không (heap) | InnoDB clustered theo PK: PK ngẫu nhiên hoặc rộng làm chậm ghi và phình mọi index phụ |
-| Index FK | Không tự tạo | InnoDB tự tạo nếu chưa có |
-| So sánh chuỗi | Phân biệt hoa thường theo mặc định | Theo collation, thường không phân biệt |
-| Độ dài khoá index | Lớn | Giới hạn byte (3072 với InnoDB DYNAMIC); `utf8mb4` = 4 byte/ký tự |
+| Numeric surrogate key | 64-bit auto-increment integer | 32-bit integer for transaction tables (easily exhausted) |
+| UUID key | Time-ordered UUID (v7), stored as native UUID type or 16-byte binary | Random UUID (v4) on systems with PK-clustered index: index fragmentation, slow writes |
+| Money | Exact decimal (19,4) or integer in smallest unit | Floating point; locale-dependent money type |
+| Exact quantities, ratios | Decimal `(p,s)` per business needs | |
+| Scientific measurements, approximate coordinates | Double-precision floating point | Using it where error is unacceptable |
+| Instant (event that happened) | Timestamp with time zone, or UTC by application convention | Types limited to year 2038 or auto-converted by session time zone |
+| Date (birthday, effective date) | Date type | Storing dates as timestamps |
+| Local time, future appointments | Local time + IANA time zone column | Converting to UTC early |
+| Time range | Range type if available; otherwise two columns `start`, `end` + CHECK `start < end` | |
+| Short text with business limit | Variable-length string, limit `n` with justification | `255` by habit |
+| Long text | Long text type | Full-column index (usually needs prefix or full-text) |
+| Character set | Full UTF-8 (4 bytes/char) at DB/table level | 3-byte UTF-8 variant (missing emoji, some characters); `NCHAR`/`NVARCHAR` |
+| Case-insensitive comparison | Case-insensitive collation/type, or index on normalized form | Email: UNIQUE on non-normalized form |
+| Boolean | Boolean type | Flag with more than two states: use a status column |
+| Fixed value set | String + CHECK (see modeling-patterns §2) | `ENUM` when values may change or be reordered |
+| JSON | JSON type (binary if available) for semi-structured attributes | Frequently queried JSON keys: move to real columns |
+| IP address | Native IP type if available; otherwise 16-byte binary | String |
+| Binary data, files | Object storage path/key + checksum | Storing files in the DB; binary only for small data (keys, signatures) |
+| Password | String holding a hash (argon2id/bcrypt) | Plain or reversibly encrypted password |
+| Column-level encrypted data | Binary, plus key version column if keys rotate | |
+| Phone number, postal code, account number | String | Numeric type: loses leading zeros, not a computed quantity |
+| Geographic coordinates | Spatial type SRID 4326 + spatial index | Needs extension/engine: record ADR |
+
+## 2. Selection rules
+
+1. **By business meaning, not sample data.** "Order code consists of digits" is still text if not used for computation.
+2. **Smallest sufficient with growth headroom.** Estimate the max value over many years; transaction PKs use 64 bits.
+3. **FK type matches the referenced PK type**, including sign, charset and collation.
+4. **NOT NULL by default**, DEFAULT only when the default has business meaning.
+5. **Do not store formatted values** (money with separators, dates as strings).
+6. **State the unit** in the column name when not obvious (`weight_grams`, `duration_seconds`).
+7. **Generated columns** for derived values needing an index or constraint; do not store derived values manually.
+8. **Set Unicode at DB/table level**, do not use `NCHAR`/`NVARCHAR` (the SQL Server way).
+9. **Fixed-length strings only for truly fixed values** (ISO country code, currency code): fixed types pad with spaces, waste space, compare unpredictably.
+10. **Smaller types give smaller indexes**, especially when the PK is in every secondary index (clustered index); but do not trade away growth capacity (rule 2).
+11. **Check behavior differences of the chosen DBMS** before use: whether DDL can roll back, whether CHECK is enforced, strict SQL mode, index key length, default string comparison (§1 of the DBMS file).
