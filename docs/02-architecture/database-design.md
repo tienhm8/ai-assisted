@@ -2,10 +2,10 @@
 
 | Thuộc tính | Giá trị |
 | --- | --- |
-| Trạng thái | Approved |
+| Trạng thái | Draft |
 | Người phụ trách |  |
-| Người duyệt |  |
-| Phiên bản · Ngày | 0.1 ·  |
+| Người duyệt (dự án) | Kiến trúc sư |
+| Phiên bản · Ngày |  |
 | Tài liệu liên quan | system-architecture.md, module-design.md, api-design.md, ../01-requirements/business-rules.md, ../03-engineering/coding-standards.md, ../03-engineering/security-standards.md, ../05-operations/deployment.md, ../05-operations/backup-recovery.md, ../../.ai/rules/database-rules.md, ../../.ai/skills/database-design/SKILL.md |
 
 > **Mục đích.** Database Schema: mô hình dữ liệu, ràng buộc, quy tắc migration, seed và dữ liệu test (dữ liệu test là dữ liệu giả/ẩn danh).
@@ -35,14 +35,14 @@ Quy ước đặt tên chung cho mã nguồn ở [coding-standards](../03-engine
 | Bảng mã, collation |  |
 | Công cụ migration, thư mục, cách đặt tên file |  |
 | Tài khoản CSDL (owner, migrator, app, read-only) |  |
-| MongoDB: schema validation, `schema_version`, write concern, read preference |  |
+| Quy ước riêng của hệ quản trị đã chốt (nếu có) |  |
 
 ## 3. Mô hình dữ liệu
-Dùng MongoDB (CSDL tài liệu): bảng = collection, cột = field. §3.3 ghi cấu trúc document (field nhúng, mảng và giới hạn số phần tử) và validator; §3.5 cột "Quan hệ" ghi nhúng hay tham chiếu kèm lý do, BR không có ràng buộc ở CSDL ghi cách giữ toàn vẹn. Hướng dẫn chi tiết ở [mongodb](../../.ai/skills/database-design/references/mongodb.md).
+Hệ quản trị đã chốt ở [system-architecture](system-architecture.md) §4; chọn hoặc đổi hệ quản trị cần ADR. Thuật ngữ trong file này theo CSDL quan hệ (bảng, cột, FK); CSDL tài liệu ánh xạ bảng → collection, cột → field, và ghi ở §3.3 cấu trúc document, §3.5 cách nhúng hay tham chiếu kèm lý do.
 
 ### 3.1 ERD / mô hình dữ liệu
 Mô hình khái niệm và logic: thực thể chính và quan hệ. Mỗi thực thể thuộc một module sở hữu ([module-design](module-design.md)).
-<!-- Sơ đồ (Mermaid hoặc ảnh trong repo) -->
+<!-- Điền theo từng dự án: sơ đồ (Mermaid hoặc ảnh trong repo) -->
 
 ### 3.2 Danh sách bảng
 | Bảng | Module sở hữu | Mục đích | Khoá / ràng buộc | Dữ liệu nhạy cảm (D2/D3) |
@@ -85,13 +85,24 @@ Chỉ ghi khi đã áp dụng; mỗi quyết định có ADR.
 |  | | | | | |
 
 ### 3.7 Cache
-Chỉ ghi khi đã áp dụng; mỗi cache truy ra một AP ở §3.4 và có số liệu cho thấy bậc tối ưu truy vấn/index chưa đủ. Quyết định kiến trúc (công nghệ cache, HA) ở [system-architecture](system-architecture.md) §7.
+Ngưỡng của dự án để xét điều kiện "thay đổi liên tục" và "ít được đọc" của Rule `cache`:
 
-| Key mẫu | Module sở hữu | AP | L1/L2 | Mô hình đọc/ghi | TTL (jitter) | Sự kiện xoá key (mọi đường ghi) | Chống dồn tải | Warm-up (T1/T2/không) |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-|  | | | | | | | | |
+| Ngưỡng | Giá trị |
+| --- | --- |
+| Tỉ lệ đọc/ghi tối thiểu để được cache |  |
+| Số lượt đọc tối thiểu trong một khoảng TTL |  |
 
-Warm-up: trigger, timeout của T1, giới hạn N của T2, ngân sách tải CSDL (lô, đồng thời) và nơi snapshot hot list. Thứ tự chạy khi phát hành ghi ở [deployment](../05-operations/deployment.md) §9.
+<!-- Điền theo từng dự án -->
+
+Chỉ ghi khi đã áp dụng; mỗi cache truy ra một AP ở §3.4 đã qua tối ưu truy vấn/index (§3.5) và ghi điều kiện được cache đã thoả thế nào. Quyết định kiến trúc (công nghệ cache, HA) ở [system-architecture](system-architecture.md) §7.
+
+| Key mẫu | Module sở hữu | Repository | AP | Khoảng trễ chấp nhận | Mức dữ liệu (cao nhất trong value) | L1/L2 | Mô hình đọc/ghi (xoá / cập nhật có version) | TTL từng tầng (jitter) | Sự kiện xoá key (mọi đường ghi) | Chống dồn tải (ghi "hot" nếu lock giữa instance) | Warm-up (W1/W2/không) |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+|  | | | | | | | | | | | |
+
+Value chứa D3: ghi cách bảo vệ ở tầng cache và người duyệt Security. Công nghệ cache, quy ước key, trần kích thước value ghi ở đây nếu chưa có ở system-architecture §7.
+
+Warm-up: trigger, timeout của W1, giới hạn N của W2, ngân sách tải CSDL (lô, đồng thời) và nơi snapshot hot list. Thứ tự chạy khi phát hành ghi ở [deployment](../05-operations/deployment.md) §9.
 
 ## 4. Vòng đời dữ liệu
 | Giai đoạn | Quy tắc |
@@ -116,7 +127,7 @@ Ranh giới transaction, mức cô lập, cách xử lý xung đột (khoá lạ
 <!-- Điền theo từng dự án -->
 
 ## 7. Migration và seed
-Quy tắc viết migration (có thể quay lui, tương thích ngược khi deploy), thứ tự chạy, seed dữ liệu, dữ liệu test (giả/ẩn danh). Mức kiểm soát khi chạy migration production: xem [README gốc](../../README.md), mục "Kiểm soát AI". Quy trình triển khai migration xem [deployment](../05-operations/deployment.md) §9.
+Quy tắc viết migration (có thể quay lui, tương thích ngược khi deploy), thứ tự chạy, seed dữ liệu, dữ liệu test (giả/ẩn danh). Mức kiểm soát khi chạy migration production: xem [ai-governance](../03-engineering/ai-governance.md) §2. Quy trình triển khai migration xem [deployment](../05-operations/deployment.md) §9.
 <!-- Điền theo từng dự án -->
 
 ## 8. Sao lưu và khôi phục

@@ -1,61 +1,38 @@
 ---
 name: continuous-improvement
-description: Tổng hợp KPI theo kỳ từ nguồn thật, so với baseline, tìm nguyên nhân gốc và đề xuất cải tiến rule, skill, workflow, agent vào ai-kpi.md; việc sửa vùng cấu hình AI chỉ đề xuất và do người duyệt.
+description: Compile periodic KPIs from real sources, compare with baseline, find root causes and propose improvements to rules, skills, workflows, agents in ai-kpi.md; changes to the AI configuration zone are only proposed and done by the reviewer.
 ---
 
 # Continuous Improvement Skill
 
-## 1. Mục tiêu
+Use real data to learn whether AI improves development, and propose improvements to Rules, Skills, workflows, agents. Metrics are for improving the system, not for ranking individuals.
 
-Dùng số liệu thật để biết AI có giúp phát triển tốt hơn không, và cải tiến hệ thống (rule, skill, workflow, agent). Chỉ số dùng để cải tiến hệ thống, không để xếp hạng cá nhân.
+## Entry gate
 
-## 2. Cổng vào
+- Data for the measurement period and a baseline exist in ai-kpi.
+- Missing baseline: state that it is missing and propose how to measure. Missing period data: stop and record an open question.
 
-- Có dữ liệu của kỳ đo và baseline trong ai-kpi.md.
-- Thiếu baseline: ghi rõ là thiếu, đề xuất cách đo, không suy đoán. Thiếu dữ liệu kỳ đo thì dừng và ghi OQ-<NN>.
+Read: ai-kpi; the period's handoff reports, test reports, bugs, release reports, review results, security findings; roadmap; related Rules, Skills, workflows.
 
-## 3. Đầu vào
+## Procedure
 
-- ai-kpi.md (nhóm KPI, định nghĩa, baseline, kết quả)
-- Delivery Report, TEST-REPORT, BUG, release report, kết quả review, finding bảo mật
-- roadmap.md (mốc rà soát); .ai/rules, .ai/skills, .ai/workflows liên quan
+1. **Define the period** and measurement scope; use only KPIs already defined in ai-kpi.
+2. **Collect data** from real sources, recording the source. If unavailable, write "not measured".
+3. **Record results** in the per-period results table, split by module and complexity level, compared with baseline.
+4. **Analyze trends:** productivity counts as improved only when quality and security did not worsen.
+5. **Root cause** for each worsened KPI: trace from handoff reports, bugs, reviews to the related Rules, Skills, workflows. If evidence is insufficient, record it as a hypothesis.
+6. **Propose improvements** in the action table: problem, target, action, owner, how to measure effectiveness next period.
+7. **Split a separate Task** for each Rule, Skill, workflow change.
 
-## 4. Quy trình
+## Limits
 
-1. **Xác định kỳ** và phạm vi đo; chỉ dùng KPI đã có định nghĩa đầy đủ trong ai-kpi.md.
-2. **Thu số liệu** từ nguồn thật, ghi nguồn. Không có thì ghi "chưa đo".
-3. **Ghi kết quả** vào bảng Kết quả theo kỳ, tách theo module và mức phức tạp, so với baseline.
-4. **Phân tích xu hướng**: đối chiếu cả năng suất và chất lượng, bảo mật. Năng suất chỉ tính là cải thiện khi chất lượng và bảo mật không xấu đi.
-5. **Nguyên nhân gốc** cho mỗi KPI xấu đi: lần theo Delivery Report, BUG, review đến rule, skill, workflow hay agent liên quan. Chưa đủ chứng cứ thì ghi là giả thuyết.
-6. **Đề xuất cải tiến** và ghi vào bảng Hành động cải tiến: vấn đề, đối tượng (rule, skill, workflow, agent), hành động, người phụ trách.
-7. **Tách Task riêng** cho mỗi thay đổi rule/skill/workflow (vùng 🔴): AI chỉ đề xuất, người có thẩm quyền duyệt, AI không tự sửa.
-8. **Kiểm tra kỳ sau**: ghi cách đo hiệu quả của hành động.
+- Do not round or guess data.
 
-## 5. Checklist
+## Done when
 
-- [ ] Mọi số liệu có nguồn; chỗ thiếu ghi "chưa đo".
-- [ ] So với baseline; baseline thiếu đã nêu.
-- [ ] Chất lượng và bảo mật được xét cùng năng suất.
-- [ ] Nguyên nhân gốc phân biệt rõ với giả thuyết.
-- [ ] Mỗi hành động có đối tượng, người phụ trách, cách đo kết quả.
+- Period results and improvement actions are recorded in ai-kpi (Draft); all data has a source.
+- Each worsened KPI has a root cause or a hypothesis with a way to verify it.
 
-## 6. Việc không được làm
+## Report
 
-- Không bịa hay làm tròn số liệu; không suy đoán baseline.
-- Không xếp hạng hay quy lỗi cho cá nhân.
-- Không tự sửa rule, skill, workflow, agent; chỉ đề xuất qua Task riêng.
-- Không kết luận cải thiện khi chất lượng hoặc bảo mật xấu đi.
-- Không đưa dữ liệu D3 vào báo cáo.
-
-## 7. Tiêu chí hoàn thành (DoD)
-
-- Kết quả kỳ và hành động cải tiến đã ghi vào ai-kpi.md (Draft).
-- Mỗi KPI xấu đi có nguyên nhân gốc hoặc giả thuyết kèm cách kiểm chứng.
-- Task đề xuất cho thay đổi vùng 🔴 đã nêu; người duyệt được chỉ định.
-
-## 8. Báo cáo bàn giao
-
-- Kỳ đo, KPI đã cập nhật, nguồn dữ liệu
-- KPI xấu đi và nguyên nhân gốc (xác nhận / giả thuyết)
-- Hành động đề xuất và Task tách riêng
-- Dữ liệu còn thiếu, OQ, mục cần người duyệt
+Measurement period, updated KPIs and sources, worsened KPIs with causes, proposed actions and split Tasks, missing data.

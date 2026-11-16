@@ -27,7 +27,7 @@ Mã `ADR-<NNNN>` (số tăng dần, không tái sử dụng), file `ADR-<NNNN>-<
 
 Người duyệt (Kiến trúc sư, và Security khi thuộc diện cần): xem [README](../README.md). Chỉ người duyệt chuyển sang Approved; AI chỉ soạn ở trạng thái Proposed. ADR bị thay thế chuyển `Superseded by ADR-…`, không xoá.
 
-Proposed tương ứng Draft / In Review trong vòng đời tài liệu chung ([README gốc](../../../README.md), mục "Quy ước làm việc với tài liệu"). ADR dùng thêm Rejected và Superseded vì cần giữ lại quyết định đã loại hoặc đã bị thay.
+Proposed tương ứng Draft / In Review trong vòng đời tài liệu chung ([glossary](../../00-project-overview/glossary.md), dòng "Draft / Approved"). ADR dùng thêm Rejected và Superseded vì cần giữ lại quyết định đã loại hoặc đã bị thay.
 
 ## Cách tạo
 1. Sao chép [_template.md](_template.md) thành `ADR-<NNNN>-<slug>.md`.

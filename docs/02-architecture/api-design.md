@@ -2,10 +2,10 @@
 
 | Thuộc tính | Giá trị |
 | --- | --- |
-| Trạng thái | Approved |
+| Trạng thái | Draft |
 | Người phụ trách |  |
-| Người duyệt |  |
-| Phiên bản · Ngày | 0.1 ·  |
+| Người duyệt (dự án) | Kiến trúc sư |
+| Phiên bản · Ngày |  |
 | Tài liệu liên quan | system-architecture.md, module-design.md, database-design.md, ADR/, ../01-requirements/FR/, ../01-requirements/business-rules.md, ../03-engineering/coding-standards.md, ../03-engineering/error-handling.md, ../03-engineering/security-standards.md, ../05-operations/deployment.md, ../../.ai/rules/architecture-rules.md, ../../.ai/skills/api-development/SKILL.md |
 
 > **Mục đích.** API Specification và Integration Specification: route, request/response, mã lỗi, quyền, tương thích ngược, tích hợp hệ thống ngoài.

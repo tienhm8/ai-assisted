@@ -2,10 +2,10 @@
 
 | Thuộc tính | Giá trị |
 | --- | --- |
-| Trạng thái | Approved |
+| Trạng thái | Draft |
 | Người phụ trách |  |
-| Người duyệt |  |
-| Phiên bản · Ngày | 0.1 ·  |
+| Người duyệt (dự án) | Tech Lead |
+| Phiên bản · Ngày |  |
 | Tài liệu liên quan | coding-standards.md, security-standards.md, testing-strategy.md, ../02-architecture/api-design.md, ../02-architecture/database-design.md, ../05-operations/monitoring.md, ../../.ai/rules/coding-rules.md |
 
 > **Mục đích.** Error handling và Logging: nguyên tắc, phân loại và mã lỗi, xử lý exception, phản hồi lỗi API, quy ước ghi log (không ghi dữ liệu nhạy cảm), retry, nhất quán dữ liệu khi lỗi.
@@ -32,7 +32,7 @@
 | Hạ tầng | DB, cache, queue, mạng không sẵn sàng | Retry/fallback theo §8 |
 | Tích hợp | Hệ thống ngoài lỗi hoặc trả dữ liệu sai | Retry/fallback theo §8, ghi log |
 
-<!-- Điều chỉnh theo từng dự án -->
+Bảng trên là mặc định khung; dự án chỉnh tại đây.
 
 ## 3. Mã lỗi
 
@@ -56,7 +56,7 @@ Mã lỗi gắn với module ở [module-design](../02-architecture/module-desig
 | Global exception handler | Một điểm tập trung chuyển exception thành phản hồi lỗi theo §5 và ghi log theo §7. |
 | Giải phóng tài nguyên | Luôn đóng kết nối, file, lock kể cả khi lỗi ([coding-standards](coding-standards.md) §6). |
 
-<!-- Bổ sung chi tiết theo ngôn ngữ/framework của dự án -->
+<!-- Điền theo từng dự án: chi tiết theo ngôn ngữ, framework -->
 
 ## 5. Phản hồi lỗi API
 Hợp đồng API ở [api-design](../02-architecture/api-design.md); mục này quy định cấu trúc lỗi dùng chung.
@@ -82,7 +82,7 @@ Các trường bắt buộc (mã lỗi, thông điệp, correlation ID, chi ti�
 
 ## 6. Thông điệp lỗi cho người dùng
 Thông điệp rõ ràng, nói được người dùng cần làm gì tiếp; không chứa dữ liệu nhạy cảm hay chi tiết kỹ thuật.
-<!-- Điền theo từng dự án (ngôn ngữ, nơi quản lý thông điệp) -->
+<!-- Điền theo từng dự án: ngôn ngữ, nơi quản lý thông điệp -->
 
 ## 7. Logging
 | Nội dung | Quy định |
@@ -106,7 +106,7 @@ Giám sát và cảnh báo dựa trên log: xem [monitoring](../05-operations/mo
 | Circuit breaker | Ngắt tạm khi hệ thống phụ thuộc lỗi liên tục; điều kiện mở/đóng. |
 | Fallback | Hành vi suy giảm chấp nhận được khi không retry được (dữ liệu cache, thông báo thử lại sau). |
 
-<!-- Điền giá trị theo từng dự án -->
+<!-- Điền theo từng dự án: giá trị -->
 
 ## 9. Transaction và nhất quán dữ liệu
 Thiết kế transaction ở [database-design](../02-architecture/database-design.md) §6; mục này nêu cách xử lý khi lỗi.

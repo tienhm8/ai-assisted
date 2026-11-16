@@ -1,67 +1,42 @@
 ---
 name: deployment
-description: Chuẩn bị và kiểm tra phát hành (xác nhận sẵn sàng, soạn lệnh, runbook, kế hoạch rollback, release notes, release report); AI không thực thi trên production, việc thực thi do người có quyền làm sau khi Owner duyệt.
+description: Prepare and check releases (confirm readiness, draft commands, runbook, rollback plan, release notes, release report); AI does not execute on production, execution is done by an authorized person after Owner approval.
 ---
 
 # Deployment Skill
 
-## 1. Mục tiêu
+AI prepares and checks the release; an authorized person executes. Outside production, AI runs only when the Task explicitly grants permission.
 
-**AI chuẩn bị và kiểm tra; người có quyền thực thi.** Skill giúp phát hành ít rủi ro: xác nhận bản phát hành sẵn sàng, soạn lệnh và runbook, soạn release notes và kế hoạch rollback, điền release report. AI chỉ hỗ trợ thực thi ở môi trường ngoài production khi Task cấp quyền rõ ràng.
+## Entry gate
 
-## 2. Cổng vào
+- The release Task states version, target environment, risk level. If missing, stop and ask.
+- Every PR in the release has been merged by a human into `develop` or `release/*` and passed check gates; exclude PRs that have not passed from the list and report them.
+- Operations docs (deployment, monitoring, backup and restore) exist in the needed sections; if still empty, stop and ask.
 
-- Có Task phát hành, nêu phiên bản, môi trường đích và mức rủi ro. Thiếu thì dừng và hỏi.
-- Mọi PR trong bản phát hành đã merge (do người) và đạt cổng kiểm tra; PR chưa đạt thì loại khỏi danh sách phát hành và báo.
-- Tài liệu vận hành của dự án (triển khai, giám sát, sao lưu và khôi phục) còn Draft hoặc trống ở mục cần dùng: dừng và hỏi, không tự giả định.
+Read: release Task, list of merged Tasks/PRs, commits or tags; operations docs; migrations; test reports; RELEASE-REPORT-TEMPLATE.
 
-## 3. Đầu vào
+## Procedure
 
-- Task phát hành, danh sách Task/PR đã merge, commit hoặc tag.
-- Tài liệu vận hành của dự án (triển khai, giám sát, sao lưu và khôi phục), mốc trong roadmap.
-- Migration và kế hoạch rollback; báo cáo kiểm thử (TEST-REPORT).
-- RELEASE-REPORT-TEMPLATE.
+1. **Identify** the target environment and the authorized person who executes.
+2. **Check readiness:** in-scope Tasks are done, PRs reviewed and passed gates, no open Critical/High findings, tests actually run. If any gate fails, stop.
+3. **Configuration:** list the **names** of environment variables and configuration required in the target environment. Do not read, create, rotate or write secret values.
+4. **Merge and migration order:** merge order when there are migrations or backward-incompatible API contracts; migration order, compatibility while app and DB versions overlap, run time, table-lock risk, whether destructive, backup before running, rollback path. Code rollback does not revert DB changes; state clearly how to restore data.
+5. **Prepare execution:** draft commands, a step-by-step runbook and migration scripts per the approved deployment mechanism; do not invent deploy commands. Commands to cut a release, close a release, hotfix come from `references/gitflow-release.md`.
+6. **Release notes** from merged Tasks, written for end users, with Task/FR and PR.
+7. **Rollback plan:** trigger conditions, steps, decision maker, whether tested outside production.
+8. **Verify:** run regression and smoke tests on staging or local. After a human deploys, compare health checks and monitoring against the project's thresholds; if thresholds are exceeded, recommend rollback.
+9. **Fill in the release report** and record lessons; Owner approves or postpones.
 
-## 4. Quy trình
+Special cases (Trường hợp đặc biệt):
+- **Urgent hotfix:** separate Task, minimal analysis, still goes through `code-review`; supplementary records within the project's declared deadline, with a hotfix approver.
+- **No staging, server or CI/CD yet:** work in the declared substitute environment and request a time-limited waiver, with an approver.
 
-1. **Xác định môi trường đích** (local, staging, production) và người có quyền thực thi.
-2. **Kiểm tra sẵn sàng:** mọi Task trong phạm vi đã Done, PR đã review và đạt cổng, không còn finding Critical/High mở, kiểm thử đã chạy thật. Gate nào hỏng thì dừng, không bỏ qua.
-3. **Kiểm tra cấu hình:** liệt kê **tên** biến môi trường và cấu hình cần có so với môi trường đích. AI không đọc, tạo, xoay hay đổi giá trị secret; không đưa giá trị vào log hay báo cáo.
-4. **Kiểm tra migration:** thứ tự, tương thích ngược khi phiên bản ứng dụng và CSDL chồng nhau, thời gian chạy, nguy cơ khoá bảng, có phá huỷ không, có backup trước khi chạy, có đường quay lui. Rollback code không tự đảo thay đổi CSDL; ghi rõ cách khôi phục dữ liệu.
-5. **Chuẩn bị thực thi:** soạn lệnh, runbook từng bước và script migration theo cơ chế triển khai đã duyệt của dự án; không tự nghĩ lệnh deploy production. **Thực thi** (merge, deploy, chạy migration production) do người có quyền làm sau khi Owner duyệt. Ngoài production, AI chạy khi Task cấp quyền.
-6. **Soạn release notes** từ các Task đã merge, bằng ngôn ngữ người dùng cuối, kèm Task/FR và PR tương ứng.
-7. **Kế hoạch rollback:** điều kiện kích hoạt, các bước, người quyết định, đã thử ngoài production chưa.
-8. **Kiểm chứng:** chạy hồi quy và smoke test ở staging hoặc local; ghi kết quả thật (pass/fail/skipped/not-run). Sau khi người deploy, hỗ trợ đối chiếu health check và giám sát theo ngưỡng của dự án; vượt ngưỡng thì đề nghị rollback, người quyết định.
-9. **Điền release report** theo RELEASE-REPORT-TEMPLATE; Owner duyệt hoặc hoãn.
+## Done when
 
-Trường hợp đặc biệt:
-- **Hotfix khẩn:** là Task riêng, vẫn qua code-review; phân tích tối thiểu, hồ sơ bổ sung trong thời hạn dự án khai báo, có người duyệt hotfix.
-- **Chưa có server, staging hoặc CI/CD:** làm các bước ở máy cục bộ hoặc môi trường thay thế đã khai báo, ghi miễn trừ có thời hạn và người duyệt; không bỏ qua âm thầm.
+- Commands, runbook, release notes, rollback plan are drafted; migrations are assessed.
+- Smoke tests and regression have run, with real output.
+- The authorized person has confirmed the deploy or the Owner has postponed; post-deploy results are recorded in the report.
 
-## 5. Checklist
+## Report
 
-- [ ] Môi trường đích và người thực thi đã xác định.
-- [ ] Mọi PR trong bản phát hành đã đạt cổng; không còn finding Critical/High mở.
-- [ ] Cấu hình: chỉ liệt kê tên biến, không có giá trị secret nào trong báo cáo.
-- [ ] Migration đã đánh giá (thứ tự, phá huỷ, backup, quay lui).
-- [ ] Lệnh, runbook, release notes, kế hoạch rollback đã soạn.
-- [ ] Smoke test và hồi quy đã chạy, kết quả có bằng chứng.
-- [ ] Release report đã điền đủ mục theo template.
-
-## 6. Việc không được làm
-
-- AI không deploy production, không chạy migration production, không truy cập CSDL production; chỉ người có quyền thực hiện sau khi Owner duyệt.
-- Không đọc, tạo, xoay hoặc đổi giá trị secret; không ghi giá trị secret vào log hay báo cáo.
-- Không sửa dữ liệu production trực tiếp; không chạy migration phá huỷ khi chưa có duyệt.
-- Không bỏ qua cổng kiểm tra không đạt.
-- Không giả định rollback an toàn khi chưa đánh giá; không báo phát hành thành công khi chưa có kiểm chứng.
-
-## 7. Tiêu chí hoàn thành (DoD)
-
-- Release report đã soạn đủ, gồm release notes, thay đổi cần lưu ý, kiểm chứng, rollback, kế hoạch theo dõi.
-- Người có quyền đã xác nhận deploy (hoặc Owner đã quyết định hoãn); kết quả kiểm chứng sau deploy được ghi vào report.
-- Vấn đề đã biết và rủi ro còn lại được nêu.
-
-## 8. Báo cáo bàn giao
-
-Điền RELEASE-REPORT-TEMPLATE; không tạo định dạng khác. Phần việc AI đã làm, việc cần người thực hiện (duyệt, merge, deploy, cấp quyền), giả định và câu hỏi mở (`OQ-<NN>`) ghi trong báo cáo bàn giao của Task (DELIVERY-REPORT-TEMPLATE), tóm tắt và nhắc mã release report.
+Fill in RELEASE-REPORT-TEMPLATE. Record actions needing a human in the Task's handoff report with the release report ID.

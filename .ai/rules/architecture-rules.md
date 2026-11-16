@@ -1,10 +1,10 @@
 # Architecture Rules
 
-> Trạng thái: **Approved**. Rule bắt buộc, trung lập về kiến trúc.
+> Status: **Approved**. Mandatory Rule, architecture-neutral.
 
-1. Chỉ triển khai theo thiết kế Approved. Mục liên quan còn Draft hoặc trống: dừng và hỏi, không tự giả định tầng, phong cách hay công nghệ.
-2. Tôn trọng các tầng và ranh giới module đã khai báo: không bỏ qua tầng, không truy cập trực tiếp dữ liệu hay nội bộ của module khác, không tạo phụ thuộc vòng.
-3. Cần ngoại lệ so với ranh giới hoặc đổi quyết định kiến trúc: AI chỉ soạn ADR nháp (trạng thái Proposed); Kiến trúc sư duyệt trước khi code.
-4. Không để logic nghiệp vụ trong lớp trình bày, và lớp trình bày không truy cập dữ liệu trực tiếp (nếu dự án có lớp trình bày).
-5. API khớp đặc tả đã duyệt; thay đổi phá vỡ tương thích cần ADR.
-6. Thay đổi ảnh hưởng hiệu năng, sẵn sàng hoặc bảo mật phải đối chiếu yêu cầu phi chức năng (NFR).
+1. If the relevant design section is still Draft or empty: stop and ask; do not assume layers, style, or technology.
+2. Respect declared layers and module boundaries: do not skip layers, do not access another module's data or internals directly, do not create circular dependencies.
+3. An exception to a layer or module boundary is also an architecture change: AI only drafts an ADR (status Proposed); the Architect approves it before coding.
+4. Do not put business logic in the presentation layer, and the presentation layer must not access data directly (if the project has a presentation layer).
+5. APIs match the approved specification; breaking changes require an ADR.
+6. Changes affecting performance, availability, or security must be checked against the non-functional requirements (NFR).

@@ -1,67 +1,49 @@
 ---
 name: frontend-development
-description: Cài đặt trang, component, form, state và tích hợp API ở frontend theo yêu cầu Approved, thiết kế UI/UX và API contract, kèm test và báo cáo bàn giao.
+description: Implement frontend pages, components, forms, state, and API integration per Approved requirements, UI/UX design, and API contract, with a list of cases to test and a handoff report.
 ---
 
 # Frontend Development Skill
 
-## 1. Mục tiêu
+Implement the UI exactly per FR/AC, UI/UX design, and API contract; handle all loading, error, and empty states.
 
-Hiện thực giao diện đúng FR/AC, UI/UX và API contract; xử lý đủ trạng thái tải/lỗi, truy cập được và có test.
+## Entry gate
 
-## 2. Cổng vào
+Beyond `project-rules` 2, requires: the project's UI/UX docs and Design System; the API contract in api-design.
 
-Dừng và ghi `open-questions.md` (OQ-<NN>) nếu thiếu:
-- FR có AC đã duyệt.
-- Tài liệu UI/UX và Design System: nếu dự án chưa có, dừng và ghi OQ.
-- API contract Approved trong api-design.md. Chỉ chạy song song với `api-development` khi contract đã Approved.
+Primary sources: plan; UI/UX docs and Design System for the relevant screens; existing frontend code.
+If the plan lacks something, look up only the exact section, do not read the whole file: api-design §1.2 Chi tiết API (relevant endpoints), §3.2 Quy ước chung; system-architecture §3.3 Các tầng và trách nhiệm; coding-standards §4 Naming Convention, §11.2 Frontend; security-standards §5 Kiểm tra đầu vào, §6.3 Che dữ liệu (masking).
 
-## 3. Đầu vào
+## References
 
-- FR, acceptance-criteria.md
-- Tài liệu UI/UX, Design System (nếu có)
-- api-design.md, system-architecture.md, coding-standards.md, security-standards.md
-- Mã frontend hiện có
+Load only the file of the framework the frontend uses, and read only the listed sections.
 
-## 4. Quy trình
+| File in `references/` | Load at step |
+| --- | --- |
+| `nextjs.md` (Next.js App Router only) | Step 2: §1 · Step 3: §1, §2, §5, §6 · Step 4: §4 · Step 5: §2, §3 · Step 6: §4 |
 
-1. **Phân tích**: người dùng, màn hình, dữ liệu hiển thị, tương tác, trạng thái tải/lỗi/rỗng, hành vi phụ thuộc quyền.
-2. **Khảo sát mã hiện có**: cấu trúc, routing, component dùng chung, cách gọi API; tái dùng trước khi tạo mới.
-3. **Hiện thực**: component theo coding-standards.md (kiểu dữ liệu theo coding standards; ranh giới render nếu framework có khái niệm này).
-4. **Form**: validate phía client chỉ để hỗ trợ người dùng, không thay backend; xử lý lỗi validation từ server, chặn gửi trùng, phản hồi thành công.
-5. **Tích hợp API**: đúng contract; xử lý lỗi HTTP, mất mạng, tải; không lộ secret.
-6. **Quyền hiển thị**: lấy từ backend/session; ẩn UI không phải kiểm quyền. Xử lý phiên hết hạn và phản hồi từ chối theo `authentication-rbac`.
-7. **Truy cập và đáp ứng**: theo Design System và coding-standards.md.
-8. **Test**: gọi `unit-testing` (component/form) và `e2e-testing` (luồng chính theo AC).
-9. **Bàn giao**: theo mục 8.
+## Procedure
 
-## 5. Checklist
+1. **Analyze:** users, screens, displayed data, interactions, loading/error/empty states, permission-dependent behavior.
+2. **Survey existing code:** structure, routing, shared components, API call pattern. Reuse before creating new.
+3. **Implement components** per coding-standards and Design System.
+4. **Forms:** client-side validation only assists the user, does not replace the backend; show server validation errors; prevent duplicate submits; give feedback on success.
+5. **Integrate APIs** exactly per contract; handle HTTP errors, network loss, loading.
+6. **Display permissions** come from the backend or session. Hiding UI is not an authorization check. Handle session expiry and denied responses.
+7. **Accessibility and responsiveness** per Design System.
+8. **Cases to test:** record in plan §5, unit layer (components, forms) and e2e (main flows per AC).
 
-- [ ] Khớp UI/UX và AC.
-- [ ] Tái dùng component/Design System sẵn có.
-- [ ] Trạng thái tải, lỗi, rỗng được xử lý.
-- [ ] Quyền hiển thị lấy từ backend/session.
-- [ ] Không lộ secret.
+## Limits
 
-## 6. Việc không được làm
+- Do not add UI libraries or duplicate shared components.
+- Do not change global UI conventions until approved.
+- Do not place sensitive business logic only in the frontend.
 
-- Không bịa hành vi nghiệp vụ.
-- Không coi ẩn UI là phân quyền; không bỏ qua phân quyền backend.
-- Không thêm thư viện UI không cần thiết hay nhân đôi component dùng chung.
-- Không đổi quy ước giao diện toàn cục khi chưa được duyệt.
-- Không đặt logic nghiệp vụ nhạy cảm chỉ ở frontend.
+## Done when
 
-## 7. Tiêu chí hoàn thành (DoD)
+- UI matches UI/UX and every AC; loading, error, and empty states all present.
+- Cases to test from step 8 are recorded in the plan.
 
-- Cổng vào thoả; giao diện và tích hợp API hoàn tất đúng AC.
-- Test đã chạy có bằng chứng; skip/fail ghi rõ.
-- Checklist đạt; review hoàn tất.
-- Tài liệu bị ảnh hưởng đã cập nhật hoặc ghi lại cần cập nhật.
+## Report
 
-## 8. Báo cáo bàn giao
-
-- Trang/component tạo hoặc sửa
-- API đã tích hợp
-- Test đã chạy và kết quả
-- OQ còn mở, quyết định cần duyệt
-- Giới hạn đã biết
+Write in the Task's handoff report: pages and components created or changed, APIs integrated, known limitations.

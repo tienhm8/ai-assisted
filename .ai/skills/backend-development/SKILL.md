@@ -1,67 +1,50 @@
 ---
 name: backend-development
-description: Cài đặt logic nghiệp vụ backend, service, truy cập dữ liệu, tích hợp và tác vụ nền trong ranh giới module và thiết kế đã Approved, kèm test và báo cáo bàn giao.
+description: Implement backend business logic, services, data access, integrations and background jobs within Approved module boundaries and design, with a test case list and handoff report.
 ---
 
 # Backend Development Skill
 
-## 1. Mục tiêu
+Implement backend business logic, data access and integrations: correct business rules, correct module boundaries, easy to test.
 
-Hiện thực logic nghiệp vụ, truy cập dữ liệu và tích hợp ở backend: đúng business rule, an toàn, dễ test, đúng ranh giới module.
+## Entry gate
 
-## 2. Cổng vào
+Besides `project-rules` 2, required: related business rules; design including module-design, database-design, and the api-design contract if there are endpoints or external integrations.
 
-Dừng và ghi `open-questions.md` (OQ-<NN>) nếu thiếu:
-- FR có AC và business rule đã duyệt.
-- Thiết kế Approved (module-design.md, database-design.md; contract trong api-design.md nếu có endpoint).
+Primary sources: plan; existing backend code.
+If the plan lacks something, look up the exact section, do not read the whole file: module-design §3 Phụ thuộc giữa các module, §5 Ranh giới và quyền sở hữu; system-architecture §3.3 Các tầng và trách nhiệm; database-design §6 Transaction và đồng thời; api-design §1.2 Chi tiết API (related endpoints), §2 Integration Specification; error-handling §3 Mã lỗi, §4 Xử lý exception, §7 Logging, §8 Retry, timeout, fallback, §9 Transaction và nhất quán dữ liệu; security-standards §4 Authorization, §5 Kiểm tra đầu vào, §9 Logging và Audit.
 
-## 3. Đầu vào
+## References
 
-- FR, acceptance-criteria.md, business-rules.md
-- module-design.md, system-architecture.md, database-design.md
-- api-design.md (spec tích hợp), error-handling.md, security-standards.md
-- Mã backend hiện có; skill `authentication-rbac` cho phân quyền
+Load only the file of the framework the backend uses, and read only the listed sections.
 
-## 4. Quy trình
+| File in `references/` | Load at step |
+| --- | --- |
+| `nestjs.md` (NestJS only) | Step 2: §1 · Step 3: §1, §2 · Step 4: §3, §5, §6 · Step 5: §4 · Step 8: §7 |
+| `prisma.md` (Prisma ORM only) | Step 2: §1 · Step 3: §1 · Step 4: §2, §3, §4 · Step 5: §5 |
 
-1. **Phân tích**: thao tác nghiệp vụ, actor, tiền điều kiện, ràng buộc, chuyển trạng thái, kịch bản lỗi.
-2. **Khảo sát mã hiện có**: cấu trúc, service, data access, tiện ích dùng chung, cách xử lý lỗi và log.
-3. **Thiết kế service**: trách nhiệm, đầu vào/ra, phụ thuộc, ranh giới transaction. Ranh giới module theo module-design.md; không gọi chéo module trái thiết kế.
-4. **Hiện thực**: theo business rule; tái dùng service sẵn có; chuyển trạng thái tường minh; kiểm bất biến quan trọng; truy vấn an toàn, tránh N+1.
-5. **Lỗi**: theo error-handling.md; không lộ stack trace ra client.
-6. **Log**: ghi sự kiện nghiệp vụ, thất bại, bảo mật; không ghi mật khẩu, token, dữ liệu nhạy cảm.
-7. **Tích hợp ngoài**: giới hạn (timeout, retry, idempotency, rate limit) theo spec trong api-design.md; thiếu spec thì dừng, ghi OQ.
-8. **Test**: gọi `unit-testing` và `integration-testing`; phủ business rule, kịch bản lỗi, transaction.
-9. **Bàn giao**: theo mục 8.
+## Procedure
 
-## 5. Checklist
+1. **Analyze:** business operations, actors, preconditions, constraints, state transitions, error scenarios.
+2. **Survey existing code:** structure, services, data access layer, shared utilities, error handling and logging. Reuse before creating new.
+3. **Design services:** responsibility, inputs/outputs, dependencies, transaction boundaries. Module boundaries per module-design.
+4. **Implement:** explicit state transitions; check key invariants; avoid N+1 queries.
+5. **Errors and logging:** per error-handling; log business events, failures and security events.
+6. **External integrations:** timeout, retry, idempotency, rate limit per the spec in api-design; if the spec is missing, stop and record an open question.
+7. **Authorization:** use existing permission-check mechanisms; if missing, handle per task-execution, section "Step transition rules" item 5 (A condition arises); do not add them yourself.
+8. **Test cases:** record in plan §5 cases covering business rules, error scenarios, transactions, with layer (unit, integration).
 
-- [ ] Business rule được hiện thực đúng, không tự bịa.
-- [ ] Không vượt ranh giới module.
-- [ ] Transaction và truy vấn phù hợp.
-- [ ] Phân quyền áp theo `authentication-rbac`.
-- [ ] Lỗi xử lý tường minh; không lộ nội bộ.
-- [ ] Không log dữ liệu nhạy cảm.
+## Limits
 
-## 6. Việc không được làm
+- If a schema change is needed, stop and report; do not change it yourself.
+- Do not add services or abstractions the Task does not need.
 
-- Không bịa business rule.
-- Không bỏ qua phân quyền.
-- Không truy cập dữ liệu production khi chưa được duyệt.
-- Cần đổi schema thì dừng và chuyển `database-design` (cần duyệt); không tự đổi.
-- Không thêm service/abstraction không cần thiết.
+## Done when
 
-## 7. Tiêu chí hoàn thành (DoD)
+- Logic satisfies every AC and related business rule; no cross-module calls contrary to the design.
+- Transactions cover all writes that must succeed or fail together.
+- Test cases from step 8 are recorded in the plan.
 
-- Cổng vào thoả; logic đúng AC.
-- Test đã chạy có bằng chứng; skip/fail ghi rõ.
-- Checklist đạt; review hoàn tất.
-- Tài liệu bị ảnh hưởng đã cập nhật hoặc ghi lại cần cập nhật.
+## Report
 
-## 8. Báo cáo bàn giao
-
-- Service tạo/sửa và logic đã làm
-- Tương tác DB, tích hợp ngoài
-- Test đã chạy và kết quả
-- Quyết định cần duyệt, OQ còn mở
-- Rủi ro và giới hạn
+Write in the Task's handoff report: services created or modified, DB interactions, external integrations.

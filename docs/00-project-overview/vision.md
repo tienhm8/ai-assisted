@@ -2,10 +2,10 @@
 
 | Thuộc tính | Giá trị |
 | --- | --- |
-| Trạng thái | Approved |
+| Trạng thái | Draft |
 | Người phụ trách |  |
-| Người duyệt |  |
-| Phiên bản · Ngày | 0.1 ·  |
+| Người duyệt (dự án) | PO |
+| Phiên bản · Ngày |  |
 | Tài liệu liên quan | scope.md, glossary.md, open-questions.md, ../01-requirements/BRD.md |
 
 > **Mục đích.** Dự án giải quyết vấn đề gì, dành cho ai, đầu ra giai đoạn 1.
@@ -25,9 +25,13 @@
 ## 3. Tuyên bố giá trị
 <!-- Điền theo từng dự án -->
 
-## 4. Outcome đo được
-Mỗi Outcome nên có mã `OUT-<NN>` để BRD (Tiêu chí thành công) tham chiếu, không chép lại.
+## 4. Kết quả cần đạt và cách đo (Outcome)
+Mỗi kết quả (Outcome) là thay đổi thực tế dự án phải tạo ra, không phải tính năng bàn giao; nên có mã `OUT-<NN>` để BRD (Tiêu chí thành công) tham chiếu, không chép lại.
 
 | Mã | Outcome | Chỉ số | Mục tiêu | Cách đo |
 | --- | --- | --- | --- | --- |
-| OUT-01 | | | | |
+| OUT-<NN> | | | | |
+
+## Lịch sử thay đổi
+| Ngày | Thay đổi | Lý do | Người duyệt |
+| --- | --- | --- | --- |

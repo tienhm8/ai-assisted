@@ -2,7 +2,7 @@
 
 Bộ quy tắc **bắt buộc** AI phải tuân thủ khi làm việc trong dự án. Rule không phải câu prompt viết tùy hứng: đó là tiêu chuẩn ổn định, có người phụ trách và trạng thái.
 
-## Bảy nhóm Rule
+## Các nhóm Rule
 
 | Nhóm | Nội dung | File |
 | --- | --- | --- |
@@ -10,6 +10,8 @@ Bộ quy tắc **bắt buộc** AI phải tuân thủ khi làm việc trong dự
 | Architecture Rules | Quy tắc kiến trúc | architecture-rules.md |
 | Coding Rules | Quy tắc viết code và xử lý lỗi | coding-rules.md |
 | Database Rules | Quy tắc thiết kế và thao tác dữ liệu | database-rules.md |
+| Cache Rules | Quy tắc dùng cache | cache-rules.md |
+| Document Database Rules | Quy tắc riêng cho CSDL tài liệu | document-database-rules.md |
 | Security Rules | Quy tắc bảo mật | security-rules.md |
 | Testing Rules | Quy tắc kiểm thử | testing-rules.md |
 | Git Workflow Rules | Quy tắc nhánh, commit, PR, merge | git-workflow-rules.md |
@@ -22,4 +24,5 @@ Bộ quy tắc **bắt buộc** AI phải tuân thủ khi làm việc trong dự
 - **Một câu cấm, một nơi:** không lặp cùng một điều ở hai rule.
 - **Kiểm chứng được:** ưu tiên viết thành điều kiện đo được để hook, linter hoặc branch protection kiểm tra; rule chưa tự động hoá được thì cần người review.
 - Chỉ được cụ thể hoá hoặc siết chặt, không hạ sàn bảo mật hay governance.
+- **Ngôn ngữ:** nội dung rule viết bằng tiếng Anh để tiết kiệm token; đầu ra cho người vẫn bằng tiếng Việt (`project-rules` 22).
 - Sửa rules thuộc vùng 🔴: cần Task riêng và người duyệt.

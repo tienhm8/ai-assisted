@@ -4,6 +4,7 @@
 
 ## 1. Vấn đề và mục tiêu (*)
 - Task: `<KEY>-<N>` · FR/BR/AC liên quan:
+- Báo cáo bàn giao (PR của AI; link hoặc dán):
 - Vấn đề đang giải quyết (bug thì nêu cách tái hiện):
 
 ## 2. Loại thay đổi (*)
@@ -27,6 +28,7 @@
 Những gì cố ý không làm trong PR này.
 
 ## 5. Kiểm thử (*)
+PR của AI: ghi "Xem báo cáo bàn giao §3", không chép lại. PR do người viết: điền bên dưới.
 - Test đã thêm/sửa, gắn ID AC:
 - Lệnh đã chạy và kết quả (hoặc link CI):
 - Kiểm thử thủ công / ảnh chụp (nếu có UI):
@@ -36,4 +38,4 @@ Những gì cố ý không làm trong PR này.
 - Cách rollback:
 
 ## 7. Điểm reviewer nên xem kỹ
-Đoạn rủi ro cao, logic khó, chỗ lệch thiết kế.
+PR của AI: ghi "Xem báo cáo bàn giao §2", không chép lại. PR do người viết: đoạn rủi ro cao, logic khó, chỗ lệch thiết kế.

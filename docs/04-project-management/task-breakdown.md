@@ -2,17 +2,17 @@
 
 | Thuộc tính | Giá trị |
 | --- | --- |
-| Trạng thái | Approved |
+| Trạng thái | Draft |
 | Người phụ trách |  |
-| Người duyệt |  |
-| Phiên bản · Ngày | 0.2 ·  |
-| Tài liệu liên quan | backlog.md, roadmap.md, ../01-requirements/FR/, ../../.ai/workflows/task-execution.md, ../../.ai/workflows/skill-selection.md, ../../.ai/rules/project-rules.md |
+| Người duyệt (dự án) | Tech Lead |
+| Phiên bản · Ngày |  |
+| Tài liệu liên quan | backlog.md, roadmap.md, ../01-requirements/FR/, ../../.ai/workflows/task-execution.md, ../../.ai/workflows/task-types.md, ../../.ai/rules/project-rules.md |
 
 > **Mục đích.** Chia Task từ plan đã duyệt (**người quyết: Tech Lead**): mỗi Task có objective, scope in/out, AC, mức rủi ro R1–R3, mức tự chủ A0–A4. Chi tiết plan nằm ở [.ai/plans/](../../.ai/plans/).
 
 | Task ID | Objective | Phạm vi in / out | AC | Rủi ro | Tự chủ AI | Phụ thuộc | Plan |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| PRJ-1 |  | | | R1 | A1 | | |
+| <KEY>-<N> |  | | | R1 | A1 | | |
 
 ## 1. Nguyên tắc chia Task
 
@@ -32,7 +32,7 @@
 | Task | Đơn vị giao cho AI, theo mẫu bên dưới | file này |
 | Subtask | Bước nhỏ trong Task, nằm trong plan, không lập ID riêng | [.ai/plans/](../../.ai/plans/) |
 
-- **ID:** `<KEY>-<N>` theo công cụ quản lý việc; KEY là mã dự án hoặc mã module (ví dụ PRJ-1, AUTH-01, RE-01 như bảng ví dụ bên dưới).
+- **ID:** `<KEY>-<N>` theo công cụ quản lý việc; KEY là mã dự án hoặc mã module (ví dụ PRJ-1, AUTH-1, RE-1 như bảng ví dụ bên dưới; không đệm số 0 để khác mã FR).
 - **Tên:** bắt đầu bằng động từ, nêu rõ đối tượng (ví dụ "Tạo bất động sản").
 - **Quan hệ:** cột Phụ thuộc ở bảng Task và cột Cha ở [backlog](backlog.md).
 
@@ -121,25 +121,16 @@ Các tài liệu phải cập nhật.
 Độ phức tạp (nhỏ / vừa / lớn) và công sức dự kiến.
 
 ## 11. Definition of Done
-- Implementation completed.
-- Tests executed and passed.
-- No unresolved critical issues.
-- Documentation updated.
-- Code review completed.
+Theo testing-strategy §12. Điều kiện riêng của Task (nếu có):
 
 ## 12. Delivery Report
-- Files changed:
-- Implementation summary:
-- Tests and results:
-- Known limitations:
-- Remaining risks:
+Theo DELIVERY-REPORT-TEMPLATE.
 ```
 
 Mục 12 do AI điền khi bàn giao. Mục 2 có thêm dòng Liên kết và Phân loại để khớp với bảng Task ở trên (cột Rủi ro, Tự chủ AI).
 
 ### Duyệt khi bàn giao và khi sẵn sàng phát hành
-- **Bàn giao Task** (người quyết: Dev): cổng tự động cục bộ đạt (xem [testing-strategy](../03-engineering/testing-strategy.md) §9); Delivery Report đủ mục; không có thay đổi ngoài phạm vi mà chưa khai.
-- **Sẵn sàng phát hành** (người quyết: Reviewer/QA): cổng kiểm tra đạt; review đủ theo rủi ro; AC được xác nhận; lỗi nghiêm trọng đã xử lý hoặc được chấp nhận chính thức.
+Bàn giao Task là cổng G5, sẵn sàng phát hành là cổng G6; điều kiện qua và người duyệt ở [gates-and-rigor](gates-and-rigor.md) §1.
 
 ### Quy tắc giao việc
 
@@ -155,14 +146,14 @@ Không giao Task kiểu "Xây dựng toàn bộ hệ thống quản lý bất đ
 
 | Task ID | Nội dung |
 | --- | --- |
-| AUTH-01 | Đăng ký tài khoản Customer |
-| AUTH-02 | Xác minh email |
-| AUTH-03 | Đăng nhập |
-| AUTH-04 | Đăng xuất |
-| RE-01 | Tạo bất động sản |
-| RE-02 | Cập nhật bất động sản |
-| RE-03 | Quản lý trạng thái tin |
-| RE-04 | Tìm kiếm bất động sản |
+| AUTH-1 | Đăng ký tài khoản Customer |
+| AUTH-2 | Xác minh email |
+| AUTH-3 | Đăng nhập |
+| AUTH-4 | Đăng xuất |
+| RE-1 | Tạo bất động sản |
+| RE-2 | Cập nhật bất động sản |
+| RE-3 | Quản lý trạng thái tin |
+| RE-4 | Tìm kiếm bất động sản |
 
 ## 5. Quản lý phụ thuộc
 
@@ -180,11 +171,13 @@ Không giao Task kiểu "Xây dựng toàn bộ hệ thống quản lý bất đ
 Task chỉ được giao AI khi:
 
 - Có FR/BR/NFR tham chiếu đã duyệt, thiết kế liên quan đã Approved ([02-architecture](../02-architecture/README.md)).
-- Objective, Scope in/out và AC đã điền.
-- Rủi ro R1–R3 và mức tự chủ A0–A4 đã gán.
+- Có Task Specification theo mẫu ở mục 4: Objective, Scope in/out và AC đã điền.
+- Ưu tiên, rủi ro R1–R3 và mức tự chủ A0–A4 đã gán.
 - Phụ thuộc đã xong hoặc đã ghi rõ.
 
-Definition of Done nằm trong mẫu Task ở mục 4 (mục 11 của mẫu).
+Đây là nguồn duy nhất của DoR; backlog chỉ trỏ tới.
+
+Definition of Done ở [testing-strategy](../03-engineering/testing-strategy.md) §12; mục 11 của mẫu Task chỉ ghi điều kiện riêng của Task.
 
 ## 8. Checklist duyệt Task
 

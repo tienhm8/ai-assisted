@@ -6,7 +6,7 @@ Mỗi module một file: `FR-<MODULE>.md` (ví dụ `FR-AUTH.md`). Mã định d
 
 | ID | Mô tả | BRQ nguồn | BR áp dụng | Ưu tiên | Trạng thái | Bằng chứng (plan/Task + commit) |
 | --- | --- | --- | --- | --- | --- | --- |
-| FR-AUTH-01 |  | BRQ-01 | BR-AUTH-01 | | ☐ | |
+| FR-<MODULE>-<NN> |  | BRQ-<NN> | BR-<MODULE>-<NN> | | ☐ | |
 
 **Ưu tiên (dùng chung BRD, FR, NFR):** MoSCoW — `Must` · `Should` · `Could` · `Won't`.
 

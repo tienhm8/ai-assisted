@@ -26,11 +26,12 @@ Gộp từ **mọi** worktree, nhánh và phiên của Task (không chỉ phiên
 
 ## 3. Kiểm thử
 Tóm tắt và mã báo cáo kiểm thử. Phân biệt pass / fail / skipped / not-run, kèm lệnh và kết quả thật.
+**Chưa kiểm tra:** AC, tầng test hoặc trường hợp chưa kiểm, mỗi mục kèm lý do (tóm tắt từ mục "Chưa kiểm chứng" của báo cáo kiểm thử); không có thì ghi "không".
 
 ## 4. Giả định, quyết định, câu hỏi mở
 - Giả định:
 - Quyết định đã đưa ra:
-- Câu hỏi mở (`OQ-<NN>`) chưa giải quyết, mỗi mã kèm một dòng "Nếu chưa quyết" (chi tiết ở open-questions, không chép lại):
+- Câu hỏi mở (`OQ-<NN>`) chưa giải quyết, mỗi mã kèm bản tóm tắt đủ để quyết theo `project-rules` 21 (vấn đề, mỗi phương án một dòng được/mất, đề xuất, nếu chưa quyết); chi tiết và lịch sử ở open-questions:
 
 ## 5. Hành động cần người thực hiện
 (duyệt, merge, deploy, cấp quyền...). Chỉ việc người phải làm; câu hỏi cần quyết ghi ở mục 4 dưới dạng `OQ-<NN>`.

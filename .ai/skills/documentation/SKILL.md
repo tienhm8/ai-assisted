@@ -1,72 +1,50 @@
 ---
 name: documentation
-description: Tạo và cập nhật tài liệu dự án (yêu cầu, kiến trúc, kỹ thuật, quản lý, vận hành, ADR nháp) cho khớp quyết định đã duyệt và hiện trạng hệ thống; không tự chuyển Approved, không tự quyết nghiệp vụ.
+description: Create and update project docs (requirements, architecture, engineering, management, operations, draft ADRs) to match approved decisions and the current system; do not set Approved yourself, do not decide business logic yourself.
 ---
 
 # Documentation Skill
 
-## 1. Mục tiêu
+Keep docs consistent with approved decisions and the real system, without duplication.
 
-Giữ tài liệu chính xác, nhất quán và không trùng lặp với hệ thống thật. Khi hành vi, API, schema, kiến trúc hoặc vận hành thay đổi, tài liệu liên quan được cập nhật **trong cùng thay đổi**.
+## Entry gate
 
-## 2. Cổng vào
+- The Task states the changes to document. If missing, stop and ask.
+- The source (approved decision, requirement, design) can be identified. If there is no source, record an open question; do not fill it in yourself.
 
-- Có Task nêu thay đổi cần ghi tài liệu. Thiếu thì dừng và hỏi.
-- Xác định được thông tin gốc (quyết định, yêu cầu, thiết kế đã duyệt). Không có nguồn thì ghi câu hỏi mở `OQ-<NN>`, không tự điền.
+Read: Task, diff or change description, related existing docs, related ADRs.
 
-## 3. Đầu vào
+## Procedure
 
-Task, diff hoặc mô tả thay đổi, tài liệu hiện có liên quan, ID yêu cầu (FR/BR/AC), ADR liên quan. Với ADR: ADR template và danh mục ADR.
+1. **Identify affected docs:**
 
-## 4. Quy trình
+   | Change | Doc |
+   | --- | --- |
+   | Behavior, business rules, AC | `01-requirements` |
+   | Architecture, schema, API, modules | `02-architecture` |
+   | Coding standards, security, testing, error handling | `03-engineering` |
+   | Progress, backlog, KPI | `04-project-management` |
+   | Deployment, monitoring, backup | `05-operations` |
+   | Open questions, assumptions | open-questions |
 
-1. **Xác định tài liệu bị ảnh hưởng** theo bản đồ:
+2. **Verify sources** in priority order: approved business decisions, Approved requirements, Approved designs and ADRs, then current code and old docs. Current code does not by itself become a requirement. If sources conflict, report; do not choose yourself.
+3. **Write or update** per the project's structure, naming and standard IDs; keep existing IDs unchanged.
+4. **Single source:** each rule, decision, status is managed in only one place; other places reference it by ID.
+5. **One-way traceability:** FRs keep links to BRQ/BR; ACs point to FRs; do not create back-links.
+6. **ADR**, only when the decision requires an ADR per the ADR folder's guidance: create `ADR-<NNNN>-<slug>.md` from `_template.md` with the next number, status Proposed, at least two options; add one row to the index. Small, easily reversible decisions go in the design doc.
+7. **Check drift:** compare docs with existing code, schema, API; list outdated, conflicting and missing parts.
 
-| Thay đổi | Tài liệu |
-| --- | --- |
-| Hành vi, quy tắc nghiệp vụ, AC | 01-requirements |
-| Kiến trúc, schema, API, module | 02-architecture |
-| Chuẩn code, bảo mật, kiểm thử, xử lý lỗi | 03-engineering |
-| Tiến độ, backlog, KPI | 04-project-management |
-| Triển khai, giám sát, sao lưu | 05-operations |
-| Câu hỏi mở, giả định | open-questions.md |
+## Limits
 
-2. **Xác minh nguồn.** Thứ tự ưu tiên: quyết định nghiệp vụ đã duyệt, yêu cầu Approved, thiết kế và ADR Approved, rồi mới đến hiện trạng code và tài liệu cũ. Tài liệu **Draft không phải nguồn sự thật**. Hiện trạng code không tự thành yêu cầu. Nguồn mâu thuẫn thì báo, không tự chọn.
-3. **Viết hoặc cập nhật** theo cấu trúc, đặt tên, ID chuẩn của dự án (`FR-<MODULE>-<NN>`, `BR-<MODULE>-<NN>`, `<FR>-AC<N>`, `ADR-<NNNN>`, `OQ-<NN>`, Task `<KEY>-<N>`). Giữ nguyên ID có sẵn.
-4. **Một nơi duy nhất.** Mỗi quy tắc, quyết định hoặc trạng thái chỉ có một nơi quản lý; nơi khác chỉ tham chiếu bằng ID. Không chép nội dung sang tài liệu thứ hai.
-5. **Truy vết một chiều.** Chỉ khai báo liên kết ở phía được giao (FR giữ liên kết tới BRQ/BR; AC trỏ tới FR); không tạo liên kết ngược thủ công.
-6. **ADR (chỉ khi thuộc diện cần ADR** theo hướng dẫn của thư mục ADR; quyết định nhỏ, dễ đảo ngược, gọn trong một module thì ghi ở tài liệu thiết kế):
-   - tạo `ADR-<NNNN>-<slug>.md` từ `_template.md`, số kế tiếp, không tái sử dụng;
-   - trạng thái **Proposed**, nêu ít nhất hai phương án;
-   - thêm một dòng vào danh mục ADR; tài liệu thiết kế chỉ ghi kết quả và trỏ `ADR-<NNNN>`;
-   - **không** chuyển Approved.
-7. **Vòng đời tài liệu:** Draft, In Review, Approved, Deprecated. AI chỉ soạn ở Draft (hoặc đề xuất In Review); không chuyển Approved.
-8. **Rà soát lệch:** đối chiếu tài liệu với code, schema, API đang có; liệt kê chỗ lỗi thời, mâu thuẫn, chỗ còn thiếu. Kiểm ID, trạng thái, ví dụ.
-9. **Vùng 🔴:** sửa rule, skill hoặc workflow chỉ **đề xuất** trong báo cáo, không tự sửa; cần Task riêng và người duyệt.
+- Do not delete historical decisions without a reason.
+- Do not modify docs outside the Task's scope.
 
-## 5. Checklist
+## Done when
 
-- [ ] Mọi tài liệu bị ảnh hưởng đã cập nhật hoặc ghi lý do không cần.
-- [ ] Nội dung khớp nguồn đã duyệt, không có khẳng định thiếu căn cứ.
-- [ ] ID chuẩn được giữ; không có nội dung lặp ở hai nơi.
-- [ ] Trạng thái tài liệu rõ; không có Approved do AI đặt.
-- [ ] ADR (nếu có): đúng diện, Proposed, đã có dòng trong danh mục.
-- [ ] Câu hỏi mở vẫn mở; mâu thuẫn nguồn đã báo.
+- Every affected doc is updated or has a recorded reason it is not needed.
+- No content is duplicated in two places; standard IDs are kept.
+- ADRs (if any) are Proposed and in the index.
 
-## 6. Việc không được làm
+## Report
 
-- Không bịa quyết định nghiệp vụ; không biến hiện trạng code hoặc giả định thành yêu cầu.
-- Không chuyển trạng thái sang Approved; không đánh dấu ADR Approved.
-- Không âm thầm giải quyết mâu thuẫn nguồn; không xoá quyết định lịch sử khi chưa có lý do.
-- Không sao chép nội dung có chủ quản lý ở nơi khác; không sửa tài liệu ngoài phạm vi Task.
-- Không sửa rule, skill, workflow trong Task thường (chỉ đề xuất).
-
-## 7. Tiêu chí hoàn thành (DoD)
-
-- Tài liệu bị ảnh hưởng đã cập nhật cùng thay đổi, nguồn đã xác minh.
-- Mâu thuẫn, chỗ lỗi thời và khoảng trống còn lại đã báo.
-- ADR nháp (nếu có) ở Proposed và đã vào danh mục; chờ người duyệt.
-
-## 8. Báo cáo bàn giao
-
-Điền DELIVERY-REPORT-TEMPLATE, nêu thêm: tài liệu đã tạo/sửa, ADR đã tạo (mã, trạng thái Proposed), mâu thuẫn nguồn, thông tin lỗi thời, đề xuất sửa vùng 🔴, khoảng trống còn lại.
+Write in the Task's handoff report: docs created or modified, ADRs created, source conflicts, outdated spots and remaining gaps.
