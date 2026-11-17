@@ -1,23 +1,20 @@
-# Ví dụ: model và effort cho Claude Code
+# Model và effort cho Claude Code
 
-> **Ví dụ, không bắt buộc.** Chỉ dùng khi dự án chọn Claude Code ([ai-tools.md](../../../docs/03-engineering/ai-tools.md) §3). Đề xuất theo loại Task ở [task-types.md](../../workflows/task-types.md) §1; ánh xạ chính thức của dự án cũng ghi ở đó. File này chỉ minh hoạ cách ánh xạ và cấu hình.
+> Dùng khi dự án chọn Claude Code ([ai-tools.md](../../../docs/03-engineering/ai-tools.md) §3). **§1 là bảng ánh xạ** mà [model-effort.md](../../workflows/model-effort.md) tham chiếu khi phiên chạy trong Claude Code: hạng M1–M3 → model, mức E1–E4 → `effort`. Cột "Model · Effort" theo loại Task nằm ở [task-types.md](../../workflows/task-types.md) §1. Các mục còn lại (§2–§3) chỉ là ví dụ cấu hình, không bắt buộc.
 > Tên model và tham số thay đổi theo phiên bản Claude Code. Kiểm tra lại tài liệu chính thức trước khi áp dụng (cập nhật: 2026-11).
 
 ## 1. Ánh xạ hạng → model, mức → effort
 
-| Hạng khung | Model Claude Code (alias · ID) |
+| Hạng / mức khung | Model hoặc tham số thật |
 | --- | --- |
 | M1 · Nhẹ | `haiku` · `claude-haiku-5-5` |
 | M2 · Chuẩn | `sonnet` · `claude-sonnet-5-5` |
 | M3 · Mạnh | `opus` · `claude-opus-5-5` |
 | M3+ (tuỳ chọn, chi phí cao) | `claude-fable-5-2`: chỉ cho việc rất khó (kiến trúc lớn, sự cố phức tạp) khi Tech Lead cho phép |
-
-| Mức khung | `effort` |
-| --- | --- |
-| E1 | `low` |
-| E2 | `medium` |
-| E3 | `high` |
-| E4 | `xhigh` (dành `max` cho trường hợp đặc biệt, phải ghi lý do) |
+| E1 · Thấp | `low` |
+| E2 · Trung bình | `medium` |
+| E3 · Cao | `high` |
+| E4 · Rất cao | `xhigh` (dành `max` cho trường hợp đặc biệt, phải ghi lý do) |
 
 Lưu ý:
 - Mỗi model có effort mặc định riêng; ví dụ Opus 5.5 mặc định `medium`. Vì vậy **luôn khai báo `effort` tường minh**, không dựa vào mặc định.
@@ -93,15 +90,3 @@ tools: Read, Grep, Glob
 
 Chỉ đọc và báo cáo (A1). Trả về đường dẫn file:dòng và kết luận; không dán nguyên nội dung file.
 ```
-
-## 4. Bảng ánh xạ ở model-effort.md (ví dụ đã điền)
-
-| Hạng / mức khung | Model hoặc tham số thật |
-| --- | --- |
-| M1 · Nhẹ | `haiku` · claude-haiku-5-5 |
-| M2 · Chuẩn | `sonnet` · claude-sonnet-5-5 |
-| M3 · Mạnh | `opus` · claude-opus-5-5 |
-| E1 · Thấp | `low` |
-| E2 · Trung bình | `medium` |
-| E3 · Cao | `high` |
-| E4 · Rất cao | `xhigh` |
