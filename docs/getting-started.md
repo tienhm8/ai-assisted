@@ -169,7 +169,7 @@ Module chưa có test thì Task đầu tiên vào module đó nên là **T11** (
 - Một Task một việc: không gộp sửa lỗi với refactor lớn.
 
 ### 5.2 Mở phiên AI
-Mở phiên ở thư mục gốc repo cha, chọn model và effort theo cột "Model · Effort" của loại Task ([task-types](../.ai/workflows/task-types.md) §1; ví dụ cho Claude Code ở [claude-code.md](../.ai/agents/examples/claude-code.md)). Câu mở đầu:
+Mở phiên ở thư mục gốc repo cha, chọn model và effort theo cột "Model · Effort" của loại Task ([task-types](../.ai/workflows/task-types.md) §1; ánh xạ sang model thật ở [references/](../.ai/agents/references/) theo công cụ đang dùng). Câu mở đầu:
 
 ```text
 Task PRJ-12 (T3 · R1 · A3). Làm theo AGENTS.md.
