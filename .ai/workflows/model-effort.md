@@ -9,14 +9,16 @@ The "Model · Effort" column in [task-types.md](task-types.md) §1 is the defaul
 - R3 Tasks, or steps using `authentication-rbac` or `security-review`: at least M3·E3.
 - If the session model is below the required tier, no model of the right tier exists, or quota runs out: stop and ask a human to change it; do not downgrade yourself.
 
-**Mapping to real tools** (example: [claude-code.md](../agents/examples/claude-code.md)):
+**Mapping to real tools:** read the reference file for the AI tool the session runs in, section §1 (M1–M3 → model, E1–E4 → effort). Do not copy the tables here.
 
-| Tier / level | Real model or parameter (name · version) |
+| Tool | Reference |
 | --- | --- |
-| M1 · Light | |
-| M2 · Standard | |
-| M3 · Strong | |
-| E1 · Low | |
-| E2 · Medium | |
-| E3 · High | |
-| E4 · Very high | |
+| Claude Code | [claude-code.md](../agents/references/claude-code.md) |
+| Cursor | [cursor.md](../agents/references/cursor.md) |
+| GitHub Copilot | [copilot.md](../agents/references/copilot.md) |
+| Gemini CLI | [gemini.md](../agents/references/gemini.md) |
+| Codex (ChatGPT) | [codex.md](../agents/references/codex.md) |
+
+Cursor, Copilot and Gemini CLI have no confirmed effort parameter: for them only the model tier (M1–M3) applies and the E level is ignored. R3 Tasks still need at least M3.
+
+A tool not listed: add a reference file under `.ai/agents/references/` with the same §1 and add a row here.

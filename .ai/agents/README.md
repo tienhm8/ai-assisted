@@ -40,4 +40,4 @@ Chỉ tách khi có ít nhất một lý do:
 | Cần review độc lập | Reviewer không phải phiên vừa viết code |
 | Việc chạy song song được | Frontend và backend khi API contract đã Approved |
 
-Ví dụ cấu hình cho Claude Code: [examples/claude-code.md](examples/claude-code.md).
+Ánh xạ model/effort và cấu hình theo công cụ AI: [references/](references/): [claude-code.md](references/claude-code.md), [cursor.md](references/cursor.md), [copilot.md](references/copilot.md), [gemini.md](references/gemini.md), [codex.md](references/codex.md). Dùng file của công cụ dự án chọn.
