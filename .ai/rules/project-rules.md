@@ -32,6 +32,7 @@
 
     Before sending, self-check: could someone who opened no file choose? If not, write more.
 22. Language: instruction files in `.ai/` are in English to save tokens. Everything written for humans is in Vietnamese: replies, questions (rule 21), plans, reports, open questions, PR descriptions, documents in `docs/`. Keep the Vietnamese wording of business terms from the glossary; do not translate them.
+23. Codes in text for humans: the first time a framework code appears in a reply, question, plan, or report (Task type `T<N>`, `R<N>`, `A<N>`, `S<N>`, `D<N>`, gate `G<N>`, stage `[0N]`, zone 🟢🟡🔴, `OQ-<NN>`, `SRC-<NN>`, `FR-…`), write its meaning in words next to it, e.g. "T12 (chỉ sửa tài liệu) · R1 (rủi ro thấp) · A2 (duyệt từng bước)"; later mentions may use the code alone. Never send a sentence made only of codes. Lookup table: `docs/getting-started.md` §2.
 
 ## Shared scales (Thang dùng chung)
 
