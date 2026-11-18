@@ -30,7 +30,7 @@
 | Cần hiểu vì sao AI bị kiểm soát | [ai-governance](03-engineering/ai-governance.md) |
 | Cần điều kiện duyệt | [gates-and-rigor](04-project-management/gates-and-rigor.md) |
 
-## 2. Sáu khái niệm cần biết trước
+## 2. Bảy khái niệm cần biết trước
 
 | Khái niệm | Nói ngắn | Định nghĩa |
 | --- | --- | --- |
@@ -39,7 +39,8 @@
 | Độ nghiêm ngặt S1–S3 | Chọn một lần cho cả dự án | [gates-and-rigor](04-project-management/gates-and-rigor.md) §2 |
 | Task với R và A | Mỗi Task có mức rủi ro R1–R3 và mức tự chủ A0–A4; thiếu thì AI dừng và hỏi | [project-rules](../.ai/rules/project-rules.md), mục "Thang dùng chung" |
 | Vùng 🟢🟡🔴 | Đường dẫn AI được sửa tự do, sửa khi plan đã duyệt, hay cần Task riêng | [PROJECT.md](../PROJECT.md) §2.2 |
-| Goal → Plan → Task → Run | Muốn đạt gì → làm thế nào (nhiều Task) → việc cụ thể (mỗi Task một mức model·effort) → một lần chạy (nâng mức khi không đạt) | [goals](04-project-management/goals.md), [task-execution](../.ai/workflows/task-execution.md) |
+| Ba nhóm khái niệm | A nghiệp vụ và sản phẩm (BRD, BRQ, Goal, Epic, Feature, User Story) · B lập kế hoạch và quản lý công việc (Plan, Task, Subtask, Dependency) · C thực thi bằng AI (Agent, Run, model·effort, Tool, Result, Review). Liên kết nhiều-nhiều, không phải cây cha-con | [work-model](04-project-management/work-model.md) |
+| Plan → Task → Run | Kế hoạch (có Nguồn: Goal, Epic, User Story hoặc yêu cầu độc lập; Goals tuỳ chọn) → việc cụ thể (mỗi Task một mức model·effort) → một lần chạy (nâng mức khi không đạt) | [work-model](04-project-management/work-model.md), [task-execution](../.ai/workflows/task-execution.md) |
 
 ### Bảng tra ký hiệu
 
@@ -63,10 +64,11 @@ AI phải ghi nghĩa bằng lời ở lần đầu nhắc một ký hiệu trong
 | `SRC-<NN>` | Tài liệu nguồn từ khách hàng hoặc PO ([sources](00-project-overview/sources/README.md)) |
 | `OQ-<NN>` | Câu hỏi mở, giả định, đầu vào còn thiếu ([open-questions](00-project-overview/open-questions.md)) |
 | `OUT-<NN>` · `BRQ-<NN>` | Kết quả đo được của dự án (vision) · Yêu cầu nghiệp vụ (BRD) |
+| `EPIC-<NN>` · `FEAT-<NN>` · `US-<MODULE>-<NN>` | Epic (nhóm công việc lớn) · Function/Feature (chức năng hệ thống) · User Story (nhu cầu người dùng) |
 | `FR-<MODULE>-<NN>` · `BR-…` · `NFR-<NN>` | Yêu cầu chức năng · Quy tắc nghiệp vụ · Yêu cầu phi chức năng |
 | `<FR>-AC<N>` | Tiêu chí nghiệm thu (AC) của một FR |
 | `ADR-<NNNN>` | Bản ghi quyết định kiến trúc |
-| `GOAL-<NN>` · `<GOAL>-P<N>` · `<KEY>-<N>#<n>` | Goal (kết quả muốn đạt) · Plan của Goal · lần chạy thứ n của Task |
+| `GOAL-<NN>` · `PLAN-<NNN>` · `<KEY>-<N>` · `<KEY>-<N>#<n>` | Goal (kết quả muốn đạt) · Plan (kế hoạch thực hiện) · Task · lần chạy thứ n của Task |
 | M1 · M2 · M3 | Hạng model: nhẹ · chuẩn · mạnh |
 | E1 · E2 · E3 · E4 | Mức effort: thấp · trung bình · cao · rất cao; viết gộp `M2·E1` (model chuẩn, effort thấp) |
 
@@ -94,17 +96,17 @@ Mỗi dòng là một hoặc nhiều Task; AI soạn `Draft`, người ở cột
 | --- | --- | --- | --- | --- | --- |
 | 0 | Tài liệu của khách hàng, PO: quy trình nghiệp vụ, biểu mẫu, biên bản (Đầu mối lưu, ẩn danh) | T12 (chỉ sửa tài liệu) | Danh mục [sources](00-project-overview/sources/README.md) `SRC-<NN>`; câu hỏi `Input` cho phần còn thiếu | Đầu mối với khách hàng | — |
 | 1 | `SRC-<NN>`; câu trả lời của khách hàng | T1 (tính năng mới, Skill `product-discovery`) hoặc T12 | [00-project-overview](00-project-overview/README.md): vision, scope, glossary, open-questions; gói câu hỏi gửi khách hàng | PO | G1 (vision, phạm vi) |
-| 2 | Bước 1 `Approved`; `SRC-<NN>`; OQ đã `Closed` | T1 (phần yêu cầu), rà bằng T8 (rà soát yêu cầu) | [01-requirements](01-requirements/README.md): BRD, FR, NFR, BR, AC; báo cáo rà soát | PO/BA, QA rà | G2 (yêu cầu) |
+| 2 | Bước 1 `Approved`; `SRC-<NN>`; OQ đã `Closed` | T1 (phần yêu cầu), rà bằng T8 (rà soát yêu cầu) | [01-requirements](01-requirements/README.md): BRD, Feature, FR, NFR, BR, AC; Epic, User Story ở [product-backlog](04-project-management/product-backlog.md); báo cáo rà soát | PO/BA, QA rà | G2 (yêu cầu) |
 | 3 | Bước 2 `Approved`; code hiện có (dự án cũ, nền sẵn có) | T1 (phần thiết kế) hoặc T7 (đổi kiến trúc) | [02-architecture](02-architecture/README.md): kiến trúc, module, DB, API, ADR | Kiến trúc sư (+ Security nếu có tiền, phân quyền, dữ liệu cá nhân, migration) | G3 (thiết kế) |
 | 4 | Chuẩn của công ty; công cụ AI được phép | T12 | [03-engineering](03-engineering/README.md): chuẩn code, bảo mật, lỗi, test, [ai-tools](03-engineering/ai-tools.md) | Tech Lead | G4 (sẵn sàng giao Task) |
-| 5 | Bước 2–3 `Approved`; ưu tiên của PO | T1 (Skill `task-planning`) | [04-project-management](04-project-management/README.md): roadmap, backlog, Task (mẫu [task-breakdown](04-project-management/task-breakdown.md) §4) | Tech Lead; PO quyết ưu tiên | G4 |
+| 5 | Bước 2–3 `Approved`; ưu tiên của PO | T1 (Skill `task-planning`) | [04-project-management](04-project-management/README.md): roadmap, goals, product-backlog, task-backlog, Task (mẫu [task-breakdown](04-project-management/task-breakdown.md) §4) | Tech Lead; PO quyết ưu tiên | G4 |
 | 6 | Hạ tầng, quy định vận hành (DevOps) | T12, có thể làm song song từ bước 3 | [05-operations](05-operations/README.md): deployment, monitoring, backup | Owner, tham khảo Tech Lead | trước G7 |
 
-Từ bước 5 trở đi, công việc đi qua [task-execution](../.ai/workflows/task-execution.md) theo mô hình **Goal → Plan → Task → Run** ([goals](04-project-management/goals.md)): Goal là kết quả muốn đạt; Plan là cách đạt, gồm nhiều Task; mỗi Task chạy trong một phiên hoặc subagent riêng với model·effort riêng; mỗi lần chạy là một Run. Đầu vào và đầu ra:
+Từ bước 5 trở đi, công việc đi qua [task-execution](../.ai/workflows/task-execution.md) theo mô hình **Plan → Task → Run** ([work-model](04-project-management/work-model.md)): Plan là kế hoạch thực hiện, tạo từ một Nguồn (Goal, Epic, User Story hoặc yêu cầu độc lập), có thể phục vụ nhiều Goal, gồm nhiều Task; mỗi Task chạy trong một phiên hoặc subagent riêng với model·effort riêng; mỗi lần chạy là một Run. Đầu vào và đầu ra:
 
 | Bước | Đầu vào | Đầu ra | Người kiểm soát |
 | --- | --- | --- | --- |
-| Lập Plan | Goal; FR/BR/AC, thiết kế `Approved` | Plan theo [PLAN-TEMPLATE](../.ai/templates/PLAN-TEMPLATE.md) và một Task Manifest cho mỗi Task ([mẫu](../.ai/templates/TASK-MANIFEST-TEMPLATE.yaml)) ở `.ai/plans/<plan>/` | Tech Lead duyệt Plan: R, A, khoảng model·effort, ngân sách, phạm vi của từng Task |
+| Lập Plan | Nguồn (Goal, Epic, User Story hoặc yêu cầu độc lập); User Story, FR/BR/AC, thiết kế `Approved` | Plan theo [PLAN-TEMPLATE](../.ai/templates/PLAN-TEMPLATE.md) và một Task Manifest cho mỗi Task ([mẫu](../.ai/templates/TASK-MANIFEST-TEMPLATE.yaml)) ở `.ai/plans/<plan>/` | Tech Lead duyệt Plan: R, A, khoảng model·effort, ngân sách, phạm vi của từng Task |
 | Chạy Task | Plan đã duyệt | Diff hoặc tài liệu; `runs.md` ghi từng lần chạy, nâng mức, chi phí; kết quả test thật ([TEST-REPORT](../.ai/templates/TEST-REPORT-TEMPLATE.md)) | Orchestrator đánh giá bằng lệnh kiểm; cổng tự động (lint, test, build) |
 | Bàn giao | Diff, kết quả test | [DELIVERY-REPORT](../.ai/templates/DELIVERY-REPORT-TEMPLATE.md); PR theo [PR-TEMPLATE](../.ai/templates/PR-TEMPLATE.md) | Reviewer (phiên AI khác hoặc người); R3 thêm reviewer độc lập |
 | Phát hành | PR đã merge | [RELEASE-REPORT](../.ai/templates/RELEASE-REPORT-TEMPLATE.md) nháp | Owner quyết; DevOps thực hiện; AI không deploy |
@@ -208,8 +210,8 @@ Module chưa có test thì Task đầu tiên vào module đó nên là **T11** (
 
 ## 5. Giao việc hằng ngày (dùng chung)
 
-### 5.1 Viết Goal hoặc Task
-- **Việc lớn:** nêu Goal (kết quả muốn đạt, tiêu chí hoàn thành, căn cứ FR/thiết kế). AI chia thành Plan và Task, đề xuất R, A, mức model·effort cho từng Task; bạn duyệt Plan là cấp các giá trị đó.
+### 5.1 Giao việc lớn hoặc Task
+- **Việc lớn:** nêu Nguồn: Goal (kết quả muốn đạt, tiêu chí hoàn thành), Epic, User Story hoặc yêu cầu độc lập, kèm căn cứ FR/thiết kế. AI chia thành Plan và Task, đề xuất R, A, mức model·effort cho từng Task; bạn duyệt Plan là cấp các giá trị đó.
 - **Việc nhỏ:** viết một Task theo mẫu ở [task-breakdown](04-project-management/task-breakdown.md) §4; Task chỉ giao AI khi đạt điều kiện sẵn sàng ở §7 của file đó. Ghi đủ: loại Task (T1–T15, danh sách ở [task-types](../.ai/workflows/task-types.md) §1), rủi ro R, mức tự chủ A. Task R1 đủ điều kiện fast lane thì chạy ngay, không cần Plan.
 - Một Task một việc: không gộp sửa lỗi với refactor lớn.
 
@@ -218,7 +220,7 @@ Mở phiên ở thư mục gốc repo cha. Chọn model, effort **trước khi g
 
 | Phiên | Mức | Nghĩa |
 | --- | --- | --- |
-| Orchestrator (lập Plan, gửi Task, đánh giá) | M3·E3; M3·E4 nếu Goal có đổi kiến trúc hoặc API contract (T7) | Model mạnh · effort cao / rất cao |
+| Orchestrator (lập Plan, gửi Task, đánh giá) | M3·E3; M3·E4 nếu Plan có đổi kiến trúc hoặc API contract (T7) | Model mạnh · effort cao / rất cao |
 | Fast lane (một Task R1) | Mức bắt đầu của Skill chính ([model-effort](../.ai/workflows/model-effort.md) §2), ví dụ sửa tài liệu M2·E1 | Model chuẩn · effort thấp |
 | Từng Task (Run) | Orchestrator tự chọn theo manifest; Task A2 trở xuống hoặc công cụ không có subagent thì bạn mở phiên mới theo mức Orchestrator báo | — |
 | Review (bước 8) | M3·E3, phiên mới, không dùng lịch sử phiên viết code | Model mạnh · effort cao |
@@ -231,7 +233,7 @@ Mở phiên ở thư mục gốc repo cha. Chọn model, effort **trước khi g
 Câu mở đầu:
 
 ```text
-Goal GOAL-03: <kết quả muốn đạt>. Căn cứ: <FR, thiết kế>. Làm theo AGENTS.md.
+Lập Plan từ <GOAL-03 | EPIC-02 | US-WS-01 | yêu cầu: …>. Căn cứ: <FR, thiết kế>. Làm theo AGENTS.md.
 ```
 
 hoặc với một Task:
@@ -256,12 +258,12 @@ Thay phần `<...>`. Mã Task, loại, R, A lấy từ Task đã viết theo §5
 | Khách hàng đã trả lời | `Khách hàng trả lời các câu hỏi OQ-<NN>, OQ-<NN> (đã lưu SRC-<NN>). Cập nhật open-questions và các tài liệu bị ảnh hưởng; câu trả lời sinh câu hỏi mới thì mở OQ mới.` |
 | Rà soát yêu cầu | `Task <KEY>-<N> (T8 · R1 · A1). Rà soát FR-<MODULE>-* và AC trước khi trình PO duyệt.` |
 | Thiết kế | `Task <KEY>-<N> (T1 · R<N> · A2). Thiết kế module <tên> trên nền <hệ thống sẵn có, đường dẫn code>. Căn cứ: FR-<MODULE>-* đã Approved.` |
-| Lập Plan cho Goal | `Goal GOAL-<NN>: <kết quả muốn đạt>. Căn cứ FR-<MODULE>-*, thiết kế đã Approved. Chia thành Plan và Task kèm manifest; đề xuất R, A, mức model·effort cho từng Task.` |
-| Chạy Plan đã duyệt | `Plan <GOAL>-P<N> đã duyệt. Chạy các Task theo manifest, ghi runs.md.` |
+| Lập Plan | `Lập Plan từ <GOAL-<NN> | EPIC-<NN> | US-<MODULE>-<NN> | yêu cầu: …>; phục vụ Goal <GOAL-<NN> hoặc không>. Căn cứ FR-<MODULE>-*, thiết kế đã Approved. Chia thành Plan và Task kèm manifest; đề xuất R, A, mức model·effort cho từng Task.` |
+| Chạy Plan đã duyệt | `Plan PLAN-<NNN> đã duyệt. Chạy các Task theo manifest, ghi runs.md.` |
 | Làm tính năng | `Task <KEY>-<N> (T2 · R<N> · A<N>). Làm theo AGENTS.md.` + dán Task |
 | Sửa lỗi | `Task <KEY>-<N> (T3 · R<N> · A<N>). Làm theo AGENTS.md.` + dán bug report theo BUG-TEMPLATE |
 | Review PR (phiên mới) | `Task <KEY>-<N> (T9 · R<N> · A1). Review PR <link/số> của Task <KEY>-<M>. Không dùng lịch sử phiên viết code.` |
-| Tiếp tục phiên bị ngắt | `Tiếp tục Plan <GOAL>-P<N> từ .ai/plans/<thư mục>. Đọc bảng Task trong PLAN.md và runs.md để biết đã làm tới đâu.` |
+| Tiếp tục phiên bị ngắt | `Tiếp tục Plan PLAN-<NNN> từ .ai/plans/<thư mục>. Đọc bảng Task trong PLAN.md và runs.md để biết đã làm tới đâu.` |
 | Duyệt tài liệu | `<Vai> <tên> duyệt, chuyển <file> sang Approved.` |
 | Trả lời câu hỏi cần quyết | `OQ-<NN>: chọn phương án <A/B>, lý do <...>.` hoặc `Chưa quyết OQ-<NN>, làm tiếp phần không bị chặn.` |
 

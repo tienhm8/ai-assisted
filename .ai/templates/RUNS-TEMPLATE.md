@@ -1,6 +1,6 @@
-# RUNS: <GOAL>-P<N>
+# RUNS: PLAN-<NNN>
 
-> Orchestrator ghi sau mỗi lần chạy Task, không sửa dòng cũ. Lưu ở `.ai/plans/<GOAL>-P<N>-<slug>/runs.md`. Là nguồn số đo cho báo cáo bàn giao §8 và cho rà soát định kỳ mức mặc định ([model-effort](../workflows/model-effort.md) §2).
+> Orchestrator ghi sau mỗi lần chạy Task, không sửa dòng cũ. Lưu ở `.ai/plans/PLAN-<NNN>-<slug>/runs.md`. Là nguồn số đo cho báo cáo bàn giao §8 và cho rà soát định kỳ mức mặc định ([model-effort](../workflows/model-effort.md) §2).
 
 | Run | Agent | Cách chạy | Commit gốc (`base`) | Mức (hạng · model thật · effort) | Lý do chạy | Bắt đầu – kết thúc | Kết quả | Tiêu chí không đạt / lý do dừng | Bằng chứng | Chi phí lần này (token, USD) | Chi phí cộng dồn của Task (USD) | Trường không áp dụng |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |

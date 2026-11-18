@@ -1,4 +1,4 @@
-# Task Manifest — one file per Task: .ai/plans/<GOAL>-P<N>-<slug>/tasks/<KEY>-<N>.yaml
+# Task Manifest — one file per Task: .ai/plans/PLAN-<NNN>-<slug>/tasks/<KEY>-<N>.yaml
 # Answers three questions: what to do (objective..dependencies), how to run it (agent..escalation),
 # how to know it is done right (acceptance_criteria).
 # Metadata only: it changes nothing unless the executor applies it (model-effort §4).
@@ -6,7 +6,8 @@
 # Values for humans (title, objective, out) are written in Vietnamese (project-rules 22).
 
 task_id: WS-3                       # <KEY>-<N>
-plan_id: GOAL-01-P2
+plan_id: PLAN-002
+serves: [US-WS-01]                  # User Stories / FRs / BRs this Task fulfils (traceability); reason if none
 title: Thêm API đăng ký Work study cho sinh viên
 objective: Sinh viên gửi được đơn đăng ký; hệ thống lưu đơn ở trạng thái Chờ duyệt
 type: T2                            # task-types §1

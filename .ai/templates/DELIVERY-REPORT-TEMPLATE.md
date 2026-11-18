@@ -1,4 +1,4 @@
-# DELIVERY REPORT: <GOAL>-P<N> (hoặc <KEY>-<N> ở fast lane)
+# DELIVERY REPORT: PLAN-<NNN> (hoặc <KEY>-<N> ở fast lane)
 
 > AI (Orchestrator) điền khi bàn giao một Plan, một dòng cho mỗi Task ở các bảng; fast lane bàn giao một Task. Là nguồn duy nhất của báo cáo bàn giao; các báo cáo khác chỉ tóm tắt rồi trỏ về đây. Chi tiết kiểm thử nằm ở báo cáo kiểm thử; từng lần chạy ở `runs.md` của Plan.
 

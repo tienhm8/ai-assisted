@@ -57,7 +57,7 @@ Tên trường `tools` và định dạng khác nhau giữa VS Code và cloud ag
 **Chạy Task theo manifest** (chỉ Task "Gửi đi", A3, A4; Task A2 trở xuống thì người mở phiên tương tác `copilot --model <model> --reasoning-effort <mức>` trong worktree của Task và duyệt từng bước): chưa xác nhận khoá `subagents.agents.*` có hiệu lực ở cấp repo, nên cách chắc chắn là mỗi Run một lệnh không tương tác, đặt model và effort theo mức hiện tại của manifest:
 
 ```text
-copilot -p "Run Task WS-3 theo .ai/plans/GOAL-01-P2-dang-ky/tasks/WS-3.yaml. Làm theo AGENTS.md." --model gpt-6.1-terra --reasoning-effort low
+copilot -p "Run Task WS-3 theo .ai/plans/PLAN-002-dang-ky/tasks/WS-3.yaml. Làm theo AGENTS.md." --model gpt-6.1-terra --reasoning-effort low
 ```
 
 Nâng mức: chạy lại với model, effort của bậc kế, kèm ghi chú lỗi của lần trước. Chưa xác nhận Copilot CLI có cờ chặn chi phí theo lần chạy: Orchestrator theo dõi `budget` và dừng khi vượt.

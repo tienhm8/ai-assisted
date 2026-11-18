@@ -6,7 +6,7 @@
 | Người phụ trách |  |
 | Người duyệt (dự án) | PO |
 | Phiên bản · Ngày |  |
-| Tài liệu liên quan | backlog.md, ../00-project-overview/vision.md, ../00-project-overview/scope.md, ../01-requirements/FR/ |
+| Tài liệu liên quan | product-backlog.md, task-backlog.md, ../00-project-overview/vision.md, ../00-project-overview/scope.md, ../01-requirements/FR/ |
 
 > **Mục đích.** Lộ trình theo mốc. Chỉ tham chiếu FR; trạng thái hoàn thành FR không chép vào đây. Tầm nhìn nằm ở [vision](../00-project-overview/vision.md), phạm vi ở [scope](../00-project-overview/scope.md); không chép lại vào file này.
 
@@ -21,9 +21,9 @@
 
 ## 2. Mốc và release
 
-Mỗi mốc là một release có thể bàn giao, mã `MS<N>`. FR/Module chỉ tham chiếu ID (`FR-<MODULE>-<NN>`); chi tiết việc cần làm nằm ở [backlog](backlog.md).
+Mỗi mốc là một release có thể bàn giao, mã `MS<N>`. Cột Epic chỉ tham chiếu ID (`EPIC-<NN>`, [product-backlog](product-backlog.md) §1) hoặc FR/Module; Epic ghi mốc của nó ở product-backlog, roadmap là nơi xếp mốc. Task cụ thể nằm ở [task-backlog](task-backlog.md).
 
-| Mốc | Tên release | Mục tiêu | FR/Module | Ưu tiên (MoSCoW) | Dự kiến | Trạng thái |
+| Mốc | Tên release | Mục tiêu | Epic/Module | Ưu tiên (MoSCoW) | Dự kiến | Trạng thái |
 | --- | --- | --- | --- | --- | --- | --- |
 | MS<N> | | | | | | |
 
@@ -58,10 +58,10 @@ Mỗi giai đoạn nhân bản theo mẫu dưới đây (Giai đoạn 1, 2, 3…
 
 - Thay đổi mốc, thứ tự hoặc phạm vi do Product Owner quyết, Tech Lead đánh giá tác động.
 - Mỗi thay đổi ghi lại lý do và cập nhật phiên bản · ngày ở đầu file.
-- Thay đổi phạm vi phải đồng bộ với [scope](../00-project-overview/scope.md) và [backlog](backlog.md).
+- Thay đổi phạm vi phải đồng bộ với [scope](../00-project-overview/scope.md), [product-backlog](product-backlog.md) và [task-backlog](task-backlog.md).
 
 ## 7. Tham chiếu
 
 - [vision](../00-project-overview/vision.md), [scope](../00-project-overview/scope.md)
 - [FR](../01-requirements/FR/README.md)
-- [backlog](backlog.md), [task-breakdown](task-breakdown.md)
+- [product-backlog](product-backlog.md), [task-backlog](task-backlog.md), [task-breakdown](task-breakdown.md)

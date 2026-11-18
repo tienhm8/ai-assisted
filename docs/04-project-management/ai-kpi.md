@@ -6,7 +6,7 @@
 | Người phụ trách |  |
 | Người duyệt (dự án) | Tech Lead |
 | Phiên bản · Ngày |  |
-| Tài liệu liên quan | roadmap.md, backlog.md, task-breakdown.md, ../03-engineering/testing-strategy.md, ../05-operations/monitoring.md |
+| Tài liệu liên quan | roadmap.md, task-backlog.md, task-breakdown.md, ../03-engineering/testing-strategy.md, ../05-operations/monitoring.md |
 
 > **Mục đích.** Chọn chỉ số, ghi baseline và kết quả đo để đánh giá AI có thực sự cải thiện việc phát triển hay không. Mục 2 định nghĩa KPI dự án chọn đo; KPI lấy thêm từ mục 1 phải điền đủ mục 2 trước khi đo. File này chỉ ghi chỉ số dự án chọn đo và số liệu thực tế. Không chỉ đo số dòng code AI tạo ra hoặc số Task hoàn thành.
 
@@ -27,7 +27,7 @@ Mỗi KPI được chọn đo phải điền đủ bảng này trước khi ghi 
 
 | KPI | Công thức | Nguồn | Tần suất | Mục tiêu | Người phụ trách |
 | --- | --- | --- | --- | --- | --- |
-| Lead time | Ngày hoàn thành − ngày Task vào backlog | Công cụ quản lý việc | Mỗi mốc |  |  |
+| Lead time | Ngày hoàn thành − ngày Task vào task backlog | Công cụ quản lý việc | Mỗi mốc |  |  |
 | Cycle time | Ngày Done − ngày bắt đầu Task | Công cụ quản lý việc | Mỗi mốc |  |  |
 | Tỷ lệ code AI được chấp nhận | Số PR dùng không phải viết lại lớn / tổng PR có AI | PR | Mỗi mốc |  |  |
 | Tỷ lệ rework | Số Task phải làm lại / tổng Task AI | Delivery Report, PR | Mỗi mốc |  |  |
@@ -71,5 +71,5 @@ Mỗi KPI được chọn đo phải điền đủ bảng này trước khi ghi 
 
 ## 7. Tham chiếu
 
-- [roadmap](roadmap.md), [backlog](backlog.md), [task-breakdown](task-breakdown.md)
+- [roadmap](roadmap.md), [task-backlog](task-backlog.md), [task-breakdown](task-breakdown.md)
 - [testing-strategy](../03-engineering/testing-strategy.md), [monitoring](../05-operations/monitoring.md)

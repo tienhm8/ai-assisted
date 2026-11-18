@@ -2,16 +2,18 @@
 
 > Status: **Approved**. **Mandatory** workflow for every piece of work. Changing this file requires a dedicated Task and a reviewer.
 
-## Model: Goal → Plan → Task → Run
+## Model: Plan → Task → Run, linked to Goals and requirements
+
+Concepts fall in three groups (definitions, where each lives, all links: [work-model](../../docs/04-project-management/work-model.md)): A business and product definition (BRD, BRQ, Goal, Epic, Feature, User Story); B planning and work management (Plan, Task, Subtask, Dependency); C AI execution (Agent, Run, model·effort, Tool, Result, Review). Links are references, not a parent-child tree.
 
 | Level | Answers | ID | Lives in |
 | --- | --- | --- | --- |
-| Goal | What outcome do we want? | `GOAL-<NN>` | [goals.md](../../docs/04-project-management/goals.md) |
-| Plan | How do we reach it? The split into Tasks and their order | `<GOAL>-P<N>` | `.ai/plans/<GOAL>-P<N>-<slug>/PLAN.md` |
+| Goal (group A) | What outcome do we want? | `GOAL-<NN>` | [goals.md](../../docs/04-project-management/goals.md) |
+| Plan | How will we do it? The split into Tasks and their order | `PLAN-<NNN>` | `.ai/plans/PLAN-<NNN>-<slug>/PLAN.md` |
 | Task | What exactly to do: inputs, outputs, AC, type, risk, autonomy, agent, level | `<KEY>-<N>` | `.ai/plans/<plan>/tasks/<KEY>-<N>.yaml` (manifest) |
 | Run | One execution of a Task: agent, real model·effort, result, evidence, cost | `<KEY>-<N>#<n>` | `.ai/plans/<plan>/runs.md` |
 
-One Goal has many Plans; one Plan many Tasks; one Task many Runs. A Plan is not a Task and a Task is not an Agent: the Agent (role in [agents/README](../agents/README.md)) executes a Task using tools.
+A Plan has exactly one Source (a Goal, Epic, User Story, or a standalone request) and optional Goals (zero or more); one Plan has many Tasks; a Task serves one or more User Stories/FRs; one Task has many Runs. A Plan is not a Task and a Task is not an Agent: the Agent (role in [agents/README](../agents/README.md)) executes a Task using tools.
 
 **New Plan instead of more Tasks in an existing Plan** when at least one holds: a different output goal; can be done independently; its own lifecycle and done criteria; needs separate progress tracking or access. Default: each stretch ending at its own approval gate (analysis → G2, design → G3, implementation → G5) is a Plan.
 
@@ -56,16 +58,16 @@ Steps 1–4 and the evaluation in 5 run in the Orchestrator; the work of each Ta
 
 | Step | Work | Load | Output |
 | --- | --- | --- | --- |
-| 1 · Intake | Read the request: a Goal, or a single Task (then a Plan of one Task). Find its Goal in goals.md or draft one. Determine the Task types involved; never combine a bug fix with a large refactor. Missing rigor S: ask. A Task the Tech Lead already gave R and A keeps them | Request; `project-rules`; `PROJECT.md` §2, §4; `gates-and-rigor.md` §2 when applying S; Task type rows; [load-conditions.md](load-conditions.md) §1 | Goal, Task types, load set |
+| 1 · Intake | Read the request: a Goal, Epic, User Story, standalone request, or a single Task (then a Plan of one Task). Record it as the Plan's Source; link existing Goals it serves (goals.md) and the User Stories/FRs in scope; do not draft a Goal only to host a Plan. Determine the Task types involved; never combine a bug fix with a large refactor. Missing rigor S: ask. A Task the Tech Lead already gave R and A keeps them | Request; `project-rules`; `PROJECT.md` §2, §4; `gates-and-rigor.md` §2 when applying S; Task type rows; [load-conditions.md](load-conditions.md) §1 | Goal, Task types, load set |
 | 2 · Analysis | Read requirements, design, related code; unclear points become open questions. Code revealing further Rule load conditions extends the load set | FR/BR/AC, ADR, design the request points to; code in scope | Open questions (if any) |
 | 3 · Plan | Decide the Plans (criteria above). Split each into Tasks using the type's Skill chain as template (task-types §1), **except `code-review` and `security-review`, which run only at step 8** after test results exist. Write one manifest per Task: inputs, outputs, scope, AC with checks, dependencies, proposed R and A with reason, agent, Skills and Rules, document sections to load, level and escalation (model-effort §2), budget, gate. Record applicable points from documents read, with document, § and section name | PLAN-TEMPLATE, TASK-MANIFEST-TEMPLATE; [model-effort.md](model-effort.md); `load-conditions.md` §2 when the chain has a `[ ]` Skill; Skill `task-planning`; Rule `testing` and every Rule in the load set | Plan + manifests |
 | 4 · Plan approval | Reviewer, per "Plan approval" | — | Plan Approved |
 | 5 · Run | For each Task whose dependencies are Done, in order: start a Run at its current level, dispatched or attended per "Orchestration"; the Run executes each Skill in turn (entry gate → procedure → Done-when) and returns a handoff with evidence; the Orchestrator evaluates and accepts, escalates, or stops (model-effort §3); record the Run. Parallel Runs only for Tasks sharing no files, schema, or contract | Orchestrator: manifest, `runs.md`. Run: its manifest; `SKILL.md` of each Skill and the `references/` it points to; `docs/` sections the Skill allows when the manifest lacks them; Rules in the manifest; Rule `coding`; Rule `git-workflow` when committing | Diff or documents; `runs.md` |
 | 6 · Test | Merge Task branches in dependency order; run all of the project's check gates on the merged result. A failure opens a new error quota for the responsible Task (model-effort §3 rule 5) | Matching testing Skill; TEST-REPORT-TEMPLATE | Real output |
 | 7 · Self-review | Check the merged diff against every Task's AC and scope and the loaded Rules; draft one handoff report for the Plan with a row per Task; metrics from `runs.md` | DELIVERY-REPORT-TEMPLATE | Handoff report |
-| 8 · Review | `code-review`, then `security-review` when its condition holds (load-conditions §2), each as a review Run with agent Reviewer or Security, declared in the Plan's "Review" row (level and budget per model-effort §2, approved with the Plan; recorded in `runs.md` as `<GOAL>-P<N>-REVIEW#<n>`), fresh context, never the Orchestrator's or coding Runs' history; level per model-effort §2. A finding opens a new error quota for the responsible Task. A human reviewer approves the PR | Row T9 | PR approved |
+| 8 · Review | `code-review`, then `security-review` when its condition holds (load-conditions §2), each as a review Run with agent Reviewer or Security, declared in the Plan's "Review" row (level and budget per model-effort §2, approved with the Plan; recorded in `runs.md` as `PLAN-<NNN>-REVIEW#<n>`), fresh context, never the Orchestrator's or coding Runs' history; level per model-effort §2. A finding opens a new error quota for the responsible Task. A human reviewer approves the PR | Row T9 | PR approved |
 | 9 · Release | A human merges; AI only prepares per [release-workflow.md](release-workflow.md) | — | Release |
-| 10 · Knowledge update | Update affected documents; update Goal status. Changes to Rules, Skills, workflows: propose a dedicated Task | Skill `documentation` | Docs match reality |
+| 10 · Knowledge update | Update affected documents; update Goal status when the Plan lists Goals. Changes to Rules, Skills, workflows: propose a dedicated Task | Skill `documentation` | Docs match reality |
 
 Analysis- or design-only Plans (Tasks of types T1, T6, T7, T8, T15) skip step 6: their Runs output Draft documents, evaluated by completeness and validity, then by a human at the gate.
 
@@ -73,7 +75,7 @@ Analysis- or design-only Plans (Tasks of types T1, T6, T7, T8, T15) skip step 6:
 
 Applies when all hold: the Plan has a single R1 Task whose R and A the Tech Lead set; no load condition for Rules `architecture`, `database`, `security`, `cache` is met; no 🟡/🔴 zone touched.
 
-- No Orchestrator, no plan or manifest file: a few-line plan in the session (Goal it belongs to, files to change, tests to run, level). The Goal ID also goes into the commit message and the handoff report.
+- No Orchestrator, no plan or manifest file: a few-line plan in the session (Source and the User Story/FR served, files to change, tests to run, level). The Source ID also goes into the commit message and the handoff report.
 - The session runs at the Task's start level (model-effort §2) and loads only the main Skill.
 - One error: at most 3 rounds in this session (`project-rules` 18); no escalation inside the session. Past that: stop and ask a human to open a session at a higher level or move to the full lane.
 - Steps 6–7 unchanged; the handoff report fills only sections with content.

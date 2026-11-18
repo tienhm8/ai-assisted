@@ -26,7 +26,7 @@ Mở phiên chính ở mức của Orchestrator ([model-effort](../../workflows/
 
 ```text
 /model opus
-/effort high       # xhigh nếu Goal có Task T7 (đổi kiến trúc hoặc API contract)
+/effort high       # xhigh nếu Plan có Task T7 (đổi kiến trúc hoặc API contract)
 ```
 
 Fast lane (một Task R1): mở phiên ở mức bắt đầu của Task theo Skill chính (model-effort §2), ví dụ `documentation` → `/model sonnet` + `/effort low`.
@@ -71,7 +71,7 @@ cd .ai/worktrees/WS-3      # worktree riêng của Task, tạo từ commit base
 claude -p --model sonnet --effort low --max-budget-usd 2 --output-format json \
   --permission-mode acceptEdits \
   --allowedTools "Read Grep Glob Edit Write Bash(npm test *) Bash(npm run lint) Bash(npm run typecheck) Bash(git diff *) Bash(git status)" \
-  -- "Run Task WS-3 theo .ai/plans/GOAL-01-P2-dang-ky/tasks/WS-3.yaml. Làm theo AGENTS.md." > run-WS-3-1.json
+  -- "Run Task WS-3 theo .ai/plans/PLAN-002-dang-ky/tasks/WS-3.yaml. Làm theo AGENTS.md." > run-WS-3-1.json
 ```
 
 - `--permission-mode acceptEdits` cho phép sửa file không hỏi; `--allowedTools` chỉ mở các lệnh có trong `acceptance_criteria[].check` của manifest và lệnh git chỉ đọc. Không dùng `bypassPermissions`.

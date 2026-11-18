@@ -4,7 +4,7 @@ Mẫu báo cáo công việc của AI, chỉ giữ cấu trúc (trường, cột
 
 | Mẫu | Dùng khi | AI soạn · Người duyệt |
 | --- | --- | --- |
-| PLAN-TEMPLATE | Lập một Plan (cách đạt một Goal, gồm nhiều Task) | AI (Orchestrator) · Tech Lead |
+| PLAN-TEMPLATE | Lập một Plan (kế hoạch thực hiện, gồm nhiều Task; có Nguồn và Goals tuỳ chọn) | AI (Orchestrator) · Tech Lead |
 | TASK-MANIFEST-TEMPLATE | Khai báo một Task: làm gì, chạy bằng cấu hình nào, kiểm thế nào | AI (Orchestrator) · Tech Lead, duyệt cùng Plan |
 | RUNS-TEMPLATE | Ghi từng lần chạy Task, nâng mức, chi phí | AI (Orchestrator) · không cần duyệt |
 | BUG-TEMPLATE | Giao việc sửa lỗi | Người báo · Tech Lead |

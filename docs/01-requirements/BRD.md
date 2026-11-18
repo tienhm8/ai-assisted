@@ -6,7 +6,7 @@
 | Người phụ trách |  |
 | Người duyệt (dự án) | PO/BA |
 | Phiên bản · Ngày |  |
-| Tài liệu liên quan | ../00-project-overview/vision.md, FR/, NFR.md, business-rules.md, ../../.ai/skills/requirement-review/SKILL.md |
+| Tài liệu liên quan | ../00-project-overview/vision.md, features.md, FR/, NFR.md, business-rules.md, ../../.ai/skills/requirement-review/SKILL.md |
 
 > **Mục đích.** Yêu cầu nghiệp vụ ở mức mục tiêu và giá trị để suy ra FR/NFR.
 >
@@ -21,7 +21,7 @@
 <!-- Điền theo từng dự án: các bên liên quan xem vision.md §2; ở đây chỉ mô tả quy trình hiện tại (as-is) và điểm đau. -->
 
 ## 3. Yêu cầu nghiệp vụ
-> Mã `BRQ-<NN>`. Liên kết BRQ → FR chỉ khai ở cột "BRQ nguồn" của bảng FR ([FR/README.md](FR/README.md)); tra FR phủ một BRQ thì lọc bảng FR. Mỗi BRQ Must/Should phải có ít nhất một FR (requirement-review kiểm).
+> Mã `BRQ-<NN>`. Liên kết BRQ → FR chỉ khai ở cột "BRQ nguồn" của bảng FR ([FR/README.md](FR/README.md)); tra FR phủ một BRQ thì lọc bảng FR. Feature và Epic ghi BRQ mà chúng đáp ứng ([features](features.md), [product-backlog](../04-project-management/product-backlog.md)); Goal có thể lấy BRQ làm nguồn ([goals](../04-project-management/goals.md)). Mỗi BRQ Must/Should phải có ít nhất một FR (requirement-review kiểm).
 
 | ID | Yêu cầu | Ưu tiên | Outcome (OUT-xx) |
 | --- | --- | --- | --- |

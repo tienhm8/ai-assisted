@@ -10,7 +10,7 @@ Model and effort are set **per Task**, never per Plan or per whole workflow. A s
 
 ## 1. Orchestrator session
 
-The main session that plans, classifies, dispatches, evaluates, and merges (steps 1–4, evaluation in step 5, steps 6–7 of task-execution): **M3·E3**; **M3·E4** when the Goal contains a T7 Task (architecture or contract change). Its own cost counts toward the Plan budget. Fast lane: no Orchestrator; the session runs the single Task at that Task's start level.
+The main session that plans, classifies, dispatches, evaluates, and merges (steps 1–4, evaluation in step 5, steps 6–7 of task-execution): **M3·E3**; **M3·E4** when the Plan contains a T7 Task (architecture or contract change). Its own cost counts toward the Plan budget. Fast lane: no Orchestrator; the session runs the single Task at that Task's start level.
 
 ## 2. Default levels per Skill
 

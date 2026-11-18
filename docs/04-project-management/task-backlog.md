@@ -1,4 +1,4 @@
-# Backlog
+# Task Backlog
 
 | Thuộc tính | Giá trị |
 | --- | --- |
@@ -6,38 +6,37 @@
 | Người phụ trách |  |
 | Người duyệt (dự án) | Tech Lead (PO quyết ưu tiên) |
 | Phiên bản · Ngày |  |
-| Tài liệu liên quan | roadmap.md, goals.md, task-breakdown.md, ../01-requirements/FR/, ../01-requirements/business-rules.md |
+| Tài liệu liên quan | work-model.md, product-backlog.md, goals.md, task-breakdown.md, roadmap.md, ../01-requirements/FR/, ../01-requirements/business-rules.md |
 
-> **Mục đích.** Danh sách việc chờ, ưu tiên. Task có ID theo công cụ quản lý việc (<KEY>-<N>). Backlog chỉ liệt kê và xếp thứ tự; Objective, Scope, AC chi tiết của từng Task nằm ở [task-breakdown](task-breakdown.md), không chép vào đây.
+> **Mục đích.** Danh sách Task (nhóm B, lập kế hoạch và quản lý công việc, [work-model](work-model.md)) chờ làm, có ưu tiên. Task có ID theo công cụ quản lý việc (<KEY>-<N>). Epic và User Story ở [product-backlog](product-backlog.md), không ở đây. Backlog chỉ liệt kê và xếp thứ tự; Objective, Scope, AC chi tiết của từng Task nằm ở [task-breakdown](task-breakdown.md), không chép vào đây.
 
-## 1. Quy tắc quản lý backlog
+## 1. Quy tắc quản lý task backlog
 
 - Mỗi việc có đúng một dòng và một ID duy nhất.
-- Mọi việc phải truy vết về FR/BR (định danh `FR-<MODULE>-<NN>`, `BR-<MODULE>-<NN>`); việc không có FR/BR (bug, kỹ thuật) ghi rõ lý do ở cột Tên hoặc Ghi chú.
+- Mọi Task phải lưu được nguồn gốc yêu cầu: cột "Phục vụ" ghi một hoặc nhiều User Story, FR, BR (`US-<MODULE>-<NN>`, `FR-<MODULE>-<NN>`, `BR-<MODULE>-<NN>`); một Task có thể phục vụ nhiều User Story. Task không có yêu cầu nguồn (bug, kỹ thuật) ghi lý do. Goal và BRQ truy qua Plan và User Story/FR, không ghi lại ở đây.
 - Product Owner quyết ưu tiên; Tech Lead quyết rủi ro. Việc chưa Ready không được giao AI.
 
 ## 2. Loại việc và ID
 
 | Loại | Ý nghĩa |
 | --- | --- |
-| Epic | Nhóm lớn, tương ứng một mốc/module ở [roadmap](roadmap.md) |
-| Feature / Story | Chức năng theo FR |
+| Story Task | Hiện thực một hoặc nhiều User Story / FR |
 | Technical Task | Việc kỹ thuật không gắn trực tiếp FR (hạ tầng, refactor) |
 | Bug | Lỗi so với FR/AC đã duyệt |
 | Improvement | Cải tiến không đổi nghiệp vụ |
 | Spike | Khảo sát có giới hạn thời gian để làm rõ trước khi chia Task |
 
-ID theo công cụ quản lý việc: `<KEY>-<N>` (KEY là mã dự án hoặc mã module, ví dụ PRJ-1, AUTH-1; không đệm số 0 để khác mã FR). Quan hệ cha-con (Epic → Feature → Task) ghi ở cột Cha. Goal và Plan không phải dòng backlog: Goal ở [goals](goals.md), Plan ở `.ai/plans/`; cột Plan ghi Task thuộc Plan nào.
+ID theo công cụ quản lý việc: `<KEY>-<N>` (KEY là mã dự án hoặc mã module, ví dụ PRJ-1, AUTH-1; không đệm số 0 để khác mã FR). File này chỉ chứa Task. Goal, Epic, User Story (nhóm A) ở [goals](goals.md), [product-backlog](product-backlog.md); Plan ở `.ai/plans/`. Cột Phục vụ ghi yêu cầu nguồn; cột Plan ghi Task thuộc Plan nào (`PLAN-<NNN>`, trống nếu chạy fast lane); cột Phụ thuộc là Dependency; cột Tách từ chỉ dùng khi Task tách từ Task khác (Spike → Task). Subtask là bước trong Task, không thành dòng.
 
 ## 3. Danh sách công việc
 
-| Task ID | Loại | Tên | Cha | Plan | FR/BR | Module | Ưu tiên | Rủi ro | Phụ thuộc | Trạng thái |
+| Task ID | Loại | Tên | Tách từ | Plan | Phục vụ (US/FR/BR) | Module | Ưu tiên | Rủi ro | Phụ thuộc | Trạng thái |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| <KEY>-<N> | | | | <GOAL>-P<N> | | | | R1 | | |
+| <KEY>-<N> | | | | PLAN-<NNN> | US-<MODULE>-<NN>, … | | | R1 | | |
 
 ## 4. Ưu tiên
 
-Dùng thang MoSCoW chung với BRD, FR, NFR: `Must` · `Should` · `Could` · `Won't` (xem [FR/README](../01-requirements/FR/README.md)). Task kế thừa ưu tiên của FR nguồn; Bug và việc kỹ thuật do PO xếp.
+Dùng thang MoSCoW chung với BRD, FR, NFR: `Must` · `Should` · `Could` · `Won't` (xem [FR/README](../01-requirements/FR/README.md)). Task kế thừa ưu tiên cao nhất của User Story/FR mà nó phục vụ; Bug và việc kỹ thuật do PO xếp.
 
 Tiêu chí xếp thứ tự trong cùng mức: giá trị nghiệp vụ, mức phụ thuộc của việc khác, rủi ro, công sức. Rủi ro R1–R3 và mức tự chủ A0–A4 định nghĩa ở [project-rules](../../.ai/rules/project-rules.md) (Thang dùng chung).
 
