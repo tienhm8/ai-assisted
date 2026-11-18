@@ -1,15 +1,15 @@
 # PLAN: AI-10 — Mô hình Goal → Plan → Task → Run và điều phối nhiều phiên
 
-> Trạng thái: **Draft**, đã triển khai theo quyết định 2026-11-18 (§6) và sửa theo review độc lập (§7); chờ người phát triển khung (Tech Lead của khung) review diff.
+> Trạng thái: **Done** (người phát triển khung chuyển, 2026-11-18). Đã triển khai theo quyết định 2026-11-18 (§6), qua 3 vòng review độc lập (§7), commit `7148b7c` trên `refactor/AI-10-ws-ai-pilot`. Phần đo đạc (mức mặc định theo Skill, ngân sách mặc định, chạy thử một Plan thật) chuyển sang đợt B.
 > **Nguồn đúng là các file của khung**, không phải bản đề xuất này: mô hình ở `task-execution.md`, mức và nâng mức ở `model-effort.md`, manifest ở `TASK-MANIFEST-TEMPLATE.yaml`. §2–§4 dưới đây đã sửa cho khớp, chỉ còn tóm tắt.
 > Nguồn: yêu cầu của người phát triển khung trong pilot AI-10, 2026-11-18; nhật ký pilot #10.
 
 | Mục | Giá trị |
 | --- | --- |
-| Trạng thái | Draft |
+| Trạng thái | Done (người phát triển khung chuyển, 2026-11-18) |
 | Loại Task | T7 (đổi kiến trúc của khung) + T12 (sửa tài liệu) |
-| Mức rủi ro · Mức tự chủ | R2 (ảnh hưởng nhiều file của khung) · A2 (duyệt từng bước) — đề xuất, chờ xác nhận |
-| Model · Effort | Soạn đề xuất: M3·E4 · Sửa file sau khi duyệt: M2·E2 |
+| Mức rủi ro · Mức tự chủ | R2 (ảnh hưởng nhiều file của khung, gồm file `Approved` ở vùng 🔴; không chạm phân quyền, tiền, dữ liệu cá nhân) · A3 (làm trọn trong phạm vi, người duyệt kết quả cuối), theo thực tế, người phát triển khung xác nhận 2026-11-18. Người phát triển khung quyết OQ-A…D, Q1, Q2, ngân sách; AI sửa trọn, trình diff, review, commit theo yêu cầu; quyền sửa `.ai/` cấp cho pilot (2026-11-18) |
+| Model · Effort | M3·E2 cho cả phiên (Opus 5.5, effort `medium`), kể cả 3 vòng review (subagent Opus 5.5 `medium`). Kế hoạch ban đầu: soạn đề xuất M3·E4, sửa file M2·E2; lệch vì cả việc chạy trong một phiên, chưa tách theo Task như mô hình mới. Nguồn: transcript phiên, trường `model`, `effort` |
 
 ## 1. Vấn đề
 
