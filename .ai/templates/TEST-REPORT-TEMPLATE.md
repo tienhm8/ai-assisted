@@ -7,7 +7,7 @@
 | Ngày | |
 | Môi trường (local / CI / staging; phiên bản runtime, CSDL) | |
 | Commit SHA đầy đủ · Nhánh/worktree | |
-| Mức rủi ro (R) · Mức dữ liệu (D) | |
+| Mức rủi ro (R) · Mức dữ liệu (D) | Mã kèm nghĩa, ví dụ R2 (ảnh hưởng nhiều module) · D1 (nội bộ) |
 | Nguồn kết quả | CI (liên kết lượt chạy) / cục bộ |
 | Miễn trừ áp dụng (lý do, hạn) | không / có: |
 | Người chạy (người/AI, model, phiên) | |

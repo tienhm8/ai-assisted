@@ -77,7 +77,15 @@ Run at start ──► Evaluate ──► Pass ───────────
 
 ## 4. Mapping to real tools
 
-Read §1 of the reference file for the AI tool in use (M1–M3 → model, E1–E4 → effort) and its section on running Tasks. Do not copy the tables here.
+To map levels, load only the mapping rows of §1 of the reference file for the AI tool in use, not the whole file:
+
+```sh
+grep -nE '^\| (M[1-3]|E[1-4])' .ai/agents/references/<tool>.md
+```
+
+Empty output means the table format changed: stop and ask; do not guess. Read the rest of the reference file (its section on running Tasks) only when setting up dispatch or when a Run fails on tool configuration. Do not copy the tables here.
+
+Always set effort explicitly on every Run; never rely on the tool's or model's default, which differs per model.
 
 | Tool | Reference |
 | --- | --- |

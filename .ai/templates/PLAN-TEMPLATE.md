@@ -9,7 +9,7 @@
 | Trạng thái | Draft / Approved / In Progress / Done / Cancelled |
 | Người duyệt · Ngày duyệt | |
 | Ngày tạo | |
-| Model · Effort của Orchestrator | M3·E3 (M3·E4 nếu Goal có Task T7) |
+| Model · Effort của Orchestrator | M3·E3 (model mạnh, effort cao); M3·E4 (model mạnh, effort rất cao) nếu Goal có Task T7 (đổi kiến trúc hoặc API contract) |
 | Ngân sách cả Plan | Tổng `budget` các Task cộng chi phí phiên Orchestrator; vượt thì dừng, hỏi người |
 
 ## 1. Mục tiêu và phạm vi
@@ -30,12 +30,12 @@ Vì sao chia Task như vậy, thứ tự, chỗ chạy song song, điểm dừng
 
 ## 5. Task
 
-Chi tiết ở manifest; bảng này chỉ tóm tắt. Mức tự chủ và rủi ro do AI đề xuất, kèm lý do trong manifest. Task A2 trở xuống chạy "Có người" (phiên tương tác, duyệt từng bước). Cột "Lệch mặc định" khác "Không" thì Plan luôn phải chờ duyệt. Không tạo Task cho `code-review`, `security-review`: chúng chạy ở bước 8 theo dòng "Review" (dòng này không phải Task, không có mã `<KEY>-<N>`).
+Chi tiết ở manifest; bảng này chỉ tóm tắt. Cột Loại, Rủi ro · Tự chủ, Thang mức ghi mã kèm nghĩa trong ngoặc (`project-rules` 23), người đọc không phải tra. Mức tự chủ và rủi ro do AI đề xuất, kèm lý do trong manifest. Task A2 trở xuống chạy "Có người" (phiên tương tác, duyệt từng bước). Cột "Lệch mặc định" khác "Không" thì Plan luôn phải chờ duyệt. Không tạo Task cho `code-review`, `security-review`: chúng chạy ở bước 8 theo dòng "Review" (dòng này không phải Task, không có mã `<KEY>-<N>`).
 
 | Task | Tên | Loại | Rủi ro · Tự chủ | Cách chạy | Agent | Skill | Thang mức | Ngân sách (USD) | Lệch mặc định | Phụ thuộc | Cổng | Trạng thái |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| <KEY>-<N> | | T2 | R2 · A3 | Gửi đi | executor | backend-development | M2·E1 → M2·E3 → M3·E3 | 2 | Không | | — | New |
-| Review (bước 8) | Review code, bảo mật nếu cần | T9 | theo Task rủi ro cao nhất · A1 | Gửi đi | reviewer, security | code-review, security-review | M3·E3 → M3·E4 | | Không | mọi Task | — | New |
+| <KEY>-<N> | | T2 (làm tính năng đã có yêu cầu) | R2 (ảnh hưởng nhiều module) · A3 (làm trọn, người duyệt kết quả cuối) | Gửi đi | executor | backend-development | M2·E1 (chuẩn, thấp) → M2·E3 (chuẩn, cao) → M3·E3 (mạnh, cao) | 2 | Không | | — | New |
+| Review (bước 8) | Review code, bảo mật nếu cần | T9 (review Pull Request) | theo Task rủi ro cao nhất · A1 (chỉ đọc và báo cáo) | Gửi đi | reviewer, security | code-review, security-review | M3·E3 (mạnh, cao) → M3·E4 (mạnh, rất cao) | | Không | mọi Task | — | New |
 
 Dòng "Review" luôn có: không có manifest riêng; mức theo model-effort §2, ngân sách ghi ở cột "Ngân sách", duyệt cùng Plan; lần chạy ghi `runs.md` dạng `<GOAL>-P<N>-REVIEW#<n>`. Lần review trượt (nâng mức) khi báo cáo thiếu mục bắt buộc trong "Report" của Skill `code-review` hoặc `security-review`; phát hiện lỗi trong code không phải trượt của review mà mở lỗi mới cho Task chịu trách nhiệm.
 

@@ -83,7 +83,7 @@ Mục tiêu cần đạt được.
 ## 2. Business Context
 Bối cảnh nghiệp vụ liên quan.
 - Liên kết: FR-…, BR-…, NFR-…, ADR-…
-- Phân loại: rủi ro R1 | R2 | R3 (lý do) · mức tự chủ AI A0–A4
+- Phân loại: loại Task, rủi ro R1 | R2 | R3 (lý do), mức tự chủ AI A0–A4; mỗi mã ghi kèm nghĩa, ví dụ T3 (sửa lỗi) · R1 (thấp, dễ hoàn tác) · A3 (làm trọn, người duyệt kết quả cuối)
 - Thuộc: Plan `<GOAL>-P<N>` · Goal `GOAL-<NN>`
 
 ## 3. Requirements
