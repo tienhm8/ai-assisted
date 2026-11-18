@@ -41,3 +41,14 @@ Tóm tắt và mã báo cáo kiểm thử. Phân biệt pass / fail / skipped / 
 - Tài liệu và phiên bản đã đọc:
 
 ## 7. Hạn chế và rủi ro còn lại
+
+## 8. Số đo
+Số thật, không ước lượng; không có thì ghi "không đo" và lý do. Là nguồn cho [ai-kpi](../../docs/04-project-management/ai-kpi.md).
+
+| Chỉ số | Giá trị | Nguồn |
+| --- | --- | --- |
+| Giờ người (soạn Task, trả lời câu hỏi, duyệt, review, sửa tay) | | |
+| Thời gian AI chạy | | |
+| Chi phí AI (token hoặc tiền) | | Công cụ AI |
+| Số vòng sửa (test fail, review trả về) | | |
+| Số lần người sửa lại bản AI soạn; số lần AI bịa hoặc sai phải quay lại | | |
