@@ -4,3 +4,5 @@
 # Repo con của dự án: mỗi repo tự commit, repo cha không theo dõi
 project/*
 !project/.gitkeep
+# Ghi chép thử nghiệm khung (pilot): không commit, người phát triển khung tự xoá khi xong
+pilot/
