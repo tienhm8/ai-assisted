@@ -1,6 +1,6 @@
 # Model và effort cho Codex (ChatGPT)
 
-> Dùng khi phiên chạy trong OpenAI Codex (CLI, IDE extension, app, web), công cụ code của ChatGPT. **§1 là bảng ánh xạ** mà [model-effort.md](../../workflows/model-effort.md) tham chiếu. Cột "Model · Effort" theo loại Task nằm ở [task-types.md](../../workflows/task-types.md) §1.
+> Dùng khi phiên chạy trong OpenAI Codex (CLI, IDE extension, app, web), công cụ code của ChatGPT. **§1 là bảng ánh xạ** mà [model-effort.md](../../workflows/model-effort.md) tham chiếu. Mức mặc định theo Skill nằm ở [model-effort.md](../../workflows/model-effort.md) §2.
 > Phân hạng theo mô tả trong tài liệu models của Codex (learn.chatgpt.com/docs/models). Model và tên tham số đổi theo phiên bản Codex; kiểm tra lại trước khi áp dụng (cập nhật: 2026-11).
 
 ## 1. Ánh xạ hạng → model, mức → effort
@@ -25,11 +25,11 @@ Lưu ý:
 ## 2. Phiên chính
 
 ```text
-codex --model gpt-6.1-sol          # phiên plan (bước 1–4), M3
+codex --model gpt-6.1-sol          # phiên Orchestrator, M3
 /model                              # đổi model hoặc effort trong phiên; chọn "More reasoning…" cho Max/Ultra
 ```
 
-Mở phiên mới cho bước thực thi (bước 5–7) với plan đã duyệt, chọn model theo dòng loại Task (task-types §1).
+Mỗi Run một phiên mới, chọn model, effort theo mức hiện tại của manifest (profile ở §3 giúp đổi nhanh, ví dụ một profile cho mỗi mức `m2-e1`, `m3-e3`).
 
 Mặc định cho repo trong `.codex/config.toml` (chỉ nạp với project đã tin cậy):
 
@@ -52,3 +52,5 @@ codex --profile reviewer
 ```
 
 Mở đầu phiên: "Bạn giữ vai Reviewer trong .ai/agents/README.md. Nạp .ai/skills/code-review/SKILL.md." (tương tự Security với `security-review`). Chưa xác nhận Codex có file subagent khai báo theo repo như `.claude/agents`; không giả định có.
+
+**Chạy Task theo manifest:** chưa xác nhận Codex có subagent khai báo được model theo repo, nên Orchestrator không tự gửi Task. Orchestrator soạn manifest và câu mở phiên cho từng Run; người mở phiên mới, chọn model theo mức hiện tại của manifest, dán câu mở phiên, rồi đưa báo cáo bàn giao về phiên Orchestrator để đánh giá. Nâng mức: mở phiên mới ở bậc kế.

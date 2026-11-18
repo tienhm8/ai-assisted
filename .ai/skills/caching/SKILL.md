@@ -17,8 +17,8 @@ Put a cache into a read path so it is faster without being wrong: clearing the w
 - Implementation: the cache row in database-design §3.7 is Approved. If not, do steps 1–4 then stop and wait for approval.
 - Value contains D3: Security must approve the design before implementation.
 
-Main sources: plan; existing cache code (shared read function, client, config).
-If the plan is missing something, look up the exact section: database-design §3.4 Mẫu truy cập và khối lượng, §3.7 Cache; module-design §5 Ranh giới và quyền sở hữu; system-architecture §7 Cross-cutting Concerns; error-handling §8 Retry, timeout, fallback, §9 Transaction và nhất quán dữ liệu; security-standards §1 Xử lý dữ liệu theo mức (D0–D3), §6 Bảo vệ dữ liệu; monitoring §4 Metrics; deployment §9 Database Deployment and Migration.
+Main sources: Task Manifest (and the Plan points it cites); existing cache code (shared read function, client, config).
+If the manifest is missing something, look up the exact section: database-design §3.4 Mẫu truy cập và khối lượng, §3.7 Cache; module-design §5 Ranh giới và quyền sở hữu; system-architecture §7 Cross-cutting Concerns; error-handling §8 Retry, timeout, fallback, §9 Transaction và nhất quán dữ liệu; security-standards §1 Xử lý dữ liệu theo mức (D0–D3), §6 Bảo vệ dữ liệu; monitoring §4 Metrics; deployment §9 Database Deployment and Migration.
 
 ## References
 

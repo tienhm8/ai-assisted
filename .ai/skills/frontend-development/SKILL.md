@@ -11,8 +11,8 @@ Implement the UI exactly per FR/AC, UI/UX design, and API contract; handle all l
 
 Beyond `project-rules` 2, requires: the project's UI/UX docs and Design System; the API contract in api-design.
 
-Primary sources: plan; UI/UX docs and Design System for the relevant screens; existing frontend code.
-If the plan lacks something, look up only the exact section, do not read the whole file: api-design §1.2 Chi tiết API (relevant endpoints), §3.2 Quy ước chung; system-architecture §3.3 Các tầng và trách nhiệm; coding-standards §4 Naming Convention, §11.2 Frontend; security-standards §5 Kiểm tra đầu vào, §6.3 Che dữ liệu (masking).
+Primary sources: Task Manifest (and the Plan points it cites); UI/UX docs and Design System for the relevant screens; existing frontend code.
+If the manifest lacks something, look up only the exact section, do not read the whole file: api-design §1.2 Chi tiết API (relevant endpoints), §3.2 Quy ước chung; system-architecture §3.3 Các tầng và trách nhiệm; coding-standards §4 Naming Convention, §11.2 Frontend; security-standards §5 Kiểm tra đầu vào, §6.3 Che dữ liệu (masking).
 
 ## References
 
@@ -31,7 +31,7 @@ Load only the file of the framework the frontend uses, and read only the listed 
 5. **Integrate APIs** exactly per contract; handle HTTP errors, network loss, loading.
 6. **Display permissions** come from the backend or session. Hiding UI is not an authorization check. Handle session expiry and denied responses.
 7. **Accessibility and responsiveness** per Design System.
-8. **Cases to test:** record in plan §5, unit layer (components, forms) and e2e (main flows per AC).
+8. **Cases to test:** record in the Run handoff for Plan §7, unit layer (components, forms) and e2e (main flows per AC).
 
 ## Limits
 
@@ -42,7 +42,7 @@ Load only the file of the framework the frontend uses, and read only the listed 
 ## Done when
 
 - UI matches UI/UX and every AC; loading, error, and empty states all present.
-- Cases to test from step 8 are recorded in the plan.
+- Cases to test from step 8 are recorded in the Run handoff.
 
 ## Report
 

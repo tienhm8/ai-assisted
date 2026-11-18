@@ -1,4 +1,4 @@
-# TEST REPORT: <KEY>-<N> / <Phiên bản>
+# TEST REPORT: <GOAL>-P<N> hoặc <KEY>-<N> / <Phiên bản>
 
 > Báo cáo cấp Task dùng Task ID; cấp phát hành tổng hợp từ các báo cáo Task. Trạng thái test: pass / fail / skipped / not-run. Không có bằng chứng thì ghi not-run, không ghi pass.
 

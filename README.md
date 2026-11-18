@@ -30,7 +30,7 @@ project/
     ├── agents/                  VAI: ai làm, với quyền gì? (mặc định một AI Coding Agent)
     ├── workflows/               ĐIỀU PHỐI: chọn Skill, xếp thứ tự, dừng ở đâu?
     ├── templates/               MẪU: kết quả trình bày dưới dạng nào?
-    ├── plans/                   kế hoạch do AI soạn, Tech Lead duyệt (được commit)
+    ├── plans/                   Plan do AI soạn, Tech Lead duyệt: mỗi Plan một thư mục (PLAN.md, tasks/*.yaml, runs.md), được commit
     └── worktrees/               môi trường cô lập, mỗi Task một nơi (không commit)
 ```
 
@@ -42,8 +42,8 @@ Cổng G0–G7 giữa các giai đoạn và độ nghiêm ngặt S1–S3: [gates
 
 | Giai đoạn | Người duyệt |
 | --- | --- |
-| `[01]` Product Discovery | PO |
-| `[02]` Requirements Engineering | PO/BA (QA rà khả năng kiểm thử) |
+| `[01]` Product Discovery | PO (Đại diện khách hàng cung cấp nguồn, duyệt phạm vi qua Đầu mối) |
+| `[02]` Requirements Engineering | PO/BA (QA rà khả năng kiểm thử; Đại diện khách hàng trả lời câu hỏi, duyệt yêu cầu qua Đầu mối) |
 | `[03]` System Design | Kiến trúc sư (thêm Security nếu đụng tới tiền, phân quyền, dữ liệu cá nhân, migration) |
 | `[04]` AI Context & Governance | Tech Lead |
 | `[05]` Implementation | Tech Lead |

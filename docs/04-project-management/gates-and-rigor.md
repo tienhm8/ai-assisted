@@ -9,13 +9,13 @@
 > **Mục đích.** Cổng duyệt G0–G7 (điều kiện qua, người duyệt), độ nghiêm ngặt quy trình S1–S3 và quy ước áp dụng khung vào dự án. Dự án khai báo mức S ở [PROJECT.md](../../PROJECT.md) §4; không chép lại ở đây.
 
 ## 1. Cổng duyệt G0–G7
-Cổng là điều kiện phải đạt để kết thúc một giai đoạn và sang giai đoạn kế. G0 đứng trước `[01]`; G1–G7 đứng cuối `[01]`–`[07]`. Qua cổng bằng bằng chứng (tài liệu Approved, output test, biên bản review), không bằng lời xác nhận. AI chuẩn bị và đề xuất, không tự phê duyệt.
+Cổng là điều kiện phải đạt để kết thúc một giai đoạn và sang giai đoạn kế. G0 đứng trước `[01]`; G1–G7 đứng cuối `[01]`–`[07]`. Qua cổng bằng bằng chứng (tài liệu Approved, output test, biên bản review), không bằng lời xác nhận. Tài liệu cần khách hàng duyệt (dự án có Đại diện khách hàng ở `PROJECT.md` §5): Đầu mối gửi khách hàng; khách hàng duyệt thì báo Đầu mối; Đầu mối lưu kết quả duyệt thành `SRC-<NN>` rồi mới chuyển `Approved` (hoặc người ở cột Người duyệt chuyển, dựa trên `SRC` đó). Không có `SRC` ghi kết quả duyệt thì chưa qua cổng. AI chuẩn bị và đề xuất, không tự phê duyệt.
 
 | Cổng | Cuối giai đoạn | Điều kiện qua | Người duyệt | Phối hợp |
 | --- | --- | --- | --- | --- |
 | G0 Khởi tạo | trước `[01]` | `PROJECT.md` đã duyệt: độ nghiêm ngặt S, mức dữ liệu, công cụ AI được phép | Tech Lead | PO xác nhận phạm vi; DevOps phối hợp cấu hình |
-| G1 Vision & Scope | `[01]` | Vision và phạm vi được duyệt; điểm chưa rõ đã ghi nhận | PO | BA, Tech Lead tư vấn |
-| G2 Requirements | `[02]` | Mọi FR trong phạm vi có AC kiểm thử được; điểm chưa chốt ghi `Open` | PO/BA | QA rà khả năng kiểm thử; Tech Lead tư vấn |
+| G1 Vision & Scope | `[01]` | Vision và phạm vi được duyệt; tài liệu nguồn có mã `SRC`; điểm chưa rõ đã ghi nhận | PO | BA, Tech Lead tư vấn; Đại diện khách hàng duyệt phạm vi qua Đầu mối |
+| G2 Requirements | `[02]` | Mọi FR trong phạm vi có AC kiểm thử được và truy được về `SRC`/BRQ; điểm chưa chốt ghi `Open`/`Asked` | PO/BA | QA rà khả năng kiểm thử; Tech Lead tư vấn; Đại diện khách hàng duyệt yêu cầu qua Đầu mối |
 | G3 Ready for Build | `[03]` | Thiết kế của phạm vi đã duyệt; có ADR cho quyết định kiến trúc quan trọng; có threat model khi cần, nhất là R3. Chưa đạt thì không code tính năng | Kiến trúc sư | Security duyệt phần liên quan bảo mật (tiền, phân quyền, dữ liệu cá nhân, migration); PO/BA xác nhận yêu cầu |
 | G4 AI Context & Task Ready | `[04]` | Chuẩn ở 03-engineering và `PROJECT.md` đã Approved; mỗi Task có objective, phạm vi in/out, AC, mức R và mức A | Tech Lead | Dev, QA phối hợp; Security khi cần |
 | G5 Implementation Complete | `[05]` | Cổng tự động cục bộ đạt; báo cáo bàn giao đủ; không có thay đổi ngoài phạm vi chưa khai | Tech Lead | Tác giả chịu trách nhiệm bàn giao; AI không phê duyệt |
