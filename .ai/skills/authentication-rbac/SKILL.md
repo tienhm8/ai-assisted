@@ -13,8 +13,8 @@ Besides `project-rules` 2, the design must have a role model, permission matrix,
 
 **Changing** the role model, permissions or session policy: stop, requires Tech Lead and Security approval. Before modifying auth files, check the project's zone map.
 
-Primary sources: plan; existing authentication and authorization code.
-If the plan lacks something, look up the exact section, do not read the whole file: system-architecture §6 Authentication & Authorization (design); security-standards §3 Authentication, §4 Authorization, §9 Logging và Audit; api-design §4 Authentication & Authorization; error-handling §5.2 Ánh xạ HTTP status.
+Primary sources: Task Manifest (and the Plan points it cites); existing authentication and authorization code.
+If the manifest lacks something, look up the exact section, do not read the whole file: system-architecture §6 Authentication & Authorization (design); security-standards §3 Authentication, §4 Authorization, §9 Logging và Audit; api-design §4 Authentication & Authorization; error-handling §5.2 Ánh xạ HTTP status.
 
 ## Procedure
 
@@ -23,12 +23,12 @@ If the plan lacks something, look up the exact section, do not read the whole fi
 3. **Backend authorization:** check role, permission, ownership, scope; deny by default. Do not assume any role has all permissions.
 4. **Application boundaries:** if the system has multiple applications, keep access boundaries and session policy per spec; block cross-application access.
 5. **Sessions** per security-standards, including expiry and revocation.
-6. **Permission-boundary test cases:** record in plan §5, integration layer (e2e if needed). Cover: unauthenticated, wrong role, wrong owner, out of scope, expired or revoked session, client-supplied fake role, cross-application access. Response codes per error-handling.
+6. **Permission-boundary test cases:** record in the Run handoff for Plan §7, integration layer (e2e if needed). Cover: unauthenticated, wrong role, wrong owner, out of scope, expired or revoked session, client-supplied fake role, cross-application access. Response codes per error-handling.
 
 ## Done when
 
 - Every in-scope resource has backend permission checks, deny by default.
-- Test cases from step 6 are recorded in the plan.
+- Test cases from step 6 are recorded in the Run handoff.
 
 ## Report
 

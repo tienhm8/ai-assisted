@@ -30,7 +30,7 @@
 | Cần hiểu vì sao AI bị kiểm soát | [ai-governance](03-engineering/ai-governance.md) |
 | Cần điều kiện duyệt | [gates-and-rigor](04-project-management/gates-and-rigor.md) |
 
-## 2. Năm khái niệm cần biết trước
+## 2. Sáu khái niệm cần biết trước
 
 | Khái niệm | Nói ngắn | Định nghĩa |
 | --- | --- | --- |
@@ -39,6 +39,7 @@
 | Độ nghiêm ngặt S1–S3 | Chọn một lần cho cả dự án | [gates-and-rigor](04-project-management/gates-and-rigor.md) §2 |
 | Task với R và A | Mỗi Task có mức rủi ro R1–R3 và mức tự chủ A0–A4; thiếu thì AI dừng và hỏi | [project-rules](../.ai/rules/project-rules.md), mục "Thang dùng chung" |
 | Vùng 🟢🟡🔴 | Đường dẫn AI được sửa tự do, sửa khi plan đã duyệt, hay cần Task riêng | [PROJECT.md](../PROJECT.md) §2.2 |
+| Goal → Plan → Task → Run | Muốn đạt gì → làm thế nào (nhiều Task) → việc cụ thể (mỗi Task một mức model·effort) → một lần chạy (nâng mức khi không đạt) | [goals](04-project-management/goals.md), [task-execution](../.ai/workflows/task-execution.md) |
 
 ### Bảng tra ký hiệu
 
@@ -65,6 +66,9 @@ AI phải ghi nghĩa bằng lời ở lần đầu nhắc một ký hiệu trong
 | `FR-<MODULE>-<NN>` · `BR-…` · `NFR-<NN>` | Yêu cầu chức năng · Quy tắc nghiệp vụ · Yêu cầu phi chức năng |
 | `<FR>-AC<N>` | Tiêu chí nghiệm thu (AC) của một FR |
 | `ADR-<NNNN>` | Bản ghi quyết định kiến trúc |
+| `GOAL-<NN>` · `<GOAL>-P<N>` · `<KEY>-<N>#<n>` | Goal (kết quả muốn đạt) · Plan của Goal · lần chạy thứ n của Task |
+| M1 · M2 · M3 | Hạng model: nhẹ · chuẩn · mạnh |
+| E1 · E2 · E3 · E4 | Mức effort: thấp · trung bình · cao · rất cao; viết gộp `M2·E1` (model chuẩn, effort thấp) |
 
 Repo này là **repo cha** của một dự án: giữ hồ sơ (`docs/`), khai báo (`PROJECT.md`) và chỉ dẫn AI (`.ai/`). Mã nguồn nằm ở `project/<repo>/`, mỗi repo con có Git riêng ([README](../README.md), mục Cấu trúc). Phiên AI luôn mở ở thư mục gốc repo cha để công cụ đọc được `AGENTS.md`.
 
@@ -96,12 +100,12 @@ Mỗi dòng là một hoặc nhiều Task; AI soạn `Draft`, người ở cột
 | 5 | Bước 2–3 `Approved`; ưu tiên của PO | T1 (Skill `task-planning`) | [04-project-management](04-project-management/README.md): roadmap, backlog, Task (mẫu [task-breakdown](04-project-management/task-breakdown.md) §4) | Tech Lead; PO quyết ưu tiên | G4 |
 | 6 | Hạ tầng, quy định vận hành (DevOps) | T12, có thể làm song song từ bước 3 | [05-operations](05-operations/README.md): deployment, monitoring, backup | Owner, tham khảo Tech Lead | trước G7 |
 
-Từ bước 5 trở đi, mỗi Task đi qua [task-execution](../.ai/workflows/task-execution.md). Đầu vào và đầu ra của từng Task:
+Từ bước 5 trở đi, công việc đi qua [task-execution](../.ai/workflows/task-execution.md) theo mô hình **Goal → Plan → Task → Run** ([goals](04-project-management/goals.md)): Goal là kết quả muốn đạt; Plan là cách đạt, gồm nhiều Task; mỗi Task chạy trong một phiên hoặc subagent riêng với model·effort riêng; mỗi lần chạy là một Run. Đầu vào và đầu ra:
 
-| Bước của Task | Đầu vào | Đầu ra | Người kiểm soát |
+| Bước | Đầu vào | Đầu ra | Người kiểm soát |
 | --- | --- | --- | --- |
-| Lập plan | Task (mục tiêu, phạm vi, AC, R, A); FR/BR/AC, thiết kế `Approved` | Plan theo [PLAN-TEMPLATE](../.ai/templates/PLAN-TEMPLATE.md) ở `.ai/plans/` | Tech Lead duyệt plan khi Task R3, A2 trở xuống, đụng schema/API/phân quyền, vùng 🟡 |
-| Code, test | Plan đã duyệt | Diff; kết quả test thật ([TEST-REPORT](../.ai/templates/TEST-REPORT-TEMPLATE.md)) | Cổng tự động (lint, test, build) |
+| Lập Plan | Goal; FR/BR/AC, thiết kế `Approved` | Plan theo [PLAN-TEMPLATE](../.ai/templates/PLAN-TEMPLATE.md) và một Task Manifest cho mỗi Task ([mẫu](../.ai/templates/TASK-MANIFEST-TEMPLATE.yaml)) ở `.ai/plans/<plan>/` | Tech Lead duyệt Plan: R, A, khoảng model·effort, ngân sách, phạm vi của từng Task |
+| Chạy Task | Plan đã duyệt | Diff hoặc tài liệu; `runs.md` ghi từng lần chạy, nâng mức, chi phí; kết quả test thật ([TEST-REPORT](../.ai/templates/TEST-REPORT-TEMPLATE.md)) | Orchestrator đánh giá bằng lệnh kiểm; cổng tự động (lint, test, build) |
 | Bàn giao | Diff, kết quả test | [DELIVERY-REPORT](../.ai/templates/DELIVERY-REPORT-TEMPLATE.md); PR theo [PR-TEMPLATE](../.ai/templates/PR-TEMPLATE.md) | Reviewer (phiên AI khác hoặc người); R3 thêm reviewer độc lập |
 | Phát hành | PR đã merge | [RELEASE-REPORT](../.ai/templates/RELEASE-REPORT-TEMPLATE.md) nháp | Owner quyết; DevOps thực hiện; AI không deploy |
 
@@ -204,27 +208,33 @@ Module chưa có test thì Task đầu tiên vào module đó nên là **T11** (
 
 ## 5. Giao việc hằng ngày (dùng chung)
 
-### 5.1 Viết Task
-- Dùng mẫu ở [task-breakdown](04-project-management/task-breakdown.md) §4; Task chỉ giao AI khi đạt điều kiện sẵn sàng ở §7 của file đó.
-- Ghi đủ: loại Task (T1–T15, danh sách ở [task-types](../.ai/workflows/task-types.md) §1), rủi ro R, mức tự chủ A. Thiếu là AI dừng và hỏi.
+### 5.1 Viết Goal hoặc Task
+- **Việc lớn:** nêu Goal (kết quả muốn đạt, tiêu chí hoàn thành, căn cứ FR/thiết kế). AI chia thành Plan và Task, đề xuất R, A, mức model·effort cho từng Task; bạn duyệt Plan là cấp các giá trị đó.
+- **Việc nhỏ:** viết một Task theo mẫu ở [task-breakdown](04-project-management/task-breakdown.md) §4; Task chỉ giao AI khi đạt điều kiện sẵn sàng ở §7 của file đó. Ghi đủ: loại Task (T1–T15, danh sách ở [task-types](../.ai/workflows/task-types.md) §1), rủi ro R, mức tự chủ A. Task R1 đủ điều kiện fast lane thì chạy ngay, không cần Plan.
 - Một Task một việc: không gộp sửa lỗi với refactor lớn.
 
 ### 5.2 Mở phiên AI
-Mở phiên ở thư mục gốc repo cha. Chọn model và effort cho phiên plan (bước 1–4) **trước khi gõ câu mở đầu**, theo loại Task:
+Mở phiên ở thư mục gốc repo cha. Chọn model, effort **trước khi gõ câu mở đầu**:
 
-| Model · Effort phiên plan | Nghĩa | Loại Task |
+| Phiên | Mức | Nghĩa |
 | --- | --- | --- |
-| M3·E4 | Model mạnh · effort rất cao | T7(Đổi kiến trúc hoặc API contract) |
-| M3·E3 | Model mạnh · effort cao | T1(Tính năng mới), T2(Làm tính năng), T5(Đổi schema), T9(Review PR), T10(Kiểm tra bảo mật), T14(Sự cố production) |
-| M2·E3 | Model chuẩn · effort cao | T3(Sửa lỗi), T4(Refactor), T6(Đổi yêu cầu) |
-| M2·E2 | Model chuẩn · effort trung bình | T8(Rà soát tài liệu yêu cầu), T11(Chỉ viết test), T12(Chỉ sửa tài liệu), T13(Phát hành), T15(Rà soát định kỳ) |
+| Orchestrator (lập Plan, gửi Task, đánh giá) | M3·E3; M3·E4 nếu Goal có đổi kiến trúc hoặc API contract (T7) | Model mạnh · effort cao / rất cao |
+| Fast lane (một Task R1) | Mức bắt đầu của Skill chính ([model-effort](../.ai/workflows/model-effort.md) §2), ví dụ sửa tài liệu M2·E1 | Model chuẩn · effort thấp |
+| Từng Task (Run) | Orchestrator tự chọn theo manifest; Task A2 trở xuống hoặc công cụ không có subagent thì bạn mở phiên mới theo mức Orchestrator báo | — |
+| Review (bước 8) | M3·E3, phiên mới, không dùng lịch sử phiên viết code | Model mạnh · effort cao |
 
-- Task R3 (đụng phân quyền, tiền, dữ liệu cá nhân, migration, bảo mật): ít nhất M3·E3 dù bảng ghi thấp hơn.
-- Đổi M1–M3, E1–E4 sang model thật: §1 của file công cụ đang dùng trong [references/](../.ai/agents/references/) (Claude Code có sẵn bảng lệnh theo loại Task ở §2). Công cụ không có effort thì chỉ chọn model theo hạng M.
-- Phiên thực thi (bước 5–7) dùng model, effort mà plan đã ghi.
-- Nguồn của bảng là cột "Model · Effort" ở [task-types](../.ai/workflows/task-types.md) §1. Sửa ở đó thì cập nhật bảng này.
+- **Mức theo Task, không theo cả phiên:** mỗi Task có mức bắt đầu, sàn, trần trong manifest. Task chạy thấp trước; kết quả không đạt vì năng lực thì Orchestrator tự nâng một bậc, tối đa tới trần bạn đã duyệt; thiếu đầu vào, yêu cầu mâu thuẫn, bị từ chối quyền thì dừng hỏi bạn ([model-effort](../.ai/workflows/model-effort.md) §3).
+- **Task mức tự chủ A2 trở xuống** (duyệt từng bước, gồm mọi Task code R3) không gửi cho subagent: Orchestrator đưa bạn manifest, đường dẫn worktree của Task và câu mở phiên; bạn mở phiên tương tác **trong worktree đó**, ở mức ghi trong manifest, duyệt từng bước, khi trả báo cáo thì kèm chi phí nếu công cụ hiển thị.
+- Task R3 (đụng phân quyền, tiền, dữ liệu cá nhân, migration, bảo mật): sàn M3·E3.
+- Đổi M1–M3, E1–E4 sang model thật: §1 của file công cụ trong [references/](../.ai/agents/references/); cách chạy Task theo manifest ở mục kế tiếp của file đó. Công cụ không có effort thì chỉ chọn model theo hạng M.
 
 Câu mở đầu:
+
+```text
+Goal GOAL-03: <kết quả muốn đạt>. Căn cứ: <FR, thiết kế>. Làm theo AGENTS.md.
+```
+
+hoặc với một Task:
 
 ```text
 Task PRJ-12 (T3 · R1 · A3). Làm theo AGENTS.md.
@@ -246,11 +256,12 @@ Thay phần `<...>`. Mã Task, loại, R, A lấy từ Task đã viết theo §5
 | Khách hàng đã trả lời | `Khách hàng trả lời các câu hỏi OQ-<NN>, OQ-<NN> (đã lưu SRC-<NN>). Cập nhật open-questions và các tài liệu bị ảnh hưởng; câu trả lời sinh câu hỏi mới thì mở OQ mới.` |
 | Rà soát yêu cầu | `Task <KEY>-<N> (T8 · R1 · A1). Rà soát FR-<MODULE>-* và AC trước khi trình PO duyệt.` |
 | Thiết kế | `Task <KEY>-<N> (T1 · R<N> · A2). Thiết kế module <tên> trên nền <hệ thống sẵn có, đường dẫn code>. Căn cứ: FR-<MODULE>-* đã Approved.` |
-| Chia Task | `Task <KEY>-<N> (T1 · R1 · A2). Chia FR-<MODULE>-* thành Task theo task-breakdown, đề xuất R và A cho từng Task.` |
+| Lập Plan cho Goal | `Goal GOAL-<NN>: <kết quả muốn đạt>. Căn cứ FR-<MODULE>-*, thiết kế đã Approved. Chia thành Plan và Task kèm manifest; đề xuất R, A, mức model·effort cho từng Task.` |
+| Chạy Plan đã duyệt | `Plan <GOAL>-P<N> đã duyệt. Chạy các Task theo manifest, ghi runs.md.` |
 | Làm tính năng | `Task <KEY>-<N> (T2 · R<N> · A<N>). Làm theo AGENTS.md.` + dán Task |
 | Sửa lỗi | `Task <KEY>-<N> (T3 · R<N> · A<N>). Làm theo AGENTS.md.` + dán bug report theo BUG-TEMPLATE |
 | Review PR (phiên mới) | `Task <KEY>-<N> (T9 · R<N> · A1). Review PR <link/số> của Task <KEY>-<M>. Không dùng lịch sử phiên viết code.` |
-| Tiếp tục phiên bị ngắt | `Tiếp tục Task <KEY>-<N> từ plan .ai/plans/<file>. Đọc mục "Kết quả" của plan để biết đã làm tới đâu.` |
+| Tiếp tục phiên bị ngắt | `Tiếp tục Plan <GOAL>-P<N> từ .ai/plans/<thư mục>. Đọc bảng Task trong PLAN.md và runs.md để biết đã làm tới đâu.` |
 | Duyệt tài liệu | `<Vai> <tên> duyệt, chuyển <file> sang Approved.` |
 | Trả lời câu hỏi cần quyết | `OQ-<NN>: chọn phương án <A/B>, lý do <...>.` hoặc `Chưa quyết OQ-<NN>, làm tiếp phần không bị chặn.` |
 
@@ -261,7 +272,8 @@ Các bước AI thực hiện ở [task-execution](../.ai/workflows/task-executi
 | --- | --- |
 | Hỏi R, A, S hoặc loại Task | Trả lời; AI không tự gán |
 | Gửi câu hỏi cần quyết (có Vấn đề, Phương án, Đề xuất) | Chọn phương án; muốn quyết sau thì nói rõ phần nào được làm tiếp |
-| Gửi plan (Task R3, A2 trở xuống, đụng schema/API/phân quyền, vùng 🟡) | Duyệt hoặc yêu cầu sửa plan; AI chưa sửa code trước khi bạn duyệt |
+| Gửi Plan và các Task Manifest | Duyệt hoặc yêu cầu sửa: R, A, mức bắt đầu và trần, ngân sách, phạm vi từng Task. AI chưa chạy Task nào trước khi bạn duyệt |
+| Dừng vì vượt trần, hết lượt hoặc hết ngân sách | Đọc các mức đã thử và lỗi; nâng trần, sửa manifest, hoặc tự làm |
 | Bàn giao (báo cáo bàn giao, kết quả test thật) | Đọc phần giả định, câu hỏi còn mở, phần chưa kiểm |
 | Mở PR | Review bằng **một phiên AI khác** (Task T9) hoặc người khác; Task R3 cần thêm một reviewer độc lập |
 | Chờ merge, phát hành | Người merge; AI không tự merge, tag hay deploy |

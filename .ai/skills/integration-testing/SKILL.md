@@ -12,8 +12,8 @@ Prove components cooperate correctly across boundaries: API, DB, authorization, 
 - Task has AC. If missing, stop and ask.
 - An isolated test environment exists (local or disposable temporary DB). If not, record not-run with the reason and request a time-limited waiver.
 
-Primary sources: plan (AC → test); existing test infrastructure.
-If the plan lacks something, look up only the exact section, do not read the whole file: testing-strategy §4 Các tầng test, §7 Dữ liệu test (giả/ẩn danh), §10 Môi trường test; api-design §1.2 Chi tiết API (relevant endpoints); database-design §6 Transaction và đồng thời; module-design §4 Giao tiếp giữa các module; security-standards §4 Authorization.
+Primary sources: Task Manifest (AC → check); existing test infrastructure.
+If the manifest lacks something, look up only the exact section, do not read the whole file: testing-strategy §4 Các tầng test, §7 Dữ liệu test (giả/ẩn danh), §10 Môi trường test; api-design §1.2 Chi tiết API (relevant endpoints); database-design §6 Transaction và đồng thời; module-design §4 Giao tiếp giữa các module; security-standards §4 Authorization.
 
 ## Procedure
 

@@ -14,7 +14,7 @@ File này dành cho người viết và duyệt Skill; AI không cần nạp khi
 | architecture-design | Thiết kế kiến trúc |
 | database-design | Thiết kế database |
 | caching | Thiết kế, cài đặt cache dữ liệu L1/L2 |
-| task-planning | Lập plan và chia Task từ FR/thiết kế đã duyệt |
+| task-planning | Chia Goal thành Plan, Plan thành Task kèm Task Manifest |
 | api-development | Phát triển API |
 | frontend-development | Phát triển giao diện |
 | backend-development | Phát triển backend |
@@ -62,7 +62,7 @@ Mỗi dòng trong Skill được nạp lại ở mọi Task dùng nó, nên:
 - **Không chép template.** Báo cáo chỉ nêu phần Skill này thêm vào.
 - **Không ghi kiến thức chung model đã biết.** Chỉ ghi quy ước đã chốt, lỗi AI hay mắc, và điểm dễ sót.
 - **Không chép chuẩn, ngưỡng, mã lỗi** từ `docs/`; nêu tên tài liệu cần đọc ở Cổng vào.
-- **Skill chạy sau plan** (code, test, refactor): Cổng vào ghi nguồn chính là plan, rồi liệt kê mục `docs/` được tra khi plan thiếu, mỗi mục kèm § và tên mục (tên giữ dẫn chiếu đúng khi đánh số lại), không nêu cả file. Đổi tiêu đề mục trong `docs/` thì rà dẫn chiếu trong Skill.
+- **Skill chạy sau plan** (code, test, refactor): nguồn chính là Task Manifest của Run cùng các điểm ở PLAN mà manifest trỏ tới. Cổng vào ghi nguồn chính đó, rồi liệt kê mục `docs/` được tra khi manifest thiếu, mỗi mục kèm § và tên mục (tên giữ dẫn chiếu đúng khi đánh số lại), không nêu cả file. Đổi tiêu đề mục trong `docs/` thì rà dẫn chiếu trong Skill.
 - Một `SKILL.md` vượt khoảng 150 dòng thì tách phần chi tiết sang `references/`.
 
 ## Khi đưa Skill vào dùng

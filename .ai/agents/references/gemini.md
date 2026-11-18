@@ -1,6 +1,6 @@
 # Model và effort cho Gemini CLI
 
-> Dùng khi phiên chạy trong Gemini CLI. **§1 là bảng ánh xạ** mà [model-effort.md](../../workflows/model-effort.md) tham chiếu. Cột "Model · Effort" theo loại Task nằm ở [task-types.md](../../workflows/task-types.md) §1.
+> Dùng khi phiên chạy trong Gemini CLI. **§1 là bảng ánh xạ** mà [model-effort.md](../../workflows/model-effort.md) tham chiếu. Mức mặc định theo Skill nằm ở [model-effort.md](../../workflows/model-effort.md) §2.
 > Tên model theo tài liệu geminicli.com (cập nhật: 2026-11). Tài liệu đó chỉ nêu hai dòng Pro và Flash nên Gemini CLI chỉ có hai hạng thật: M1 và M2 dùng chung Flash. Tài liệu cũng ghi Gemini CLI đã được thay bằng Antigravity CLI từ 2026-06-18 và chưa tối ưu cho Gemini 4; nếu dự án dùng Antigravity CLI hoặc Gemini 4, đối chiếu lại bảng này.
 
 ## 1. Ánh xạ hạng → model, mức → effort
@@ -29,4 +29,6 @@ Lưu ý:
 
 ## 3. Vai (agent)
 
-Mở phiên mới cho Reviewer/Security, chọn hạng theo dòng T9, mở đầu bằng "Bạn giữ vai Reviewer trong .ai/agents/README.md. Nạp .ai/skills/code-review/SKILL.md." (tương tự Security với `security-review`).
+Mở phiên mới cho Reviewer/Security, chọn hạng theo model-effort §2, mở đầu bằng "Bạn giữ vai Reviewer trong .ai/agents/README.md. Nạp .ai/skills/code-review/SKILL.md." (tương tự Security với `security-review`).
+
+**Chạy Task theo manifest:** công cụ này không có subagent khai báo được model theo repo, nên Orchestrator không tự gửi Task. Orchestrator soạn manifest và câu mở phiên cho từng Run; người mở phiên mới, chọn model theo mức hiện tại của manifest, dán câu mở phiên, rồi đưa báo cáo bàn giao về phiên Orchestrator để đánh giá. Nâng mức: mở phiên mới ở bậc kế. Có thể mở phiên bằng `gemini --model <model>`. Effort không áp dụng: ghi "không áp dụng: effort" trong Run.

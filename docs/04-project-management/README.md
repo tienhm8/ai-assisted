@@ -12,6 +12,7 @@
 04-project-management/
 ├── README.md
 ├── roadmap.md
+├── goals.md
 ├── backlog.md
 ├── task-breakdown.md
 ├── gates-and-rigor.md
@@ -24,6 +25,7 @@
 | --- | --- |
 | `README.md` | Hướng dẫn quản lý kế hoạch và công việc, phạm vi và mối quan hệ giữa các tài liệu |
 | [roadmap.md](roadmap.md) | Lộ trình phát triển theo mốc: dự án sẽ phát triển những gì, theo thứ tự nào |
+| [goals.md](goals.md) | Goal: kết quả muốn đạt; mô hình Goal → Plan → Task → Run |
 | [backlog.md](backlog.md) | Danh sách công việc cần thực hiện, kèm ưu tiên và rủi ro |
 | [task-breakdown.md](task-breakdown.md) | Quy tắc và cấu trúc chia Task, mẫu Task Specification giao cho AI |
 | [gates-and-rigor.md](gates-and-rigor.md) | Cổng duyệt G0–G7 (người duyệt, điều kiện qua), độ nghiêm ngặt S1–S3, quy ước áp dụng khung |
@@ -31,7 +33,7 @@
 
 ## Thứ tự đọc và quan hệ
 
-`roadmap` → `backlog` → `task-breakdown` → `ai-kpi` (đo kết quả của toàn bộ chu trình).
+`roadmap` → `goals` → `backlog` → `task-breakdown` → `ai-kpi` (đo kết quả của toàn bộ chu trình).
 
 Đọc khi cần, không thuộc chuỗi: `gates-and-rigor` (khi qua cổng, khi chọn mức S, khi áp khung vào dự án).
 
