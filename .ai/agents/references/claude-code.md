@@ -22,7 +22,16 @@ Lưu ý:
 
 ## 2. Phiên chính
 
-Chọn theo cột "Model · Effort" của dòng loại Task (task-types §1). Ví dụ T2: phiên plan M3·E3, phiên thực thi M2·E2:
+Chọn theo cột "Model · Effort" của dòng loại Task (task-types §1). Lệnh cho phiên plan (bước 1–4):
+
+| Model · Effort phiên plan | Lệnh trong Claude Code | Loại Task |
+| --- | --- | --- |
+| M3·E4 | `/model opus` + `/effort xhigh` | T7(Đổi kiến trúc hoặc API contract) |
+| M3·E3 | `/model opus` + `/effort high` | T1(Tính năng mới), T2(Làm tính năng), T5(Đổi schema), T9(Review PR), T10(Kiểm tra bảo mật), T14(Sự cố production) |
+| M2·E3 | `/model sonnet` + `/effort high` | T3(Sửa lỗi), T4(Refactor), T6(Đổi yêu cầu) |
+| M2·E2 | `/model sonnet` + `/effort medium` | T8(Rà soát tài liệu yêu cầu), T11(Chỉ viết test), T12(Chỉ sửa tài liệu), T13(Phát hành), T15(Rà soát định kỳ) |
+
+Ví dụ T2 (làm tính năng đã có yêu cầu, thiết kế): phiên plan M3·E3, phiên thực thi M2·E2:
 
 ```text
 /model opus        # phiên plan (bước 1–4)
