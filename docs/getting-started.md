@@ -177,7 +177,7 @@ Mẫu Task (điền vào mẫu đầy đủ ở [task-breakdown](04-project-mana
 Mô tả hiện trạng module Đơn hàng ở project/api vào module-design và api-design, trạng thái Draft.
 
 ## 2. Business Context
-- Phân loại: T12 · rủi ro R1 (chỉ viết tài liệu) · mức tự chủ A3
+- Phân loại: T12 (chỉ sửa tài liệu) · rủi ro R1 (chỉ viết tài liệu, dễ hoàn tác) · mức tự chủ A3 (làm trọn Task, người duyệt kết quả cuối)
 
 ## 6. Scope
 ### In Scope
@@ -226,7 +226,7 @@ Mở phiên ở thư mục gốc repo cha. Chọn model, effort **trước khi g
 - **Mức theo Task, không theo cả phiên:** mỗi Task có mức bắt đầu, sàn, trần trong manifest. Task chạy thấp trước; kết quả không đạt vì năng lực thì Orchestrator tự nâng một bậc, tối đa tới trần bạn đã duyệt; thiếu đầu vào, yêu cầu mâu thuẫn, bị từ chối quyền thì dừng hỏi bạn ([model-effort](../.ai/workflows/model-effort.md) §3).
 - **Task mức tự chủ A2 trở xuống** (duyệt từng bước, gồm mọi Task code R3) không gửi cho subagent: Orchestrator đưa bạn manifest, đường dẫn worktree của Task và câu mở phiên; bạn mở phiên tương tác **trong worktree đó**, ở mức ghi trong manifest, duyệt từng bước, khi trả báo cáo thì kèm chi phí nếu công cụ hiển thị.
 - Task R3 (đụng phân quyền, tiền, dữ liệu cá nhân, migration, bảo mật): sàn M3·E3.
-- Đổi M1–M3, E1–E4 sang model thật: §1 của file công cụ trong [references/](../.ai/agents/references/); cách chạy Task theo manifest ở mục kế tiếp của file đó. Công cụ không có effort thì chỉ chọn model theo hạng M.
+- Đổi M1–M3, E1–E4 sang model thật: bảng §1 của file công cụ trong [references/](../.ai/agents/references/) (AI chỉ lấy các dòng bảng, không đọc cả file: [model-effort](../.ai/workflows/model-effort.md) §4); cách chạy Task theo manifest ở mục kế tiếp của file đó. Công cụ không có effort thì chỉ chọn model theo hạng M.
 
 Câu mở đầu:
 
