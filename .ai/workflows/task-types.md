@@ -8,25 +8,27 @@ AI reads only the row of the current Task type (filter command in [task-executio
 
 Skill chain notation: `→` sequential · `∥` may run in parallel · `[ ]` conditional (load-conditions §2) · `⏸` wait for approver.
 
-| # | Task type | Rules always loaded | Conditional Rules (load-conditions §1) | Skill chain | Template | Model · Effort (plan / execution) |
-| --- | --- | --- | --- | --- | --- | --- |
-| T1 | New feature (no FR, AC yet) | architecture | database, security, git | [product-discovery] → requirement-analysis → requirement-review → ⏸ PO/BA → architecture-design ∥ database-design → [caching] → ⏸ Architect → task-planning → ⏸ Tech Lead → T2 Tasks | PLAN, ADR | M3·E3 / — |
-| T2 | Feature implementation (FR, AC, design exist) | git, coding, architecture, testing | database, security | [authentication-rbac] → backend-development → [caching] → api-development ∥ frontend-development → unit-testing → [integration-testing] → [e2e-testing] → [security-review] → code-review → [documentation] | PLAN, TEST-REPORT, DELIVERY-REPORT | M3·E3 / M2·E2 |
-| T3 | Bug fix | git, coding, testing | architecture, database, security | bug-fixing → [caching] → [integration-testing / e2e-testing] → [security-review] → code-review → [documentation] | BUG (input), DELIVERY-REPORT | M2·E3 / M2·E3 |
-| T4 | Refactor | git, coding, architecture, testing | database | unit-testing (baseline) → refactoring → unit-testing / integration-testing (compare) → code-review | PLAN, DELIVERY-REPORT | M2·E3 / M2·E2 |
-| T5 | Schema change | git, database, architecture, testing | security, coding | database-design → [caching] → integration-testing → code-review → documentation | PLAN, DELIVERY-REPORT | M3·E3 / M2·E3 |
-| T6 | Requirement change | — | architecture, git | requirement-analysis → requirement-review → ⏸ PO/BA → affected T2/T5 Tasks | — | M2·E3 / — |
-| T7 | Architecture or contract change | architecture | database, security, git | architecture-design → ⏸ Architect (ADR) → affected T2/T5 Tasks → documentation | ADR, PLAN | M3·E4 / — |
-| T8 | Requirement document review | — | — | requirement-review | — | M2·E2 / — |
-| T9 | Review Pull Request | coding, architecture, testing | database, security, git | code-review → [security-review] | PR (input), DELIVERY-REPORT | M3·E3 / — |
-| T10 | Security check | security, coding | database, architecture | security-review → bug-fixing (Critical/High findings) → security-review (recheck) | DELIVERY-REPORT | M3·E3 / M2·E3 |
-| T11 | Tests only | git, coding, testing | database, security | unit-testing / integration-testing / e2e-testing (by layer) | TEST-REPORT, DELIVERY-REPORT | M2·E2 / M2·E2 |
-| T12 | Documentation only | git | architecture | documentation | DELIVERY-REPORT | M2·E2 / M2·E1 |
-| T13 | Release | git, security, testing | database | [security-review if not done] → deployment (prepare) → ⏸ Owner → executor → documentation | TEST-REPORT, RELEASE-REPORT | M2·E2 / M2·E2 |
-| T14 | Production incident | security | database, architecture | incident-analysis → separate T3 Task to fix → continuous-improvement | BUG | M3·E3 / per T3 |
-| T15 | Periodic review | — | — | continuous-improvement → separate Task for each Rule/Skill change proposal | — | M2·E2 / — |
+The Skill chain is the template for splitting a Plan into Tasks (task-execution step 3): one Task per Skill, or several adjacent Skills of the same default level in one Task; each `⏸` ends a Task and usually a Plan. Model and effort are set per Task from its Skills ([model-effort.md](model-effort.md) §2), not per Task type.
 
-The Skill chain is the default; the plan may drop or add Skills, with a reason.
+| # | Task type | Rules always loaded | Conditional Rules (load-conditions §1) | Skill chain | Template |
+| --- | --- | --- | --- | --- | --- |
+| T1 | New feature (no FR, AC yet) | architecture | database, security, git | [product-discovery] → requirement-analysis → requirement-review → ⏸ PO/BA → architecture-design ∥ database-design → [caching] → ⏸ Architect → task-planning → ⏸ Tech Lead → T2 Tasks | PLAN, ADR |
+| T2 | Feature implementation (FR, AC, design exist) | git, coding, architecture, testing | database, security | [authentication-rbac] → backend-development → [caching] → api-development ∥ frontend-development → unit-testing → [integration-testing] → [e2e-testing] → [security-review] → code-review → [documentation] | PLAN, TEST-REPORT, DELIVERY-REPORT |
+| T3 | Bug fix | git, coding, testing | architecture, database, security | bug-fixing → [caching] → [integration-testing / e2e-testing] → [security-review] → code-review → [documentation] | BUG (input), DELIVERY-REPORT |
+| T4 | Refactor | git, coding, architecture, testing | database | unit-testing (baseline) → refactoring → unit-testing / integration-testing (compare) → code-review | PLAN, DELIVERY-REPORT |
+| T5 | Schema change | git, database, architecture, testing | security, coding | database-design → [caching] → integration-testing → code-review → documentation | PLAN, DELIVERY-REPORT |
+| T6 | Requirement change | — | architecture, git | requirement-analysis → requirement-review → ⏸ PO/BA → affected T2/T5 Tasks | — |
+| T7 | Architecture or contract change | architecture | database, security, git | architecture-design → ⏸ Architect (ADR) → affected T2/T5 Tasks → documentation | ADR, PLAN |
+| T8 | Requirement document review | — | — | requirement-review | — |
+| T9 | Review Pull Request | coding, architecture, testing | database, security, git | code-review → [security-review] | PR (input), DELIVERY-REPORT |
+| T10 | Security check | security, coding | database, architecture | security-review → bug-fixing (Critical/High findings) → security-review (recheck) | DELIVERY-REPORT |
+| T11 | Tests only | git, coding, testing | database, security | unit-testing / integration-testing / e2e-testing (by layer) | TEST-REPORT, DELIVERY-REPORT |
+| T12 | Documentation only | git | architecture | documentation | DELIVERY-REPORT |
+| T13 | Release | git, security, testing | database | [security-review if not done] → deployment (prepare) → ⏸ Owner → executor → documentation | TEST-REPORT, RELEASE-REPORT |
+| T14 | Production incident | security | database, architecture | incident-analysis → separate T3 Task to fix → continuous-improvement | BUG |
+| T15 | Periodic review | — | — | continuous-improvement → separate Task for each Rule/Skill change proposal | — |
+
+The Skill chain is the default; the Plan may drop or add Skills, with a reason in the manifest.
 
 - **Order:** analysis and design before code; tests with or right after code; `code-review`, `security-review` after diff and test results exist; `documentation` once behavior is stable.
 - **T1 → T2 is not automatic:** needs PO/BA approval (every FR has AC) and Architect approval (design Approved).

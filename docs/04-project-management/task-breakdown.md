@@ -6,11 +6,11 @@
 | Người phụ trách |  |
 | Người duyệt (dự án) | Tech Lead |
 | Phiên bản · Ngày |  |
-| Tài liệu liên quan | backlog.md, roadmap.md, ../01-requirements/FR/, ../../.ai/workflows/task-execution.md, ../../.ai/workflows/task-types.md, ../../.ai/rules/project-rules.md |
+| Tài liệu liên quan | goals.md, backlog.md, roadmap.md, ../01-requirements/FR/, ../../.ai/workflows/task-execution.md, ../../.ai/workflows/task-types.md, ../../.ai/rules/project-rules.md |
 
-> **Mục đích.** Chia Task từ plan đã duyệt (**người quyết: Tech Lead**): mỗi Task có objective, scope in/out, AC, mức rủi ro R1–R3, mức tự chủ A0–A4. Chi tiết plan nằm ở [.ai/plans/](../../.ai/plans/).
+> **Mục đích.** Chia Task trong Plan (**người quyết: Tech Lead**, duyệt khi duyệt Plan): mỗi Task có objective, scope in/out, AC, mức rủi ro R1–R3, mức tự chủ A0–A4. Plan và Task Manifest nằm ở [.ai/plans/](../../.ai/plans/); Goal ở [goals](goals.md).
 
-| Task ID | Objective | Phạm vi in / out | AC | Rủi ro | Tự chủ AI | Phụ thuộc | Plan |
+| Task ID | Objective | Phạm vi in / out | AC | Rủi ro | Tự chủ AI | Phụ thuộc | Plan (Goal) |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | <KEY>-<N> |  | | | R1 | A1 | | |
 
@@ -28,13 +28,15 @@
 | Cấp | Ý nghĩa | Nguồn |
 | --- | --- | --- |
 | Epic | Nhóm lớn theo mốc/module | [roadmap](roadmap.md) |
+| Goal | Kết quả muốn đạt; có nhiều Plan | [goals](goals.md) |
 | Feature / Story | Chức năng theo FR | [FR](../01-requirements/FR/README.md) |
-| Task | Đơn vị giao cho AI, theo mẫu bên dưới | file này |
-| Subtask | Bước nhỏ trong Task, nằm trong plan, không lập ID riêng | [.ai/plans/](../../.ai/plans/) |
+| Plan | Cách đạt Goal: chia Task, thứ tự, điểm dừng; có nhiều Task | [.ai/plans/](../../.ai/plans/) |
+| Task | Đơn vị giao cho AI hoặc người, theo mẫu bên dưới; khai báo chạy bằng Task Manifest | file này; manifest ở `.ai/plans/<plan>/tasks/` |
+| Run | Một lần thực thi Task (agent, model·effort, kết quả); một Task có thể chạy nhiều lần khi nâng mức | `.ai/plans/<plan>/runs.md` |
 
 - **ID:** `<KEY>-<N>` theo công cụ quản lý việc; KEY là mã dự án hoặc mã module (ví dụ PRJ-1, AUTH-1, RE-1 như bảng ví dụ bên dưới; không đệm số 0 để khác mã FR).
 - **Tên:** bắt đầu bằng động từ, nêu rõ đối tượng (ví dụ "Tạo bất động sản").
-- **Quan hệ:** cột Phụ thuộc ở bảng Task và cột Cha ở [backlog](backlog.md).
+- **Quan hệ:** cột Phụ thuộc ở bảng Task, cột Plan (Goal) ở bảng Task, cột Cha ở [backlog](backlog.md). Bước nhỏ trong một Task là thủ tục của Skill, không lập ID riêng; việc cần mức model·effort khác thì tách thành Task riêng.
 
 ## 3. Phân loại Task
 
@@ -81,7 +83,8 @@ Mục tiêu cần đạt được.
 ## 2. Business Context
 Bối cảnh nghiệp vụ liên quan.
 - Liên kết: FR-…, BR-…, NFR-…, ADR-…
-- Phân loại: rủi ro R1 | R2 | R3 (lý do) · mức tự chủ AI A0–A4
+- Phân loại: loại Task, rủi ro R1 | R2 | R3 (lý do), mức tự chủ AI A0–A4; mỗi mã ghi kèm nghĩa, ví dụ T3 (sửa lỗi) · R1 (thấp, dễ hoàn tác) · A3 (làm trọn, người duyệt kết quả cuối)
+- Thuộc: Plan `<GOAL>-P<N>` · Goal `GOAL-<NN>`
 
 ## 3. Requirements
 Danh sách yêu cầu chức năng.
@@ -124,10 +127,12 @@ Các tài liệu phải cập nhật.
 Theo testing-strategy §12. Điều kiện riêng của Task (nếu có):
 
 ## 12. Delivery Report
-Theo DELIVERY-REPORT-TEMPLATE.
+Theo DELIVERY-REPORT-TEMPLATE: một báo cáo cho cả Plan chứa Task này (fast lane: cho riêng Task).
 ```
 
 Mục 12 do AI điền khi bàn giao. Mục 2 có thêm dòng Liên kết và Phân loại để khớp với bảng Task ở trên (cột Rủi ro, Tự chủ AI).
+
+Task giao cho AI chạy trong một Plan còn có Task Manifest ([TASK-MANIFEST-TEMPLATE](../../.ai/templates/TASK-MANIFEST-TEMPLATE.yaml)): manifest lấy mục 1, 3, 6, 7 từ Task Specification và thêm cấu hình chạy (agent, model·effort bắt đầu, trần, ngân sách, nâng mức). Task Specification là bản cho người; manifest là bản cho bên thực thi; nội dung trùng thì Task Specification là gốc.
 
 ### Duyệt khi bàn giao và khi sẵn sàng phát hành
 Bàn giao Task là cổng G5, sẵn sàng phát hành là cổng G6; điều kiện qua và người duyệt ở [gates-and-rigor](gates-and-rigor.md) §1.
@@ -172,7 +177,8 @@ Task chỉ được giao AI khi:
 
 - Có FR/BR/NFR tham chiếu đã duyệt, thiết kế liên quan đã Approved ([02-architecture](../02-architecture/README.md)).
 - Có Task Specification theo mẫu ở mục 4: Objective, Scope in/out và AC đã điền.
-- Ưu tiên, rủi ro R1–R3 và mức tự chủ A0–A4 đã gán.
+- Ưu tiên, rủi ro R1–R3 và mức tự chủ A0–A4 đã gán (trực tiếp, hoặc qua Plan đã duyệt).
+- Task chạy trong Plan: có Task Manifest, mọi AC có cách kiểm.
 - Phụ thuộc đã xong hoặc đã ghi rõ.
 
 Đây là nguồn duy nhất của DoR; backlog chỉ trỏ tới.

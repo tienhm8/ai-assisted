@@ -14,7 +14,8 @@
 ├── vision.md
 ├── scope.md
 ├── glossary.md
-└── open-questions.md
+├── open-questions.md
+└── sources/          tài liệu đầu vào từ khách hàng, PO (SRC-<NN>)
 ```
 
 ## Vai trò từng file
@@ -25,10 +26,11 @@
 | [vision.md](vision.md) | Vấn đề cần giải quyết, đối tượng dùng, đầu ra giai đoạn 1 |
 | [scope.md](scope.md) | Ranh giới dự án: trong phạm vi, ngoài phạm vi, ràng buộc |
 | [glossary.md](glossary.md) | Thuật ngữ thống nhất cho người và AI; AI không tự đặt nghĩa mới |
-| [open-questions.md](open-questions.md) | Nơi duy nhất ghi câu hỏi mở và giả định (`OQ-<NN>`); tài liệu khác chỉ trỏ tới mã |
+| [open-questions.md](open-questions.md) | Nơi duy nhất ghi câu hỏi mở, giả định, đầu vào còn thiếu (`OQ-<NN>`); tài liệu khác chỉ trỏ tới mã |
+| [sources/](sources/README.md) | Tài liệu đầu vào từ khách hàng, PO, bên liên quan (`SRC-<NN>`), đã ẩn danh; câu trả lời làm rõ cũng lưu ở đây |
 
 ## Thứ tự đọc và quan hệ
 
-`vision` → `scope` → `glossary` → `open-questions` (cập nhật xuyên suốt khi phát sinh điểm chưa rõ).
+`sources` → `vision` → `scope` → `glossary` → `open-questions` (cập nhật xuyên suốt khi phát sinh điểm chưa rõ).
 
 Đầu ra: là đầu vào của [01-requirements](../01-requirements/) (BRD, FR, NFR, business rules). Điểm chưa rõ ở mọi tài liệu ghi vào `open-questions.md`, không tự đoán.

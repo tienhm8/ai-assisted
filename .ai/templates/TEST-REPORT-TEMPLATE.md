@@ -1,4 +1,4 @@
-# TEST REPORT: <KEY>-<N> / <Phiên bản>
+# TEST REPORT: <GOAL>-P<N> hoặc <KEY>-<N> / <Phiên bản>
 
 > Báo cáo cấp Task dùng Task ID; cấp phát hành tổng hợp từ các báo cáo Task. Trạng thái test: pass / fail / skipped / not-run. Không có bằng chứng thì ghi not-run, không ghi pass.
 
@@ -7,7 +7,7 @@
 | Ngày | |
 | Môi trường (local / CI / staging; phiên bản runtime, CSDL) | |
 | Commit SHA đầy đủ · Nhánh/worktree | |
-| Mức rủi ro (R) · Mức dữ liệu (D) | |
+| Mức rủi ro (R) · Mức dữ liệu (D) | Mã kèm nghĩa, ví dụ R2 (ảnh hưởng nhiều module) · D1 (nội bộ) |
 | Nguồn kết quả | CI (liên kết lượt chạy) / cục bộ |
 | Miễn trừ áp dụng (lý do, hạn) | không / có: |
 | Người chạy (người/AI, model, phiên) | |

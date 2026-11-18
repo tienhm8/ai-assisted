@@ -24,11 +24,13 @@
 | ADR | Architecture Decision Record: ghi lại một quyết định kiến trúc lớn và lý do, mã `ADR-<NNNN>`. | Quyết định kiến trúc | 02-architecture/ADR/ |
 | PO | Product Owner: người quyết định phạm vi và ưu tiên sản phẩm. |  | PROJECT.md |
 | BA | Business Analyst: người phân tích và làm rõ yêu cầu nghiệp vụ. |  | PROJECT.md |
+| Đại diện khách hàng | Người phía khách hàng cung cấp tài liệu nguồn, trả lời câu hỏi làm rõ, duyệt tài liệu được gửi sang. AI không làm việc trực tiếp mà qua Đầu mối (BA hoặc PO nội bộ); Đầu mối chỉ chuyển `Approved` khi khách hàng đã duyệt. |  | PROJECT.md §5 |
+| SRC | Tài liệu nguồn: tài liệu đầu vào từ khách hàng, PO, bên liên quan, hoặc biên bản câu trả lời, mã `SRC-<NN>`. | Tài liệu nguồn | 00-project-overview/sources/README.md |
 | E2E | End-to-end test: kiểm thử toàn luồng từ giao diện đến dữ liệu. |  | 03-engineering/testing-strategy.md |
 | BRD | Business Requirements Document: tài liệu yêu cầu nghiệp vụ ở mức mục tiêu và giá trị; nguồn để suy ra FR/NFR. |  | 01-requirements/BRD.md |
 | BRQ | Business Requirement: một yêu cầu nghiệp vụ trong BRD, mã `BRQ-<NN>`. Mỗi BRQ được phủ bởi ít nhất một FR; FR ghi BRQ nguồn. | Yêu cầu nghiệp vụ | 01-requirements/BRD.md |
 | BR | Business Rule: quy tắc nghiệp vụ, mã `BR-<MODULE>-<NN>`. | Quy tắc nghiệp vụ | 01-requirements/business-rules.md |
-| Open / Assumption / Closed | Trạng thái của điểm chưa rõ, mã `OQ-<NN>`. `Open`: chưa có câu trả lời. `Assumption`: giả định tạm dùng để đi tiếp, cần xác nhận. `Closed`: đã quyết. | Câu hỏi mở | 00-project-overview/open-questions.md |
+| Open / Asked / Assumption / Closed | Trạng thái của điểm chưa rõ, mã `OQ-<NN>`. `Open`: chưa có câu trả lời. `Asked`: đã gửi người trả lời, đang chờ. `Assumption`: giả định tạm dùng để đi tiếp, cần xác nhận. `Closed`: đã quyết. | Câu hỏi mở | 00-project-overview/open-questions.md |
 | Draft / Approved | Trạng thái tài liệu: Draft → In Review → Approved → Deprecated. `Draft`: bản nháp. `Approved`: đã được người có thẩm quyền duyệt, được dùng làm căn cứ; chỉ người có thẩm quyền chuyển sang. `Deprecated`: hết hiệu lực. |  | Bảng thuộc tính đầu mỗi tài liệu |
 | OQ | Open Question: câu hỏi mở, mã `OQ-<NN>`. | Câu hỏi mở | 00-project-overview/open-questions.md |
 | Traceability | Truy vết: chuỗi `OUT → BRQ → FR → BR → AC → module/API → Task → test/commit`. Mỗi liên kết khai báo một chiều ở bảng phía sau (bảng FR, AC, module, API, Task), tra ngược bằng cách lọc; để biết mỗi yêu cầu được làm và kiểm thử ở đâu. | Truy vết yêu cầu | .ai/skills/documentation/SKILL.md |
@@ -55,7 +57,13 @@
 | OUT | Outcome đo được của sản phẩm, mã `OUT-<NN>`, khai báo ở vision.md; BRD tham chiếu trong Tiêu chí thành công. | Kết quả mong đợi | 00-project-overview/vision.md |
 | Cổng duyệt (G0–G7) | Điều kiện phải đạt để kết thúc một giai đoạn vòng đời `[01]`–`[08]` và sang giai đoạn kế; G0 đứng trước `[01]`. Có người có thẩm quyền duyệt và có bằng chứng. | Cổng, gate | 04-project-management/gates-and-rigor.md §1 |
 | S1–S3 | Độ nghiêm ngặt quy trình của cả dự án (cổng duyệt, tài liệu, review, truy vết, nhật ký AI), tăng dần; độc lập với R của Task. | Mức nghiêm ngặt | 04-project-management/gates-and-rigor.md §2; giá trị của dự án: PROJECT.md §4 |
-| Plan | Kế hoạch do AI soạn, Tech Lead duyệt, nối từ đặc tả sang Task; có mục Kết quả sau khi xong. | Kế hoạch | .ai/plans/ |
+| Goal | Kết quả đầu ra người dùng hoặc tổ chức muốn đạt ("muốn đạt gì?"), mã `GOAL-<NN>` (không viết `G<N>` để khỏi nhầm cổng duyệt). Một Goal có nhiều Plan. | Mục tiêu | 04-project-management/goals.md |
+| Plan | Cách đạt một Goal ("làm thế nào?"): chia thành nhiều Task, thứ tự, điểm dừng; AI (Orchestrator) soạn, Tech Lead duyệt; mã `<GOAL>-P<N>`; có mục Kết quả sau khi xong. | Kế hoạch | .ai/plans/; 04-project-management/goals.md §2 |
+| Task Manifest | File khai báo một Task cho bên thực thi: làm gì, chạy bằng cấu hình nào (agent, model·effort bắt đầu, trần, ngân sách, nâng mức), kiểm thế nào (AC kèm lệnh kiểm). Chỉ là metadata, không tự đổi model nếu bên thực thi không áp dụng. | Manifest | .ai/templates/TASK-MANIFEST-TEMPLATE.yaml |
+| Run | Một lần thực thi Task trong phiên hoặc subagent riêng, mã `<KEY>-<N>#<n>`; ghi agent, model·effort thật, kết quả, bằng chứng, chi phí. | Lần chạy | .ai/templates/RUNS-TEMPLATE.md |
+| Orchestrator | Phiên AI chính: lập Plan, gán model·effort cho từng Task, gửi Task tới subagent, đánh giá kết quả, nâng mức, kiểm tra phụ thuộc, tổng hợp. Không tự viết code của Task, không duyệt thay người. | Điều phối | .ai/workflows/task-execution.md |
+| Nâng mức động | Task chạy ở mức model·effort thấp trước; kết quả không đạt vì năng lực thì chạy lại ở bậc cao hơn, tới mức trần đã duyệt. Thiếu đầu vào, yêu cầu mâu thuẫn, ngoài phạm vi thì dừng, không nâng. | Dynamic escalation | .ai/workflows/model-effort.md §3 |
+| M1–M3 / E1–E4 | Hạng model (M1 nhẹ, M2 chuẩn, M3 mạnh) và mức effort (E1 thấp … E4 rất cao), viết gộp `M2·E1`; đổi sang model thật theo công cụ. | Mức model·effort | .ai/workflows/model-effort.md |
 | Worktree | Môi trường cô lập, mỗi Task một nơi, để AI code và test. | Workspace cô lập | .ai/worktrees/ |
 | MoSCoW | Thang ưu tiên duy nhất của khung: `Must` bắt buộc · `Should` nên có · `Could` có thì tốt · `Won't` không làm đợt này. | Ưu tiên | 01-requirements/FR/README.md |
 | Mặc định khung / Chỗ dự án điền | Hai loại nội dung trong `docs/`: giá trị khung đặt sẵn, dự án được chỉnh (ghi "Mặc định khung"); và chỗ trống dự án điền (`<!-- Điền theo từng dự án: … -->`). Sàn không hạ được nằm ở `.ai/rules/`. | | 04-project-management/gates-and-rigor.md §3 |

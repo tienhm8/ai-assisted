@@ -1,0 +1,69 @@
+# Task Manifest — one file per Task: .ai/plans/<GOAL>-P<N>-<slug>/tasks/<KEY>-<N>.yaml
+# Answers three questions: what to do (objective..dependencies), how to run it (agent..escalation),
+# how to know it is done right (acceptance_criteria).
+# Metadata only: it changes nothing unless the executor applies it (model-effort §4).
+# Approved together with the Plan. Run results go to runs.md, never here.
+# Values for humans (title, objective, out) are written in Vietnamese (project-rules 22).
+
+task_id: WS-3                       # <KEY>-<N>
+plan_id: GOAL-01-P2
+title: Thêm API đăng ký Work study cho sinh viên
+objective: Sinh viên gửi được đơn đăng ký; hệ thống lưu đơn ở trạng thái Chờ duyệt
+type: T2                            # task-types §1
+risk: R2                            # proposed by the Orchestrator; granted by Plan approval
+risk_reason: Thêm API, ghi bảng mới; không chạm phân quyền, dữ liệu cá nhân
+autonomy: A3                        # never above PROJECT.md ceiling; R3 code: A2
+agent: executor                     # role in .ai/agents/README.md
+
+context:                            # load only these (just in time)
+  requirements: [FR-WS-01, BR-WS-02]
+  docs:                             # document, § and section name
+    - "api-design §1.2 Chi tiết API"
+    - "error-handling §5.2 Ánh xạ HTTP status"
+  plan_points: [PLAN §3 điểm 2]     # applicable points already summarized in the Plan
+  rules: [coding, testing, architecture, database]
+  skills: [api-development, unit-testing]   # in order; one at a time
+
+inputs: [WS-2]                      # Tasks whose outputs this Task consumes
+outputs:                            # what must exist when done (checked as "Complete")
+  - src/modules/work-study/registration/**
+  - test/work-study/registration.spec.ts
+  - handoff report (DELIVERY-REPORT §1–§4, §8)
+scope:
+  allowed_paths: [src/modules/work-study/**, test/work-study/**]   # outside: stop and ask
+  zones: [green]                    # yellow needs the Plan to state it; red needs its own Task
+  out: [Duyệt đơn, Gửi email thông báo]
+dependencies: [WS-1, WS-2]          # must be Done before the first Run
+
+acceptance_criteria:                # every item has a check; "human" names who checks
+  - id: FR-WS-01-AC1
+    check: { type: command, run: "npm test -- registration.spec -t 'tạo đơn'" }
+  - id: FR-WS-01-AC2
+    check: { type: command, run: "npm test -- registration.spec -t 'trùng đơn'" }
+  - id: quality-gate
+    check: { type: command, run: "npm run lint && npm run typecheck" }
+  # - id: <doc-AC>
+  #   check: { type: human, who: "PO" }   # not evaluable by the Orchestrator: Pass is provisional until the gate
+  # Partial pass (some AC fail) is a Fail.
+
+dispatch: dispatched                # A3/A4: dispatched; A2 or below: attended (task-execution, "Orchestration")
+
+execution:                          # defaults from model-effort §2 by Skill; any other value is a deviation
+  start: M2·E1
+  floor: M2·E1                      # R3 or authentication-rbac/security-review: at least M3·E3
+  ceiling: M3·E3
+  deviation_reason: ""              # required when any level field differs from model-effort §2
+  budget:                           # cumulative over every Run of this Task
+    max_cost_usd: 2                 # Orchestrator stops before a Run that would exceed it
+    timeout_min: 30                 # per Run
+    max_output_tokens: 20000        # per Run; applied only where the tool supports it, else "not applied" in the Run
+
+escalation:                         # model-effort §3
+  ladder: [M2·E1, M2·E3, M3·E3]     # ends at ceiling; no more steps than max_attempts
+  max_attempts: 3                   # Runs per error, escalations included (project-rules 18)
+  escalate_on: [ac_failed, incomplete_output, invalid_output]
+  stop_on: [missing_input, conflicting_requirement, out_of_scope, security_finding, environment_error, permission_denied]
+  # Low confidence on a passing Run: send to a human; it never escalates.
+
+gate: none                          # or the approver at a ⏸ point: PO/BA, Architect, Tech Lead, Owner
+status: New                         # New → Ready → In Progress → In Review → Done; Blocked / Cancelled

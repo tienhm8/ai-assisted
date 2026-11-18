@@ -15,8 +15,8 @@ Lỗi là gì, ảnh hưởng ai.
 
 ## 3. Phân loại
 - Mức nghiêm trọng: Critical / High / Medium / Low
-- Mức rủi ro: R1 / R2 / R3 (lấy từ Task, không tự gán)
-- Mức tự chủ AI: lấy từ Task, không tự nâng
+- Mức rủi ro: R1 (thấp, dễ hoàn tác) / R2 (ảnh hưởng nhiều module) / R3 (phân quyền, tiền, dữ liệu cá nhân, migration, bảo mật); lấy từ Task, không tự gán; ghi mã kèm nghĩa
+- Mức tự chủ AI: lấy từ Task, không tự nâng; ghi mã kèm nghĩa, ví dụ A2 (người duyệt từng bước)
 - Môi trường phát hiện: local / staging / production
 - Nguồn phát hiện: cổng kiểm tra / review / sau phát hành
 - Liên quan phân quyền: có / không

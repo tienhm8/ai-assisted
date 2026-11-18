@@ -6,7 +6,7 @@
 | Người phụ trách |  |
 | Người duyệt (dự án) | Tech Lead (PO quyết ưu tiên) |
 | Phiên bản · Ngày |  |
-| Tài liệu liên quan | roadmap.md, task-breakdown.md, ../01-requirements/FR/, ../01-requirements/business-rules.md |
+| Tài liệu liên quan | roadmap.md, goals.md, task-breakdown.md, ../01-requirements/FR/, ../01-requirements/business-rules.md |
 
 > **Mục đích.** Danh sách việc chờ, ưu tiên. Task có ID theo công cụ quản lý việc (<KEY>-<N>). Backlog chỉ liệt kê và xếp thứ tự; Objective, Scope, AC chi tiết của từng Task nằm ở [task-breakdown](task-breakdown.md), không chép vào đây.
 
@@ -27,13 +27,13 @@
 | Improvement | Cải tiến không đổi nghiệp vụ |
 | Spike | Khảo sát có giới hạn thời gian để làm rõ trước khi chia Task |
 
-ID theo công cụ quản lý việc: `<KEY>-<N>` (KEY là mã dự án hoặc mã module, ví dụ PRJ-1, AUTH-1; không đệm số 0 để khác mã FR). Quan hệ cha-con (Epic → Feature → Task) ghi ở cột Cha.
+ID theo công cụ quản lý việc: `<KEY>-<N>` (KEY là mã dự án hoặc mã module, ví dụ PRJ-1, AUTH-1; không đệm số 0 để khác mã FR). Quan hệ cha-con (Epic → Feature → Task) ghi ở cột Cha. Goal và Plan không phải dòng backlog: Goal ở [goals](goals.md), Plan ở `.ai/plans/`; cột Plan ghi Task thuộc Plan nào.
 
 ## 3. Danh sách công việc
 
-| Task ID | Loại | Tên | Cha | FR/BR | Module | Ưu tiên | Rủi ro | Phụ thuộc | Trạng thái |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| <KEY>-<N> | | | | | | | R1 | | |
+| Task ID | Loại | Tên | Cha | Plan | FR/BR | Module | Ưu tiên | Rủi ro | Phụ thuộc | Trạng thái |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| <KEY>-<N> | | | | <GOAL>-P<N> | | | | R1 | | |
 
 ## 4. Ưu tiên
 

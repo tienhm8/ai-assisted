@@ -12,8 +12,8 @@ Prove critical journeys work correctly from the user's perspective.
 - The Task has E2E-type ACs; journeys come from them. If missing, stop and ask.
 - A runtime environment with fake data exists. If not, record not-run with the reason and request a time-limited waiver.
 
-Primary sources: plan (E2E-type AC → test); existing browser automation config.
-If the plan lacks something, look up the exact section, do not read the whole file: testing-strategy §4 Các tầng test, §7 Dữ liệu test (giả/ẩn danh), §8 Tự động hoá test; api-design §4 Authentication & Authorization; security-standards §4.2 Phân quyền theo vai trò.
+Primary sources: Task Manifest (E2E-type AC → check); existing browser automation config.
+If the manifest lacks something, look up the exact section, do not read the whole file: testing-strategy §4 Các tầng test, §7 Dữ liệu test (giả/ẩn danh), §8 Tự động hoá test; api-design §4 Authentication & Authorization; security-standards §4.2 Phân quyền theo vai trò.
 
 ## Procedure
 

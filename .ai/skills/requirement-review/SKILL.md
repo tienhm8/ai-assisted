@@ -19,8 +19,8 @@ Read: BRD, FR table, business-rules, NFR, acceptance-criteria, scope, glossary, 
 2. **Clarity:** unambiguous sentences, terms match glossary, clear actors, measurable constraints.
 3. **Consistency:** FR vs. BR, vs. NFR, vs. scope, vs. authorization, vs. existing decisions, across FRs.
 4. **Testability:** AC observable, with preconditions and results, with boundaries and error flows.
-5. **One-way traceability:** each FR links to BRQ/BR; each Must/Should BRQ has at least one FR (filter the "BRQ nguồn" column of the FR table); each AC points to an FR; every BR has AC. A document declaring two-way links is a finding.
-6. **Open questions:** which scope each Open question blocks; assumptions past their review deadline; ambiguities without an open question.
+5. **One-way traceability:** each BRQ and BR cites a `SRC-<NN>`; each FR links to BRQ/BR; each Must/Should BRQ has at least one FR (filter the "BRQ nguồn" column of the FR table); each AC points to an FR; every BR has AC. A document declaring two-way links is a finding.
+6. **Open questions:** which scope each `Open`/`Asked` question blocks; `Asked` questions past their deadline; assumptions past their review deadline; ambiguities without an open question.
 7. **Feasibility:** only flag risks (technical, integration, data, performance, security) to hand to `architecture-design`; do not make architecture decisions.
 8. **Classify findings:** Critical (blocks implementation) · High (major gap or contradiction) · Medium (unclear) · Low (documentation improvement).
 

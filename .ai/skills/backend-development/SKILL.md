@@ -11,8 +11,8 @@ Implement backend business logic, data access and integrations: correct business
 
 Besides `project-rules` 2, required: related business rules; design including module-design, database-design, and the api-design contract if there are endpoints or external integrations.
 
-Primary sources: plan; existing backend code.
-If the plan lacks something, look up the exact section, do not read the whole file: module-design §3 Phụ thuộc giữa các module, §5 Ranh giới và quyền sở hữu; system-architecture §3.3 Các tầng và trách nhiệm; database-design §6 Transaction và đồng thời; api-design §1.2 Chi tiết API (related endpoints), §2 Integration Specification; error-handling §3 Mã lỗi, §4 Xử lý exception, §7 Logging, §8 Retry, timeout, fallback, §9 Transaction và nhất quán dữ liệu; security-standards §4 Authorization, §5 Kiểm tra đầu vào, §9 Logging và Audit.
+Primary sources: Task Manifest (and the Plan points it cites); existing backend code.
+If the manifest lacks something, look up the exact section, do not read the whole file: module-design §3 Phụ thuộc giữa các module, §5 Ranh giới và quyền sở hữu; system-architecture §3.3 Các tầng và trách nhiệm; database-design §6 Transaction và đồng thời; api-design §1.2 Chi tiết API (related endpoints), §2 Integration Specification; error-handling §3 Mã lỗi, §4 Xử lý exception, §7 Logging, §8 Retry, timeout, fallback, §9 Transaction và nhất quán dữ liệu; security-standards §4 Authorization, §5 Kiểm tra đầu vào, §9 Logging và Audit.
 
 ## References
 
@@ -33,7 +33,7 @@ Load only the file of the framework the backend uses, and read only the listed s
 5. **Errors and logging:** per error-handling; log business events, failures and security events.
 6. **External integrations:** timeout, retry, idempotency, rate limit per the spec in api-design; if the spec is missing, stop and record an open question.
 7. **Authorization:** use existing permission-check mechanisms; if missing, handle per task-execution, section "Step transition rules" item 5 (A condition arises); do not add them yourself.
-8. **Test cases:** record in plan §5 cases covering business rules, error scenarios, transactions, with layer (unit, integration).
+8. **Test cases:** record in the Run handoff for Plan §7 cases covering business rules, error scenarios, transactions, with layer (unit, integration).
 
 ## Limits
 
@@ -44,7 +44,7 @@ Load only the file of the framework the backend uses, and read only the listed s
 
 - Logic satisfies every AC and related business rule; no cross-module calls contrary to the design.
 - Transactions cover all writes that must succeed or fail together.
-- Test cases from step 8 are recorded in the plan.
+- Test cases from step 8 are recorded in the Run handoff.
 
 ## Report
 

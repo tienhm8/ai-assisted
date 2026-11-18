@@ -1,14 +1,44 @@
 # Task Execution Workflow
 
-> Status: **Approved**. **Mandatory** workflow for every Task. Changing this file requires a dedicated Task and a reviewer.
+> Status: **Approved**. **Mandatory** workflow for every piece of work. Changing this file requires a dedicated Task and a reviewer.
 
-**Load just in time.** Each step loads only what its "Load" column lists. From [task-types.md](task-types.md) read only the row of the current Task type:
+## Model: Goal → Plan → Task → Run
+
+| Level | Answers | ID | Lives in |
+| --- | --- | --- | --- |
+| Goal | What outcome do we want? | `GOAL-<NN>` | [goals.md](../../docs/04-project-management/goals.md) |
+| Plan | How do we reach it? The split into Tasks and their order | `<GOAL>-P<N>` | `.ai/plans/<GOAL>-P<N>-<slug>/PLAN.md` |
+| Task | What exactly to do: inputs, outputs, AC, type, risk, autonomy, agent, level | `<KEY>-<N>` | `.ai/plans/<plan>/tasks/<KEY>-<N>.yaml` (manifest) |
+| Run | One execution of a Task: agent, real model·effort, result, evidence, cost | `<KEY>-<N>#<n>` | `.ai/plans/<plan>/runs.md` |
+
+One Goal has many Plans; one Plan many Tasks; one Task many Runs. A Plan is not a Task and a Task is not an Agent: the Agent (role in [agents/README](../agents/README.md)) executes a Task using tools.
+
+**New Plan instead of more Tasks in an existing Plan** when at least one holds: a different output goal; can be done independently; its own lifecycle and done criteria; needs separate progress tracking or access. Default: each stretch ending at its own approval gate (analysis → G2, design → G3, implementation → G5) is a Plan.
+
+Templates: [PLAN-TEMPLATE](../templates/PLAN-TEMPLATE.md), [TASK-MANIFEST-TEMPLATE](../templates/TASK-MANIFEST-TEMPLATE.yaml), [RUNS-TEMPLATE](../templates/RUNS-TEMPLATE.md).
+
+## Orchestration
+
+The main session is the **Orchestrator** (level per [model-effort.md](model-effort.md) §1). It: creates Plans and Tasks; sets each Task's type, proposed risk and autonomy level, agent, Skills and level; dispatches each Task to a fresh subagent or session configured from the manifest; receives results; evaluates and escalates (model-effort §3); checks dependencies; merges outputs and updates Plan and Goal status.
+
+The Orchestrator does not write a Task's code or documents itself, does not approve, and stops at every ⏸ gate. A subagent receives only: its manifest, the failure note of the previous Run if any, `project-rules`, and the Rules, Skills, and document sections the manifest lists. It never receives the Orchestrator's history.
+
+**Dispatch mode** follows the Task's autonomy level:
+- **A3, A4: dispatched.** The Orchestrator starts the Run in a subagent or a non-interactive session at the manifest's level.
+- **A2 or below: attended.** Never dispatched to a subagent or non-interactive session, since those cannot pause for per-step approval. The Orchestrator hands the manifest, the Task's worktree path, and an opening line to a human, who opens an interactive session in that worktree at the manifest's level; that session stops after each step for approval and returns the handoff report with the Run's cost if the tool shows it. Escalation of an attended Task is proposed to the human, who opens the next session.
+- **Tool without per-Task model control** (see its reference file): every Run is attended in the same way.
+
+**Isolation and merging:** each Task runs in its own worktree ([.ai/worktrees/](../worktrees/)), branched from a commit that already contains the accepted result of every Task it depends on. Parallel Runs never share a worktree. The Orchestrator merges accepted Task branches in dependency order before step 6; a merge conflict is a Fail of the later Task. After any fix accepted at step 6 or 8, the Orchestrator rebases the Task's dependents onto the fixed result, merges again in dependency order, and reruns step 6; a dependent that then fails opens its own error. If a failure cannot be attributed to one Task (e.g. two Tasks interacting), stop and ask a human.
+
+## Load just in time
+
+Each step loads only what its "Load" column lists. From [task-types.md](task-types.md) read only the row of the Task type at hand:
 
 ```sh
 awk -v t=T2 '!/^\| T[0-9]+ \|/ || index($0, "| " t " |")==1' .ai/workflows/task-types.md
 ```
 
-Replace `T2` with the Task type. If the Task has no type, list the types to classify it; if still unclear, stop and ask:
+Replace `T2` with the Task type. To classify, list the types; if still unclear, stop and ask:
 
 ```sh
 awk -F' \\| ' '/^\| T[0-9]+ \|/{print $1" | "$2}' .ai/workflows/task-types.md
@@ -22,63 +52,73 @@ awk -v s='## 5' 'BEGIN{n=index(s," ")} /^```/{f=!f} !f&&!p&&(index($0,s" ")==1||
 
 ## Steps
 
+Steps 1–4 and the evaluation in 5 run in the Orchestrator; the work of each Task in step 5 runs in its own Run.
+
 | Step | Work | Load | Output |
 | --- | --- | --- | --- |
-| 1 · Intake | Read the Task: goal, scope, AC, risk level, autonomy level. Determine the Task type; split a hybrid Task into sub-Tasks, never combine a bug fix with a large refactor. Missing risk level, autonomy level, or rigor S: ask, do not assign yourself | Task; `project-rules`; `PROJECT.md` §2, §4; `gates-and-rigor.md` §2 when applying S; Task type row; [load-conditions.md](load-conditions.md) §1 | Task type, load set |
-| 2 · Analysis | Read requirements, design, related code; unclear points become open questions. If code reveals further Rule load conditions (e.g. a repository with cache), add them to the load set | FR/BR/AC, ADR, design the Task points to; code in scope | Open questions (if any) |
-| 3 · Plan | Files to change, design decisions, AC → tests, Skill chain (dropping or adding a Skill needs a reason), model and effort for the execution session. Record applicable points from documents read, with document, § and section name | PLAN-TEMPLATE; [model-effort.md](model-effort.md); `load-conditions.md` §2 when the chain has a `[ ]` Skill; Rule `testing` and every Rule in the load set from steps 1–2 | Plan |
+| 1 · Intake | Read the request: a Goal, or a single Task (then a Plan of one Task). Find its Goal in goals.md or draft one. Determine the Task types involved; never combine a bug fix with a large refactor. Missing rigor S: ask. A Task the Tech Lead already gave R and A keeps them | Request; `project-rules`; `PROJECT.md` §2, §4; `gates-and-rigor.md` §2 when applying S; Task type rows; [load-conditions.md](load-conditions.md) §1 | Goal, Task types, load set |
+| 2 · Analysis | Read requirements, design, related code; unclear points become open questions. Code revealing further Rule load conditions extends the load set | FR/BR/AC, ADR, design the request points to; code in scope | Open questions (if any) |
+| 3 · Plan | Decide the Plans (criteria above). Split each into Tasks using the type's Skill chain as template (task-types §1), **except `code-review` and `security-review`, which run only at step 8** after test results exist. Write one manifest per Task: inputs, outputs, scope, AC with checks, dependencies, proposed R and A with reason, agent, Skills and Rules, document sections to load, level and escalation (model-effort §2), budget, gate. Record applicable points from documents read, with document, § and section name | PLAN-TEMPLATE, TASK-MANIFEST-TEMPLATE; [model-effort.md](model-effort.md); `load-conditions.md` §2 when the chain has a `[ ]` Skill; Skill `task-planning`; Rule `testing` and every Rule in the load set | Plan + manifests |
 | 4 · Plan approval | Reviewer, per "Plan approval" | — | Plan Approved |
-| 5 · Implement | Run each Skill in turn: entry gate → procedure → Done-when results. Record output in the plan before loading the next Skill | Plan; `SKILL.md` of the current Skill and the `references/` it points to; `docs/` sections the Skill allows when the plan lacks them; Rules listed in the plan; Rule `coding`; Rule `git-workflow` when committing | Diff |
-| 6 · Test | Run all of the project's check gates | Matching testing Skill; TEST-REPORT-TEMPLATE | Real output |
-| 7 · Self-review | Check the diff against AC, scope, and loaded Rules; draft the handoff report | DELIVERY-REPORT-TEMPLATE | Handoff report |
-| 8 · Review | Another session reviews per row T9; a reviewer approves the PR | Do not use the coding session's history | PR approved |
+| 5 · Run | For each Task whose dependencies are Done, in order: start a Run at its current level, dispatched or attended per "Orchestration"; the Run executes each Skill in turn (entry gate → procedure → Done-when) and returns a handoff with evidence; the Orchestrator evaluates and accepts, escalates, or stops (model-effort §3); record the Run. Parallel Runs only for Tasks sharing no files, schema, or contract | Orchestrator: manifest, `runs.md`. Run: its manifest; `SKILL.md` of each Skill and the `references/` it points to; `docs/` sections the Skill allows when the manifest lacks them; Rules in the manifest; Rule `coding`; Rule `git-workflow` when committing | Diff or documents; `runs.md` |
+| 6 · Test | Merge Task branches in dependency order; run all of the project's check gates on the merged result. A failure opens a new error quota for the responsible Task (model-effort §3 rule 5) | Matching testing Skill; TEST-REPORT-TEMPLATE | Real output |
+| 7 · Self-review | Check the merged diff against every Task's AC and scope and the loaded Rules; draft one handoff report for the Plan with a row per Task; metrics from `runs.md` | DELIVERY-REPORT-TEMPLATE | Handoff report |
+| 8 · Review | `code-review`, then `security-review` when its condition holds (load-conditions §2), each as a review Run with agent Reviewer or Security, declared in the Plan's "Review" row (level and budget per model-effort §2, approved with the Plan; recorded in `runs.md` as `<GOAL>-P<N>-REVIEW#<n>`), fresh context, never the Orchestrator's or coding Runs' history; level per model-effort §2. A finding opens a new error quota for the responsible Task. A human reviewer approves the PR | Row T9 | PR approved |
 | 9 · Release | A human merges; AI only prepares per [release-workflow.md](release-workflow.md) | — | Release |
-| 10 · Knowledge update | Update affected documents. Changes to Rules, Skills, workflows: propose a dedicated Task | Skill `documentation` | Docs match reality |
+| 10 · Knowledge update | Update affected documents; update Goal status. Changes to Rules, Skills, workflows: propose a dedicated Task | Skill `documentation` | Docs match reality |
 
-Analysis- or design-only Tasks (T1, T6, T7, T8, T15) skip steps 5–6: Skills and Rules in the load set are loaded at step 2; output is Draft documents.
+Analysis- or design-only Plans (Tasks of types T1, T6, T7, T8, T15) skip step 6: their Runs output Draft documents, evaluated by completeness and validity, then by a human at the gate.
 
 ## Fast lane for R1 Tasks
 
-Applies when all three hold: R1 Task; no load condition for Rules `architecture`, `database`, `security`, `cache` is met; no 🟡/🔴 zone touched.
+Applies when all hold: the Plan has a single R1 Task whose R and A the Tech Lead set; no load condition for Rules `architecture`, `database`, `security`, `cache` is met; no 🟡/🔴 zone touched.
 
-- A few-line plan in the session (files to change, tests to run); no plan file, no waiting for approval.
-- One session, load only the main Skill.
-- Steps 6–8 unchanged; the handoff report fills only sections with content.
+- No Orchestrator, no plan or manifest file: a few-line plan in the session (Goal it belongs to, files to change, tests to run, level). The Goal ID also goes into the commit message and the handoff report.
+- The session runs at the Task's start level (model-effort §2) and loads only the main Skill.
+- One error: at most 3 rounds in this session (`project-rules` 18); no escalation inside the session. Past that: stop and ask a human to open a session at a higher level or move to the full lane.
+- Steps 6–7 unchanged; the handoff report fills only sections with content.
+- Step 8: the human opens a new session at the `code-review` level (model-effort §2) with the T9 opening line in getting-started §5.3; never in the coding session.
 
 If a condition outside the fast lane arises: stop, go back to step 3.
 
 ## Plan approval
 
-Wait for a reviewer before step 5 when any holds: R3 Task; autonomy level ≤ A2; changes architecture, API contract, permissions, schema, or data; touches a 🟡 zone; the chain has an action requiring approval. Otherwise continue; the reviewer approves the final result.
+Before step 5 the Tech Lead approves the Plan, including each Task's R, A, level range, ladder, budget, and scope. Approving the Plan grants the R and A written in its manifests (`project-rules` 8).
+
+Exception, approval not awaited: every Task had its R and A set by the Tech Lead in the request, **and** every manifest uses the model-effort §2 defaults with no deviation and a budget within the project's default, **and** none of these holds: R3 Task; autonomy level ≤ A2; changes architecture, API contract, permissions, schema, or data; touches a 🟡 zone; the chain has an action requiring approval. The reviewer then approves the final result.
+
+Re-approval is needed when adding a Task, or changing a Task's AC, scope, R, A, `start`, `floor`, `ceiling`, `ladder`, or `budget`. Escalation within the approved ladder is not a change.
 
 ## Step transition rules
 
-1. **The plan is compressed context:** enough to execute (requirements, applicable points from documents with §, design decisions, files to change, AC → tests, Skill chain); from step 5 follow the plan, do not reread documents the plan summarized. If the plan lacks something, look up only sections the Skill allows, with the one-section command, and record it under "Nạp bổ sung" in the plan; if not found, record an open question.
-2. **New session for step 5** when the Task is R2/R3 or the chain has 3+ Skills: the execution session receives only the plan and Rules.
-3. **One Skill at a time:** do not load the next Skill until the Done-when results are met.
-4. **Pass gates with evidence** (test output, diff, Approved documents), not with claims.
-5. **A condition arises** (e.g. a bug fix turns out to touch authorization): load the matching Rule and Skill, record it in the plan; when in doubt about security or data, load. If it changes risk level or scope, or needs a design Skill: stop and report.
+1. **The manifest is compressed context:** enough to execute one Task. From step 5 a Run follows its manifest and does not reread documents the Plan summarized. If the manifest lacks something, look up only sections the Skill allows, with the one-section command, and record it under "loaded_extra" in the Run's handoff; if not found, record an open question.
+2. **One Run, one fresh context:** every Task, and every escalation of a Task, starts a new subagent or session. Never switch model inside a Run.
+3. **One Skill at a time** inside a Run: do not load the next Skill until the Done-when results are met.
+4. **Pass gates with evidence** (check output, diff, Approved documents), not with claims.
+5. **A condition arises** (e.g. a bug fix turns out to touch authorization): the Run stops and reports; the Orchestrator loads the matching Rule and Skill and updates the manifest. If it changes risk level, scope, any level field (e.g. a Skill raising the floor), or needs a design Skill: back to step 3 and re-approval.
 
 ## On errors
 
 | Finding | Go back to |
 | --- | --- |
-| Test fails due to code | The coding Skill in progress or `bug-fixing`, rerun tests |
-| Test fails due to environment or test data | Fix the environment; do not loosen assertions |
-| Review reports a logic bug | Matching coding Skill, rerun tests and review |
-| Critical/High security finding | Matching coding Skill, rerun `security-review` on the affected part |
+| Run fails an AC check, incomplete or invalid output | Escalation per model-effort §3 |
+| Tool denies a permission the Run needs | Stop (`stop_on`); a human adjusts the session's permissions within `allowed_paths`; rerun at the same level |
+| Test fails due to code | New Run of the coding Task in progress or a `bug-fixing` Task, rerun tests |
+| Test fails due to environment or test data | Fix the environment, rerun at the same level; do not loosen assertions, do not escalate |
+| Review reports a logic bug | New Run of the matching coding Task, rerun tests and review |
+| Critical/High security finding | Stop; new Task with the matching coding Skill, rerun `security-review` on the affected part |
 | Requirement missing or conflicting | **Stop**; `requirement-review`, wait for a human decision |
-| Design not feasible | `architecture-design` or `database-design`; architecture changes need approval |
+| Design not feasible | `architecture-design` or `database-design` Task; architecture changes need approval |
 
 ## Stop and ask
 
-Stop the affected part, still do independent and safe parts, when:
+Stop the affected Task, still run independent and safe Tasks, when:
 
 - documents conflict or a decision is missing;
 - an approval gate has no reviewer or evidence (which gate, which person: `gates-and-rigor.md` §1);
-- it exceeds Task scope or autonomy level; it needs changes to permissions, security, or production data;
+- it exceeds a Task's scope or autonomy level; it needs changes to permissions, security, or production data;
 - a secret or vulnerability is found;
 - the Task type, environment, or run command cannot be determined;
-- the root cause cannot be found, or the fix-round limit is reached (`project-rules` 18).
+- the root cause cannot be found, or the Run limit, ceiling, or budget is reached (`project-rules` 18, model-effort §3).
 
 When stopping, state: what was done, where it is blocked, who must decide what.
