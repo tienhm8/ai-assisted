@@ -59,6 +59,7 @@ Chỉ ghi dòng dự án siết thấp hơn trần mặc định, hoặc danh m�
 | Lý do chọn mức ASVS | Theo mức dữ liệu (§3), có tài khoản/phân quyền, tiền, ràng buộc pháp lý |
 
 ## 5. Vai trò
+Một người có thể giữ nhiều vai. Dự án không có khách hàng bên ngoài thì ghi "Không áp dụng" ở hai dòng cuối.
 | Vai trò | Người đảm nhiệm |
 | --- | --- |
 | Tech Lead | |
@@ -69,6 +70,8 @@ Chỉ ghi dòng dự án siết thấp hơn trần mặc định, hoặc danh m�
 | QA | |
 | DevOps | |
 | Owner (người quyết phát hành) | |
+| Đại diện khách hàng (cung cấp tài liệu nguồn, trả lời câu hỏi, duyệt tài liệu được gửi sang; không trực tiếp chuyển trạng thái tài liệu trong repo) | |
+| Đầu mối với khách hàng (nhận gói câu hỏi từ AI, gửi tài liệu cho khách hàng duyệt, lưu câu trả lời và kết quả duyệt; chỉ chuyển `Approved` khi khách hàng đã duyệt; thường là BA) | |
 
 ## 6. Lựa chọn áp dụng khung (Tailoring)
 Ghi lý do khi gộp, bỏ hoặc đổi cách dùng tài liệu cho phù hợp quy mô dự án.
