@@ -24,11 +24,13 @@
 | ADR | Architecture Decision Record: ghi lại một quyết định kiến trúc lớn và lý do, mã `ADR-<NNNN>`. | Quyết định kiến trúc | 02-architecture/ADR/ |
 | PO | Product Owner: người quyết định phạm vi và ưu tiên sản phẩm. |  | PROJECT.md |
 | BA | Business Analyst: người phân tích và làm rõ yêu cầu nghiệp vụ. |  | PROJECT.md |
+| Đại diện khách hàng | Người phía khách hàng cung cấp tài liệu nguồn, trả lời câu hỏi làm rõ, duyệt tài liệu được gửi sang. AI không làm việc trực tiếp mà qua Đầu mối (BA hoặc PO nội bộ); Đầu mối chỉ chuyển `Approved` khi khách hàng đã duyệt. |  | PROJECT.md §5 |
+| SRC | Tài liệu nguồn: tài liệu đầu vào từ khách hàng, PO, bên liên quan, hoặc biên bản câu trả lời, mã `SRC-<NN>`. | Tài liệu nguồn | 00-project-overview/sources/README.md |
 | E2E | End-to-end test: kiểm thử toàn luồng từ giao diện đến dữ liệu. |  | 03-engineering/testing-strategy.md |
 | BRD | Business Requirements Document: tài liệu yêu cầu nghiệp vụ ở mức mục tiêu và giá trị; nguồn để suy ra FR/NFR. |  | 01-requirements/BRD.md |
 | BRQ | Business Requirement: một yêu cầu nghiệp vụ trong BRD, mã `BRQ-<NN>`. Mỗi BRQ được phủ bởi ít nhất một FR; FR ghi BRQ nguồn. | Yêu cầu nghiệp vụ | 01-requirements/BRD.md |
 | BR | Business Rule: quy tắc nghiệp vụ, mã `BR-<MODULE>-<NN>`. | Quy tắc nghiệp vụ | 01-requirements/business-rules.md |
-| Open / Assumption / Closed | Trạng thái của điểm chưa rõ, mã `OQ-<NN>`. `Open`: chưa có câu trả lời. `Assumption`: giả định tạm dùng để đi tiếp, cần xác nhận. `Closed`: đã quyết. | Câu hỏi mở | 00-project-overview/open-questions.md |
+| Open / Asked / Assumption / Closed | Trạng thái của điểm chưa rõ, mã `OQ-<NN>`. `Open`: chưa có câu trả lời. `Asked`: đã gửi người trả lời, đang chờ. `Assumption`: giả định tạm dùng để đi tiếp, cần xác nhận. `Closed`: đã quyết. | Câu hỏi mở | 00-project-overview/open-questions.md |
 | Draft / Approved | Trạng thái tài liệu: Draft → In Review → Approved → Deprecated. `Draft`: bản nháp. `Approved`: đã được người có thẩm quyền duyệt, được dùng làm căn cứ; chỉ người có thẩm quyền chuyển sang. `Deprecated`: hết hiệu lực. |  | Bảng thuộc tính đầu mỗi tài liệu |
 | OQ | Open Question: câu hỏi mở, mã `OQ-<NN>`. | Câu hỏi mở | 00-project-overview/open-questions.md |
 | Traceability | Truy vết: chuỗi `OUT → BRQ → FR → BR → AC → module/API → Task → test/commit`. Mỗi liên kết khai báo một chiều ở bảng phía sau (bảng FR, AC, module, API, Task), tra ngược bằng cách lọc; để biết mỗi yêu cầu được làm và kiểm thử ở đâu. | Truy vết yêu cầu | .ai/skills/documentation/SKILL.md |
