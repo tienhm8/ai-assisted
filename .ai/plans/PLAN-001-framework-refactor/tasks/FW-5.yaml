@@ -40,7 +40,7 @@ instructions: |
 
   B. Review fix 2026-11-19 (PLAN-001-REVIEW#1 finding 7). Change only row 12 of CHECKLIST.md:
      Việc "Duyệt `PROJECT.md` và `ai-config.yaml`"; Điều kiện hoàn thành "`PROJECT.md` trạng thái Approved,
-     có tên người duyệt và ngày; `ai-config.yaml` được duyệt qua PR (file YAML không có dòng trạng thái)".
+     có tên người duyệt và ngày; `ai-config.yaml` được duyệt qua PR (file YAML không có dòng trạng thái)". 2026-11-19: superseded by the hand-edited CHECKLIST.md on main (kept).
 inputs: [FW-4]
 outputs: [CHECKLIST.md, PROJECT.md, README.md, .ai/guide/getting-started.md, "handoff report (DELIVERY-REPORT §1–§4, §8)"]
 scope:
@@ -60,8 +60,9 @@ acceptance_criteria:
     check: { type: human, who: "Người phát triển khung: checklist ngắn, đúng ý" }
 
   - id: FW-5-AC5
-    check: { type: command, run: "grep -E '^\\| 12 \\|' CHECKLIST.md | grep -q 'qua PR'" }
-    # review fix B, 2026-11-19
+    check: { type: command, run: "grep -E '^\\| 11 \\|' CHECKLIST.md | grep -q 'Approved' && grep -qE '^\\| 12 \\|.*Lập hồ sơ' CHECKLIST.md" }
+    # review fix B, 2026-11-19, revised 2026-11-19: keep the hand-edited CHECKLIST (framework developer decision);
+    # the item numbers changed in that version (duyệt = 11, hồ sơ = 12), the "qua PR" wording was dropped
 dispatch: dispatched
 execution:
   try: [sonnet/low, sonnet/high]
