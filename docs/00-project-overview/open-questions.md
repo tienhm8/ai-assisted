@@ -40,7 +40,7 @@ Chủ đề: <ví dụ: Quy trình đăng ký Work study>
 3. [OQ-<NN> · Cần quyết] <câu hỏi> · Phương án: A <...>, B <...> · Đề xuất: <A/B, lý do> · Nếu chưa quyết: <...>
 ```
 
-Câu hỏi gửi khách hàng viết bằng ngôn ngữ nghiệp vụ, không dùng mã nội bộ (FR, R, A…) ngoài mã OQ và SRC để đối chiếu.
+Câu hỏi gửi khách hàng viết bằng ngôn ngữ nghiệp vụ, không dùng mã nội bộ (FR, mức rủi ro, mức tự chủ…) ngoài mã OQ và SRC để đối chiếu.
 
 ## Chi tiết câu hỏi
 Bắt buộc cho mọi OQ `Open`, `Asked` hoặc `Assumption` loại `Decision`; đặt ngay dưới bảng. OQ loại `Input`, `Clarify` hoặc chỉ xác nhận một thông tin thì chỉ cần **Bối cảnh** và **Nếu chưa quyết**. Khi `Closed`, ghi lựa chọn vào cột Quyết định và giữ phần chi tiết làm căn cứ.

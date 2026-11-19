@@ -193,7 +193,7 @@ Module chưa có test thì Task đầu tiên vào module đó nên là Task **ch
 ## 5. Giao việc hằng ngày (dùng chung)
 
 ### 5.1 Giao việc lớn hoặc Task
-- **Việc lớn:** nêu Nguồn: Goal (kết quả muốn đạt, tiêu chí hoàn thành), Epic, User Story hoặc yêu cầu độc lập, kèm căn cứ FR/thiết kế. AI chia thành Plan và Task, đề xuất R, A, mức model·effort cho từng Task; bạn duyệt Plan là cấp các giá trị đó.
+- **Việc lớn:** nêu Nguồn: Goal (kết quả muốn đạt, tiêu chí hoàn thành), Epic, User Story hoặc yêu cầu độc lập, kèm căn cứ FR/thiết kế. AI chia thành Plan và Task, đề xuất rủi ro, mức tự chủ, mức model·effort cho từng Task; bạn duyệt Plan là cấp các giá trị đó.
 - **Việc nhỏ:** viết một Task theo mẫu ở [task-breakdown](task-breakdown.md) §4; Task chỉ giao AI khi đạt điều kiện sẵn sàng ở §7 của file đó. Ghi đủ: loại Task (danh sách ở [task-types](../workflows/task-types.md) §1), rủi ro, mức tự chủ. Task rủi ro thấp đủ điều kiện fast lane thì chạy ngay, không cần Plan.
 - Một Task một việc: không gộp sửa lỗi với refactor lớn.
 
@@ -203,14 +203,14 @@ Mở phiên ở thư mục gốc repo cha. Chọn model, effort **trước khi g
 | Phiên | Mức | Nghĩa |
 | --- | --- | --- |
 | Orchestrator (lập Plan, gửi Task, đánh giá) | opus/high; opus/xhigh nếu Plan có đổi kiến trúc hoặc API contract | Model mạnh · effort cao / rất cao |
-| Fast lane (một Task rủi ro thấp) | Mức bắt đầu của Skill chính ([model-effort](../workflows/model-effort.md) §2), ví dụ sửa tài liệu sonnet/low | Model chuẩn · effort thấp |
+| Fast lane (một Task rủi ro thấp) | Mức từ ai-config.yaml `tasks` (phần tử đầu của hàng Skill chính), ví dụ sửa tài liệu sonnet/low | Model chuẩn · effort thấp |
 | Từng Task (Run) | Orchestrator tự chọn theo manifest; Task duyệt từng bước trở xuống hoặc công cụ không có subagent thì bạn mở phiên mới theo mức Orchestrator báo | — |
-| Review (bước 8) | opus/high, phiên mới, không dùng lịch sử phiên viết code | Model mạnh · effort cao |
+| Review (bước 8) | theo `sessions.review`, phiên mới, không dùng lịch sử phiên viết code | Model mạnh · effort cao |
 
-- **Mức theo Task, không theo cả phiên:** mỗi Task có mức bắt đầu, sàn, trần trong manifest. Task chạy thấp trước; kết quả không đạt vì năng lực thì Orchestrator tự nâng một bậc, tối đa tới trần bạn đã duyệt; thiếu đầu vào, yêu cầu mâu thuẫn, bị từ chối quyền thì dừng hỏi bạn ([model-effort](../workflows/model-effort.md) §3).
+- **Mức theo Task, không theo cả phiên:** mỗi Task có thứ tự thử `try` trong manifest (phần tử đầu là mức bắt đầu, cuối là mức tối đa). Task chạy thấp trước; kết quả không đạt vì năng lực thì Orchestrator tự nâng một bậc, tối đa tới mức tối đa bạn đã duyệt; thiếu đầu vào, yêu cầu mâu thuẫn, bị từ chối quyền thì dừng hỏi bạn ([model-effort](../workflows/model-effort.md) §3).
 - **Task mức tự chủ duyệt từng bước trở xuống** (gồm mọi Task code rủi ro cao) không gửi cho subagent: Orchestrator đưa bạn manifest, đường dẫn worktree của Task và câu mở phiên; bạn mở phiên tương tác **trong worktree đó**, ở mức ghi trong manifest, duyệt từng bước, khi trả báo cáo thì kèm chi phí nếu công cụ hiển thị.
 - Task rủi ro cao (đụng phân quyền, tiền, dữ liệu cá nhân, migration, bảo mật): mức tối thiểu là `high_risk_min` trong ai-config.yaml.
-- Tên model thật nằm ở [ai-config.yaml](../../ai-config.yaml) (`sessions`, `tasks`, `high_risk_min`); đổi công cụ thì sửa `tool`, `auto_runs` và tên model ở đó ([model-effort](../workflows/model-effort.md) §4). Cách chạy Task bằng Claude Code: [ai-tools.md](ai-tools.md) §5. Công cụ không có effort thì mỗi mức chỉ ghi tên model, mức kế là model mạnh hơn.
+- Tên model thật nằm ở [ai-config.yaml](../../ai-config.yaml) (`sessions`, `tasks`, `high_risk_min`); đổi công cụ thì sửa `tool`, `auto_runs` và tên model ở đó ([model-effort](../workflows/model-effort.md) §4). Cách chạy Task bằng Claude Code: [ai-tools.md](ai-tools.md) §3. Công cụ không có effort thì mỗi mức chỉ ghi tên model, mức kế là model mạnh hơn.
 
 Câu mở đầu:
 
@@ -229,7 +229,7 @@ Task PRJ-12 (sửa lỗi · rủi ro thấp · làm trọn Task). Làm theo AGEN
 
 ### 5.3 Mẫu prompt theo tình huống
 
-Thay phần `<...>`. Mã Task, loại, R, A lấy từ Task đã viết theo §5.1.
+Thay phần `<...>`. Mã Task, loại, rủi ro, mức tự chủ lấy từ Task đã viết theo §5.1.
 
 | Tình huống | Prompt |
 | --- | --- |
@@ -240,7 +240,7 @@ Thay phần `<...>`. Mã Task, loại, R, A lấy từ Task đã viết theo §5
 | Khách hàng đã trả lời | `Khách hàng trả lời các câu hỏi OQ-<NN>, OQ-<NN> (đã lưu SRC-<NN>). Cập nhật open-questions và các tài liệu bị ảnh hưởng; câu trả lời sinh câu hỏi mới thì mở OQ mới.` |
 | Rà soát yêu cầu | `Task <KEY>-<N> (rà soát yêu cầu · rủi ro thấp · chỉ đọc). Rà soát FR-<MODULE>-* và AC trước khi trình PO duyệt.` |
 | Thiết kế | `Task <KEY>-<N> (tính năng mới · rủi ro <thấp/vừa/cao> · duyệt từng bước). Thiết kế module <tên> trên nền <hệ thống sẵn có, đường dẫn code>. Căn cứ: FR-<MODULE>-* đã Approved.` |
-| Lập Plan | `Lập Plan từ <GOAL-<NN> | EPIC-<NN> | US-<MODULE>-<NN> | yêu cầu: …>; phục vụ Goal <GOAL-<NN> hoặc không>. Căn cứ FR-<MODULE>-*, thiết kế đã Approved. Chia thành Plan và Task kèm manifest; đề xuất R, A, mức model·effort cho từng Task.` |
+| Lập Plan | `Lập Plan từ <GOAL-<NN> | EPIC-<NN> | US-<MODULE>-<NN> | yêu cầu: …>; phục vụ Goal <GOAL-<NN> hoặc không>. Căn cứ FR-<MODULE>-*, thiết kế đã Approved. Chia thành Plan và Task kèm manifest; đề xuất rủi ro, mức tự chủ, mức model·effort cho từng Task.` |
 | Chạy Plan đã duyệt | `Plan PLAN-<NNN> đã duyệt. Chạy các Task theo manifest, ghi runs.md.` |
 | Làm tính năng | `Task <KEY>-<N> (làm tính năng · rủi ro <...> · mức tự chủ <...>). Làm theo AGENTS.md.` + dán Task |
 | Sửa lỗi | `Task <KEY>-<N> (sửa lỗi · rủi ro <...> · mức tự chủ <...>). Làm theo AGENTS.md.` + dán bug report theo BUG-TEMPLATE |
@@ -254,10 +254,10 @@ Các bước AI thực hiện ở [task-execution](../workflows/task-execution.m
 
 | Khi AI… | Bạn làm |
 | --- | --- |
-| Hỏi R, A, S hoặc loại Task | Trả lời; AI không tự gán |
+| Hỏi rủi ro, mức tự chủ, độ nghiêm ngặt hoặc loại Task | Trả lời; AI không tự gán |
 | Gửi câu hỏi cần quyết (có Vấn đề, Phương án, Đề xuất) | Chọn phương án; muốn quyết sau thì nói rõ phần nào được làm tiếp |
-| Gửi Plan và các Task Manifest | Duyệt hoặc yêu cầu sửa: R, A, mức bắt đầu và trần, ngân sách, phạm vi từng Task. AI chưa chạy Task nào trước khi bạn duyệt |
-| Dừng vì vượt trần, hết lượt hoặc hết ngân sách | Đọc các mức đã thử và lỗi; nâng trần, sửa manifest, hoặc tự làm |
+| Gửi Plan và các Task Manifest | Duyệt hoặc yêu cầu sửa: rủi ro, mức tự chủ, thứ tự thử `try`, ngân sách, phạm vi từng Task. AI chưa chạy Task nào trước khi bạn duyệt |
+| Dừng vì vượt mức tối đa, hết lượt hoặc hết ngân sách | Đọc các mức đã thử và lỗi; thêm mức vào `try`, sửa manifest, hoặc tự làm |
 | Bàn giao (báo cáo bàn giao, kết quả test thật) | Đọc phần giả định, câu hỏi còn mở, phần chưa kiểm |
 | Mở PR | Review bằng **một phiên AI khác** (Task review PR) hoặc người khác; Task rủi ro cao cần thêm một reviewer độc lập |
 | Chờ merge, phát hành | Người merge; AI không tự merge, tag hay deploy |
