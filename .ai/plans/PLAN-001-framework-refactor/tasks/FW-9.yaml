@@ -1,0 +1,71 @@
+# Task Manifest — PLAN-001 / FW-9. Format: .ai/templates/TASK-MANIFEST-TEMPLATE.yaml (fields after FW-3).
+task_id: FW-9
+plan_id: PLAN-001
+serves: ["PLAN-001-REVIEW#2: phát hiện 1 (Medium), 2 và 3 (Low)"]
+title: Mẫu báo cáo bàn giao đủ làm đầu vào review; sửa hai chỗ sót
+objective: Báo cáo bàn giao điền đúng mẫu qua được cổng vào của code-review; câu mở phiên review chép được; hết chữ "trần" cũ trong hướng dẫn
+type: docs-only
+risk: medium
+risk_reason: Sửa mẫu và hướng dẫn Approved ở vùng đỏ; không đổi tiêu chí review, chỉ thêm mục vào mẫu
+autonomy: full-task
+agent: executor
+
+context:
+  docs: ["REVIEW-2-INPUT.md §2 (phát hiện lần 1)", ".ai/skills/code-review/SKILL.md Step 1 (7 câu)"]
+  rules: [git]
+  skills: [documentation]
+
+instructions: |
+  All text in .ai/templates and .ai/guide is Vietnamese. Change only what is listed.
+  1. .ai/templates/DELIVERY-REPORT-TEMPLATE.md: add a section "## Mô tả thay đổi (đầu vào của review)" right
+     after "## 1. Kết quả" (do not renumber the other sections; give it no number). It holds the seven
+     questions of .ai/skills/code-review/SKILL.md Step 1, one bullet each, in this order, each saying
+     "không áp dụng: <lý do>" is allowed:
+       - Vấn đề đang giải quyết, gắn với Task và AC nào
+       - Đổi hành vi hay chỉ refactor (refactor thì hành vi bên ngoài phải giữ nguyên)
+       - Phạm vi ảnh hưởng: dữ liệu/schema, API hoặc hợp đồng với nơi gọi, job/message, cache, cấu hình/biến môi trường, quyền truy cập
+       - Ngoài phạm vi: điều cố ý không làm
+       - Kiểm thử thế nào, bằng chứng ở đâu
+       - Thay đổi dữ liệu: khối lượng, khoá bảng, tương thích ngược với mã đang chạy
+       - Thay đổi phá tương thích, cần cờ tính năng không, thứ tự triển khai, cách hoàn tác
+     Add one line under the title of the section: "Review trên máy đọc mục này thay cho mô tả PR."
+  2. .ai/skills/code-review/SKILL.md "## Input": in case (b) say the "Mô tả thay đổi" section of the handoff
+     report answers the seven items of Step 1. English; one clause only; change nothing else.
+  3. .ai/guide/getting-started.md line 247 (the review opening line without PR): remove the inner backticks
+     around `git diff <base>..<head>` so the whole sentence copies as one code span.
+  4. .ai/guide/task-breakdown.md line 132: "model·effort bắt đầu, trần, ngân sách, nâng mức" ->
+     "thứ tự thử `try` (mức bắt đầu đến mức tối đa), ngân sách, nâng mức".
+     .ai/guide/ai-governance.md line 13: "trần mặc định" -> "mức tự chủ tối đa mặc định".
+     Do not touch "trần" in PROJECT.md or docs/ (it means the autonomy ceiling or a size limit there).
+
+inputs: [FW-8]
+outputs:
+  - .ai/templates/DELIVERY-REPORT-TEMPLATE.md
+  - .ai/skills/code-review/SKILL.md, .ai/guide/getting-started.md, .ai/guide/task-breakdown.md, .ai/guide/ai-governance.md
+  - handoff report (DELIVERY-REPORT §1–§4, §8)
+scope:
+  allowed_paths: [.ai/templates/DELIVERY-REPORT-TEMPLATE.md, .ai/skills/code-review/SKILL.md, .ai/guide/getting-started.md, .ai/guide/task-breakdown.md, .ai/guide/ai-governance.md]
+  zones: [red]
+  out: ["Review criteria", "Other sections of the template", "The word trần in PROJECT.md and docs/"]
+dependencies: [FW-8]
+
+acceptance_criteria:
+  - id: FW-9-AC1
+    check: { type: command, run: "grep -q '^## Mô tả thay đổi' .ai/templates/DELIVERY-REPORT-TEMPLATE.md && test $(sed -n '/^## Mô tả thay đổi/,/^## 2/p' .ai/templates/DELIVERY-REPORT-TEMPLATE.md | grep -c '^- ') -ge 7 && grep -q 'Mô tả thay đổi' .ai/skills/code-review/SKILL.md" }
+  - id: FW-9-AC2
+    check: { type: command, run: "! grep -n 'trần' .ai/guide/task-breakdown.md .ai/guide/ai-governance.md && ! sed -n '247p' .ai/guide/getting-started.md | grep -q 'Review thay đổi `git diff'" }
+  - id: FW-9-AC3
+    check: { type: command, run: "python3 -I .ai/plans/PLAN-001-framework-refactor/check.py links && python3 -I .ai/plans/PLAN-001-framework-refactor/check.py codes .ai/templates .ai/skills/code-review .ai/guide && python3 -I .ai/plans/PLAN-001-framework-refactor/check.py tree" }
+
+dispatch: dispatched
+execution:
+  try: [sonnet/low, sonnet/high]
+  deviation_reason: ""
+  budget: { max_cost_usd: 0.5, timeout_min: 30, max_output_tokens: 20000 }
+escalation:
+  max_attempts: 2
+  escalate_on: [ac_failed, incomplete_output, invalid_output]
+  stop_on: [missing_input, conflicting_requirement, out_of_scope, security_finding, environment_error, permission_denied]
+commit: "docs(ai): mẫu báo cáo bàn giao có mục mô tả thay đổi; sửa chữ trần còn sót (body: FW-9, PLAN-001)"
+gate: none
+status: New
