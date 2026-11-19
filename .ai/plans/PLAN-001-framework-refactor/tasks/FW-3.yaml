@@ -166,7 +166,7 @@ acceptance_criteria:
   - id: FW-3-AC1
     check: { type: command, run: "python3 -I .ai/plans/PLAN-001-framework-refactor/check.py config" }
   - id: FW-3-AC2
-    check: { type: command, run: "python3 -I .ai/plans/PLAN-001-framework-refactor/check.py codes ai-config.yaml .ai/workflows/model-effort.md .ai/templates/TASK-MANIFEST-TEMPLATE.yaml .ai/templates/RUNS-TEMPLATE.md .ai/templates/PLAN-TEMPLATE.md docs/03-engineering/ai-tools.md" }
+    check: { type: command, run: "python3 -I .ai/plans/PLAN-001-framework-refactor/check.py codes ai-config.yaml .ai/workflows/model-effort.md .ai/templates/TASK-MANIFEST-TEMPLATE.yaml .ai/templates/RUNS-TEMPLATE.md .ai/templates/PLAN-TEMPLATE.md .ai/guide/ai-tools.md" }
     # Narrowed 2026-11-19 (framework developer approved): BUG-TEMPLATE, TEST-REPORT-TEMPLATE are out of FW-3 scope; FW-6 replaces their codes
   - id: FW-3-AC3
     check: { type: command, run: "python3 -I .ai/plans/PLAN-001-framework-refactor/check.py links" }
@@ -176,14 +176,15 @@ acceptance_criteria:
     check: { type: command, run: "grep -q 'ai-config.yaml' README.md && grep -qi 'README' .ai/skills/documentation/SKILL.md && grep -qi 'README' .ai/skills/task-planning/SKILL.md && python3 -I .ai/plans/PLAN-001-framework-refactor/check.py tree" }
 
   - id: FW-3-AC6
-    check: { type: command, run: "test ! -e .ai/agents/references && ! grep -rn 'agents/references' --include=*.md --include=*.yaml . --exclude-dir=pilot --exclude-dir=plans && grep -q '^## 5' docs/03-engineering/ai-tools.md && grep -q 'auto_runs' .ai/workflows/model-effort.md" }
+    check: { type: command, run: "test ! -e .ai/agents/references && ! grep -rn 'agents/references' --include=*.md --include=*.yaml . --exclude-dir=pilot --exclude-dir=plans && grep -q '^## 3. Chạy Task với Claude Code' .ai/guide/ai-tools.md && grep -q 'auto_runs' .ai/workflows/model-effort.md" }
   - id: FW-3-AC7
-    check: { type: command, run: "! grep -rnE '(dispatch: (auto|attended)\\b|`dispatch`.*ai-config|ai-config.*`dispatch`)' --include=*.md --include=*.yaml . --exclude-dir=pilot --exclude-dir=plans && grep -q 'auto_runs' .ai/workflows/task-execution.md && grep -q 'auto_runs' docs/03-engineering/ai-tools.md" }
+    check: { type: command, run: "! grep -rnE '(dispatch: (auto|attended)\\b|`dispatch`.*ai-config|ai-config.*`dispatch`)' --include=*.md --include=*.yaml . --exclude-dir=pilot --exclude-dir=plans && grep -q 'auto_runs' .ai/workflows/task-execution.md && grep -q 'auto_runs' .ai/guide/ai-tools.md" }
     # amendment C 2026-11-19
     # amendment 2026-11-19; AC1 (check.py config) now also checks auto_runs, model-only levels, no repeated item in try, references removed
   - id: FW-3-AC8
     check: { type: command, run: "! grep -n 'longest' .ai/workflows/model-effort.md && grep -q 'xhigh < max' .ai/workflows/model-effort.md && grep -q 'bypassPermissions' .ai/guide/ai-tools.md && ! grep -q 'Subagent theo vai và mức' .ai/agents/README.md && ! grep -rnE 'floors|same default level|thang đã duyệt|of PLAN-001 until' .ai/skills .ai/workflows .ai/agents" }
     # review fixes D, 2026-11-19
+    # AC6/AC7 paths updated after FW-4 moved ai-tools.md to .ai/guide/ (section 5 became 3); meaning unchanged
 dispatch: dispatched
 execution:
   start: M2·E3                      # sonnet/high
