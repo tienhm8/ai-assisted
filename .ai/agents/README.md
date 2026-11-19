@@ -32,7 +32,7 @@ Phát hành không phải vai AI: AI chỉ soạn nháp bằng Skill `deployment
 
 ## Subagent theo vai và mức
 
-Subagent khai báo theo **vai × mức** (ví dụ `executor-m2-e1`, `executor-m3-e3`, `reviewer-m3-e3`) khi công cụ chỉ đặt được model·effort trong file khai báo. Orchestrator chọn subagent khớp `agent` và mức hiện tại của manifest; không có file khớp thì dừng và hỏi, không tự chạy ở mức khác. Cách khai báo theo công cụ: [references/](references/).
+Subagent khai báo theo **vai × mức** (ví dụ `executor-sonnet-low`, `executor-opus-high`, `reviewer-opus-high`; tên lấy từ các mức trong `ai-config.yaml`) khi công cụ chỉ đặt được model/effort trong file khai báo. Orchestrator chọn subagent khớp `agent` và mức hiện tại của manifest; không có file khớp thì dừng và hỏi, không tự chạy ở mức khác.
 
 ## Khi nào tách thành agent riêng
 
@@ -45,4 +45,4 @@ Ngoài việc chạy mỗi Task ở một subagent, chỉ tách thêm vai cố �
 | Cần review độc lập | Reviewer không phải phiên vừa viết code |
 | Việc chạy song song được | Frontend và backend khi API contract đã Approved |
 
-Ánh xạ model/effort và cấu hình theo công cụ AI: [references/](references/): [claude-code.md](references/claude-code.md), [cursor.md](references/cursor.md), [copilot.md](references/copilot.md), [gemini.md](references/gemini.md), [codex.md](references/codex.md). Dùng file của công cụ dự án chọn.
+Model/effort theo công cụ AI nằm ở [ai-config.yaml](../../ai-config.yaml); cách chạy Task với Claude Code: [ai-tools.md](../../docs/03-engineering/ai-tools.md) §5.

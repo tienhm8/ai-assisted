@@ -228,7 +228,7 @@ Mở phiên ở thư mục gốc repo cha. Chọn model, effort **trước khi g
 - **Mức theo Task, không theo cả phiên:** mỗi Task có mức bắt đầu, sàn, trần trong manifest. Task chạy thấp trước; kết quả không đạt vì năng lực thì Orchestrator tự nâng một bậc, tối đa tới trần bạn đã duyệt; thiếu đầu vào, yêu cầu mâu thuẫn, bị từ chối quyền thì dừng hỏi bạn ([model-effort](../.ai/workflows/model-effort.md) §3).
 - **Task mức tự chủ A2 trở xuống** (duyệt từng bước, gồm mọi Task code R3) không gửi cho subagent: Orchestrator đưa bạn manifest, đường dẫn worktree của Task và câu mở phiên; bạn mở phiên tương tác **trong worktree đó**, ở mức ghi trong manifest, duyệt từng bước, khi trả báo cáo thì kèm chi phí nếu công cụ hiển thị.
 - Task R3 (đụng phân quyền, tiền, dữ liệu cá nhân, migration, bảo mật): sàn M3·E3.
-- Đổi M1–M3, E1–E4 sang model thật: bảng §1 của file công cụ trong [references/](../.ai/agents/references/) (AI chỉ lấy các dòng bảng, không đọc cả file: [model-effort](../.ai/workflows/model-effort.md) §4); cách chạy Task theo manifest ở mục kế tiếp của file đó. Công cụ không có effort thì chỉ chọn model theo hạng M.
+- Tên model thật nằm ở [ai-config.yaml](../ai-config.yaml) (`sessions`, `tasks`, `high_risk_min`); đổi công cụ thì sửa `tool`, `dispatch` và tên model ở đó ([model-effort](../.ai/workflows/model-effort.md) §4). Cách chạy Task bằng Claude Code: [ai-tools.md](03-engineering/ai-tools.md) §5. Công cụ không có effort thì mỗi mức chỉ ghi tên model, mức kế là model mạnh hơn.
 
 Câu mở đầu:
 

@@ -10,7 +10,7 @@
 
 ## 1. Tích hợp
 
-`.ai/` là nguồn duy nhất. Mỗi công cụ chỉ có file vào trỏ về `.ai/`, không chép nội dung. Đổi công cụ hoặc phiên bản thì chạy thử một Task.
+`.ai/` là nguồn duy nhất. Mỗi công cụ chỉ có file vào trỏ về `.ai/`, không chép nội dung. Đổi công cụ hoặc phiên bản thì chạy thử một Task. Bảng chỉ ghi tên công cụ và file vào; tên model và effort của từng công cụ nằm ở [ai-config.yaml](../../ai-config.yaml).
 
 | Công cụ | File vào | Skill tự kích hoạt |
 | --- | --- | --- |
@@ -44,3 +44,37 @@ Công cụ mà AI gọi được, ví dụ MCP server của Laravel Boost. Guide
 | Công cụ · phiên bản | Tính năng được dùng | Môi trường kết nối | Tính năng bị tắt / giới hạn | Người duyệt |
 | --- | --- | --- | --- | --- |
 |  | | | | |
+
+## 5. Chạy Task với Claude Code
+
+> Dành cho người vận hành; AI không nạp mục này khi làm Task. Chỉ ghi điều đã kiểm chứng trên Claude Code 2.1.326 (2026-11). Model và effort lấy từ [ai-config.yaml](../../ai-config.yaml); đổi phiên bản Claude Code thì kiểm lại.
+
+- **Một Run không tương tác cho mỗi Task**, chạy trong worktree của Task, prompt đặt sau `--`:
+
+  ```sh
+  claude -p --model <model> --effort <effort> --max-budget-usd <ngân-sách-còn-lại> \
+    --output-format json --permission-mode acceptEdits \
+    --allowedTools "<danh-sách>" -- "<prompt>"
+  ```
+
+- **`--allowedTools` là một chuỗi ngăn bằng dấu cách.** Lệnh ngoài danh sách bị chặn và ghi vào `permission_denials` của JSON. Lệnh nối (`;`, `&&`, `cd`) và script phụ trợ cũng bị chặn, nên prompt yêu cầu mỗi lệnh Bash chạy riêng một lệnh và sửa file bằng Edit/Write.
+- **Ghi file dưới `.claude/` bị chặn** ở chế độ này dù đã cho phép theo tên: người tạo các file đó.
+- **Đọc từ JSON để ghi `runs.md`:** `is_error` (lỗi API có thể kết thúc Run với `subtype: success`), `total_cost_usd`, `modelUsage`, `permission_denials`. `--max-budget-usd` chỉ có tác dụng với `-p` và tính cho từng lần gọi: đặt bằng ngân sách còn lại của Task.
+- **Không có cờ giới hạn token đầu ra:** Run ghi "không áp dụng: max_output_tokens".
+- **Task `step-by-step`:** người mở phiên tương tác `claude --model <model> --effort <effort>` trong worktree của Task.
+- **Phiên Orchestrator:** dùng `/model` và `/effort` theo `sessions.orchestrator`.
+- **Subagent Reviewer/Security:** một file mỗi vai trong `.claude/agents/`, model và effort theo `sessions.review`; nội dung chỉ trỏ về `.ai/`. Ví dụ `.claude/agents/reviewer.md`:
+
+  ```markdown
+  ---
+  name: reviewer
+  description: Review độc lập diff của Task theo Skill code-review. Dùng sau khi Executor bàn giao; không dùng trong phiên vừa viết code.
+  model: opus
+  effort: high
+  tools: Read, Grep, Glob, Bash
+  ---
+
+  Bạn giữ vai Reviewer trong .ai/agents/README.md.
+  Nạp .ai/skills/code-review/SKILL.md và làm theo đúng quy trình trong đó.
+  Chỉ báo phát hiện có mức độ và file:dòng; không sửa code.
+  ```

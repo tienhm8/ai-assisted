@@ -4,7 +4,7 @@
 
 Model and effort are set **per Task**, never per Plan or per whole workflow. A session does not switch model mid-way: each Task runs in its own fresh subagent or session configured from its manifest ([task-execution](task-execution.md), "Orchestration").
 
-The values live in [ai-config.yaml](../../ai-config.yaml) (`sessions`, `tasks`, `high_risk_min`, `budget_usd_per_task`); this file holds only the rules. A level is written `model/effort`, e.g. `sonnet/low`. A strong model at lower effort is often better than a weaker model at high effort; measure before choosing.
+The values live in [ai-config.yaml](../../ai-config.yaml) (`sessions`, `tasks`, `high_risk_min`, `budget_usd_per_task`); this file holds only the rules. A level is written `model/effort`, e.g. `sonnet/low`, or `model` alone when the tool cannot set effort; the whole file uses one form. A strong model at lower effort is often better than a weaker model at high effort; measure before choosing.
 
 ## 1. Orchestrator session
 
@@ -12,7 +12,7 @@ The main session that plans, classifies, dispatches, evaluates, and merges (step
 
 ## 2. Levels of a Task
 
-A Task's levels come from `tasks` in `ai-config.yaml`: the row whose `for` list contains the Task's main Skill. A Task with several Skills takes the row with the longest `try`. `try` is the order of levels to run: `try[0]` is the start level and the last item is the maximum level. Escalation moves one item right.
+A Task's levels come from `tasks` in `ai-config.yaml`: the row whose `for` list contains the Task's main Skill. A Task with several Skills takes the row with the longest `try`. `try` is the order of levels to run: `try[0]` is the start level and the last item is the maximum level. Escalation moves one item right. Without effort, each next item in `try` is a stronger model; adjacent items never repeat the same model (a repeat is not an escalation). A `try` of one item reruns at the same level (§3 rule 2).
 
 `high_risk_min`: a `high`-risk Task, or one using `authentication-rbac` or `security-review`, never runs below it; drop the items of `try` below it. A manifest never lowers this.
 
@@ -64,20 +64,10 @@ Run at try[0] ──► Evaluate ──► Pass ──────────�
 7. **No approval per step:** escalation within an approved `try` and budget needs no human approval; it is recorded in `runs.md`. Past the last item, attempts, or budget: stop, report the levels tried and their failures, propose next steps.
 8. **Start low only when evaluation is cheap and automatic** (Skills whose Tasks are evaluated by commands). Tasks evaluated by a human at a gate start at their default, since a failed low Run is discovered late and costs a full rerun.
 
-## 4. Mapping to real tools
+## 4. Tool settings
 
-Switching AI tool = copy the `sessions` and `tasks` block from `.ai/agents/references/<tool>.md` into `ai-config.yaml` and set `tool`. Do not read the reference file to plan. Read the rest of the reference file (its section on running Tasks) only when setting up dispatch or when a Run fails on tool configuration.
+The values are in `ai-config.yaml`. Switching AI tool = edit `tool`, `dispatch` and the model names there; nothing else to copy. `dispatch: attended` makes every Run attended ([task-execution](task-execution.md), "Orchestration").
 
-Always set effort explicitly on every Run; never rely on the tool's or model's default, which differs per model.
+Always set effort explicitly on every Run when the tool has effort; never rely on the tool's or model's default, which differs per model.
 
-| Tool | Reference |
-| --- | --- |
-| Claude Code | [claude-code.md](../agents/references/claude-code.md) |
-| Cursor | [cursor.md](../agents/references/cursor.md) |
-| GitHub Copilot | [copilot.md](../agents/references/copilot.md) |
-| Gemini CLI | [gemini.md](../agents/references/gemini.md) |
-| Codex (ChatGPT) | [codex.md](../agents/references/codex.md) |
-
-The manifest is metadata: it changes nothing unless the executor applies it. A field the tool cannot apply (e.g. effort in Cursor, Gemini CLI; `max_output_tokens` in Claude Code) is recorded in the Run as "not applied: <field>", never silently ignored. If the tool lacks a model of the required strength, or quota runs out: stop and ask; do not downgrade.
-
-A tool not listed: add a reference file under `.ai/agents/references/` with the same sections (including the `sessions`/`tasks` block) and add a row here.
+The manifest is metadata: it changes nothing unless the executor applies it. A field the tool cannot apply (e.g. effort in a tool without it; `max_output_tokens` in Claude Code) is recorded in the Run as "not applied: <field>", never silently ignored. If the tool lacks a model of the required strength, or quota runs out: stop and ask; do not downgrade.

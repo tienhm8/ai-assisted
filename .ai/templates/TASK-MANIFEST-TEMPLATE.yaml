@@ -1,7 +1,7 @@
 # Task Manifest — one file per Task: .ai/plans/PLAN-<NNN>-<slug>/tasks/<KEY>-<N>.yaml
 # Answers three questions: what to do (objective..dependencies), how to run it (agent..escalation),
 # how to know it is done right (acceptance_criteria).
-# Metadata only: it changes nothing unless the executor applies it (model-effort §4).
+# Metadata only: it changes nothing unless the executor applies it (model-effort §4; model/effort values are in ai-config.yaml).
 # Approved together with the Plan. Run results go to runs.md, never here.
 # Values for humans (title, objective, out) are written in Vietnamese (project-rules 22).
 

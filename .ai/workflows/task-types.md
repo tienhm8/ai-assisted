@@ -8,7 +8,7 @@ AI reads only the row of the current Task type (filter command in [task-executio
 
 Skill chain notation: `→` sequential · `∥` may run in parallel · `[ ]` conditional (load-conditions §2) · `⏸` wait for approver.
 
-The Skill chain is the template for splitting a Plan into Tasks (task-execution step 3): one Task per Skill, or several adjacent Skills of the same default level in one Task; each `⏸` ends a Task and usually a Plan. Model and effort are set per Task from its Skills ([model-effort.md](model-effort.md) §2), not per Task type.
+The Skill chain is the template for splitting a Plan into Tasks (task-execution step 3): one Task per Skill, or several adjacent Skills of the same default level in one Task; each `⏸` ends a Task and usually a Plan. Model and effort are set per Task from its Skills ([ai-config.yaml](../../ai-config.yaml) `tasks`), not per Task type.
 
 | Type | Task type | Rules always loaded | Conditional Rules (load-conditions §1) | Skill chain | Template |
 | --- | --- | --- | --- | --- | --- |

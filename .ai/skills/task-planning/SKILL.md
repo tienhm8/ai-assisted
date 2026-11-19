@@ -13,7 +13,7 @@ If missing, stop and record an open question:
 - A Source: a Goal in goals.md, an Epic or User Story in product-backlog, or a standalone request from an authorized person.
 - For implementation Plans: FRs with approved AC and Approved related design (architecture, API, DB). Analysis or design Plans need only the inputs their first Skill requires.
 
-Read: work-model; the Source; goals.md; product-backlog (Epic, User Story); FR, business-rules, AC, NFR; related design docs and ADRs; task-breakdown §1, §2, §7, task-backlog, roadmap; PLAN-TEMPLATE, TASK-MANIFEST-TEMPLATE; model-effort §2; PROJECT.md §2.
+Read: work-model; the Source; goals.md; product-backlog (Epic, User Story); FR, business-rules, AC, NFR; related design docs and ADRs; task-breakdown §1, §2, §7, task-backlog, roadmap; PLAN-TEMPLATE, TASK-MANIFEST-TEMPLATE; ai-config.yaml `tasks`; PROJECT.md §2.
 
 ## Procedure
 
