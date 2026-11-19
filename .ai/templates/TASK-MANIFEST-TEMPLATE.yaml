@@ -10,10 +10,10 @@ plan_id: PLAN-002
 serves: [US-WS-01]                  # User Stories / FRs / BRs this Task fulfils (traceability); reason if none
 title: Thêm API đăng ký Work study cho sinh viên
 objective: Sinh viên gửi được đơn đăng ký; hệ thống lưu đơn ở trạng thái Chờ duyệt
-type: T2                            # task-types §1
-risk: R2                            # proposed by the Orchestrator; granted by Plan approval
+type: feature                       # task-types §1 (e.g. feature, bug-fix, refactor, docs-only)
+risk: medium                        # low | medium | high; proposed by the Orchestrator; granted by Plan approval
 risk_reason: Thêm API, ghi bảng mới; không chạm phân quyền, dữ liệu cá nhân
-autonomy: A3                        # never above PROJECT.md ceiling; R3 code: A2
+autonomy: full-task                 # never above PROJECT.md ceiling; code in a high-risk Task: step-by-step
 agent: executor                     # role in .ai/agents/README.md
 
 context:                            # load only these (just in time)
@@ -32,7 +32,7 @@ outputs:                            # what must exist when done (checked as "Com
   - handoff report (DELIVERY-REPORT §1–§4, §8)
 scope:
   allowed_paths: [src/modules/work-study/**, test/work-study/**]   # outside: stop and ask
-  zones: [green]                    # yellow needs the Plan to state it; red needs its own Task
+  zones: [green]                    # green | yellow | red; yellow needs the Plan to state it; red needs its own Task
   out: [Duyệt đơn, Gửi email thông báo]
 dependencies: [WS-1, WS-2]          # must be Done before the first Run
 
@@ -47,20 +47,17 @@ acceptance_criteria:                # every item has a check; "human" names who 
   #   check: { type: human, who: "PO" }   # not evaluable by the Orchestrator: Pass is provisional until the gate
   # Partial pass (some AC fail) is a Fail.
 
-dispatch: dispatched                # A3/A4: dispatched; A2 or below: attended (task-execution, "Orchestration")
+dispatch: dispatched                # full-task/pre-approved: dispatched; step-by-step or lower: attended (task-execution, "Orchestration")
 
-execution:                          # defaults from model-effort §2 by Skill; any other value is a deviation
-  start: M2·E1
-  floor: M2·E1                      # R3 or authentication-rbac/security-review: at least M3·E3
-  ceiling: M3·E3
-  deviation_reason: ""              # required when any level field differs from model-effort §2
+execution:                          # levels come from ai-config.yaml `tasks` (model-effort §2)
+  try: [sonnet/low, sonnet/high, opus/high]   # copied from ai-config.yaml; first = start, last = maximum; deviation needs deviation_reason and Plan approval
+  deviation_reason: ""              # required when try differs from ai-config.yaml
   budget:                           # cumulative over every Run of this Task
-    max_cost_usd: 2                 # Orchestrator stops before a Run that would exceed it
+    max_cost_usd: 2                 # Orchestrator stops before a Run that would exceed it (default: ai-config.yaml budget_usd_per_task)
     timeout_min: 30                 # per Run
     max_output_tokens: 20000        # per Run; applied only where the tool supports it, else "not applied" in the Run
 
 escalation:                         # model-effort §3
-  ladder: [M2·E1, M2·E3, M3·E3]     # ends at ceiling; no more steps than max_attempts
   max_attempts: 3                   # Runs per error, escalations included (project-rules 18)
   escalate_on: [ac_failed, incomplete_output, invalid_output]
   stop_on: [missing_input, conflicting_requirement, out_of_scope, security_finding, environment_error, permission_denied]

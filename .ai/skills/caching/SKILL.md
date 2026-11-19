@@ -22,6 +22,8 @@ If the manifest is missing something, look up the exact section: database-design
 
 ## References
 
+Load the file matching ai-config.yaml `stack`; if `stack` lacks the entry, ask. Read only the listed sections.
+
 | File in `references/` | Load at step |
 | --- | --- |
 | `patterns.md` | Step 1: §1, §2 · Step 2: §5, §8 · Step 3: §3, §4, §6, §7 · Step 4: §11 · Step 5: §9 · Step 6: §10 |

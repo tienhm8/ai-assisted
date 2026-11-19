@@ -16,7 +16,7 @@ If the manifest lacks something, look up the exact section, do not read the whol
 
 ## References
 
-Load only the file of the framework the backend uses, and read only the listed sections.
+Load the file matching ai-config.yaml `stack`; if `stack` lacks the entry, ask. Read only the listed sections.
 
 | File in `references/` | Load at step |
 | --- | --- |

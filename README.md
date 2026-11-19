@@ -14,6 +14,7 @@ project/
 ├── PROJECT.md                   [04] khai báo giá trị riêng của dự án (mức tự chủ, vùng, dữ liệu, S, vai trò, miễn trừ)
 ├── AGENTS.md                    điểm vào cho AI, chỉ trỏ về .ai/
 ├── CLAUDE.md                    chỉ chứa @AGENTS.md cho Claude Code
+├── ai-config.yaml               model/effort theo loại việc, ngân sách, stack, lệnh kiểm
 ├── project/                     mã nguồn các repo con; mỗi repo tự commit, repo cha không theo dõi (.gitignore)
 │
 ├── .claude/                     cấu hình Claude Code

@@ -1,6 +1,6 @@
 # PLAN: PLAN-<NNN> — <Tên ngắn>
 
-> AI (Orchestrator) soạn; Tech Lead duyệt trước khi chạy Task ([task-execution](../workflows/task-execution.md), "Plan approval"). Duyệt Plan là duyệt mức rủi ro, mức tự chủ, khoảng model·effort, ngân sách, phạm vi của mọi Task trong Plan. Mục "Kết quả" điền sau khi xong.
+> AI (Orchestrator) soạn; Tech Lead duyệt trước khi chạy Task ([task-execution](../workflows/task-execution.md), "Plan approval"). Duyệt Plan là duyệt mức rủi ro, mức tự chủ, thứ tự thử model/effort, ngân sách, phạm vi của mọi Task trong Plan. Mục "Kết quả" điền sau khi xong.
 > Lưu ở `.ai/plans/PLAN-<NNN>-<slug>/PLAN.md`; manifest của Task ở `tasks/<KEY>-<N>.yaml`; các lần chạy ở `runs.md` cùng thư mục.
 
 | Mục | Giá trị |
@@ -11,7 +11,7 @@
 | Trạng thái | Draft / Approved / In Progress / Done / Cancelled |
 | Người duyệt · Ngày duyệt | |
 | Ngày tạo | |
-| Model · Effort của Orchestrator | M3·E3 (model mạnh, effort cao); M3·E4 (model mạnh, effort rất cao) nếu Plan có Task T7 (đổi kiến trúc hoặc API contract) |
+| Model/effort của Orchestrator | Theo `sessions.orchestrator` trong `ai-config.yaml` (ví dụ opus/high); mức ghi chú trong file đó nếu Plan có Task loại `architecture-change` (đổi kiến trúc hoặc API contract) |
 | Ngân sách cả Plan | Tổng `budget` các Task cộng chi phí phiên Orchestrator; vượt thì dừng, hỏi người |
 
 ## 1. Mục tiêu và phạm vi
@@ -21,7 +21,7 @@
 - Vì sao là một Plan riêng (tiêu chí ở task-execution, "New Plan"):
 
 ## 2. Tiêu chí hoàn thành
-Điều kiện kiểm chứng được để coi Plan là Done; thường là cổng duyệt cuối chặng (G2, G3, G5…) và AC của các Task.
+Điều kiện kiểm chứng được để coi Plan là Done; thường là cổng duyệt cuối chặng (`requirements`, `design`, `code-complete`…) và AC của các Task.
 
 ## 3. Yêu cầu và ngữ cảnh đã nạp
 User Story (`US-…`) và FR mà Plan hiện thực (Plan kỹ thuật ghi lý do thay); BR, AC, ADR, SRC, câu hỏi mở.
@@ -32,14 +32,14 @@ Vì sao chia Task như vậy, thứ tự, chỗ chạy song song, điểm dừng
 
 ## 5. Task
 
-Chi tiết ở manifest; bảng này chỉ tóm tắt. Cột Loại, Rủi ro · Tự chủ, Thang mức ghi mã kèm nghĩa trong ngoặc (`project-rules` 23), người đọc không phải tra. Mức tự chủ và rủi ro do AI đề xuất, kèm lý do trong manifest. Task A2 trở xuống chạy "Có người" (phiên tương tác, duyệt từng bước). Cột "Lệch mặc định" khác "Không" thì Plan luôn phải chờ duyệt. Không tạo Task cho `code-review`, `security-review`: chúng chạy ở bước 8 theo dòng "Review" (dòng này không phải Task, không có mã `<KEY>-<N>`).
+Chi tiết ở manifest; bảng này chỉ tóm tắt. Cột Loại, Rủi ro · Tự chủ ghi từ của thang (`project-rules` 23), kèm nghĩa tiếng Việt trong ngoặc để người đọc không phải tra. Cột "Thứ tự thử" ghi `model/effort` theo `try` của manifest, mức đầu là mức bắt đầu, mức cuối là mức tối đa. Mức tự chủ và rủi ro do AI đề xuất, kèm lý do trong manifest. Task `step-by-step` trở xuống chạy "Có người" (phiên tương tác, duyệt từng bước). Cột "Lệch mặc định" khác "Không" thì Plan luôn phải chờ duyệt. Không tạo Task cho `code-review`, `security-review`: chúng chạy ở bước 8 theo dòng "Review" (dòng này không phải Task, không có mã `<KEY>-<N>`).
 
-| Task | Tên | Loại | Rủi ro · Tự chủ | Cách chạy | Agent | Skill | Thang mức | Ngân sách (USD) | Lệch mặc định | Phụ thuộc | Cổng | Trạng thái |
+| Task | Tên | Loại | Rủi ro · Tự chủ | Cách chạy | Agent | Skill | Thứ tự thử | Ngân sách (USD) | Lệch mặc định | Phụ thuộc | Cổng | Trạng thái |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| <KEY>-<N> | | T2 (làm tính năng đã có yêu cầu) | R2 (ảnh hưởng nhiều module) · A3 (làm trọn, người duyệt kết quả cuối) | Gửi đi | executor | backend-development | M2·E1 (chuẩn, thấp) → M2·E3 (chuẩn, cao) → M3·E3 (mạnh, cao) | 2 | Không | | — | New |
-| Review (bước 8) | Review code, bảo mật nếu cần | T9 (review Pull Request) | theo Task rủi ro cao nhất · A1 (chỉ đọc và báo cáo) | Gửi đi | reviewer, security | code-review, security-review | M3·E3 (mạnh, cao) → M3·E4 (mạnh, rất cao) | | Không | mọi Task | — | New |
+| <KEY>-<N> | | `feature` (làm tính năng đã có yêu cầu) | `medium` (ảnh hưởng nhiều module) · `full-task` (làm trọn, người duyệt kết quả cuối) | Gửi đi | executor | backend-development | sonnet/low → sonnet/high → opus/high | 2 | Không | | — | New |
+| Review (bước 8) | Review code, bảo mật nếu cần | `pr-review` (review Pull Request) | theo Task rủi ro cao nhất · `read-only` (chỉ đọc và báo cáo) | Gửi đi | reviewer, security | code-review, security-review | opus/high → opus/xhigh | | Không | mọi Task | — | New |
 
-Dòng "Review" luôn có: không có manifest riêng; mức theo model-effort §2, ngân sách ghi ở cột "Ngân sách", duyệt cùng Plan; lần chạy ghi `runs.md` dạng `PLAN-<NNN>-REVIEW#<n>`. Lần review trượt (nâng mức) khi báo cáo thiếu mục bắt buộc trong "Report" của Skill `code-review` hoặc `security-review`; phát hiện lỗi trong code không phải trượt của review mà mở lỗi mới cho Task chịu trách nhiệm.
+Dòng "Review" luôn có: không có manifest riêng; mức theo `sessions.review` và dòng `tasks` của Skill trong `ai-config.yaml`, ngân sách ghi ở cột "Ngân sách", duyệt cùng Plan; lần chạy ghi `runs.md` dạng `PLAN-<NNN>-REVIEW#<n>`. Lần review trượt (nâng mức) khi báo cáo thiếu mục bắt buộc trong "Report" của Skill `code-review` hoặc `security-review`; phát hiện lỗi trong code không phải trượt của review mà mở lỗi mới cho Task chịu trách nhiệm.
 
 ## 6. Thiết kế và file dự kiến thay đổi
 Quyết định thiết kế chung cho nhiều Task; file của từng Task nằm ở `outputs`, `scope` của manifest.

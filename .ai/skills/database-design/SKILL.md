@@ -18,7 +18,7 @@ Read: FR, BR, AC; glossary; NFR (latency, throughput, RPO/RTO, volume, retention
 
 ## References
 
-Load only the file for the current step, and read only the listed sections.
+Load only the file for the current step, and read only the listed sections. Where a file depends on the DBMS, load the part matching ai-config.yaml `stack`; if `stack` lacks the entry, ask.
 
 | File in `references/` | Load at step |
 | --- | --- |

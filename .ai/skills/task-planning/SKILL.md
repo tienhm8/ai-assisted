@@ -19,9 +19,9 @@ Read: work-model; the Source; goals.md; product-backlog (Epic, User Story); FR, 
 
 1. **Read** the Source, the Goals it serves, the User Stories and FRs in scope, AC, BR, design; identify dependencies and sensitive areas.
 2. **Split Plans** by the criteria in task-execution ("New Plan"): different output goal, independent, own lifecycle and done criteria, separate tracking or access; default one Plan per stretch ending at a gate.
-3. **Split Tasks** per task-breakdown §1, using the Task type's Skill chain as template (task-types §1). Work needing a different model·effort level becomes a separate Task; adjacent Skills with the same default level may share one.
-4. **Write one manifest per Task** per TASK-MANIFEST-TEMPLATE: objective, inputs, outputs, scope with allowed paths, dependencies, AC each with a check (command, file, or named human), proposed risk and autonomy level with reason, agent, Skills, Rules, document sections to load, level range and escalation from model-effort §2 (deviation needs a reason), budget, gate.
-5. **Parallelize** only when Tasks share no files, schema, or contract.
+3. **Split Tasks** per task-breakdown §1, using the Task type's Skill chain as template (task-types §1). Work needing a different `try` in ai-config.yaml `tasks` becomes a separate Task; adjacent Skills in the same `tasks` row may share one.
+4. **Write one manifest per Task** per TASK-MANIFEST-TEMPLATE: objective, inputs, outputs, scope with allowed paths, dependencies, AC each with a check (command, file, or named human), proposed risk and autonomy level with reason, agent, Skills, Rules, document sections to load, `execution.try` copied from ai-config.yaml `tasks` (deviation needs a reason), budget (default `budget_usd_per_task`), gate.
+5. **Parallelize** only when Tasks share no files, schema, or contract. README.md is a shared file: Tasks running in parallel never edit its tree under "Cấu trúc"; each lists its structure change in its handoff report, and the Orchestrator updates the tree once after merging, before step 6 (Test).
 6. **Draft the Plan** in `.ai/plans/PLAN-<NNN>-<slug>/` per PLAN-TEMPLATE, status Draft, with next free `PLAN-<NNN>`, exactly one Source, optional Goals. Do not write the Plan into goals.md or product-backlog (one-way links).
 7. **Check Definition of Ready** per task-breakdown §7 for each Task; a Task lacking conditions stays New with an open question.
 8. **Propose Tasks** into task-breakdown and task-backlog as New, with their Plan and the User Stories/FRs each serves.

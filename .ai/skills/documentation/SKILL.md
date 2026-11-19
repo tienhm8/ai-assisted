@@ -44,6 +44,7 @@ Read: Task, diff or change description, related existing docs, related ADRs.
 - Every affected doc is updated or has a recorded reason it is not needed.
 - No content is duplicated in two places; standard IDs are kept.
 - ADRs (if any) are Proposed and in the index.
+- A Task that adds, moves, renames or deletes a file or folder updates the tree under "Cấu trúc" in README.md in the same change.
 
 ## Report
 

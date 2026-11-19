@@ -1,0 +1,28 @@
+# Cấu hình AI của dự án. Lập Plan chỉ đọc file này để biết model/effort, ngân sách, stack, lệnh kiểm.
+# `try` là thứ tự thử: phần tử đầu là mức bắt đầu, phần tử cuối là mức tối đa.
+# Đổi công cụ AI: chép khối `sessions`/`tasks` từ .ai/agents/references/<công-cụ>.md sang đây.
+tool: claude-code
+sessions:
+  orchestrator: opus/high      # Plan có đổi kiến trúc: opus/xhigh
+  review:       opus/high
+tasks:
+  - for: [lookup]
+    try: [haiku/low, sonnet/medium]
+  - for: [documentation]
+    try: [sonnet/low, sonnet/high]
+  - for: [unit-testing, integration-testing, e2e-testing]
+    try: [sonnet/low, sonnet/high, opus/high]
+  - for: [backend-development, api-development, frontend-development]
+    try: [sonnet/low, sonnet/high, opus/high]
+  - for: [refactoring, caching, deployment, requirement-review, continuous-improvement]
+    try: [sonnet/medium, opus/medium, opus/high]
+  - for: [bug-fixing]
+    try: [sonnet/medium, opus/high, opus/xhigh]
+  - for: [product-discovery, requirement-analysis, architecture-design, database-design, task-planning, incident-analysis, code-review]
+    try: [opus/high, opus/xhigh]
+  - for: [authentication-rbac, security-review]
+    try: [opus/high, opus/xhigh]
+high_risk_min: opus/high       # sàn cứng cho việc rủi ro cao
+budget_usd_per_task: 2
+stack: {}        # ví dụ backend: nestjs@11, orm: prisma@6, database: postgresql@17
+commands: {}     # ví dụ test: npm test, lint: npm run lint, typecheck: npm run typecheck

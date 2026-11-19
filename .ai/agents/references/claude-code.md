@@ -1,35 +1,50 @@
 # Model và effort cho Claude Code
 
-> Dùng khi dự án chọn Claude Code ([ai-tools.md](../../../docs/03-engineering/ai-tools.md) §3). **§1 là bảng ánh xạ** mà [model-effort.md](../../workflows/model-effort.md) tham chiếu khi phiên chạy trong Claude Code: hạng M1–M3 → model, mức E1–E4 → `effort`. Mức mặc định theo Skill nằm ở [model-effort.md](../../workflows/model-effort.md) §2. Các mục còn lại (§2–§4) là cách cấu hình; §3 ghi điều đã kiểm chứng.
+> Dùng khi dự án chọn Claude Code ([ai-tools.md](../../../docs/03-engineering/ai-tools.md) §3). **§1 là khối `sessions`/`tasks`** của Claude Code: đổi công cụ sang Claude Code thì chép khối này vào [ai-config.yaml](../../../ai-config.yaml); quy tắc chọn mức nằm ở [model-effort.md](../../workflows/model-effort.md). Các mục còn lại (§2–§4) là cách cấu hình; §3 ghi điều đã kiểm chứng.
 > Tên model và tham số thay đổi theo phiên bản Claude Code. Kiểm tra lại tài liệu chính thức trước khi áp dụng (cập nhật: 2026-11).
 
-## 1. Ánh xạ hạng → model, mức → effort
+## 1. Model và effort theo loại việc
 
-| Hạng / mức khung | Model hoặc tham số thật |
-| --- | --- |
-| M1 · Nhẹ | `haiku` · `claude-haiku-5-5` |
-| M2 · Chuẩn | `sonnet` · `claude-sonnet-5-5` |
-| M3 · Mạnh | `opus` · `claude-opus-5-5` |
-| M3+ (tuỳ chọn, chi phí cao) | `claude-fable-5-2`: chỉ cho việc rất khó (kiến trúc lớn, sự cố phức tạp) khi Tech Lead cho phép |
-| E1 · Thấp | `low` |
-| E2 · Trung bình | `medium` |
-| E3 · Cao | `high` |
-| E4 · Rất cao | `xhigh` (dành `max` cho trường hợp đặc biệt, phải ghi lý do) |
+Mỗi mức viết `model/effort`: `haiku` = `claude-haiku-5-5`, `sonnet` = `claude-sonnet-5-5`, `opus` = `claude-opus-5-5`; effort là `low`, `medium`, `high`, `xhigh`.
+
+```yaml
+sessions:
+  orchestrator: opus/high      # Plan có đổi kiến trúc: opus/xhigh
+  review:       opus/high
+tasks:
+  - for: [lookup]
+    try: [haiku/low, sonnet/medium]
+  - for: [documentation]
+    try: [sonnet/low, sonnet/high]
+  - for: [unit-testing, integration-testing, e2e-testing]
+    try: [sonnet/low, sonnet/high, opus/high]
+  - for: [backend-development, api-development, frontend-development]
+    try: [sonnet/low, sonnet/high, opus/high]
+  - for: [refactoring, caching, deployment, requirement-review, continuous-improvement]
+    try: [sonnet/medium, opus/medium, opus/high]
+  - for: [bug-fixing]
+    try: [sonnet/medium, opus/high, opus/xhigh]
+  - for: [product-discovery, requirement-analysis, architecture-design, database-design, task-planning, incident-analysis, code-review]
+    try: [opus/high, opus/xhigh]
+  - for: [authentication-rbac, security-review]
+    try: [opus/high, opus/xhigh]
+```
 
 Lưu ý:
 - Mỗi model có effort mặc định riêng; ví dụ Opus 5.5 mặc định `medium`. Vì vậy **luôn khai báo `effort` tường minh**, không dựa vào mặc định.
-- Hạ effort trên model mạnh thường tốt hơn chuyển xuống model yếu với effort cao. Hãy đo trên Task thật trước khi đổi bảng.
+- Hạ effort trên model mạnh thường tốt hơn chuyển xuống model yếu với effort cao. Hãy đo trên Task thật trước khi đổi khối.
+- `max` dành cho trường hợp đặc biệt, phải ghi lý do. `claude-fable-5-2` (chi phí cao) chỉ cho việc rất khó (kiến trúc lớn, sự cố phức tạp) khi người phát triển khung hoặc Tech Lead cho phép; không nằm trong khối.
 
 ## 2. Phiên Orchestrator
 
-Mở phiên chính ở mức của Orchestrator ([model-effort](../../workflows/model-effort.md) §1):
+Mở phiên chính ở mức `sessions.orchestrator` của `ai-config.yaml` ([model-effort](../../workflows/model-effort.md) §1):
 
 ```text
 /model opus
-/effort high       # xhigh nếu Plan có Task T7 (đổi kiến trúc hoặc API contract)
+/effort high       # xhigh nếu Plan có Task loại architecture-change (đổi kiến trúc hoặc API contract)
 ```
 
-Fast lane (một Task R1): mở phiên ở mức bắt đầu của Task theo Skill chính (model-effort §2), ví dụ `documentation` → `/model sonnet` + `/effort low`.
+Fast lane (một Task rủi ro thấp): mở phiên ở mức bắt đầu của Task theo Skill chính (phần tử đầu của `try`), ví dụ `documentation` → `/model sonnet` + `/effort low`.
 
 Lệnh `/effort` và trường `effort` phụ thuộc phiên bản Claude Code; bản không hỗ trợ thì chỉnh qua `/model` hoặc `/config`.
 
@@ -41,16 +56,16 @@ Lệnh `/effort` và trường `effort` phụ thuộc phiên bản Claude Code; 
 - `--agents '<json>'` khai báo subagent ngay khi gọi. Đã xác nhận trường `model`: subagent `model: haiku` dưới phiên Opus, `modelUsage` ghi cả hai model. **Chưa xác nhận trường `effort`** trong JSON này có được áp dụng không (JSON trả về không ghi effort).
 - Không có cờ giới hạn token đầu ra: `max_output_tokens` của manifest ghi "không áp dụng" trong Run.
 - Chưa xác nhận: gọi công cụ Agent từ phiên tương tác có đổi được model, effort cho từng lần gọi không. Vì vậy cách chắc chắn là một trong hai cách dưới.
-- Chỉ dùng cho Task "Gửi đi" (A3, A4). Task A2 trở xuống chạy "Có người": người mở phiên tương tác bằng `claude --model <model> --effort <mức>` theo manifest, phiên dừng sau mỗi bước chờ duyệt.
+- Chỉ dùng cho Task "Gửi đi" (mức tự chủ `full-task`, `pre-approved`). Task `step-by-step` trở xuống chạy "Có người": người mở phiên tương tác bằng `claude --model <model> --effort <mức>` theo manifest, phiên dừng sau mỗi bước chờ duyệt.
 
-**Cách A: subagent theo vai × mức** (`.claude/agents/<vai>-<mức>.md`), Orchestrator gọi trong phiên tương tác. Mỗi mức dùng trong thang nâng cấp cần một file; tên mức viết thường không dấu chấm: `m2-e1`. Cách này không có cờ chặn chi phí: Orchestrator đọc chi phí sau mỗi lần chạy và dừng khi chạm ngân sách. Trường `effort` trong frontmatter phụ thuộc phiên bản; kiểm tra trước khi dùng. Chạy song song nhiều subagent thì mỗi subagent làm trong worktree riêng của Task.
+**Cách A: subagent theo vai × mức** (`.claude/agents/<vai>-<mức>.md`), Orchestrator gọi trong phiên tương tác. Mỗi mức dùng trong `try` cần một file; tên file ghép model và effort: `executor-sonnet-low`. Cách này không có cờ chặn chi phí: Orchestrator đọc chi phí sau mỗi lần chạy và dừng khi chạm ngân sách. Trường `effort` trong frontmatter phụ thuộc phiên bản; kiểm tra trước khi dùng. Chạy song song nhiều subagent thì mỗi subagent làm trong worktree riêng của Task.
 
-`.claude/agents/executor-m2-e1.md`:
+`.claude/agents/executor-sonnet-low.md`:
 
 ```markdown
 ---
-name: executor-m2-e1
-description: Chạy một Task vai Executor ở mức M2·E1 theo Task Manifest. Chỉ dùng khi manifest ghi agent executor và mức hiện tại M2·E1.
+name: executor-sonnet-low
+description: Chạy một Task vai Executor ở mức sonnet/low theo Task Manifest. Chỉ dùng khi manifest ghi agent executor và mức hiện tại sonnet/low.
 model: sonnet
 effort: low
 tools: Read, Edit, Write, Grep, Glob, Bash
@@ -83,7 +98,7 @@ claude -p --model sonnet --effort low --max-budget-usd 2 --output-format json \
 
 ## 4. Subagent vai cố định
 
-Vai không cần nâng mức (Reviewer, Security, tra cứu) dùng một file mỗi vai, mức theo model-effort §2. Nội dung file chỉ trỏ về `.ai/`, không chép Rule hay Skill vào.
+Vai không cần nâng mức (Reviewer, Security, tra cứu) dùng một file mỗi vai, mức theo `sessions.review` hoặc dòng `tasks` của Skill trong `ai-config.yaml`. Nội dung file chỉ trỏ về `.ai/`, không chép Rule hay Skill vào.
 
 `.claude/agents/reviewer.md`:
 
@@ -113,7 +128,7 @@ tools: Read, Grep, Glob
 ---
 
 Bạn giữ vai Security trong .ai/agents/README.md.
-Nạp .ai/skills/security-review/SKILL.md. Không đưa secret hoặc dữ liệu D3 vào ngữ cảnh.
+Nạp .ai/skills/security-review/SKILL.md. Không đưa secret hoặc dữ liệu `secret` vào ngữ cảnh.
 ```
 
 `.claude/agents/explorer.md` (tra cứu, chỉ đọc):
@@ -127,5 +142,5 @@ effort: low
 tools: Read, Grep, Glob
 ---
 
-Chỉ đọc và báo cáo (A1). Trả về đường dẫn file:dòng và kết luận; không dán nguyên nội dung file.
+Chỉ đọc và báo cáo (mức tự chủ `read-only`). Trả về đường dẫn file:dòng và kết luận; không dán nguyên nội dung file.
 ```
