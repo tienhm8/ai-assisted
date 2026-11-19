@@ -256,8 +256,11 @@ Các bước AI thực hiện ở [task-execution](../workflows/task-execution.m
 | --- | --- |
 | Hỏi rủi ro, mức tự chủ, độ nghiêm ngặt hoặc loại Task | Trả lời; AI không tự gán |
 | Gửi câu hỏi cần quyết (có Vấn đề, Phương án, Đề xuất) | Chọn phương án; muốn quyết sau thì nói rõ phần nào được làm tiếp |
-| Gửi Plan và các Task Manifest | Duyệt hoặc yêu cầu sửa: rủi ro, mức tự chủ, thứ tự thử `try`, ngân sách, phạm vi từng Task. AI chưa chạy Task nào trước khi bạn duyệt |
-| Dừng vì vượt mức tối đa, hết lượt hoặc hết ngân sách | Đọc các mức đã thử và lỗi; thêm mức vào `try`, sửa manifest, hoặc tự làm |
+| Gửi Plan và các Task Manifest | Duyệt hoặc yêu cầu sửa: rủi ro, mức tự chủ, thứ tự thử `try`, ngân sách, phạm vi từng Task, quỹ dự phòng và ba giá trị ngân sách (cảnh báo, hạn mức cấp thêm, quỹ). AI chưa chạy Task nào trước khi bạn duyệt |
+| Dừng vì vượt mức tối đa, hết lượt hoặc hết ngân sách (nay gồm cả: hạn mức cấp thêm đã hết, quỹ dự phòng đã hết, hoặc Task rủi ro cao cần cấp thêm) | Đọc các mức đã thử và lỗi; thêm mức vào `try`, sửa manifest, hoặc tự làm |
+| Cảnh báo Task dùng đến ngưỡng ngân sách | Đọc đánh giá của Orchestrator: việc đã xong, việc còn lại, vì sao tốn, ước tính để xong. Nếu Task được cấp thêm trong hạn mức thì không cần làm gì, chỉ cần biết số đã cấp (Orchestrator đã giữ chỗ trong sổ và sửa ngân sách trong manifest trước khi chạy tiếp) |
+| Hỏi cấp thêm ngân sách | Chọn cấp thêm, đổi hướng, hoặc tự làm |
+| Xong một Task | Đưa cho Orchestrator đường dẫn file transcript của phiên điều phối (trong `~/.claude/projects/`); Orchestrator chỉ lấy số liệu (model, token, thời gian), không chép nội dung hội thoại. Transcript có token, không có USD: đưa kèm số USD đọc từ `/cost` (tổng chi phí phiên hiện tại) hoặc từ mục Account & Usage của extension Claude Code; không đọc được thì ghi "không đo USD" |
 | Bàn giao (báo cáo bàn giao, kết quả test thật) | Đọc phần giả định, câu hỏi còn mở, phần chưa kiểm |
 | Mở PR (hoặc trước khi mở PR) | Review có thể chạy trên máy trước khi có PR, dựa trên báo cáo bàn giao và dải commit. Review bằng **một phiên AI khác** (Task review PR) hoặc người khác; Task rủi ro cao cần thêm một reviewer độc lập |
 | Chờ merge, phát hành | Người merge; AI không tự merge, tag hay deploy |
