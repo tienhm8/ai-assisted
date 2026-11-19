@@ -294,4 +294,4 @@ Tài liệu cần khách hàng duyệt: Đầu mối gửi khách hàng → khá
 | AI nói hành vi cũ "có thể là lỗi" | Code và tài liệu, hoặc code và câu trả lời của PO, không khớp | PO/BA quyết: giữ (ghi BR) hay sửa (lập bug, Task T3) |
 | AI không theo `.ai/`, làm theo chỉ dẫn khác | Repo con còn file chỉ dẫn AI cũ, hoặc phiên mở sai thư mục | Rà theo §4.3; mở phiên ở gốc repo cha |
 | AI dùng API không có ở phiên bản thư viện đang chạy | Reference của Skill viết cho bản mới hơn | Ghi phiên bản thực tế ở [PROJECT.md](../PROJECT.md) §6; nhắc phiên bản trong Task |
-| Muốn sửa Rule, Skill trong `.ai/` | `.ai/` là vùng 🔴 | Mở Task riêng, Tech Lead duyệt ([.ai/README](../.ai/README.md)) |
+| Muốn sửa Rule, Skill trong `.ai/` | `.ai/rules/`, `.ai/skills/`, `.ai/workflows/`, `.ai/templates/`, `.ai/agents/`, `.ai/guide/` là vùng 🔴 (`.ai/plans/` là vùng 🟢) | Mở Task riêng, Tech Lead duyệt ([.ai/README](../.ai/README.md)) |

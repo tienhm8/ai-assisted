@@ -70,7 +70,7 @@
 | Orchestrator | Phiên AI chính: lập Plan, gán model·effort cho từng Task, gửi Task tới subagent, đánh giá kết quả, nâng mức, kiểm tra phụ thuộc, tổng hợp. Không tự viết code của Task, không duyệt thay người. | Điều phối | .ai/workflows/task-execution.md |
 | Nâng mức động | Task chạy ở mức model·effort thấp trước; kết quả không đạt vì năng lực thì chạy lại ở bậc cao hơn, tới mức trần đã duyệt. Thiếu đầu vào, yêu cầu mâu thuẫn, ngoài phạm vi thì dừng, không nâng. | Dynamic escalation | .ai/workflows/model-effort.md §3 |
 | M1–M3 / E1–E4 | Hạng model (M1 nhẹ, M2 chuẩn, M3 mạnh) và mức effort (E1 thấp … E4 rất cao), viết gộp `M2·E1`; đổi sang model thật theo công cụ. | Mức model·effort | .ai/workflows/model-effort.md |
-| Worktree | Môi trường cô lập, mỗi Task một nơi, để AI code và test. | Workspace cô lập | .ai/worktrees/ |
+| Worktree | Môi trường cô lập, mỗi Task một nơi, để AI code và test. | Workspace cô lập | .claude/worktrees/ |
 | MoSCoW | Thang ưu tiên duy nhất của khung: `Must` bắt buộc · `Should` nên có · `Could` có thì tốt · `Won't` không làm đợt này. | Ưu tiên | 01-requirements/FR/README.md |
 | Mặc định khung / Chỗ dự án điền | Hai loại nội dung trong `docs/`: giá trị khung đặt sẵn, dự án được chỉnh (ghi "Mặc định khung"); và chỗ trống dự án điền (`<!-- Điền theo từng dự án: … -->`). Sàn không hạ được nằm ở `.ai/rules/`. | | 04-project-management/gates-and-rigor.md §3 |
 | Tech Lead | Người quyết chia Task, mức rủi ro, mức tự chủ AI; duyệt khung `.ai/`, 03-engineering, 04-project-management và cổng G0, G4–G6. | | PROJECT.md §5; 04-project-management/gates-and-rigor.md §1 |

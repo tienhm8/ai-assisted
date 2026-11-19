@@ -38,7 +38,9 @@ Chỉ ghi dòng dự án siết thấp hơn trần mặc định, hoặc danh m�
 | --- | --- | --- |
 | 🟢 | | |
 | 🟡 | | |
-| 🔴 | `.ai/` | Rule, Skill, workflow của AI; sửa cần Task riêng và Tech Lead duyệt |
+| 🔴 | `.ai/rules/`, `.ai/skills/`, `.ai/workflows/`, `.ai/templates/`, `.ai/agents/`, `.ai/guide/`, các file README trong `.ai/` | Rule, Skill, workflow của AI; sửa cần Task riêng và Tech Lead duyệt |
+| 🟢 | `.ai/plans/` | Plan có bước duyệt riêng trước mọi Run |
+| Không thuộc vùng nào, không commit | `.claude/worktrees/` | File sửa ở đây theo vùng của đường dẫn gốc |
 
 ## 3. Dữ liệu của dự án theo mức (D0–D3)
 Định nghĩa D0–D3 ở [project-rules](.ai/rules/project-rules.md); cách xử lý theo mức (log, môi trường không phải production) ở [security-standards](docs/03-engineering/security-standards.md) §1.

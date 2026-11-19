@@ -25,4 +25,4 @@ Bộ quy tắc **bắt buộc** AI phải tuân thủ khi làm việc trong dự
 - **Kiểm chứng được:** ưu tiên viết thành điều kiện đo được để hook, linter hoặc branch protection kiểm tra; rule chưa tự động hoá được thì cần người review.
 - Chỉ được cụ thể hoá hoặc siết chặt, không hạ sàn bảo mật hay governance.
 - **Ngôn ngữ:** nội dung rule viết bằng tiếng Anh để tiết kiệm token; đầu ra cho người vẫn bằng tiếng Việt (`project-rules` 22).
-- Sửa rules thuộc vùng 🔴: cần Task riêng và người duyệt.
+- Sửa `.ai/rules/` thuộc vùng 🔴: cần Task riêng và người duyệt.

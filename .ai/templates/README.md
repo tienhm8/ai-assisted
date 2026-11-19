@@ -1,6 +1,6 @@
 # templates
 
-Mẫu báo cáo công việc của AI, chỉ giữ cấu trúc (trường, cột, mã định danh); giá trị cụ thể do dự án điền hoặc lấy từ Task. Sửa thuộc vùng 🔴.
+Mẫu báo cáo công việc của AI, chỉ giữ cấu trúc (trường, cột, mã định danh); giá trị cụ thể do dự án điền hoặc lấy từ Task. Sửa `.ai/templates/` thuộc vùng 🔴.
 
 | Mẫu | Dùng khi | AI soạn · Người duyệt |
 | --- | --- | --- |

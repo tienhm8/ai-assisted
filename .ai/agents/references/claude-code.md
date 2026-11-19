@@ -67,7 +67,7 @@ Các mức khác chỉ khác `name`, `description`, `model`, `effort`.
 **Cách B: phiên không tương tác cho mỗi Run.** Orchestrator (hoặc người) chạy từ thư mục worktree của Task:
 
 ```sh
-cd .ai/worktrees/WS-3      # worktree riêng của Task, tạo từ commit base
+cd .claude/worktrees/WS-3      # worktree riêng của Task, tạo từ commit base
 claude -p --model sonnet --effort low --max-budget-usd 2 --output-format json \
   --permission-mode acceptEdits \
   --allowedTools "Read Grep Glob Edit Write Bash(npm test *) Bash(npm run lint) Bash(npm run typecheck) Bash(git diff *) Bash(git status)" \

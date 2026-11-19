@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Điểm vào cho AI. File này chỉ dẫn đường; nội dung nằm ở `.ai/`.
+Điểm vào cho AI. File này chỉ dẫn đường; nội dung nằm ở `.ai/`. `CLAUDE.md` chỉ tồn tại để nạp file này.
 
 Khi nhận một Task:
 

@@ -31,7 +31,7 @@ project/
     ├── workflows/               ĐIỀU PHỐI: chọn Skill, xếp thứ tự, dừng ở đâu?
     ├── templates/               MẪU: kết quả trình bày dưới dạng nào?
     ├── plans/                   Plan do AI soạn, Tech Lead duyệt: mỗi Plan một thư mục (PLAN.md, tasks/*.yaml, runs.md), được commit
-    └── worktrees/               môi trường cô lập, mỗi Task một nơi (không commit)
+    (worktree của AI nằm ở .claude/worktrees/, không commit)
 ```
 
 Danh mục Rule và Skill: [rules/](.ai/rules/README.md), [skills/](.ai/skills/README.md).
