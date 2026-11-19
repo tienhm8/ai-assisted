@@ -14,7 +14,7 @@
 | Branch · commit gốc | `refactor/AI-framework-refactor` · `a2181d9` |
 | Model · Effort của Orchestrator | opus/high (M3·E3: model mạnh, effort cao) |
 | Độ nghiêm ngặt | chuẩn (S2), người phát triển khung xác nhận 2026-11-19 |
-| Ngân sách cả Plan | 16 USD (7 Task 10 · Review 3 · phiên điều phối 3; FW-3 nâng 2 → 3 USD ngày 2026-11-19), ước tính theo số Claude Code tự báo, không phải tiền thực trả qua proxy. Phiên điều phối mở mới, chỉ đọc PLAN và manifest. Chạm trần thì dừng, hỏi người |
+| Ngân sách cả Plan | 16,5 USD (8 Task 10,5 · Review 3 · phiên điều phối 3; FW-8 thêm 0,5 USD ngày 2026-11-19; FW-3 nâng 2 → 3 USD ngày 2026-11-19), ước tính theo số Claude Code tự báo, không phải tiền thực trả qua proxy. Phiên điều phối mở mới, chỉ đọc PLAN và manifest. Chạm trần thì dừng, hỏi người |
 
 ## 1. Mục tiêu và phạm vi
 
@@ -63,6 +63,8 @@ Chạy trên kết quả gộp, ở thư mục gốc repo:
 | 2026-11-19 | Bỏ `.ai/worktrees/`. Worktree tạo trong `.claude/worktrees/`, chỗ mặc định của Claude Code; công cụ khác cũng dùng chỗ này |
 | 2026-11-19 | Đổi mã thành chữ ở cả file cho AI và file cho người |
 | 2026-11-19 | Làm xong trước khi pilot bắt đầu code |
+| 2026-11-19 (sau review bước 8) | Task gộp nhiều Skill: các Skill phải cùng một dòng `tasks` của `ai-config.yaml`; Skill dòng khác thêm giữa chừng thì `try` lấy mức cao hơn ở từng vị trí và cần duyệt lại. Sửa 7 phát hiện mức Medium của review bằng một Run sửa cho mỗi Task chịu trách nhiệm |
+| 2026-11-19 (sau review bước 8) | PR chỉ cần khi review code người khác; review trên máy phải làm được không cần PR. Thêm Task FW-8 vào Plan này |
 | 2026-11-19 (xem đợt 1, sau FW-3#2) | Khoá chọn cách chạy trong `ai-config.yaml` tên là `auto_runs` (`true` hoặc `false`), không dùng `dispatch` để khỏi trùng trường `dispatch` của manifest |
 | 2026-11-19 (xem đợt 1) | `ai-config.yaml` là nguồn duy nhất của model/effort. Xoá 5 file `.ai/agents/references/`; cách chạy Task đã kiểm chứng của Claude Code chuyển vào hướng dẫn `ai-tools.md` §5. Công cụ không chỉnh được effort: mỗi mức chỉ ghi model, bậc kế là model mạnh hơn. Bổ sung vào FW-3, nâng ngân sách FW-3 |
 
@@ -122,9 +124,10 @@ Mọi Task chạm file của khung ở vùng đỏ. Mức rủi ro đề xuất 
 | FW-5 | `CHECKLIST.md`; `PROJECT.md` điền sẵn khuyến nghị; README trỏ checklist | chỉ sửa tài liệu (T12) | sonnet/low → sonnet/high (M2·E1 → M2·E3) | 1 | Không | FW-4 | — | New |
 | FW-6 | Đổi mã thành chữ trong file cho AI (`.ai/` trừ `guide/`, `plans/`) | chỉ sửa tài liệu (T12) | sonnet/low → sonnet/high (M2·E1 → M2·E3) | 1 | Không | FW-5 | — | New |
 | FW-7 | Đổi mã thành chữ trong file cho người (`.ai/guide/`, `docs/`, file gốc) | chỉ sửa tài liệu (T12) | sonnet/low → sonnet/high (M2·E1 → M2·E3) | 1 | Không | FW-5 | — | New |
+| FW-8 | Skill `code-review` nhận báo cáo bàn giao và dải commit khi chưa có PR; bước 8 của `task-execution`, câu mở phiên review | chỉ sửa tài liệu (T12) | sonnet/low → sonnet/high (M2·E1 → M2·E3) | 0,5 | Không | FW-7 và các lần sửa sau review | — | New |
 | Review (bước 8) | Review độc lập toàn bộ diff | review Pull Request (T9) | opus/high → opus/xhigh (M3·E3 → M3·E4: mạnh, cao → rất cao); mức tự chủ chỉ đọc và báo cáo (A1) | 3 | Không | mọi Task | — | New |
 
-Tổng: 7 Task 10 USD, Review 3 USD, phiên điều phối 3 USD, cộng 16 USD. Mỗi Run đặt `--max-budget-usd` bằng ngân sách còn lại của Task.
+Tổng: 8 Task 10,5 USD, Review 3 USD, phiên điều phối 3 USD, cộng 16,5 USD. Mỗi Run đặt `--max-budget-usd` bằng ngân sách còn lại của Task.
 
 ## 6. Thiết kế
 

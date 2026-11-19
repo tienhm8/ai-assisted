@@ -1,0 +1,78 @@
+# Task Manifest — PLAN-001 / FW-8. Format: .ai/templates/TASK-MANIFEST-TEMPLATE.yaml (fields after FW-3).
+task_id: FW-8
+plan_id: PLAN-001
+serves: ["PLAN-001 §3: quyết định 2026-11-19, review trên máy không cần PR"]
+title: Review được trên máy khi chưa có PR
+objective: Skill code-review nhận đầu vào là mô tả PR hoặc báo cáo bàn giao kèm dải commit; review bước 8 của Plan và fast lane không cần mở PR trước
+type: docs-only
+risk: medium
+risk_reason: Sửa Skill và workflow Approved ở vùng đỏ; không đổi tiêu chí review, chỉ đổi nguồn đầu vào
+autonomy: full-task
+agent: executor
+
+context:
+  docs: ["PLAN.md §3 (quyết định 2026-11-19, review trên máy)"]
+  rules: [git]
+  skills: [documentation]
+
+instructions: |
+  The framework developer decided (2026-11-19): a PR is needed only to review someone else's code; a
+  review on the developer's machine must work without a PR. Keep every review criterion; change only
+  where the input comes from. English in .ai/skills and .ai/workflows; Vietnamese in .ai/guide.
+  1. .ai/skills/code-review/SKILL.md:
+     - Add a short "Input" line before the entry gate: the change description is ONE of
+       (a) the PR description, when reviewing a PR;
+       (b) the handoff report (DELIVERY-REPORT) of the Plan or Task plus the commit range
+           `git diff <base>..<head>`, when reviewing on the machine before a PR (Plan step 8, fast lane).
+       Both must cover the items of Step 1.
+     - Entry gate, Step 1, Step 2, Step 5 and Report: replace "PR description" with "change description",
+       "return the PR to the author" with "return it to the author (or the Orchestrator)", "recorded in
+       the PR" with "recorded in the change description", "PR size" with "change size", "this PR" with
+       "this change". Keep "PR" only where it means a real pull request.
+     - The description line in the front matter: "Review a code change (PR or local commit range), ...".
+  2. .ai/skills/security-review/SKILL.md: apply the same wording if it assumes a PR (check; if none, no change).
+  3. .ai/workflows/task-execution.md:
+     - Step 8: the review Run reads the step-7 handoff report and `git diff <Plan base>..<merged head>`;
+       no PR is needed for this Run. Output column "PR approved" -> "Review recommendation; a human
+       approves the merge (PR when the team uses one)". Keep "A human reviewer approves".
+     - Step 7 output "Handoff report" stays; add "(input of step 8)".
+     - Fast lane step 8 line: same input (handoff report + commit range).
+  4. .ai/guide/getting-started.md §5.3 review opening line: add a variant without a PR, e.g.
+     "Task <KEY>-<N> (review PR · rủi ro <...> · chỉ đọc). Review thay đổi `git diff <base>..<head>` theo
+     báo cáo bàn giao <đường dẫn>. Không dùng lịch sử phiên viết code." Row "Mở PR" in §5.4: say the
+     review may run before the PR on the machine.
+  Do not change review priorities, severities, or recommendation rules.
+
+inputs: ["FW-7 and the review fixes of FW-1, FW-3, FW-5, FW-7"]
+outputs:
+  - .ai/skills/code-review/SKILL.md, .ai/skills/security-review/SKILL.md (if needed)
+  - .ai/workflows/task-execution.md, .ai/guide/getting-started.md
+  - handoff report (DELIVERY-REPORT §1–§4, §8)
+scope:
+  allowed_paths: [.ai/skills/code-review/SKILL.md, .ai/skills/security-review/SKILL.md, .ai/workflows/task-execution.md, .ai/guide/getting-started.md]
+  zones: [red]
+  out: [Review criteria, priorities, severities, recommendation rules, PR-TEMPLATE]
+dependencies: [FW-7]
+
+acceptance_criteria:
+  - id: FW-8-AC1
+    check: { type: command, run: "grep -qi 'commit range' .ai/skills/code-review/SKILL.md && grep -q 'DELIVERY-REPORT' .ai/skills/code-review/SKILL.md && ! grep -nE 'PR description|return the PR|recorded in the PR' .ai/skills/code-review/SKILL.md" }
+  - id: FW-8-AC2
+    check: { type: command, run: "grep -E '^\\| 8 · Review' .ai/workflows/task-execution.md | grep -q 'git diff' && grep -q 'báo cáo bàn giao' .ai/guide/getting-started.md" }
+  - id: FW-8-AC3
+    check: { type: command, run: "python3 -I .ai/plans/PLAN-001-framework-refactor/check.py links && python3 -I .ai/plans/PLAN-001-framework-refactor/check.py codes .ai/skills/code-review .ai/skills/security-review .ai/workflows .ai/guide/getting-started.md && python3 -I .ai/plans/PLAN-001-framework-refactor/check.py types" }
+  - id: FW-8-AC4
+    check: { type: human, who: "Reviewer (PLAN-001-REVIEW#2): review criteria unchanged" }
+
+dispatch: dispatched
+execution:
+  try: [sonnet/low, sonnet/high]
+  deviation_reason: ""
+  budget: { max_cost_usd: 0.5, timeout_min: 30, max_output_tokens: 20000 }
+escalation:
+  max_attempts: 2
+  escalate_on: [ac_failed, incomplete_output, invalid_output]
+  stop_on: [missing_input, conflicting_requirement, out_of_scope, security_finding, environment_error, permission_denied]
+commit: "refactor(ai): code-review nhận báo cáo bàn giao và dải commit khi chưa có PR (body: FW-8, PLAN-001)"
+gate: none
+status: New

@@ -49,6 +49,12 @@ instructions: |
      - Replace every code in the file with words (T7 -> `architecture-change`, A2 or below ->
        `step-by-step` or lower, R1 Task -> `low`-risk Task, etc.). Do not change any rule's meaning.
 
+  B. Review fixes 2026-11-19 (PLAN-001-REVIEW#1 findings 4, 9). Change only these lines.
+  4. task-execution.md step 1: "Missing rigor S: ask" -> "Missing process rigor: ask"; "gave R and A" ->
+     "gave risk and autonomy"; "when applying S" -> "when applying rigor". Step 3: "proposed R and A with
+     reason" -> "proposed risk and autonomy with reason". No other single-letter scale codes remain.
+  5. project-rules.md "Approval gates" heading line: append "(full pass conditions and approvers:
+     .ai/guide/gates-and-rigor.md §1)".
 inputs: []
 outputs:
   - .ai/rules/project-rules.md
@@ -73,6 +79,9 @@ acceptance_criteria:
   - id: FW-1-AC5
     check: { type: human, who: "Reviewer (step 8): every rule keeps its meaning" }
 
+  - id: FW-1-AC6
+    check: { type: command, run: "! grep -nE 'rigor S|applying S|R and A' .ai/workflows/task-execution.md && grep -q 'gates-and-rigor.md §1' .ai/rules/project-rules.md" }
+    # review fixes B, 2026-11-19
 dispatch: dispatched
 execution:
   start: M2·E1                      # sonnet/low

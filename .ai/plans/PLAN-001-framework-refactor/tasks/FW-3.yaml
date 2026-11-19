@@ -121,6 +121,32 @@ instructions: |
      "Orchestrator đọc mục này khi `auto_runs: true` và `tool: claude-code`; Run của Task không nạp".
      model-effort.md §4 and task-execution.md "Orchestration" point to that section for how to start
      a Run when `auto_runs: true`.
+  D. Review fixes 2026-11-19 (PLAN-001-REVIEW#1 findings 1, 2, 3, 5, 6, 10; framework developer chose
+     option (c) for several Skills). Change only what is listed.
+  16. model-effort.md §2:
+     - Several Skills: replace "A Task with several Skills takes the row with the longest `try`" with:
+       "Skills of one Task come from the same `tasks` row. A Skill from another row added during a Run
+       (task-execution transition rule 5) makes `try` the item-wise higher of the two rows, longer row's
+       tail kept; this changes `try`, so it needs Plan re-approval."
+     - Level order (new sentence): "Order of levels: the position in `try`. Between rows: a stronger model
+       is higher; with the same model, effort `low < medium < high < xhigh < max`. Model-only levels: the
+       order of models in `sessions`, `tasks` of ai-config.yaml, weakest first. `high_risk_min` and 'never
+       step down' use this order."
+     - §3 rule 8: replace "Skills whose Tasks are evaluated by commands" with an explicit list: Tasks whose
+       AC are all `command` checks (testing, development, refactoring, bug-fixing, caching, deployment Skills).
+  17. .ai/guide/ai-tools.md §3 (Claude Code runs): add four short bullets, Vietnamese:
+     `--allowedTools` chỉ mở lệnh có trong `acceptance_criteria[].check` và lệnh git chỉ đọc; không dùng
+     `bypassPermissions`; `allowed_paths` không có cờ: Orchestrator kiểm file đổi ở tiêu chí Hợp lệ;
+     `permission_denials` chặn bước bắt buộc thì là `permission_denied`: dừng, không nâng mức.
+  18. .ai/agents/README.md: delete the section "Subagent theo vai và mức" (no template remains for it; Runs
+     use one session per Run). Line 15 (Orchestrator row): "nâng mức trong thang đã duyệt" -> "nâng mức theo
+     `try` đã duyệt"; "vượt trần" -> "vượt mức tối đa". Fix any link to the deleted section.
+  19. .ai/skills/task-planning/SKILL.md "Done when": "a level range within model-effort floors" ->
+     "`execution.try` copied from one ai-config.yaml `tasks` row (deviation stated)".
+     .ai/workflows/task-types.md line 11: "several adjacent Skills of the same default level" -> "several
+     adjacent Skills of the same ai-config.yaml `tasks` row".
+  20. task-execution.md step 6: replace "(`check.py tree` of PLAN-001 until it moves to a shared script)" with
+     "(compare the tree with `git ls-files`; a Plan may provide a script)". Do not reference .ai/plans/.
 inputs: [FW-2]
 outputs:
   - ai-config.yaml
@@ -131,7 +157,7 @@ outputs:
   - README.md (tree: add ai-config.yaml)
   - handoff report (DELIVERY-REPORT §1–§4, §8)
 scope:
-  allowed_paths: [ai-config.yaml, README.md, .ai/workflows/model-effort.md, .ai/workflows/task-execution.md, .ai/agents/references/, .ai/templates/TASK-MANIFEST-TEMPLATE.yaml, .ai/templates/RUNS-TEMPLATE.md, .ai/templates/PLAN-TEMPLATE.md, .ai/skills/backend-development/SKILL.md, .ai/skills/frontend-development/SKILL.md, .ai/skills/database-design/SKILL.md, .ai/skills/caching/SKILL.md, .ai/skills/deployment/SKILL.md, .ai/skills/task-planning/SKILL.md, .ai/skills/documentation/SKILL.md, .ai/agents/README.md, .ai/workflows/task-types.md, docs/03-engineering/ai-tools.md, docs/getting-started.md]
+  allowed_paths: [ai-config.yaml, README.md, .ai/workflows/model-effort.md, .ai/workflows/task-execution.md, .ai/agents/references/, .ai/templates/TASK-MANIFEST-TEMPLATE.yaml, .ai/templates/RUNS-TEMPLATE.md, .ai/templates/PLAN-TEMPLATE.md, .ai/skills/backend-development/SKILL.md, .ai/skills/frontend-development/SKILL.md, .ai/skills/database-design/SKILL.md, .ai/skills/caching/SKILL.md, .ai/skills/deployment/SKILL.md, .ai/skills/task-planning/SKILL.md, .ai/skills/documentation/SKILL.md, .ai/agents/README.md, .ai/workflows/task-types.md, docs/03-engineering/ai-tools.md, docs/getting-started.md, .ai/guide/ai-tools.md]
   zones: [red]
   out: [Changing the default levels themselves, Moving files to .ai/guide (FW-4), Code replacement beyond touched lines (FW-6, FW-7)]
 dependencies: [FW-2]
@@ -155,6 +181,9 @@ acceptance_criteria:
     check: { type: command, run: "! grep -rnE '(dispatch: (auto|attended)\\b|`dispatch`.*ai-config|ai-config.*`dispatch`)' --include=*.md --include=*.yaml . --exclude-dir=pilot --exclude-dir=plans && grep -q 'auto_runs' .ai/workflows/task-execution.md && grep -q 'auto_runs' docs/03-engineering/ai-tools.md" }
     # amendment C 2026-11-19
     # amendment 2026-11-19; AC1 (check.py config) now also checks auto_runs, model-only levels, no repeated item in try, references removed
+  - id: FW-3-AC8
+    check: { type: command, run: "! grep -n 'longest' .ai/workflows/model-effort.md && grep -q 'xhigh < max' .ai/workflows/model-effort.md && grep -q 'bypassPermissions' .ai/guide/ai-tools.md && ! grep -q 'Subagent theo vai và mức' .ai/agents/README.md && ! grep -rnE 'floors|same default level|thang đã duyệt|of PLAN-001 until' .ai/skills .ai/workflows .ai/agents" }
+    # review fixes D, 2026-11-19
 dispatch: dispatched
 execution:
   start: M2·E3                      # sonnet/high
