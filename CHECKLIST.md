@@ -15,7 +15,7 @@ Việc cần làm khi áp dụng khung cho một dự án, mới hay cũ. Làm t
 | 9 | Khai stack và lệnh kiểm tra | `ai-config.yaml` | Tech Lead | Mỗi lệnh kiểm tra chạy được và có kết quả thật |
 | 10 | Đặt ngân sách | `ai-config.yaml` | Tech Lead | Ngân sách mỗi Task đã ghi |
 | 11 | Ghi miễn trừ nếu có | `PROJECT.md` §7 | Tech Lead | Mỗi miễn trừ có lý do, người duyệt, hạn, kế hoạch khắc phục; không có thì ghi "Không có" |
-| 12 | Duyệt `PROJECT.md` và `ai-config.yaml` | `PROJECT.md`, `ai-config.yaml` | Tech Lead | Trạng thái Approved, có tên người duyệt và ngày |
+| 12 | Duyệt `PROJECT.md` và `ai-config.yaml` | `PROJECT.md`, `ai-config.yaml` | Tech Lead | `PROJECT.md` trạng thái Approved, có tên người duyệt và ngày; `ai-config.yaml` được duyệt qua PR (file YAML không có dòng trạng thái) |
 | 13 | Lập hồ sơ của module làm đầu tiên | `docs/` | PO/BA, Kiến trúc sư | Hồ sơ của module đó ở trạng thái Approved |
 
 Xong checklist: đọc [.ai/guide/getting-started.md](.ai/guide/getting-started.md) §5 để giao việc.
