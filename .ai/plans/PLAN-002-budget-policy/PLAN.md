@@ -8,7 +8,7 @@
 | ID | `PLAN-002` |
 | Nguồn (Source) | Yêu cầu độc lập của người phát triển khung, 2026-11-19: khi Task thiếu ngân sách so với thực tế chạy thì khung phải có cách xử lý (cảnh báo sớm, đánh giá lại, cấp thêm, thu hồi). Hai quyết định đã chốt cùng ngày: "Ngân sách tối đa" là trần của cả Plan (phương án A); Orchestrator được tự cấp thêm trong hạn mức nhỏ, vượt thì hỏi người (phương án C) |
 | Goals (tuỳ chọn) | Không có |
-| Trạng thái | Approved |
+| Trạng thái | Done |
 | Người duyệt · Ngày duyệt | Người phát triển khung (vai Tech Lead của khung) · 2026-11-19: duyệt từ vựng và công thức §6.1, ba giá trị §6.2, cách đo §6.5, mức rủi ro và mức tự chủ §5, ngân sách tối đa 7,5 USD. Chưa chạy Task nào; BG-1 chỉ chạy sau khi PLAN-001 xong (§1 "Phụ thuộc ngoài") |
 | Ngày tạo | 2026-11-19 |
 | Branch · commit gốc | `refactor/AI-framework-refactor` · `135fe14` (đã gồm PLAN-001 xong, FW-8 đã gộp) |
@@ -169,5 +169,14 @@ Cả năm điểm trong bản nháp đã được người phát triển khung q
 **Việc còn lại sau khi duyệt:** đo 80/50/20 bằng số liệu thật ở Plan kế tiếp và chỉnh qua `periodic-review` nếu cần. Chưa có Plan nào chạy theo quy tắc mới.
 
 ## 9. Kết quả (điền sau khi xong)
+
+Nguồn: [DELIVERY-REPORT](DELIVERY-REPORT.md) và [runs.md](runs.md). Cả hai Task đã được nhận; Plan và manifest chuyển `Done` theo `task-execution` bước 7.
+
+**Còn chờ người (không chặn Done theo quy tắc hiện có, như PLAN-001):**
+- BG-1-AC6: người phát triển khung đối chiếu quy tắc 9 đến 13 với PLAN §6.1 và thử hai ví dụ số ở §7.
+- BG-2-AC5: hướng dẫn khớp quy tắc 9 đến 13.
+- Phiên điều phối: transcript và số USD từ `/cost` hoặc Account & Usage để ghi dòng PLAN-002-ĐIỀU-PHỐI#1.
+
+**Kết quả:** BG-1 đạt, BG-2 đạt; review bước 8 (PLAN-002-REVIEW#1) duyệt có điều kiện, ba điều kiện Medium đã sửa ở BG-1#2. Chi phí các Run 0,701 + 0,114 USD; review 1,269 USD.
 
 Đầu ra của từng Task, lệch kế hoạch ở đâu, Task nào phải nâng mức, bằng chứng test, trạng thái tiêu chí hoàn thành §2.

@@ -153,4 +153,4 @@ escalation:
   stop_on: [missing_input, conflicting_requirement, out_of_scope, security_finding, environment_error, permission_denied]
 commit: "docs(ai): quy tắc cảnh báo, cấp thêm và thu hồi ngân sách (body: BG-1, PLAN-002)"
 gate: "⏸ Người phát triển khung xem kết quả trước khi chạy BG-2"
-status: In Review
+status: Done

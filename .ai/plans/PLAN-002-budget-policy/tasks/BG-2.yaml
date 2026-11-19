@@ -76,4 +76,4 @@ escalation:
   stop_on: [missing_input, conflicting_requirement, out_of_scope, security_finding, environment_error, permission_denied]
 commit: "docs(ai): hướng dẫn cho người về cảnh báo, cấp thêm và thu hồi ngân sách (body: BG-2, PLAN-002)"
 gate: none
-status: In Review
+status: Done

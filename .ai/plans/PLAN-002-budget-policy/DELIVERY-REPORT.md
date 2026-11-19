@@ -4,7 +4,7 @@
 
 ## 1. Kết quả
 
-PLAN-002 thêm quy tắc xử lý Task thiếu ngân sách: cảnh báo, đánh giá lại, cấp thêm từ quỹ dự phòng có giữ chỗ, đồng bộ manifest, thu hồi, và sổ ghi mọi điều chỉnh. Cả hai Task được nhận. Mọi tiêu chí dạng lệnh đạt khi Orchestrator chạy lại nguyên văn trên kết quả gộp. Review bước 8 chưa chạy khi soạn báo cáo này.
+PLAN-002 thêm quy tắc xử lý Task thiếu ngân sách: cảnh báo, đánh giá lại, cấp thêm từ quỹ dự phòng có giữ chỗ, đồng bộ manifest, thu hồi, và sổ ghi mọi điều chỉnh. Cả hai Task được nhận. Mọi tiêu chí dạng lệnh đạt khi Orchestrator chạy lại nguyên văn trên kết quả gộp. Review bước 8 đã chạy (`PLAN-002-REVIEW#1`): duyệt có điều kiện, không có Critical hay High; ba điều kiện Medium đã sửa ở BG-1#2 (mục 7).
 
 | Task | Kết quả | Tiêu chí còn chờ người |
 | --- | --- | --- |
@@ -24,7 +24,7 @@ PLAN-002 thêm quy tắc xử lý Task thiếu ngân sách: cảnh báo, đánh 
 - **Ngoài phạm vi:** không sửa `project-rules` (PLAN §6.3); không tự động hoá việc cộng chi phí; không sửa PLAN-001 và `check.py`; chưa có script đọc transcript. PLAN-002 chưa có quỹ dự phòng, nên các quy tắc mới chưa có hiệu lực với chính nó.
 - **Kiểm thử thế nào, bằng chứng ở đâu:** mục 3 và `runs.md`.
 - **Thay đổi dữ liệu:** không áp dụng: không có dữ liệu hay schema.
-- **Thay đổi phá tương thích:** không áp dụng cờ tính năng. Manifest cũ không có `initial_cost_usd`: quy tắc 6 coi `max_cost_usd` là ngân sách ban đầu, nên Plan cũ vẫn dùng được; Plan mới ghi cả hai khoá. Hoàn tác: `git revert` hai commit gộp `61c584b` và `a6bca49` (và `3bf126e`).
+- **Thay đổi phá tương thích:** không áp dụng cờ tính năng. Manifest cũ không có `initial_cost_usd`: quy tắc 10 chỉ cấp từ quỹ mà Plan cũ không có, nên Plan cũ không bị ảnh hưởng; Plan mới ghi cả hai khoá. Hoàn tác: `git revert` hai commit gộp `61c584b` và `a6bca49` (và `3bf126e`).
 
 ## 2. Thay đổi
 
@@ -57,7 +57,7 @@ Ba worktree còn tồn tại ở `.claude/worktrees/` (BG-1, BG-2, BG-2b); khôn
 
 **Điểm reviewer nên xem kỹ:**
 - **`model-effort` quy tắc 10 và 11:** công thức số thiếu và giữ chỗ tuần tự. Thử hai ví dụ số ở PLAN §7: ngân sách hiện hành 2, đã dùng 1,7, `DuKienTong` 2,6 hoặc `DuKienThem` 0,9 đều cho thiếu 0,6; hai Task cùng thiếu 0,8 khi quỹ còn 0,8 thì chỉ một Task được cấp.
-- **Quy tắc 6 với manifest cũ:** manifest không có `initial_cost_usd`. Quy tắc 10 tính hạn mức trên `initial_cost_usd`; chưa viết rõ trường hợp này (xem mục 7).
+- **Quy tắc 6 với manifest cũ:** manifest không có `initial_cost_usd`. Quy tắc 10 tính hạn mức trên `initial_cost_usd`; Plan không có quỹ thì không bao giờ tới bước này (xem mục 7).
 - **Mâu thuẫn tiềm ẩn:** `project-rules` 8 và 20 nói AI không tự nâng quyền; PLAN §6.3 lập luận cấp thêm trong Plan đã duyệt không vi phạm. Cần người duyệt đồng ý lập luận này.
 - **Hai Run nâng mức của BG-2:** lỗi do chọn `sonnet/low` rồi tìm ra hai chỗ sai nội dung.
 
@@ -79,6 +79,7 @@ Orchestrator chạy lại nguyên văn trên kết quả gộp, đều đạt:
 **Chưa kiểm tra:**
 - BG-1-AC6 và BG-2-AC5 (kiểm bằng người): chờ người phát triển khung.
 - Hai ví dụ số ở PLAN §7: agent BG-1 và BG-2 chưa đọc §7; chưa có ai tính thử bằng tay.
+- Lỗ hổng thu hồi đã đổi: thu hồi chỉ sau review bước 8 (quy tắc 13, BG-1#2).
 - Quy tắc mới chưa chạy với Plan thật: chưa có Plan nào có quỹ dự phòng để thử cấp thêm, giữ chỗ, thu hồi.
 - Hai khoá USD: `/cost` và Account & Usage là thông tin người phát triển khung nêu, chưa kiểm.
 
@@ -105,7 +106,7 @@ Orchestrator chạy lại nguyên văn trên kết quả gộp, đều đạt:
 
 ## 7. Hạn chế và rủi ro còn lại
 
-- **Manifest cũ không có `initial_cost_usd`:** chưa có quy tắc viết rõ cho trường hợp này. Plan mới không bị ảnh hưởng.
+- **Manifest cũ không có `initial_cost_usd`:** Plan không có quỹ thì quy tắc 10 dừng và hỏi người ngay, nên không có hạn mức nào bị tính trên khoá thiếu.
 - **Cảnh báo giữa các Run, không giữa một Run:** một Run có thể đi từ dưới 80% thẳng đến trần (PLAN §6.4).
 - **Quy tắc phụ thuộc người nhớ đưa transcript và USD** sau mỗi Task; chưa có công cụ tự động.
 - **PLAN-002 chưa chạy dưới quy tắc mới:** quỹ dự phòng bằng 0, nên cấp thêm, giữ chỗ, thu hồi chưa được thử thật.
