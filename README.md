@@ -13,7 +13,12 @@ project/
 ├── README.md                    bản đồ của repo
 ├── PROJECT.md                   [04] khai báo giá trị riêng của dự án (mức tự chủ, vùng, dữ liệu, S, vai trò, miễn trừ)
 ├── AGENTS.md                    điểm vào cho AI, chỉ trỏ về .ai/
+├── CLAUDE.md                    chỉ chứa @AGENTS.md cho Claude Code
 ├── project/                     mã nguồn các repo con; mỗi repo tự commit, repo cha không theo dõi (.gitignore)
+│
+├── .claude/                     cấu hình Claude Code
+│   ├── settings.json            cấu hình worktree
+│   └── worktrees/               worktree của AI (không commit)
 │
 ├── docs/                        hồ sơ dự án cho cả người và AI; người không dùng AI chỉ đọc docs/
 │   ├── getting-started.md       hướng dẫn áp dụng khung cho dự án mới và dự án cũ
@@ -25,13 +30,13 @@ project/
 │   └── 05-operations/           [07] phát hành, giám sát, khôi phục thế nào?
 │
 └── .ai/                         AI làm gì, làm thế nào (dạng mệnh lệnh, không chứa giá trị riêng của dự án)
+    ├── README.md                bản đồ của .ai/
     ├── rules/                   BẮT BUỘC: AI phải / không được làm gì?
     ├── skills/                  CÁCH LÀM: làm một loại việc thì làm thế nào?
     ├── agents/                  VAI: ai làm, với quyền gì? (mặc định một AI Coding Agent)
     ├── workflows/               ĐIỀU PHỐI: chọn Skill, xếp thứ tự, dừng ở đâu?
     ├── templates/               MẪU: kết quả trình bày dưới dạng nào?
     ├── plans/                   Plan do AI soạn, Tech Lead duyệt: mỗi Plan một thư mục (PLAN.md, tasks/*.yaml, runs.md), được commit
-    (worktree của AI nằm ở .claude/worktrees/, không commit)
 ```
 
 Danh mục Rule và Skill: [rules/](.ai/rules/README.md), [skills/](.ai/skills/README.md).
