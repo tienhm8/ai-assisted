@@ -73,7 +73,8 @@ acceptance_criteria:
   - id: FW-3-AC1
     check: { type: command, run: "python3 -I .ai/plans/PLAN-001-framework-refactor/check.py config" }
   - id: FW-3-AC2
-    check: { type: command, run: "python3 -I .ai/plans/PLAN-001-framework-refactor/check.py codes ai-config.yaml .ai/workflows/model-effort.md .ai/templates .ai/agents/references" }
+    check: { type: command, run: "python3 -I .ai/plans/PLAN-001-framework-refactor/check.py codes ai-config.yaml .ai/workflows/model-effort.md .ai/templates/TASK-MANIFEST-TEMPLATE.yaml .ai/templates/RUNS-TEMPLATE.md .ai/templates/PLAN-TEMPLATE.md .ai/agents/references" }
+    # Narrowed 2026-11-19 (framework developer approved): BUG-TEMPLATE, TEST-REPORT-TEMPLATE are out of FW-3 scope; FW-6 replaces their codes
   - id: FW-3-AC3
     check: { type: command, run: "python3 -I .ai/plans/PLAN-001-framework-refactor/check.py links .ai" }
   - id: FW-3-AC4

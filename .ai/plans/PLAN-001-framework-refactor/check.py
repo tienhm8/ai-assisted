@@ -227,7 +227,10 @@ def check_tree():
         stack = stack[:depth] + [name.rstrip("/")]
         path = "/".join(stack)
         listed.add(path)
-        if not os.path.exists(path):
+        # a folder ignored as "dir/" only matches with the trailing slash
+        q = path + "/" if name.endswith("/") else path
+        ignored = subprocess.run(["git", "check-ignore", "-q", q]).returncode == 0
+        if not os.path.exists(path) and not ignored:
             print(f"README tree lists missing path: {path}")
             bad += 1
     tracked = subprocess.run(["git", "ls-files"], capture_output=True, text=True).stdout.split()
