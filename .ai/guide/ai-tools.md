@@ -50,6 +50,7 @@ Không đưa Rule vào `.claude/rules/`, `.cursor/rules/`: Rule không có `path
 - **`allowed_paths` không có cờ tương ứng:** Orchestrator kiểm file đổi ở tiêu chí Hợp lệ.
 - **`permission_denials` chặn bước bắt buộc** thì là `permission_denied`: dừng, không nâng mức.
 - **Đọc từ JSON để ghi `runs.md`:** `is_error` (lỗi API có thể kết thúc Run với `subtype: success`), `total_cost_usd`, `modelUsage`, `permission_denials`. `--max-budget-usd` chỉ có tác dụng với `-p` và tính cho từng lần gọi: đặt bằng ngân sách còn lại của Task.
+- **Ngân sách còn lại** là ngân sách hiện tại của Task (ban đầu cộng cấp thêm, bằng `budget.max_cost_usd` trong manifest sau khi Orchestrator đồng bộ) trừ chi phí đã dùng. Run bị cắt ở mức này thì đọc từ JSON (trường `is_error` và các trường kết quả đã nêu ở trên), và Orchestrator coi như Task chạm ngưỡng cảnh báo.
 - **Không có cờ giới hạn token đầu ra:** Run ghi "không áp dụng: max_output_tokens".
 - **Task `step-by-step`:** người mở phiên tương tác `claude --model <model> --effort <effort>` trong worktree của Task.
 - **Phiên Orchestrator:** dùng `/model` và `/effort` theo `sessions.orchestrator`.
