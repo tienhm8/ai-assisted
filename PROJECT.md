@@ -35,7 +35,7 @@ Chỉ ghi dòng dự án siết thấp hơn trần chung, hoặc danh mục vi�
 |  | | | |
 
 ### 2.2 Bản đồ vùng 🟢🟡🔴
-Xem rule 8 của [project-rules](../../.ai/rules/project-rules.md). Mặc định không dưới bảng là: 🟢
+Xem rule 8 của [project-rules](.ai/rules/project-rules.md). Mặc định không dưới bảng là: 🟢
 | Vùng | Đường dẫn / loại file | Ghi chú |
 | --- | --- | --- |
 | 🟡 | | Ví dụ, sửa theo dự án: module chưa có test hoặc chưa có hồ sơ |
