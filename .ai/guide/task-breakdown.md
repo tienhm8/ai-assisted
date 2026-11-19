@@ -8,11 +8,7 @@
 | Phiên bản · Ngày |  |
 | Tài liệu liên quan | work-model.md, goals.md, task-backlog.md, product-backlog.md, roadmap.md, ../01-requirements/FR/, ../../.ai/workflows/task-execution.md, ../../.ai/workflows/task-types.md, ../../.ai/rules/project-rules.md |
 
-> **Mục đích.** Chia Task trong Plan (**người quyết: Tech Lead**, duyệt khi duyệt Plan): mỗi Task có objective, scope in/out, AC, mức rủi ro R1–R3, mức tự chủ A0–A4. Plan và Task Manifest nằm ở [.ai/plans/](../../.ai/plans/); Goal ở [goals](goals.md); ba nhóm khái niệm ở [work-model](work-model.md).
-
-| Task ID | Objective | Phạm vi in / out | AC | Rủi ro | Tự chủ AI | Phụ thuộc | Plan |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| <KEY>-<N> |  | | | R1 | A1 | | |
+> **Mục đích.** Chia Task trong Plan (**người quyết: Tech Lead**, duyệt khi duyệt Plan): mỗi Task có objective, scope in/out, AC, mức rủi ro R1–R3, mức tự chủ A0–A4. Plan và Task Manifest nằm ở [.ai/plans/](../../.ai/plans/); Goal ở [goals](../../docs/04-project-management/goals.md); ba nhóm khái niệm ở [work-model](work-model.md).
 
 ## 1. Nguyên tắc chia Task
 
@@ -30,14 +26,14 @@ Task thuộc nhóm B (lập kế hoạch và quản lý công việc) cùng Plan
 | Khái niệm | Quan hệ với Task | Ở đâu |
 | --- | --- | --- |
 | Plan | Một Plan chứa nhiều Task; Task thuộc một Plan (hoặc không, ở fast lane) | [.ai/plans/](../../.ai/plans/) |
-| User Story / FR / BR | Task phục vụ một hoặc nhiều; một User Story có thể cần nhiều Task | [product-backlog](product-backlog.md), [FR](../01-requirements/FR/README.md) |
+| User Story / FR / BR | Task phục vụ một hoặc nhiều; một User Story có thể cần nhiều Task | [product-backlog](../../docs/04-project-management/product-backlog.md), [FR](../../docs/01-requirements/FR/README.md) |
 | Subtask | Bước bên trong Task: thủ tục của Skill hoặc checklist trong Task Specification; không có ID riêng | `SKILL.md`; mục 3 của mẫu dưới |
 | Dependency | Task phải xong trước | cột Phụ thuộc; `dependencies` trong manifest |
 | Run (nhóm C) | Một lần thực thi Task; một Task có thể chạy nhiều lần khi nâng mức | `.ai/plans/<plan>/runs.md` |
 
 - **ID:** `<KEY>-<N>` theo công cụ quản lý việc; KEY là mã dự án hoặc mã module (ví dụ PRJ-1, AUTH-1, RE-1 như bảng ví dụ bên dưới; không đệm số 0 để khác mã FR).
 - **Tên:** bắt đầu bằng động từ, nêu rõ đối tượng (ví dụ "Tạo bất động sản").
-- **Quan hệ:** cột Phụ thuộc, Plan ở bảng Task; cột Phục vụ, Tách từ ở [task-backlog](task-backlog.md). Subtask không lập ID riêng; việc cần mức model·effort khác thì tách thành Task riêng.
+- **Quan hệ:** cột Phụ thuộc, Plan ở bảng Task; cột Phục vụ, Tách từ ở [task-backlog](../../docs/04-project-management/task-backlog.md). Subtask không lập ID riêng; việc cần mức model·effort khác thì tách thành Task riêng.
 
 ## 3. Phân loại Task
 
@@ -45,15 +41,15 @@ Gán một loại chính cho mỗi Task để chọn đúng tài liệu tham chi
 
 | Loại | Tài liệu tham chiếu chính |
 | --- | --- |
-| Backend | [module-design](../02-architecture/module-design.md) |
-| Frontend | [system-architecture](../02-architecture/system-architecture.md) |
-| Database | [database-design](../02-architecture/database-design.md) |
-| API | [api-design](../02-architecture/api-design.md) |
-| Testing | [testing-strategy](../03-engineering/testing-strategy.md) |
-| Infrastructure | [deployment](../05-operations/deployment.md) |
+| Backend | [module-design](../../docs/02-architecture/module-design.md) |
+| Frontend | [system-architecture](../../docs/02-architecture/system-architecture.md) |
+| Database | [database-design](../../docs/02-architecture/database-design.md) |
+| API | [api-design](../../docs/02-architecture/api-design.md) |
+| Testing | [testing-strategy](../../docs/03-engineering/testing-strategy.md) |
+| Infrastructure | [deployment](../../docs/05-operations/deployment.md) |
 | Documentation | thư mục `docs/` liên quan |
 
-Task chạm tiền, phân quyền, dữ liệu cá nhân hoặc migration phải đối chiếu [security-standards](../03-engineering/security-standards.md).
+Task chạm tiền, phân quyền, dữ liệu cá nhân hoặc migration phải đối chiếu [security-standards](../../docs/03-engineering/security-standards.md).
 
 ## 4. Giao việc cho AI
 
@@ -176,7 +172,7 @@ Không giao Task kiểu "Xây dựng toàn bộ hệ thống quản lý bất đ
 
 Task chỉ được giao AI khi:
 
-- Có FR/BR/NFR tham chiếu đã duyệt, thiết kế liên quan đã Approved ([02-architecture](../02-architecture/README.md)).
+- Có FR/BR/NFR tham chiếu đã duyệt, thiết kế liên quan đã Approved ([02-architecture](../../docs/02-architecture/README.md)).
 - Có Task Specification theo mẫu ở mục 4: Objective, Scope in/out và AC đã điền.
 - Ưu tiên, rủi ro R1–R3 và mức tự chủ A0–A4 đã gán (trực tiếp, hoặc qua Plan đã duyệt).
 - Task chạy trong Plan: có Task Manifest, mọi AC có cách kiểm.
@@ -184,7 +180,7 @@ Task chỉ được giao AI khi:
 
 Đây là nguồn duy nhất của DoR; task-backlog chỉ trỏ tới.
 
-Definition of Done ở [testing-strategy](../03-engineering/testing-strategy.md) §12; mục 11 của mẫu Task chỉ ghi điều kiện riêng của Task.
+Definition of Done ở [testing-strategy](../../docs/03-engineering/testing-strategy.md) §12; mục 11 của mẫu Task chỉ ghi điều kiện riêng của Task.
 
 ## 8. Checklist duyệt Task
 
@@ -198,4 +194,4 @@ Definition of Done ở [testing-strategy](../03-engineering/testing-strategy.md)
 ## 9. Tham chiếu
 
 - Quy trình AI thực hiện một Task (bắt buộc áp dụng): [.ai/workflows/task-execution.md](../../.ai/workflows/task-execution.md).
-- [task-backlog](task-backlog.md), [product-backlog](product-backlog.md), [roadmap](roadmap.md), [testing-strategy](../03-engineering/testing-strategy.md).
+- [task-backlog](../../docs/04-project-management/task-backlog.md), [product-backlog](../../docs/04-project-management/product-backlog.md), [roadmap](../../docs/04-project-management/roadmap.md), [testing-strategy](../../docs/03-engineering/testing-strategy.md).

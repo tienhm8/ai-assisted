@@ -6,9 +6,9 @@
 | Người phụ trách |  |
 | Người duyệt (dự án) | PO/BA |
 | Phiên bản · Ngày |  |
-| Tài liệu liên quan | BRD.md, FR/, ../04-project-management/work-model.md, ../04-project-management/product-backlog.md |
+| Tài liệu liên quan | BRD.md, FR/, ../../.ai/guide/work-model.md, ../04-project-management/product-backlog.md |
 
-> **Mục đích.** Đặc tả sản phẩm ở mức chức năng: hệ thống cần có chức năng gì. Mỗi Feature được chi tiết hoá bằng nhiều FR (bảng FR ghi Feature của từng FR). Khái niệm và liên kết: [work-model](../04-project-management/work-model.md).
+> **Mục đích.** Đặc tả sản phẩm ở mức chức năng: hệ thống cần có chức năng gì. Mỗi Feature được chi tiết hoá bằng nhiều FR (bảng FR ghi Feature của từng FR). Khái niệm và liên kết: [work-model](../../.ai/guide/work-model.md).
 >
 > **Người quyết định:** PO/BA.
 

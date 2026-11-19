@@ -8,7 +8,7 @@
 | Phiên bản · Ngày |  |
 | Tài liệu liên quan | work-model.md, product-backlog.md, goals.md, task-breakdown.md, roadmap.md, ../01-requirements/FR/, ../01-requirements/business-rules.md |
 
-> **Mục đích.** Danh sách Task (nhóm B, lập kế hoạch và quản lý công việc, [work-model](work-model.md)) chờ làm, có ưu tiên. Task có ID theo công cụ quản lý việc (<KEY>-<N>). Epic và User Story ở [product-backlog](product-backlog.md), không ở đây. Backlog chỉ liệt kê và xếp thứ tự; Objective, Scope, AC chi tiết của từng Task nằm ở [task-breakdown](task-breakdown.md), không chép vào đây.
+> **Mục đích.** Danh sách Task (nhóm B, lập kế hoạch và quản lý công việc, [work-model](../../.ai/guide/work-model.md)) chờ làm, có ưu tiên. Task có ID theo công cụ quản lý việc (<KEY>-<N>). Epic và User Story ở [product-backlog](product-backlog.md), không ở đây. Backlog chỉ liệt kê và xếp thứ tự; Objective, Scope, AC chi tiết của từng Task nằm ở [task-breakdown](../../.ai/guide/task-breakdown.md), không chép vào đây.
 
 ## 1. Quy tắc quản lý task backlog
 
@@ -49,8 +49,8 @@ Tiêu chí xếp thứ tự trong cùng mức: giá trị nghiệp vụ, mức p
 ## 6. Làm rõ backlog (refinement)
 
 - **Tần suất:** định kỳ theo nhịp dự án, và trước mỗi mốc ở roadmap.
-- **Definition of Ready:** theo [task-breakdown](task-breakdown.md) §7.
-- **Ước lượng:** ghi ở mục Estimate của Task Specification ([task-breakdown](task-breakdown.md)), không ghi ở backlog.
+- **Definition of Ready:** theo [task-breakdown](../../.ai/guide/task-breakdown.md) §7.
+- **Ước lượng:** ghi ở mục Estimate của Task Specification ([task-breakdown](../../.ai/guide/task-breakdown.md)), không ghi ở backlog.
 - **Rà soát phụ thuộc:** kiểm tra cột Phụ thuộc khi đổi ưu tiên hoặc thứ tự.
 
 ## 7. Quản lý thay đổi backlog
@@ -60,5 +60,5 @@ Tiêu chí xếp thứ tự trong cùng mức: giá trị nghiệp vụ, mức p
 
 ## 8. Tham chiếu
 
-- [roadmap](roadmap.md), [task-breakdown](task-breakdown.md)
+- [roadmap](roadmap.md), [task-breakdown](../../.ai/guide/task-breakdown.md)
 - [FR](../01-requirements/FR/README.md), [business-rules](../01-requirements/business-rules.md)

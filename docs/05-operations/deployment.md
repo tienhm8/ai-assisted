@@ -8,7 +8,7 @@
 | Phiên bản · Ngày |  |
 | Tài liệu liên quan | monitoring.md, backup-recovery.md, ../02-architecture/system-architecture.md, ../02-architecture/database-design.md, ../01-requirements/NFR.md, ../../.ai/workflows/release-workflow.md, ../../.ai/skills/deployment/SKILL.md |
 
-> **Mục đích.** Triển khai hệ thống: môi trường, CI/CD, phát hành, rollback. **Người quyết phát hành: Owner (tham khảo Tech Lead).** Điều kiện: cổng G7 ở [gates-and-rigor](../04-project-management/gates-and-rigor.md) §1.
+> **Mục đích.** Triển khai hệ thống: môi trường, CI/CD, phát hành, rollback. **Người quyết phát hành: Owner (tham khảo Tech Lead).** Điều kiện: cổng G7 ở [gates-and-rigor](../../.ai/guide/gates-and-rigor.md) §1.
 >
 > Template dùng chung cho mọi dự án: điền công nghệ, môi trường, thông số và người phụ trách khi áp dụng. Không ghi giá trị secret.
 

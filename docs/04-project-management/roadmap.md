@@ -64,4 +64,4 @@ Mỗi giai đoạn nhân bản theo mẫu dưới đây (Giai đoạn 1, 2, 3…
 
 - [vision](../00-project-overview/vision.md), [scope](../00-project-overview/scope.md)
 - [FR](../01-requirements/FR/README.md)
-- [product-backlog](product-backlog.md), [task-backlog](task-backlog.md), [task-breakdown](task-breakdown.md)
+- [product-backlog](product-backlog.md), [task-backlog](task-backlog.md), [task-breakdown](../../.ai/guide/task-breakdown.md)

@@ -31,21 +31,9 @@ mkdir -p .agents && ln -s ../.ai/skills .agents/skills   # Antigravity
 
 Không đưa Rule vào `.claude/rules/`, `.cursor/rules/`: Rule không có `paths` nạp từ đầu mọi phiên; `paths` chỉ lọc theo file đang sửa, không theo loại Task như [task-execution](../../.ai/workflows/task-execution.md). Trên Windows cần `git config core.symlinks true`.
 
-## 3. Công cụ dự án dùng
+Công cụ dự án dùng, quyền được cấp và MCP server khai ở mục "Công cụ AI" của [PROJECT.md](../../PROJECT.md); tên model và effort ở [ai-config.yaml](../../ai-config.yaml).
 
-| Công cụ | Vai trò (chính / phụ) | Phiên bản | Dùng cho việc | Quyền được cấp (terminal, Git, browser, ...) |
-| --- | --- | --- | --- | --- |
-|  | | | | |
-
-## 4. Công cụ cấp cho AI (MCP server, plugin)
-
-Công cụ mà AI gọi được, ví dụ MCP server của Laravel Boost. Guideline đi kèm tiếp nhận theo [external-skills.md](external-skills.md). Tính năng ghi dữ liệu hoặc chạy code tuỳ ý (ví dụ tinker, câu query ghi) xếp vào vùng 🟡/🔴 ở [PROJECT.md](../../PROJECT.md) §2.2.
-
-| Công cụ · phiên bản | Tính năng được dùng | Môi trường kết nối | Tính năng bị tắt / giới hạn | Người duyệt |
-| --- | --- | --- | --- | --- |
-|  | | | | |
-
-## 5. Chạy Task với Claude Code
+## 3. Chạy Task với Claude Code
 
 > Dành cho người vận hành; Orchestrator đọc mục này khi `auto_runs: true` và `tool: claude-code`; Run của Task không nạp. Chỉ ghi điều đã kiểm chứng trên Claude Code 2.1.326 (2026-11). Model và effort lấy từ [ai-config.yaml](../../ai-config.yaml); đổi phiên bản Claude Code thì kiểm lại.
 

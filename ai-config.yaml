@@ -4,7 +4,7 @@
 # `high_risk_min`. Công cụ không chỉnh được effort: mỗi mức chỉ ghi tên model, phần tử kế trong
 # `try` là model mạnh hơn, không lặp model (ví dụ try: [model-chuẩn, model-mạnh]).
 tool: claude-code
-auto_runs: true   # true = Orchestrator tự khởi động từng Run theo mức trong manifest, làm theo docs/03-engineering/ai-tools.md §5; false = người mở phiên cho từng Run; công cụ không chỉnh được model theo từng Run dùng false
+auto_runs: true   # true = Orchestrator tự khởi động từng Run theo mức trong manifest, làm theo .ai/guide/ai-tools.md §3; false = người mở phiên cho từng Run; công cụ không chỉnh được model theo từng Run dùng false
 sessions:
   orchestrator: opus/high      # Plan có đổi kiến trúc: opus/xhigh
   review:       opus/high

@@ -4,7 +4,7 @@
 
 ## Model: Plan → Task → Run, linked to Goals and requirements
 
-Concepts fall in three groups (definitions, where each lives, all links: [work-model](../../docs/04-project-management/work-model.md)): A business and product definition (BRD, BRQ, Goal, Epic, Feature, User Story); B planning and work management (Plan, Task, Subtask, Dependency); C AI execution (Agent, Run, model/effort, Tool, Result, Review). Links are references, not a parent-child tree.
+Concepts fall in three groups (definitions, where each lives, all links: [work-model](../guide/work-model.md)): A business and product definition (BRD, BRQ, Goal, Epic, Feature, User Story); B planning and work management (Plan, Task, Subtask, Dependency); C AI execution (Agent, Run, model/effort, Tool, Result, Review). Links are references, not a parent-child tree.
 
 | Level | Answers | ID | Lives in |
 | --- | --- | --- | --- |
@@ -28,7 +28,7 @@ The Orchestrator does not write a Task's code or documents itself, does not appr
 **Dispatch mode** follows the Task's autonomy level:
 - **`full-task`, `pre-approved`: dispatched.** The Orchestrator starts the Run in a subagent or a non-interactive session at the manifest's level.
 - **`step-by-step` or lower: attended.** Never dispatched to a subagent or non-interactive session, since those cannot pause for per-step approval. The Orchestrator hands the manifest, the Task's worktree path, and an opening line to a human, who opens an interactive session in that worktree at the manifest's level; that session stops after each step for approval and returns the handoff report with the Run's cost if the tool shows it. Escalation of an attended Task is proposed to the human, who opens the next session.
-- **Tool without per-Task model control** (`auto_runs: false` in [ai-config.yaml](../../ai-config.yaml)): every Run is attended in the same way. When `auto_runs: true`, how to start a Run is in [ai-tools.md](../../docs/03-engineering/ai-tools.md) §5.
+- **Tool without per-Task model control** (`auto_runs: false` in [ai-config.yaml](../../ai-config.yaml)): every Run is attended in the same way. When `auto_runs: true`, how to start a Run is in [ai-tools.md](../guide/ai-tools.md) §3.
 
 **Isolation and merging:** each Task runs in its own worktree under `.claude/worktrees/<Task-ID>` (Claude Code creates it with `claude -w <Task-ID>`; other tools use `git worktree add .claude/worktrees/<Task-ID> -b <branch> <base>`), branched from a commit that already contains the accepted result of every Task it depends on. Parallel Runs never share a worktree. The Orchestrator merges accepted Task branches in dependency order before step 6; a merge conflict is a Fail of the later Task. After any fix accepted at step 6 or 8, the Orchestrator rebases the Task's dependents onto the fixed result, merges again in dependency order, and reruns step 6; a dependent that then fails opens its own error. If a failure cannot be attributed to one Task (e.g. two Tasks interacting), stop and ask a human.
 

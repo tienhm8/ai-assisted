@@ -18,7 +18,7 @@
 | Quality | Defect rate; escaped defects (lỗi phát hiện sau release); test pass rate; tỷ lệ PR bị từ chối khi review; bug mở lại | Issue tracker, CI hoặc kết quả test chạy local | Escaped defects tính trên số FR phát hành |
 | Security | Critical vulnerabilities; authorization defects (lỗi phân quyền) | Công cụ quét, review, sự cố | Tách theo nguồn phát hiện: cổng, review, sau release |
 | AI Efficiency | Tỷ lệ code AI được chấp nhận; số vòng sửa; chi phí AI / Task; chi phí người / Task | PR, Delivery Report §8, hoá đơn nhà cung cấp | "Chấp nhận" là dùng mà không phải viết lại lớn |
-| Reliability | Tỷ lệ Task AI hoàn thành đúng AC; tỷ lệ làm lại (rework); số lần AI bịa thông tin (hallucination); Task bỏ dở; độ nhất quán khi chạy lại cùng đầu vào | Delivery Report, PR, nhật ký AI | Dựa trên Delivery Report của [task-breakdown](task-breakdown.md) |
+| Reliability | Tỷ lệ Task AI hoàn thành đúng AC; tỷ lệ làm lại (rework); số lần AI bịa thông tin (hallucination); Task bỏ dở; độ nhất quán khi chạy lại cùng đầu vào | Delivery Report, PR, nhật ký AI | Dựa trên Delivery Report của [task-breakdown](../../.ai/guide/task-breakdown.md) |
 | Governance | Tuân thủ quy chuẩn kỹ thuật; tuân thủ review của người; thay đổi ngoài phạm vi chưa khai; tuân thủ phê duyệt | PR, review, Delivery Report | Đối chiếu [.ai/rules](../../.ai/rules/README.md) |
 
 ## 2. Định nghĩa KPI
@@ -71,5 +71,5 @@ Mỗi KPI được chọn đo phải điền đủ bảng này trước khi ghi 
 
 ## 7. Tham chiếu
 
-- [roadmap](roadmap.md), [task-backlog](task-backlog.md), [task-breakdown](task-breakdown.md)
+- [roadmap](roadmap.md), [task-backlog](task-backlog.md), [task-breakdown](../../.ai/guide/task-breakdown.md)
 - [testing-strategy](../03-engineering/testing-strategy.md), [monitoring](../05-operations/monitoring.md)

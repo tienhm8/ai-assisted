@@ -58,7 +58,7 @@ Ceiling: `full-task`. Writing/editing code in a `high`-risk Task: `step-by-step`
 
 **Data level:** `public`; `internal`; `sensitive` (business, internal finance); `secret` (secrets, tokens, personal data). `secret` data never goes into AI, logs, URLs, error messages, or test data.
 
-**Process rigor** (see docs/04-project-management/gates-and-rigor.md §2):
+**Process rigor** (see .ai/guide/gates-and-rigor.md §2):
 - `lean`: the `scope`, `requirements`, `design` gates merge into one; minimal records; one reviewer for `low`/`medium`-risk Tasks.
 - `standard`: every gate separate; records scaled to the project; review per risk.
 - `strict`: separate gates with minutes; audit-ready records; independent review.

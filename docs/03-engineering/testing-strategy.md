@@ -162,7 +162,7 @@ Các môi trường dùng để test (local, CI, staging), cấu hình, dữ li�
 Phân biệt rõ pass / fail / skipped / not-run, kèm output thật làm bằng chứng. Báo cáo nêu số test, coverage, lỗi còn mở và test bị bỏ qua cùng lý do.
 
 ## 12. Definition of Done: điều kiện hoàn thành
-Nguồn duy nhất của DoD; mẫu Task ([task-breakdown](../04-project-management/task-breakdown.md) mục 11) chỉ ghi thêm điều kiện riêng. Mỗi Task chỉ được đánh dấu hoàn thành khi:
+Nguồn duy nhất của DoD; mẫu Task ([task-breakdown](../../.ai/guide/task-breakdown.md) mục 11) chỉ ghi thêm điều kiện riêng. Mỗi Task chỉ được đánh dấu hoàn thành khi:
 
 - [ ] Đúng yêu cầu nghiệp vụ.
 - [ ] Không vi phạm kiến trúc.

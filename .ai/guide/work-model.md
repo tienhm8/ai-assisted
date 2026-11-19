@@ -22,20 +22,20 @@
 
 | Khái niệm | Nhóm | Ý nghĩa | Trả lời câu hỏi | Mã | Quản lý ở |
 | --- | --- | --- | --- | --- | --- |
-| BRD | A | Business Requirements Document | Doanh nghiệp cần gì và tại sao? | — | [BRD](../01-requirements/BRD.md) |
-| BRQ | A | Business Requirement: yêu cầu nghiệp vụ cụ thể | Yêu cầu nghiệp vụ cụ thể là gì? | `BRQ-<NN>` | [BRD](../01-requirements/BRD.md) §3 |
-| Goal | A | Desired Outcome: kết quả mong muốn | Muốn đạt kết quả gì? | `GOAL-<NN>` | [goals](goals.md) |
-| Epic | A | Nhóm chức năng/công việc lớn theo phạm vi sản phẩm, lộ trình | Nhóm công việc lớn nào cần thực hiện? | `EPIC-<NN>` | [product-backlog](product-backlog.md) §1 |
-| Function / Feature | A | Chức năng hệ thống (đặc tả sản phẩm); chi tiết hoá bằng FR | Hệ thống cần có chức năng gì? | `FEAT-<NN>` | [features](../01-requirements/features.md) |
-| User Story | A | Nhu cầu của người dùng | Người dùng muốn làm gì và vì sao? | `US-<MODULE>-<NN>` | [product-backlog](product-backlog.md) §2 |
+| BRD | A | Business Requirements Document | Doanh nghiệp cần gì và tại sao? | — | [BRD](../../docs/01-requirements/BRD.md) |
+| BRQ | A | Business Requirement: yêu cầu nghiệp vụ cụ thể | Yêu cầu nghiệp vụ cụ thể là gì? | `BRQ-<NN>` | [BRD](../../docs/01-requirements/BRD.md) §3 |
+| Goal | A | Desired Outcome: kết quả mong muốn | Muốn đạt kết quả gì? | `GOAL-<NN>` | [goals](../../docs/04-project-management/goals.md) |
+| Epic | A | Nhóm chức năng/công việc lớn theo phạm vi sản phẩm, lộ trình | Nhóm công việc lớn nào cần thực hiện? | `EPIC-<NN>` | [product-backlog](../../docs/04-project-management/product-backlog.md) §1 |
+| Function / Feature | A | Chức năng hệ thống (đặc tả sản phẩm); chi tiết hoá bằng FR | Hệ thống cần có chức năng gì? | `FEAT-<NN>` | [features](../../docs/01-requirements/features.md) |
+| User Story | A | Nhu cầu của người dùng | Người dùng muốn làm gì và vì sao? | `US-<MODULE>-<NN>` | [product-backlog](../../docs/04-project-management/product-backlog.md) §2 |
 | Plan | B | Kế hoạch thực hiện một hoặc nhiều công việc | Sẽ thực hiện như thế nào? | `PLAN-<NNN>` | `.ai/plans/PLAN-<NNN>-<slug>/PLAN.md` |
-| Task | B | Đơn vị công việc chính thức, có ID, Type, Risk, Autonomy | Cần thực hiện công việc cụ thể nào? | `<KEY>-<N>` | [task-backlog](task-backlog.md), [task-breakdown](task-breakdown.md); manifest ở `.ai/plans/<plan>/tasks/` |
+| Task | B | Đơn vị công việc chính thức, có ID, Type, Risk, Autonomy | Cần thực hiện công việc cụ thể nào? | `<KEY>-<N>` | [task-backlog](../../docs/04-project-management/task-backlog.md), [task-breakdown](task-breakdown.md); manifest ở `.ai/plans/<plan>/tasks/` |
 | Subtask | B | Bước bên trong một Task; thực thể nội bộ, không có ID riêng | Task gồm những bước nào? | — | Thủ tục của Skill; checklist trong Task Specification ([task-breakdown](task-breakdown.md) §4) |
-| Dependency | B | Task phải xong trước Task khác | Làm gì trước? | — | Cột Phụ thuộc ([task-backlog](task-backlog.md)), `dependencies` trong manifest |
+| Dependency | B | Task phải xong trước Task khác | Làm gì trước? | — | Cột Phụ thuộc ([task-backlog](../../docs/04-project-management/task-backlog.md)), `dependencies` trong manifest |
 | Agent | C | Vai thực thi Task | Ai làm? | — | [.ai/agents/](../../.ai/agents/README.md) |
 | Execution (Run) | C | Một lần thực thi Task | Đã chạy thế nào? | `<KEY>-<N>#<n>` | `runs.md` của Plan |
 | Model·effort | C | Hạng model và mức effort của một Run | Chạy ở mức nào? | `M<N>·E<N>` | [model-effort](../../.ai/workflows/model-effort.md) |
-| Tool | C | Công cụ Agent dùng (CLI AI, lệnh, MCP) | Dùng công cụ gì? | — | [ai-tools](../03-engineering/ai-tools.md) |
+| Tool | C | Công cụ Agent dùng (CLI AI, lệnh, MCP) | Dùng công cụ gì? | — | [ai-tools](ai-tools.md) |
 | Result | C | Diff, tài liệu, bằng chứng kiểm tra của một Run | Ra kết quả gì? | — | `runs.md`; báo cáo bàn giao |
 | Review / Validation | C | Kiểm tra kết quả: lệnh kiểm AC, review code, người duyệt ở cổng | Kết quả có đúng không? | `PLAN-<NNN>-REVIEW#<n>` | [task-execution](../../.ai/workflows/task-execution.md) bước 6–8 |
 
@@ -52,13 +52,13 @@ Vì vậy mỗi liên kết khai **một chiều**, ở đối tượng đứng 
 
 | Đối tượng | Khai liên kết tới | Số lượng | Ở đâu |
 | --- | --- | --- | --- |
-| Goal | Nguồn: BRQ, OUT, chiến lược kinh doanh, hoặc yêu cầu trực tiếp của người dùng | một hoặc nhiều | cột "Nguồn" ở [goals](goals.md) |
-| Epic | BRQ; Goal mà Epic đóng góp | nhiều; nhiều | [product-backlog](product-backlog.md) §1 |
-| Function / Feature | BRQ | nhiều | [features](../01-requirements/features.md) |
-| FR | BRQ nguồn; Feature; BR | nhiều; một; nhiều | [bảng FR](../01-requirements/FR/README.md) |
-| User Story | Epic; Feature; FR | một; nhiều; nhiều | [product-backlog](product-backlog.md) §2 |
+| Goal | Nguồn: BRQ, OUT, chiến lược kinh doanh, hoặc yêu cầu trực tiếp của người dùng | một hoặc nhiều | cột "Nguồn" ở [goals](../../docs/04-project-management/goals.md) |
+| Epic | BRQ; Goal mà Epic đóng góp | nhiều; nhiều | [product-backlog](../../docs/04-project-management/product-backlog.md) §1 |
+| Function / Feature | BRQ | nhiều | [features](../../docs/01-requirements/features.md) |
+| FR | BRQ nguồn; Feature; BR | nhiều; một; nhiều | [bảng FR](../../docs/01-requirements/FR/README.md) |
+| User Story | Epic; Feature; FR | một; nhiều; nhiều | [product-backlog](../../docs/04-project-management/product-backlog.md) §2 |
 | Plan | Nguồn (Goal, Epic, User Story, hoặc yêu cầu độc lập); Goal (tuỳ chọn) | đúng một; không hoặc nhiều | bảng đầu của PLAN.md |
-| Task | Plan; User Story / FR / BR mà Task phục vụ; Task phụ thuộc | một; nhiều; nhiều | [task-backlog](task-backlog.md); manifest |
+| Task | Plan; User Story / FR / BR mà Task phục vụ; Task phụ thuộc | một; nhiều; nhiều | [task-backlog](../../docs/04-project-management/task-backlog.md); manifest |
 | Run | Task | một | `runs.md` |
 
 ```text

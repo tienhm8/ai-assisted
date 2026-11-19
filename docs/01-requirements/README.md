@@ -36,7 +36,7 @@
 
 `BRD` (BRQ) → `features` → `FR` / `NFR` / `business-rules` → `acceptance-criteria`.
 
-Thư mục này giữ phần đặc tả của nhóm A, định nghĩa nghiệp vụ và sản phẩm: BRD, BRQ, Function/Feature và FR, NFR, BR, AC chi tiết hoá chúng. Goal, Epic, User Story cũng thuộc nhóm A nhưng là mục quản lý ưu tiên, nằm ở [04-project-management](../04-project-management/README.md) (goals, product-backlog). Ba nhóm và cách liên kết: [work-model](../04-project-management/work-model.md). Tài liệu ở đây không ghi Goal, Epic, User Story, Plan, Task; các đối tượng đó trỏ về đây.
+Thư mục này giữ phần đặc tả của nhóm A, định nghĩa nghiệp vụ và sản phẩm: BRD, BRQ, Function/Feature và FR, NFR, BR, AC chi tiết hoá chúng. Goal, Epic, User Story cũng thuộc nhóm A nhưng là mục quản lý ưu tiên, nằm ở [04-project-management](../04-project-management/README.md) (goals, product-backlog). Ba nhóm và cách liên kết: [work-model](../../.ai/guide/work-model.md). Tài liệu ở đây không ghi Goal, Epic, User Story, Plan, Task; các đối tượng đó trỏ về đây.
 
 Truy vết: Feature ghi BRQ (nhiều-nhiều); bảng FR giữ liên kết FR → BRQ, FR → Feature và FR → BR; BRD và business-rules chỉ tham chiếu ngược. AC trỏ tới FR (và BR kiểm chứng). Trạng thái hoàn thành FR chỉ nằm ở bảng FR.
 

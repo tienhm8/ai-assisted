@@ -22,7 +22,6 @@ project/
 │   └── worktrees/               worktree của AI (không commit)
 │
 ├── docs/                        hồ sơ dự án cho cả người và AI; người không dùng AI chỉ đọc docs/
-│   ├── getting-started.md       hướng dẫn áp dụng khung cho dự án mới và dự án cũ
 │   ├── 00-project-overview/     [01] làm gì, cho ai, ranh giới ở đâu?
 │   ├── 01-requirements/         [02] phải làm gì, nghiệm thu ra sao?
 │   ├── 02-architecture/         [03] xây thế nào, đã chốt quyết định nào?
@@ -32,6 +31,7 @@ project/
 │
 └── .ai/                         AI làm gì, làm thế nào (dạng mệnh lệnh, không chứa giá trị riêng của dự án)
     ├── README.md                bản đồ của .ai/
+    ├── guide/                   tài liệu khung cho người
     ├── rules/                   BẮT BUỘC: AI phải / không được làm gì?
     ├── skills/                  CÁCH LÀM: làm một loại việc thì làm thế nào?
     ├── agents/                  VAI: ai làm, với quyền gì? (mặc định một AI Coding Agent)
@@ -44,7 +44,7 @@ Danh mục Rule và Skill: [rules/](.ai/rules/README.md), [skills/](.ai/skills/R
 
 ## Giai đoạn và người duyệt
 
-Cổng G0–G7 giữa các giai đoạn và độ nghiêm ngặt S1–S3: [gates-and-rigor.md](docs/04-project-management/gates-and-rigor.md).
+Cổng G0–G7 giữa các giai đoạn và độ nghiêm ngặt S1–S3: [gates-and-rigor.md](.ai/guide/gates-and-rigor.md).
 
 | Giai đoạn | Người duyệt |
 | --- | --- |
@@ -59,4 +59,4 @@ Cổng G0–G7 giữa các giai đoạn và độ nghiêm ngặt S1–S3: [gates
 
 ## Bắt đầu
 
-Xem [docs/getting-started.md](docs/getting-started.md)
+Xem [.ai/guide/getting-started.md](.ai/guide/getting-started.md)

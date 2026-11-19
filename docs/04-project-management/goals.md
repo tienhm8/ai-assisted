@@ -8,11 +8,11 @@
 | Phiên bản · Ngày |  |
 | Tài liệu liên quan | work-model.md, roadmap.md, product-backlog.md, task-backlog.md, ../00-project-overview/vision.md, ../01-requirements/BRD.md, ../../.ai/workflows/task-execution.md |
 
-> **Mục đích.** Nơi duy nhất ghi Goal (Desired Outcome): kết quả đầu ra mà người dùng hoặc tổ chức muốn đạt, trả lời "muốn đạt kết quả gì?". Goal thuộc nhóm A, định nghĩa nghiệp vụ và sản phẩm ([work-model](work-model.md)); cách đạt nằm ở các Plan (`.ai/plans/`), việc cụ thể ở Task ([task-backlog](task-backlog.md)), từng lần thực thi ở `runs.md` của Plan.
+> **Mục đích.** Nơi duy nhất ghi Goal (Desired Outcome): kết quả đầu ra mà người dùng hoặc tổ chức muốn đạt, trả lời "muốn đạt kết quả gì?". Goal thuộc nhóm A, định nghĩa nghiệp vụ và sản phẩm ([work-model](../../.ai/guide/work-model.md)); cách đạt nằm ở các Plan (`.ai/plans/`), việc cụ thể ở Task ([task-backlog](task-backlog.md)), từng lần thực thi ở `runs.md` của Plan.
 
 ## 1. Goal trong mô hình
 
-Ba nhóm khái niệm, từng khái niệm và cách liên kết: [work-model](work-model.md). Điểm riêng của Goal:
+Ba nhóm khái niệm, từng khái niệm và cách liên kết: [work-model](../../.ai/guide/work-model.md). Điểm riêng của Goal:
 
 - Goal là mục tiêu đầu ra, không phải nhóm công việc (Epic) và không phải kế hoạch (Plan). Không thay Epic bằng Goal.
 - **Nguồn của Goal:** BRQ, Outcome (`OUT`), chiến lược kinh doanh, hoặc yêu cầu trực tiếp của người dùng; ghi ở cột "Nguồn". Goal kỹ thuật (hạ tầng, refactor, sửa lỗi lớn) ghi lý do.

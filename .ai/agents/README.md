@@ -45,4 +45,4 @@ Ngoài việc chạy mỗi Task ở một subagent, chỉ tách thêm vai cố �
 | Cần review độc lập | Reviewer không phải phiên vừa viết code |
 | Việc chạy song song được | Frontend và backend khi API contract đã Approved |
 
-Model/effort theo công cụ AI nằm ở [ai-config.yaml](../../ai-config.yaml); cách chạy Task với Claude Code: [ai-tools.md](../../docs/03-engineering/ai-tools.md) §5.
+Model/effort theo công cụ AI nằm ở [ai-config.yaml](../../ai-config.yaml); cách chạy Task với Claude Code: [ai-tools.md](../guide/ai-tools.md) §3.

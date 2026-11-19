@@ -52,10 +52,10 @@ Chỉ ghi dòng dự án siết thấp hơn trần mặc định, hoặc danh m�
 | D3 | | Không |
 
 ## 4. Độ nghiêm ngặt và mức ASVS
-Định nghĩa S1–S3 và cách chọn ở [gates-and-rigor](docs/04-project-management/gates-and-rigor.md).
+Định nghĩa S1–S3 và cách chọn ở [gates-and-rigor](.ai/guide/gates-and-rigor.md).
 | Hạng mục | Giá trị |
 | --- | --- |
-| Độ nghiêm ngặt quy trình (S1–S3) | Chọn theo [gates-and-rigor](docs/04-project-management/gates-and-rigor.md) §2 (bảng "Chọn mức nào?") |
+| Độ nghiêm ngặt quy trình (S1–S3) | Chọn theo [gates-and-rigor](.ai/guide/gates-and-rigor.md) §2 (bảng "Chọn mức nào?") |
 | Lý do chọn S | Theo loại dự án (§1), quy mô, yêu cầu pháp lý hoặc hợp đồng |
 | Mức ASVS mục tiêu (L1–L3) | Không thấp hơn mức tối thiểu ở [security-standards](docs/03-engineering/security-standards.md) §13.1 |
 | Lý do chọn mức ASVS | Theo mức dữ liệu (§3), có tài khoản/phân quyền, tiền, ràng buộc pháp lý |
@@ -85,5 +85,19 @@ Ghi lý do khi gộp, bỏ hoặc đổi cách dùng tài liệu cho phù hợp 
 ## 7. Miễn trừ (Waiver)
 Miễn trừ có thời hạn một yêu cầu của khung. Ví dụ: chưa có CI/CD thì chạy cổng tự động cục bộ.
 | Yêu cầu được miễn | Lý do | Người duyệt | Hết hạn | Kế hoạch khắc phục |
+| --- | --- | --- | --- | --- |
+|  | | | | |
+
+## 8. Công cụ AI
+Cách nối công cụ với `.ai/` ở [ai-tools](.ai/guide/ai-tools.md); tên model và effort ở [ai-config.yaml](ai-config.yaml).
+
+### 8.1 Công cụ dự án dùng
+| Công cụ | Vai trò (chính / phụ) | Phiên bản | Dùng cho việc | Quyền được cấp (terminal, Git, browser, ...) |
+| --- | --- | --- | --- | --- |
+|  | | | | |
+
+### 8.2 Công cụ cấp cho AI (MCP server, plugin)
+Công cụ mà AI gọi được, ví dụ MCP server của Laravel Boost. Guideline đi kèm tiếp nhận theo [external-skills](.ai/guide/external-skills.md). Tính năng ghi dữ liệu hoặc chạy code tuỳ ý (ví dụ tinker, câu query ghi) xếp vào vùng 🟡/🔴 ở §2.2.
+| Công cụ · phiên bản | Tính năng được dùng | Môi trường kết nối | Tính năng bị tắt / giới hạn | Người duyệt |
 | --- | --- | --- | --- | --- |
 |  | | | | |

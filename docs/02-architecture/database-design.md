@@ -127,7 +127,7 @@ Ranh giới transaction, mức cô lập, cách xử lý xung đột (khoá lạ
 <!-- Điền theo từng dự án -->
 
 ## 7. Migration và seed
-Quy tắc viết migration (có thể quay lui, tương thích ngược khi deploy), thứ tự chạy, seed dữ liệu, dữ liệu test (giả/ẩn danh). Mức kiểm soát khi chạy migration production: xem [ai-governance](../03-engineering/ai-governance.md) §2. Quy trình triển khai migration xem [deployment](../05-operations/deployment.md) §9.
+Quy tắc viết migration (có thể quay lui, tương thích ngược khi deploy), thứ tự chạy, seed dữ liệu, dữ liệu test (giả/ẩn danh). Mức kiểm soát khi chạy migration production: xem [ai-governance](../../.ai/guide/ai-governance.md) §2. Quy trình triển khai migration xem [deployment](../05-operations/deployment.md) §9.
 <!-- Điền theo từng dự án -->
 
 ## 8. Sao lưu và khôi phục

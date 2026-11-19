@@ -22,29 +22,29 @@
 | Cần biết mỗi giai đoạn nhận gì, ra gì, ai kiểm soát | §3.4 |
 | Chọn model, effort trước khi mở phiên AI | §5.2 |
 | Cần mẫu prompt cho một tình huống | §5.3 |
-| Nhận tài liệu, hỏi lại khách hàng | [sources](00-project-overview/sources/README.md), [open-questions](00-project-overview/open-questions.md) mục "Hỏi khách hàng qua đầu mối" |
-| Chọn công cụ AI | [ai-tools](03-engineering/ai-tools.md) §1 |
-| Tạo symlink cho công cụ AI | [ai-tools](03-engineering/ai-tools.md) §2 |
-| Khai báo giá trị riêng của dự án | [PROJECT.md](../PROJECT.md) |
-| Cần biết AI làm một Task qua những bước nào | [task-execution](../.ai/workflows/task-execution.md), [task-types](../.ai/workflows/task-types.md) |
-| Cần hiểu vì sao AI bị kiểm soát | [ai-governance](03-engineering/ai-governance.md) |
-| Cần điều kiện duyệt | [gates-and-rigor](04-project-management/gates-and-rigor.md) |
+| Nhận tài liệu, hỏi lại khách hàng | [sources](../../docs/00-project-overview/sources/README.md), [open-questions](../../docs/00-project-overview/open-questions.md) mục "Hỏi khách hàng qua đầu mối" |
+| Chọn công cụ AI | [ai-tools](ai-tools.md) §1 |
+| Tạo symlink cho công cụ AI | [ai-tools](ai-tools.md) §2 |
+| Khai báo giá trị riêng của dự án | [PROJECT.md](../../PROJECT.md) |
+| Cần biết AI làm một Task qua những bước nào | [task-execution](../workflows/task-execution.md), [task-types](../workflows/task-types.md) |
+| Cần hiểu vì sao AI bị kiểm soát | [ai-governance](ai-governance.md) |
+| Cần điều kiện duyệt | [gates-and-rigor](gates-and-rigor.md) |
 
 ## 2. Bảy khái niệm cần biết trước
 
 | Khái niệm | Nói ngắn | Định nghĩa |
 | --- | --- | --- |
-| Draft / Approved | AI chỉ soạn `Draft`; chỉ người có thẩm quyền đổi sang `Approved`. AI chỉ dựa vào tài liệu `Approved` | [project-rules](../.ai/rules/project-rules.md) 4, 14 |
-| Cổng G0–G7 | Điều kiện phải đạt để sang giai đoạn sau, qua bằng bằng chứng | [gates-and-rigor](04-project-management/gates-and-rigor.md) §1 |
-| Độ nghiêm ngặt S1–S3 | Chọn một lần cho cả dự án | [gates-and-rigor](04-project-management/gates-and-rigor.md) §2 |
-| Task với R và A | Mỗi Task có mức rủi ro R1–R3 và mức tự chủ A0–A4; thiếu thì AI dừng và hỏi | [project-rules](../.ai/rules/project-rules.md), mục "Thang dùng chung" |
-| Vùng 🟢🟡🔴 | Đường dẫn AI được sửa tự do, sửa khi plan đã duyệt, hay cần Task riêng | [PROJECT.md](../PROJECT.md) §2.2 |
-| Ba nhóm khái niệm | A nghiệp vụ và sản phẩm (BRD, BRQ, Goal, Epic, Feature, User Story) · B lập kế hoạch và quản lý công việc (Plan, Task, Subtask, Dependency) · C thực thi bằng AI (Agent, Run, model·effort, Tool, Result, Review). Liên kết nhiều-nhiều, không phải cây cha-con | [work-model](04-project-management/work-model.md) |
-| Plan → Task → Run | Kế hoạch (có Nguồn: Goal, Epic, User Story hoặc yêu cầu độc lập; Goals tuỳ chọn) → việc cụ thể (mỗi Task một mức model·effort) → một lần chạy (nâng mức khi không đạt) | [work-model](04-project-management/work-model.md), [task-execution](../.ai/workflows/task-execution.md) |
+| Draft / Approved | AI chỉ soạn `Draft`; chỉ người có thẩm quyền đổi sang `Approved`. AI chỉ dựa vào tài liệu `Approved` | [project-rules](../rules/project-rules.md) 4, 14 |
+| Cổng G0–G7 | Điều kiện phải đạt để sang giai đoạn sau, qua bằng bằng chứng | [gates-and-rigor](gates-and-rigor.md) §1 |
+| Độ nghiêm ngặt S1–S3 | Chọn một lần cho cả dự án | [gates-and-rigor](gates-and-rigor.md) §2 |
+| Task với R và A | Mỗi Task có mức rủi ro R1–R3 và mức tự chủ A0–A4; thiếu thì AI dừng và hỏi | [project-rules](../rules/project-rules.md), mục "Thang dùng chung" |
+| Vùng 🟢🟡🔴 | Đường dẫn AI được sửa tự do, sửa khi plan đã duyệt, hay cần Task riêng | [PROJECT.md](../../PROJECT.md) §2.2 |
+| Ba nhóm khái niệm | A nghiệp vụ và sản phẩm (BRD, BRQ, Goal, Epic, Feature, User Story) · B lập kế hoạch và quản lý công việc (Plan, Task, Subtask, Dependency) · C thực thi bằng AI (Agent, Run, model·effort, Tool, Result, Review). Liên kết nhiều-nhiều, không phải cây cha-con | [work-model](work-model.md) |
+| Plan → Task → Run | Kế hoạch (có Nguồn: Goal, Epic, User Story hoặc yêu cầu độc lập; Goals tuỳ chọn) → việc cụ thể (mỗi Task một mức model·effort) → một lần chạy (nâng mức khi không đạt) | [work-model](work-model.md), [task-execution](../workflows/task-execution.md) |
 
 ### Bảng tra ký hiệu
 
-AI phải ghi nghĩa bằng lời ở lần đầu nhắc một ký hiệu trong câu trả lời, câu hỏi, plan, báo cáo ([project-rules](../.ai/rules/project-rules.md) 23). Gặp ký hiệu không hiểu thì tra ở đây.
+AI phải ghi nghĩa bằng lời ở lần đầu nhắc một ký hiệu trong câu trả lời, câu hỏi, plan, báo cáo ([project-rules](../rules/project-rules.md) 23). Gặp ký hiệu không hiểu thì tra ở đây.
 
 | Ký hiệu | Nghĩa |
 | --- | --- |
@@ -61,8 +61,8 @@ AI phải ghi nghĩa bằng lời ở lần đầu nhắc một ký hiệu trong
 | T6 · T7 · T8 | Đổi yêu cầu · Đổi kiến trúc hoặc API contract · Rà soát tài liệu yêu cầu |
 | T9 · T10 · T11 | Review Pull Request · Kiểm tra bảo mật · Chỉ viết test |
 | T12 · T13 · T14 · T15 | Chỉ sửa tài liệu · Phát hành · Sự cố production · Rà soát định kỳ |
-| `SRC-<NN>` | Tài liệu nguồn từ khách hàng hoặc PO ([sources](00-project-overview/sources/README.md)) |
-| `OQ-<NN>` | Câu hỏi mở, giả định, đầu vào còn thiếu ([open-questions](00-project-overview/open-questions.md)) |
+| `SRC-<NN>` | Tài liệu nguồn từ khách hàng hoặc PO ([sources](../../docs/00-project-overview/sources/README.md)) |
+| `OQ-<NN>` | Câu hỏi mở, giả định, đầu vào còn thiếu ([open-questions](../../docs/00-project-overview/open-questions.md)) |
 | `OUT-<NN>` · `BRQ-<NN>` | Kết quả đo được của dự án (vision) · Yêu cầu nghiệp vụ (BRD) |
 | `EPIC-<NN>` · `FEAT-<NN>` · `US-<MODULE>-<NN>` | Epic (nhóm công việc lớn) · Function/Feature (chức năng hệ thống) · User Story (nhu cầu người dùng) |
 | `FR-<MODULE>-<NN>` · `BR-…` · `NFR-<NN>` | Yêu cầu chức năng · Quy tắc nghiệp vụ · Yêu cầu phi chức năng |
@@ -72,7 +72,7 @@ AI phải ghi nghĩa bằng lời ở lần đầu nhắc một ký hiệu trong
 | M1 · M2 · M3 | Hạng model: nhẹ · chuẩn · mạnh |
 | E1 · E2 · E3 · E4 | Mức effort: thấp · trung bình · cao · rất cao; viết gộp `M2·E1` (model chuẩn, effort thấp) |
 
-Repo này là **repo cha** của một dự án: giữ hồ sơ (`docs/`), khai báo (`PROJECT.md`) và chỉ dẫn AI (`.ai/`). Mã nguồn nằm ở `project/<repo>/`, mỗi repo con có Git riêng ([README](../README.md), mục Cấu trúc). Phiên AI luôn mở ở thư mục gốc repo cha để công cụ đọc được `AGENTS.md`.
+Repo này là **repo cha** của một dự án: giữ hồ sơ (`docs/`), khai báo (`PROJECT.md`) và chỉ dẫn AI (`.ai/`). Mã nguồn nằm ở `project/<repo>/`, mỗi repo con có Git riêng ([README](../../README.md), mục Cấu trúc). Phiên AI luôn mở ở thư mục gốc repo cha để công cụ đọc được `AGENTS.md`.
 
 ## 3. Dự án mới
 
@@ -86,7 +86,7 @@ Repo này là **repo cha** của một dự án: giữ hồ sơ (`docs/`), khai 
 3. Tech Lead duyệt thì đổi trạng thái sang `Approved`, ghi người duyệt và ngày. Như vậy là qua G0.
 
 ### 3.3 Nối công cụ AI
-Chọn công cụ và tạo symlink theo [ai-tools](03-engineering/ai-tools.md) §1–§2, rồi khai báo ở §3–§4 của file đó. Chạy thử một Task nhỏ (ví dụ một Task T12) để chắc công cụ đã đọc `AGENTS.md`.
+Chọn công cụ và tạo symlink theo [ai-tools](ai-tools.md) §1–§2, rồi khai báo ở §3–§4 của file đó. Chạy thử một Task nhỏ (ví dụ một Task T12) để chắc công cụ đã đọc `AGENTS.md`.
 
 ### 3.4 Đi qua các giai đoạn trước khi code
 
@@ -94,22 +94,22 @@ Mỗi dòng là một hoặc nhiều Task; AI soạn `Draft`, người ở cột
 
 | Bước | Đầu vào (người cung cấp) | Loại Task giao AI | Đầu ra AI soạn (`Draft`) | Duyệt | Cổng |
 | --- | --- | --- | --- | --- | --- |
-| 0 | Tài liệu của khách hàng, PO: quy trình nghiệp vụ, biểu mẫu, biên bản (Đầu mối lưu, ẩn danh) | T12 (chỉ sửa tài liệu) | Danh mục [sources](00-project-overview/sources/README.md) `SRC-<NN>`; câu hỏi `Input` cho phần còn thiếu | Đầu mối với khách hàng | — |
-| 1 | `SRC-<NN>`; câu trả lời của khách hàng | T1 (tính năng mới, Skill `product-discovery`) hoặc T12 | [00-project-overview](00-project-overview/README.md): vision, scope, glossary, open-questions; gói câu hỏi gửi khách hàng | PO | G1 (vision, phạm vi) |
-| 2 | Bước 1 `Approved`; `SRC-<NN>`; OQ đã `Closed` | T1 (phần yêu cầu), rà bằng T8 (rà soát yêu cầu) | [01-requirements](01-requirements/README.md): BRD, Feature, FR, NFR, BR, AC; Epic, User Story ở [product-backlog](04-project-management/product-backlog.md); báo cáo rà soát | PO/BA, QA rà | G2 (yêu cầu) |
-| 3 | Bước 2 `Approved`; code hiện có (dự án cũ, nền sẵn có) | T1 (phần thiết kế) hoặc T7 (đổi kiến trúc) | [02-architecture](02-architecture/README.md): kiến trúc, module, DB, API, ADR | Kiến trúc sư (+ Security nếu có tiền, phân quyền, dữ liệu cá nhân, migration) | G3 (thiết kế) |
-| 4 | Chuẩn của công ty; công cụ AI được phép | T12 | [03-engineering](03-engineering/README.md): chuẩn code, bảo mật, lỗi, test, [ai-tools](03-engineering/ai-tools.md) | Tech Lead | G4 (sẵn sàng giao Task) |
-| 5 | Bước 2–3 `Approved`; ưu tiên của PO | T1 (Skill `task-planning`) | [04-project-management](04-project-management/README.md): roadmap, goals, product-backlog, task-backlog, Task (mẫu [task-breakdown](04-project-management/task-breakdown.md) §4) | Tech Lead; PO quyết ưu tiên | G4 |
-| 6 | Hạ tầng, quy định vận hành (DevOps) | T12, có thể làm song song từ bước 3 | [05-operations](05-operations/README.md): deployment, monitoring, backup | Owner, tham khảo Tech Lead | trước G7 |
+| 0 | Tài liệu của khách hàng, PO: quy trình nghiệp vụ, biểu mẫu, biên bản (Đầu mối lưu, ẩn danh) | T12 (chỉ sửa tài liệu) | Danh mục [sources](../../docs/00-project-overview/sources/README.md) `SRC-<NN>`; câu hỏi `Input` cho phần còn thiếu | Đầu mối với khách hàng | — |
+| 1 | `SRC-<NN>`; câu trả lời của khách hàng | T1 (tính năng mới, Skill `product-discovery`) hoặc T12 | [00-project-overview](../../docs/00-project-overview/README.md): vision, scope, glossary, open-questions; gói câu hỏi gửi khách hàng | PO | G1 (vision, phạm vi) |
+| 2 | Bước 1 `Approved`; `SRC-<NN>`; OQ đã `Closed` | T1 (phần yêu cầu), rà bằng T8 (rà soát yêu cầu) | [01-requirements](../../docs/01-requirements/README.md): BRD, Feature, FR, NFR, BR, AC; Epic, User Story ở [product-backlog](../../docs/04-project-management/product-backlog.md); báo cáo rà soát | PO/BA, QA rà | G2 (yêu cầu) |
+| 3 | Bước 2 `Approved`; code hiện có (dự án cũ, nền sẵn có) | T1 (phần thiết kế) hoặc T7 (đổi kiến trúc) | [02-architecture](../../docs/02-architecture/README.md): kiến trúc, module, DB, API, ADR | Kiến trúc sư (+ Security nếu có tiền, phân quyền, dữ liệu cá nhân, migration) | G3 (thiết kế) |
+| 4 | Chuẩn của công ty; công cụ AI được phép | T12 | [03-engineering](../../docs/03-engineering/README.md): chuẩn code, bảo mật, lỗi, test, [ai-tools](ai-tools.md) | Tech Lead | G4 (sẵn sàng giao Task) |
+| 5 | Bước 2–3 `Approved`; ưu tiên của PO | T1 (Skill `task-planning`) | [04-project-management](../../docs/04-project-management/README.md): roadmap, goals, product-backlog, task-backlog, Task (mẫu [task-breakdown](task-breakdown.md) §4) | Tech Lead; PO quyết ưu tiên | G4 |
+| 6 | Hạ tầng, quy định vận hành (DevOps) | T12, có thể làm song song từ bước 3 | [05-operations](../../docs/05-operations/README.md): deployment, monitoring, backup | Owner, tham khảo Tech Lead | trước G7 |
 
-Từ bước 5 trở đi, công việc đi qua [task-execution](../.ai/workflows/task-execution.md) theo mô hình **Plan → Task → Run** ([work-model](04-project-management/work-model.md)): Plan là kế hoạch thực hiện, tạo từ một Nguồn (Goal, Epic, User Story hoặc yêu cầu độc lập), có thể phục vụ nhiều Goal, gồm nhiều Task; mỗi Task chạy trong một phiên hoặc subagent riêng với model·effort riêng; mỗi lần chạy là một Run. Đầu vào và đầu ra:
+Từ bước 5 trở đi, công việc đi qua [task-execution](../workflows/task-execution.md) theo mô hình **Plan → Task → Run** ([work-model](work-model.md)): Plan là kế hoạch thực hiện, tạo từ một Nguồn (Goal, Epic, User Story hoặc yêu cầu độc lập), có thể phục vụ nhiều Goal, gồm nhiều Task; mỗi Task chạy trong một phiên hoặc subagent riêng với model·effort riêng; mỗi lần chạy là một Run. Đầu vào và đầu ra:
 
 | Bước | Đầu vào | Đầu ra | Người kiểm soát |
 | --- | --- | --- | --- |
-| Lập Plan | Nguồn (Goal, Epic, User Story hoặc yêu cầu độc lập); User Story, FR/BR/AC, thiết kế `Approved` | Plan theo [PLAN-TEMPLATE](../.ai/templates/PLAN-TEMPLATE.md) và một Task Manifest cho mỗi Task ([mẫu](../.ai/templates/TASK-MANIFEST-TEMPLATE.yaml)) ở `.ai/plans/<plan>/` | Tech Lead duyệt Plan: R, A, khoảng model·effort, ngân sách, phạm vi của từng Task |
-| Chạy Task | Plan đã duyệt | Diff hoặc tài liệu; `runs.md` ghi từng lần chạy, nâng mức, chi phí; kết quả test thật ([TEST-REPORT](../.ai/templates/TEST-REPORT-TEMPLATE.md)) | Orchestrator đánh giá bằng lệnh kiểm; cổng tự động (lint, test, build) |
-| Bàn giao | Diff, kết quả test | [DELIVERY-REPORT](../.ai/templates/DELIVERY-REPORT-TEMPLATE.md); PR theo [PR-TEMPLATE](../.ai/templates/PR-TEMPLATE.md) | Reviewer (phiên AI khác hoặc người); R3 thêm reviewer độc lập |
-| Phát hành | PR đã merge | [RELEASE-REPORT](../.ai/templates/RELEASE-REPORT-TEMPLATE.md) nháp | Owner quyết; DevOps thực hiện; AI không deploy |
+| Lập Plan | Nguồn (Goal, Epic, User Story hoặc yêu cầu độc lập); User Story, FR/BR/AC, thiết kế `Approved` | Plan theo [PLAN-TEMPLATE](../templates/PLAN-TEMPLATE.md) và một Task Manifest cho mỗi Task ([mẫu](../templates/TASK-MANIFEST-TEMPLATE.yaml)) ở `.ai/plans/<plan>/` | Tech Lead duyệt Plan: R, A, khoảng model·effort, ngân sách, phạm vi của từng Task |
+| Chạy Task | Plan đã duyệt | Diff hoặc tài liệu; `runs.md` ghi từng lần chạy, nâng mức, chi phí; kết quả test thật ([TEST-REPORT](../templates/TEST-REPORT-TEMPLATE.md)) | Orchestrator đánh giá bằng lệnh kiểm; cổng tự động (lint, test, build) |
+| Bàn giao | Diff, kết quả test | [DELIVERY-REPORT](../templates/DELIVERY-REPORT-TEMPLATE.md); PR theo [PR-TEMPLATE](../templates/PR-TEMPLATE.md) | Reviewer (phiên AI khác hoặc người); R3 thêm reviewer độc lập |
+| Phát hành | PR đã merge | [RELEASE-REPORT](../templates/RELEASE-REPORT-TEMPLATE.md) nháp | Owner quyết; DevOps thực hiện; AI không deploy |
 
 Bạn không cần viết kín mọi tài liệu cho cả dự án trước khi code. Cổng G2, G3 chỉ xét **phạm vi đang làm**: viết đủ cho mốc đầu tiên của roadmap, làm xong mốc đó rồi mở rộng.
 
@@ -119,23 +119,23 @@ Khi qua G4, giao Task theo §5. Thường bắt đầu bằng một Task T2 nh�
 ## 4. Dự án cũ
 
 ### 4.1 Khác dự án mới ở đâu
-- **Code đang chạy chưa phải là yêu cầu.** AI viết lại hồ sơ từ code (hiện trạng, *as-is*), nhưng một hành vi chỉ thành FR, BR khi PO/BA xác nhận đó là hành vi mong muốn ([documentation](../.ai/skills/documentation/SKILL.md), bước 2). Hành vi đáng ngờ được ghi thành câu hỏi mở hoặc bug, không tự sửa.
+- **Code đang chạy chưa phải là yêu cầu.** AI viết lại hồ sơ từ code (hiện trạng, *as-is*), nhưng một hành vi chỉ thành FR, BR khi PO/BA xác nhận đó là hành vi mong muốn ([documentation](../skills/documentation/SKILL.md), bước 2). Hành vi đáng ngờ được ghi thành câu hỏi mở hoặc bug, không tự sửa.
 - **Lập hồ sơ theo phần cần, không lập hết một lần.** Trước khi giao Task vào một module, hồ sơ của module đó phải có và đã `Approved`; các module chưa đụng tới thì chưa cần.
-- **An toàn trước tốc độ.** Hệ thống có người dùng thật, dữ liệu thật: lập lưới test trước khi sửa, khoanh vùng code nhạy cảm, không cho AI chạm production ([project-rules](../.ai/rules/project-rules.md) 13).
+- **An toàn trước tốc độ.** Hệ thống có người dùng thật, dữ liệu thật: lập lưới test trước khi sửa, khoanh vùng code nhạy cảm, không cho AI chạm production ([project-rules](../rules/project-rules.md) 13).
 
 ### 4.2 Đưa mã vào repo cha
 1. Tạo repo cha như §3.1.
-2. Clone các repo đang có vào `project/<repo>/`, giữ nguyên lịch sử Git và remote của chúng. Repo cha không theo dõi `project/` ([.gitignore](../.gitignore)).
-3. Ghi đường dẫn repo vào [PROJECT.md](../PROJECT.md) §1, dòng Repository.
+2. Clone các repo đang có vào `project/<repo>/`, giữ nguyên lịch sử Git và remote của chúng. Repo cha không theo dõi `project/` ([.gitignore](../../.gitignore)).
+3. Ghi đường dẫn repo vào [PROJECT.md](../../PROJECT.md) §1, dòng Repository.
 
 ### 4.3 Rà chỉ dẫn AI có sẵn trong repo cũ
 Repo cũ có thể đã có `CLAUDE.md`, `AGENTS.md`, `.cursorrules`, `.cursor/rules/`, `.github/copilot-instructions.md`. Công cụ AI có thể tự nạp các file này khi làm việc trong thư mục con, và chúng có thể trái với `.ai/`.
 
 | Nội dung trong file cũ | Xử lý |
 | --- | --- |
-| Lệnh build, test, chạy app; cấu trúc thư mục | Chuyển vào chuẩn ở [03-engineering](03-engineering/README.md) (ví dụ [coding-standards](03-engineering/coding-standards.md), [testing-strategy](03-engineering/testing-strategy.md) §8–§9) |
-| Quy tắc nghiệp vụ | Chuyển vào [business-rules](01-requirements/business-rules.md) dạng `Draft` cho PO/BA xác nhận |
-| Quy tắc trùng hoặc trái `.ai/` | Bỏ; nếu dự án thật sự cần giữ khác đi, ghi ở [PROJECT.md](../PROJECT.md) §6 kèm lý do |
+| Lệnh build, test, chạy app; cấu trúc thư mục | Chuyển vào chuẩn ở [03-engineering](../../docs/03-engineering/README.md) (ví dụ [coding-standards](../../docs/03-engineering/coding-standards.md), [testing-strategy](../../docs/03-engineering/testing-strategy.md) §8–§9) |
+| Quy tắc nghiệp vụ | Chuyển vào [business-rules](../../docs/01-requirements/business-rules.md) dạng `Draft` cho PO/BA xác nhận |
+| Quy tắc trùng hoặc trái `.ai/` | Bỏ; nếu dự án thật sự cần giữ khác đi, ghi ở [PROJECT.md](../../PROJECT.md) §6 kèm lý do |
 
 Sau khi chuyển xong, xoá file cũ hoặc thu lại thành một dòng trỏ về repo cha. Đây là thay đổi trong repo con, cần một Task T12 riêng.
 
@@ -147,30 +147,30 @@ Làm như §3.2, với các điểm riêng sau:
 | §1 Giai đoạn hiện tại | Ghi rõ: đang vận hành, bảo trì hay phát triển tiếp |
 | §2.2 Vùng | 🔴 cho xác thực, phân quyền, thanh toán, migration, cấu hình CI/hạ tầng; 🟡 cho module chưa có test hoặc chưa có hồ sơ; 🟢 cho phần còn lại |
 | §3 Dữ liệu | Liệt kê dữ liệu thật đang có. D3 không bao giờ đưa vào AI: không dán log production, dump DB, `.env` vào phiên AI |
-| §4 Độ nghiêm ngặt | Dự án bảo trì gợi ý S1–S2 ([gates-and-rigor](04-project-management/gates-and-rigor.md) §2); có hợp đồng hoặc pháp lý thì theo yêu cầu đó |
-| §6 Tailoring | Ghi cách lập hồ sơ theo phần (§4.1); ghi phiên bản thư viện thực tế nếu cũ hơn phiên bản mà reference của Skill nhắm tới (AI dùng theo phiên bản của codebase, [project-rules](../.ai/rules/project-rules.md) 16) |
-| §7 Miễn trừ | Ghi những gì khung yêu cầu mà dự án chưa có, kèm hạn và kế hoạch khắc phục. Thường gặp: chưa có CI (chạy cổng tự động cục bộ), chưa có cơ chế chặn commit message sai chuẩn ([git-workflow-rules](../.ai/rules/git-workflow-rules.md) 3), nhánh chưa theo Gitflow (rule 2), độ phủ test dưới ngưỡng ([testing-strategy](03-engineering/testing-strategy.md) §9) |
+| §4 Độ nghiêm ngặt | Dự án bảo trì gợi ý S1–S2 ([gates-and-rigor](gates-and-rigor.md) §2); có hợp đồng hoặc pháp lý thì theo yêu cầu đó |
+| §6 Tailoring | Ghi cách lập hồ sơ theo phần (§4.1); ghi phiên bản thư viện thực tế nếu cũ hơn phiên bản mà reference của Skill nhắm tới (AI dùng theo phiên bản của codebase, [project-rules](../rules/project-rules.md) 16) |
+| §7 Miễn trừ | Ghi những gì khung yêu cầu mà dự án chưa có, kèm hạn và kế hoạch khắc phục. Thường gặp: chưa có CI (chạy cổng tự động cục bộ), chưa có cơ chế chặn commit message sai chuẩn ([git-workflow-rules](../rules/git-workflow-rules.md) 3), nhánh chưa theo Gitflow (rule 2), độ phủ test dưới ngưỡng ([testing-strategy](../../docs/03-engineering/testing-strategy.md) §9) |
 
-Không có miễn trừ thì AI sẽ dừng ở yêu cầu đó và xin miễn trừ ([project-rules](../.ai/rules/project-rules.md) 12). Khai báo trước giúp tránh việc này.
+Không có miễn trừ thì AI sẽ dừng ở yêu cầu đó và xin miễn trừ ([project-rules](../rules/project-rules.md) 12). Khai báo trước giúp tránh việc này.
 
 ### 4.5 Lập hồ sơ hiện trạng
 Mỗi dòng là một Task T12 (R1, A3 là đủ vì chỉ viết tài liệu, không sửa code). Làm cho **module sắp có việc trước**, không cần theo thứ tự cả hệ thống.
 
 | Thứ tự | Tài liệu | AI đọc gì | Ai xác nhận |
 | --- | --- | --- | --- |
-| 1 | [system-architecture](02-architecture/system-architecture.md), [module-design](02-architecture/module-design.md) | Cấu trúc thư mục, điểm vào, cấu hình, phụ thuộc giữa module | Kiến trúc sư |
-| 2 | [database-design](02-architecture/database-design.md) | Schema, migration hiện có (không đọc dữ liệu thật) | Kiến trúc sư (+ Security nếu có dữ liệu cá nhân) |
-| 3 | [api-design](02-architecture/api-design.md) | Route, controller, DTO, middleware phân quyền | Kiến trúc sư |
-| 4 | [FR](01-requirements/FR/README.md), [business-rules](01-requirements/business-rules.md), [acceptance-criteria](01-requirements/acceptance-criteria.md) của module | Hồ sơ 1–3 đã duyệt và code của module | PO/BA |
-| 5 | [glossary](00-project-overview/glossary.md), [scope](00-project-overview/scope.md) | Hồ sơ đã có, tài liệu cũ (wiki, Confluence) bạn cung cấp | PO |
-| 6 | [03-engineering](03-engineering/README.md), [05-operations](05-operations/README.md) | Lệnh build/test, CI, cách deploy hiện tại | Tech Lead; Owner cho phần vận hành |
+| 1 | [system-architecture](../../docs/02-architecture/system-architecture.md), [module-design](../../docs/02-architecture/module-design.md) | Cấu trúc thư mục, điểm vào, cấu hình, phụ thuộc giữa module | Kiến trúc sư |
+| 2 | [database-design](../../docs/02-architecture/database-design.md) | Schema, migration hiện có (không đọc dữ liệu thật) | Kiến trúc sư (+ Security nếu có dữ liệu cá nhân) |
+| 3 | [api-design](../../docs/02-architecture/api-design.md) | Route, controller, DTO, middleware phân quyền | Kiến trúc sư |
+| 4 | [FR](../../docs/01-requirements/FR/README.md), [business-rules](../../docs/01-requirements/business-rules.md), [acceptance-criteria](../../docs/01-requirements/acceptance-criteria.md) của module | Hồ sơ 1–3 đã duyệt và code của module | PO/BA |
+| 5 | [glossary](../../docs/00-project-overview/glossary.md), [scope](../../docs/00-project-overview/scope.md) | Hồ sơ đã có, tài liệu cũ (wiki, Confluence) bạn cung cấp | PO |
+| 6 | [03-engineering](../../docs/03-engineering/README.md), [05-operations](../../docs/05-operations/README.md) | Lệnh build/test, CI, cách deploy hiện tại | Tech Lead; Owner cho phần vận hành |
 
 Yêu cầu chung cho Task lập hồ sơ:
 - Mỗi điều mô tả ghi nguồn `file:line` để người duyệt kiểm được.
-- Chỗ code và tài liệu cũ mâu thuẫn, hành vi trông như lỗi, logic không rõ lý do: ghi `OQ-<NN>` vào [open-questions](00-project-overview/open-questions.md), không đoán.
-- Lỗi đã chắc chắn: lập bug theo [BUG-TEMPLATE](../.ai/templates/BUG-TEMPLATE.md) để sửa ở Task T3 riêng, không sửa trong Task tài liệu.
+- Chỗ code và tài liệu cũ mâu thuẫn, hành vi trông như lỗi, logic không rõ lý do: ghi `OQ-<NN>` vào [open-questions](../../docs/00-project-overview/open-questions.md), không đoán.
+- Lỗi đã chắc chắn: lập bug theo [BUG-TEMPLATE](../templates/BUG-TEMPLATE.md) để sửa ở Task T3 riêng, không sửa trong Task tài liệu.
 
-Mẫu Task (điền vào mẫu đầy đủ ở [task-breakdown](04-project-management/task-breakdown.md) §4):
+Mẫu Task (điền vào mẫu đầy đủ ở [task-breakdown](task-breakdown.md) §4):
 
 ```markdown
 # TASK: PRJ-3 - Lập hồ sơ hiện trạng module Đơn hàng
@@ -193,7 +193,7 @@ Sửa code; tạo FR, BR; đổi trạng thái sang Approved.
 ```
 
 ### 4.6 Lập lưới an toàn trước khi sửa
-Module chưa có test thì Task đầu tiên vào module đó nên là **T11** (chỉ viết test): viết test ghi lại hành vi hiện tại, kể cả hành vi đang bị nghi là sai (ghi chú `OQ-<NN>` trong test). T4 (refactor) bắt buộc có test nền trước ([task-types](../.ai/workflows/task-types.md), dòng T4). Có lưới test rồi, Tech Lead có thể hạ module từ 🟡 xuống 🟢 trong [PROJECT.md](../PROJECT.md) §2.2.
+Module chưa có test thì Task đầu tiên vào module đó nên là **T11** (chỉ viết test): viết test ghi lại hành vi hiện tại, kể cả hành vi đang bị nghi là sai (ghi chú `OQ-<NN>` trong test). T4 (refactor) bắt buộc có test nền trước ([task-types](../workflows/task-types.md), dòng T4). Có lưới test rồi, Tech Lead có thể hạ module từ 🟡 xuống 🟢 trong [PROJECT.md](../../PROJECT.md) §2.2.
 
 ### 4.7 Chọn loại Task cho việc thường gặp
 
@@ -212,7 +212,7 @@ Module chưa có test thì Task đầu tiên vào module đó nên là **T11** (
 
 ### 5.1 Giao việc lớn hoặc Task
 - **Việc lớn:** nêu Nguồn: Goal (kết quả muốn đạt, tiêu chí hoàn thành), Epic, User Story hoặc yêu cầu độc lập, kèm căn cứ FR/thiết kế. AI chia thành Plan và Task, đề xuất R, A, mức model·effort cho từng Task; bạn duyệt Plan là cấp các giá trị đó.
-- **Việc nhỏ:** viết một Task theo mẫu ở [task-breakdown](04-project-management/task-breakdown.md) §4; Task chỉ giao AI khi đạt điều kiện sẵn sàng ở §7 của file đó. Ghi đủ: loại Task (T1–T15, danh sách ở [task-types](../.ai/workflows/task-types.md) §1), rủi ro R, mức tự chủ A. Task R1 đủ điều kiện fast lane thì chạy ngay, không cần Plan.
+- **Việc nhỏ:** viết một Task theo mẫu ở [task-breakdown](task-breakdown.md) §4; Task chỉ giao AI khi đạt điều kiện sẵn sàng ở §7 của file đó. Ghi đủ: loại Task (T1–T15, danh sách ở [task-types](../workflows/task-types.md) §1), rủi ro R, mức tự chủ A. Task R1 đủ điều kiện fast lane thì chạy ngay, không cần Plan.
 - Một Task một việc: không gộp sửa lỗi với refactor lớn.
 
 ### 5.2 Mở phiên AI
@@ -221,14 +221,14 @@ Mở phiên ở thư mục gốc repo cha. Chọn model, effort **trước khi g
 | Phiên | Mức | Nghĩa |
 | --- | --- | --- |
 | Orchestrator (lập Plan, gửi Task, đánh giá) | M3·E3; M3·E4 nếu Plan có đổi kiến trúc hoặc API contract (T7) | Model mạnh · effort cao / rất cao |
-| Fast lane (một Task R1) | Mức bắt đầu của Skill chính ([model-effort](../.ai/workflows/model-effort.md) §2), ví dụ sửa tài liệu M2·E1 | Model chuẩn · effort thấp |
+| Fast lane (một Task R1) | Mức bắt đầu của Skill chính ([model-effort](../workflows/model-effort.md) §2), ví dụ sửa tài liệu M2·E1 | Model chuẩn · effort thấp |
 | Từng Task (Run) | Orchestrator tự chọn theo manifest; Task A2 trở xuống hoặc công cụ không có subagent thì bạn mở phiên mới theo mức Orchestrator báo | — |
 | Review (bước 8) | M3·E3, phiên mới, không dùng lịch sử phiên viết code | Model mạnh · effort cao |
 
-- **Mức theo Task, không theo cả phiên:** mỗi Task có mức bắt đầu, sàn, trần trong manifest. Task chạy thấp trước; kết quả không đạt vì năng lực thì Orchestrator tự nâng một bậc, tối đa tới trần bạn đã duyệt; thiếu đầu vào, yêu cầu mâu thuẫn, bị từ chối quyền thì dừng hỏi bạn ([model-effort](../.ai/workflows/model-effort.md) §3).
+- **Mức theo Task, không theo cả phiên:** mỗi Task có mức bắt đầu, sàn, trần trong manifest. Task chạy thấp trước; kết quả không đạt vì năng lực thì Orchestrator tự nâng một bậc, tối đa tới trần bạn đã duyệt; thiếu đầu vào, yêu cầu mâu thuẫn, bị từ chối quyền thì dừng hỏi bạn ([model-effort](../workflows/model-effort.md) §3).
 - **Task mức tự chủ A2 trở xuống** (duyệt từng bước, gồm mọi Task code R3) không gửi cho subagent: Orchestrator đưa bạn manifest, đường dẫn worktree của Task và câu mở phiên; bạn mở phiên tương tác **trong worktree đó**, ở mức ghi trong manifest, duyệt từng bước, khi trả báo cáo thì kèm chi phí nếu công cụ hiển thị.
 - Task R3 (đụng phân quyền, tiền, dữ liệu cá nhân, migration, bảo mật): sàn M3·E3.
-- Tên model thật nằm ở [ai-config.yaml](../ai-config.yaml) (`sessions`, `tasks`, `high_risk_min`); đổi công cụ thì sửa `tool`, `auto_runs` và tên model ở đó ([model-effort](../.ai/workflows/model-effort.md) §4). Cách chạy Task bằng Claude Code: [ai-tools.md](03-engineering/ai-tools.md) §5. Công cụ không có effort thì mỗi mức chỉ ghi tên model, mức kế là model mạnh hơn.
+- Tên model thật nằm ở [ai-config.yaml](../../ai-config.yaml) (`sessions`, `tasks`, `high_risk_min`); đổi công cụ thì sửa `tool`, `auto_runs` và tên model ở đó ([model-effort](../workflows/model-effort.md) §4). Cách chạy Task bằng Claude Code: [ai-tools.md](ai-tools.md) §5. Công cụ không có effort thì mỗi mức chỉ ghi tên model, mức kế là model mạnh hơn.
 
 Câu mở đầu:
 
@@ -268,7 +268,7 @@ Thay phần `<...>`. Mã Task, loại, R, A lấy từ Task đã viết theo §5
 | Trả lời câu hỏi cần quyết | `OQ-<NN>: chọn phương án <A/B>, lý do <...>.` hoặc `Chưa quyết OQ-<NN>, làm tiếp phần không bị chặn.` |
 
 ### 5.4 Việc của bạn ở từng điểm dừng
-Các bước AI thực hiện ở [task-execution](../.ai/workflows/task-execution.md).
+Các bước AI thực hiện ở [task-execution](../workflows/task-execution.md).
 
 | Khi AI… | Bạn làm |
 | --- | --- |
@@ -281,17 +281,17 @@ Các bước AI thực hiện ở [task-execution](../.ai/workflows/task-executi
 | Chờ merge, phát hành | Người merge; AI không tự merge, tag hay deploy |
 
 ### 5.5 Duyệt tài liệu
-Chỉ người có thẩm quyền (cột "Người duyệt" ở [README](../README.md), mục Giai đoạn và người duyệt) đổi `Draft` sang `Approved`, ghi tên và ngày vào bảng thuộc tính của tài liệu. Có thể tự sửa tay hoặc bảo AI: *"Tech Lead duyệt, chuyển … sang Approved"*. AI không tự chuyển.
+Chỉ người có thẩm quyền (cột "Người duyệt" ở [README](../../README.md), mục Giai đoạn và người duyệt) đổi `Draft` sang `Approved`, ghi tên và ngày vào bảng thuộc tính của tài liệu. Có thể tự sửa tay hoặc bảo AI: *"Tech Lead duyệt, chuyển … sang Approved"*. AI không tự chuyển.
 
-Tài liệu cần khách hàng duyệt: Đầu mối gửi khách hàng → khách hàng duyệt, báo Đầu mối → Đầu mối lưu kết quả thành `SRC-<NN>` ([sources](00-project-overview/sources/README.md)) → mới chuyển `Approved`, ghi mã `SRC` cạnh tên người duyệt. Khách hàng yêu cầu sửa: ghi thành OQ, AI sửa bản `Draft`, gửi lại.
+Tài liệu cần khách hàng duyệt: Đầu mối gửi khách hàng → khách hàng duyệt, báo Đầu mối → Đầu mối lưu kết quả thành `SRC-<NN>` ([sources](../../docs/00-project-overview/sources/README.md)) → mới chuyển `Approved`, ghi mã `SRC` cạnh tên người duyệt. Khách hàng yêu cầu sửa: ghi thành OQ, AI sửa bản `Draft`, gửi lại.
 
 ## 6. Tình huống thường gặp
 
 | Tình huống | Nguyên nhân | Xử lý |
 | --- | --- | --- |
-| AI dừng, báo thiếu spec, AC hoặc thiết kế | Task không đạt điều kiện sẵn sàng ([project-rules](../.ai/rules/project-rules.md) 2) | Bổ sung tài liệu và duyệt, hoặc đổi Task sang T1/T12 để soạn chúng trước |
-| AI dừng, xin miễn trừ | Một yêu cầu của khung chưa đáp ứng được | Duyệt miễn trừ ở [PROJECT.md](../PROJECT.md) §7, hoặc bổ sung cái còn thiếu |
+| AI dừng, báo thiếu spec, AC hoặc thiết kế | Task không đạt điều kiện sẵn sàng ([project-rules](../rules/project-rules.md) 2) | Bổ sung tài liệu và duyệt, hoặc đổi Task sang T1/T12 để soạn chúng trước |
+| AI dừng, xin miễn trừ | Một yêu cầu của khung chưa đáp ứng được | Duyệt miễn trừ ở [PROJECT.md](../../PROJECT.md) §7, hoặc bổ sung cái còn thiếu |
 | AI nói hành vi cũ "có thể là lỗi" | Code và tài liệu, hoặc code và câu trả lời của PO, không khớp | PO/BA quyết: giữ (ghi BR) hay sửa (lập bug, Task T3) |
 | AI không theo `.ai/`, làm theo chỉ dẫn khác | Repo con còn file chỉ dẫn AI cũ, hoặc phiên mở sai thư mục | Rà theo §4.3; mở phiên ở gốc repo cha |
-| AI dùng API không có ở phiên bản thư viện đang chạy | Reference của Skill viết cho bản mới hơn | Ghi phiên bản thực tế ở [PROJECT.md](../PROJECT.md) §6; nhắc phiên bản trong Task |
-| Muốn sửa Rule, Skill trong `.ai/` | `.ai/rules/`, `.ai/skills/`, `.ai/workflows/`, `.ai/templates/`, `.ai/agents/`, `.ai/guide/` là vùng 🔴 (`.ai/plans/` là vùng 🟢) | Mở Task riêng, Tech Lead duyệt ([.ai/README](../.ai/README.md)) |
+| AI dùng API không có ở phiên bản thư viện đang chạy | Reference của Skill viết cho bản mới hơn | Ghi phiên bản thực tế ở [PROJECT.md](../../PROJECT.md) §6; nhắc phiên bản trong Task |
+| Muốn sửa Rule, Skill trong `.ai/` | `.ai/rules/`, `.ai/skills/`, `.ai/workflows/`, `.ai/templates/`, `.ai/agents/`, `.ai/guide/` là vùng 🔴 (`.ai/plans/` là vùng 🟢) | Mở Task riêng, Tech Lead duyệt ([.ai/README](../README.md)) |

@@ -74,4 +74,4 @@ Mỗi dòng trong Skill được nạp lại ở mọi Task dùng nó, nên:
 
 ## Tiếp nhận Skill bên ngoài
 
-Skill cộng đồng và guideline do package sinh ra chỉ là tài liệu tham khảo, không cài thẳng. Quy trình tiếp nhận: [docs/03-engineering/external-skills.md](../../docs/03-engineering/external-skills.md).
+Skill cộng đồng và guideline do package sinh ra chỉ là tài liệu tham khảo, không cài thẳng. Quy trình tiếp nhận: [.ai/guide/external-skills.md](../guide/external-skills.md).
