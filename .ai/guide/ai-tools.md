@@ -47,6 +47,10 @@ Công cụ dự án dùng, quyền được cấp và MCP server khai ở mục 
 
 - **`--allowedTools` là một chuỗi ngăn bằng dấu cách.** Lệnh ngoài danh sách bị chặn và ghi vào `permission_denials` của JSON. Lệnh nối (`;`, `&&`, `cd`) và script phụ trợ cũng bị chặn, nên prompt yêu cầu mỗi lệnh Bash chạy riêng một lệnh và sửa file bằng Edit/Write.
 - **Ghi file dưới `.claude/` bị chặn** ở chế độ này dù đã cho phép theo tên: người tạo các file đó.
+- **`--allowedTools` chỉ mở lệnh có trong `acceptance_criteria[].check` và lệnh git chỉ đọc.**
+- **Không dùng `bypassPermissions`.**
+- **`allowed_paths` không có cờ tương ứng:** Orchestrator kiểm file đổi ở tiêu chí Hợp lệ.
+- **`permission_denials` chặn bước bắt buộc** thì là `permission_denied`: dừng, không nâng mức.
 - **Đọc từ JSON để ghi `runs.md`:** `is_error` (lỗi API có thể kết thúc Run với `subtype: success`), `total_cost_usd`, `modelUsage`, `permission_denials`. `--max-budget-usd` chỉ có tác dụng với `-p` và tính cho từng lần gọi: đặt bằng ngân sách còn lại của Task.
 - **Không có cờ giới hạn token đầu ra:** Run ghi "không áp dụng: max_output_tokens".
 - **Task `step-by-step`:** người mở phiên tương tác `claude --model <model> --effort <effort>` trong worktree của Task.

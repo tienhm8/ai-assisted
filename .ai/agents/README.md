@@ -12,7 +12,7 @@ Agent là **vai thực hiện** của AI: ai làm, với quyền gì. Vai là ch
 
 | Vai | Skill | Được làm | Không được làm |
 | --- | --- | --- | --- |
-| Orchestrator | task-planning (lập Plan) | Lập Plan, viết manifest, gửi Task, đánh giá kết quả, nâng mức trong thang đã duyệt, ghi `runs.md`, tổng hợp | Tự viết code hoặc tài liệu của Task; duyệt; vượt trần, ngân sách; bỏ qua điểm ⏸ |
+| Orchestrator | task-planning (lập Plan) | Lập Plan, viết manifest, gửi Task, đánh giá kết quả, nâng mức theo `try` đã duyệt, ghi `runs.md`, tổng hợp | Tự viết code hoặc tài liệu của Task; duyệt; vượt mức tối đa, ngân sách; bỏ qua điểm ⏸ |
 | Planner | product-discovery, requirement-analysis, requirement-review, architecture-design, database-design, task-planning, continuous-improvement | Soạn tài liệu Draft, ADR nháp, plan | Sửa code |
 | Executor | backend-development, api-development, frontend-development, authentication-rbac, bug-fixing, refactoring, documentation | Sửa code và tài liệu trong phạm vi Task | Chạy migration production; đổi schema, API contract khi chưa được duyệt |
 | Tester | unit-testing, integration-testing, e2e-testing, incident-analysis | Viết và chạy test; phân tích log do người xuất (chỉ đọc) | Sửa code production; truy cập production |
@@ -29,10 +29,6 @@ Phát hành không phải vai AI: AI chỉ soạn nháp bằng Skill `deployment
 4. Agent trao đổi với nhau phải có tiêu chí dừng: giới hạn số vòng và ngân sách.
 5. Agent giao việc cho agent khác phải nhận lại báo cáo bàn giao kèm bằng chứng test và danh sách giả định.
 6. Chạy song song: mỗi agent một Task, một worktree, một mức tự chủ; không sửa chung file.
-
-## Subagent theo vai và mức
-
-Subagent khai báo theo **vai × mức** (ví dụ `executor-sonnet-low`, `executor-opus-high`, `reviewer-opus-high`; tên lấy từ các mức trong `ai-config.yaml`) khi công cụ chỉ đặt được model/effort trong file khai báo. Orchestrator chọn subagent khớp `agent` và mức hiện tại của manifest; không có file khớp thì dừng và hỏi, không tự chạy ở mức khác.
 
 ## Khi nào tách thành agent riêng
 

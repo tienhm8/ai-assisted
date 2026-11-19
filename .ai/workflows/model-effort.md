@@ -12,7 +12,7 @@ The main session that plans, classifies, dispatches, evaluates, and merges (step
 
 ## 2. Levels of a Task
 
-A Task's levels come from `tasks` in `ai-config.yaml`: the row whose `for` list contains the Task's main Skill. A Task with several Skills takes the row with the longest `try`. `try` is the order of levels to run: `try[0]` is the start level and the last item is the maximum level. Escalation moves one item right. Without effort, each next item in `try` is a stronger model; adjacent items never repeat the same model (a repeat is not an escalation). A `try` of one item reruns at the same level (§3 rule 2).
+A Task's levels come from `tasks` in `ai-config.yaml`: the row whose `for` list contains the Task's main Skill. Skills of one Task come from the same `tasks` row. A Skill from another row added during a Run (task-execution transition rule 5) makes `try` the item-wise higher of the two rows, longer row's tail kept; this changes `try`, so it needs Plan re-approval. `try` is the order of levels to run: `try[0]` is the start level and the last item is the maximum level. Escalation moves one item right. Without effort, each next item in `try` is a stronger model; adjacent items never repeat the same model (a repeat is not an escalation). A `try` of one item reruns at the same level (§3 rule 2). Order of levels: the position in `try`. Between rows: a stronger model is higher; with the same model, effort `low < medium < high < xhigh < max`. Model-only levels: the order of models in `sessions`, `tasks` of ai-config.yaml, weakest first. `high_risk_min` and 'never step down' use this order.
 
 `high_risk_min`: a `high`-risk Task, or one using `authentication-rbac` or `security-review`, never runs below it; drop the items of `try` below it. A manifest never lowers this.
 
@@ -62,7 +62,7 @@ Run at try[0] ──► Evaluate ──► Pass ──────────�
 5. **Attempt quota:** `max_attempts` (at most 3) counts Runs of one error: the first Run and its escalations. A new error found later (step 6 tests, step 8 review) opens its own quota of up to 3 Runs (`project-rules` 18). The hard cap across all quotas is `budget.max_cost_usd`.
 6. **Budget is cumulative per Task:** the Orchestrator adds the cost of every Run of the Task from `runs.md` and stops before a Run that would start over budget. A tool's per-call limit (e.g. Claude Code `--max-budget-usd`) is set to the remaining budget, not the full budget. Where the tool has no limit, the Orchestrator checks after each Run. The default budget is `budget_usd_per_task`.
 7. **No approval per step:** escalation within an approved `try` and budget needs no human approval; it is recorded in `runs.md`. Past the last item, attempts, or budget: stop, report the levels tried and their failures, propose next steps.
-8. **Start low only when evaluation is cheap and automatic** (Skills whose Tasks are evaluated by commands). Tasks evaluated by a human at a gate start at their default, since a failed low Run is discovered late and costs a full rerun.
+8. **Start low only when evaluation is cheap and automatic** (Tasks whose AC are all `command` checks: testing, development, refactoring, bug-fixing, caching, deployment Skills). Tasks evaluated by a human at a gate start at their default, since a failed low Run is discovered late and costs a full rerun.
 
 ## 4. Tool settings
 
