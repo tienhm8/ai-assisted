@@ -19,7 +19,7 @@
 ## 2. Ngoài phạm vi
 
 ## 3. Ràng buộc (pháp lý, hợp đồng, kỹ thuật, ngân sách, thời gian)
-- Mức dữ liệu của dự án (D0–D3), độ nghiêm ngặt (S1–S3) và công cụ AI được dùng: tham chiếu `PROJECT.md`, không chép lại.
+- Mức dữ liệu của dự án (công khai, nội bộ, nhạy cảm, bí mật), độ nghiêm ngặt (gọn, chuẩn, nghiêm ngặt) và công cụ AI được dùng: tham chiếu `PROJECT.md`, không chép lại.
 
 ## Lịch sử thay đổi
 | Ngày | Thay đổi | Lý do | Người duyệt |

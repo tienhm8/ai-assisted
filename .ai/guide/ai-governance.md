@@ -10,7 +10,7 @@
 
 ## 1. Nguyên tắc
 
-AI không tự suy diễn quy tắc nghiệp vụ và không tự ý đổi kiến trúc khi chưa được phê duyệt. Định nghĩa mức tự chủ A0–A4, trần mặc định và nghĩa của vùng 🟢🟡🔴 ở [project-rules](../../.ai/rules/project-rules.md); dự án khai báo phần siết thêm và bản đồ vùng trong [PROJECT.md](../../PROJECT.md) §2 (vai ở [.ai/agents/](../../.ai/agents/README.md) không có mức riêng).
+AI không tự suy diễn quy tắc nghiệp vụ và không tự ý đổi kiến trúc khi chưa được phê duyệt. Định nghĩa mức tự chủ, trần mặc định và nghĩa của vùng 🟢🟡🔴 ở [project-rules](../../.ai/rules/project-rules.md); dự án khai báo phần siết thêm và bản đồ vùng trong [PROJECT.md](../../PROJECT.md) §2 (vai ở [.ai/agents/](../../.ai/agents/README.md) không có mức riêng).
 
 ## 2. Việc cần người duyệt hoặc kiểm soát đặc biệt
 
@@ -30,7 +30,7 @@ Các việc còn lại (đọc code, phân tích yêu cầu, viết code, viết
 | --- | --- | --- | --- |
 | 1 | Hallucination | AI tự tạo ra nghiệp vụ, API hoặc thư viện không tồn tại | Rule 3 (không tự nghĩ ra nghiệp vụ, ghi `OQ`), Rule 16 (xác minh API, thư viện, lệnh tồn tại trước khi dùng) |
 | 2 | Context Drift | AI làm theo quyết định cũ hoặc tài liệu không còn hiệu lực | Rule 14 (chỉ dùng tài liệu Approved), Rule 1 (chỉ nạp tài liệu Task chỉ tới), Rule 9 (cập nhật tài liệu cùng thay đổi) |
-| 3 | Security Vulnerability | Code chạy được nhưng có lỗ hổng | Rule 19 (cổng tự động và review R3), Rule 13 và Rule 17 (không đụng production, không xoá không hoàn tác); `security-rules.md` |
+| 3 | Security Vulnerability | Code chạy được nhưng có lỗ hổng | Rule 19 (cổng tự động và review rủi ro cao), Rule 13 và Rule 17 (không đụng production, không xoá không hoàn tác); `security-rules.md` |
 | 4 | Overengineering | AI xây dựng phức tạp hơn yêu cầu | Rule 7 (chỉ sửa trong phạm vi Task), Rule 5 và Rule 6 (không tự đổi kiến trúc, không tự thêm dependency) |
 | 5 | False Confidence | AI báo hoàn thành nhưng chưa chạy test hoặc chưa kiểm tra hết trường hợp | Rule 10 (báo kết quả kiểm tra thật và nêu rõ phần chưa kiểm tra), Rule 18 (giới hạn vòng sửa), Rule 20 (không tự coi cổng đã qua) |
 

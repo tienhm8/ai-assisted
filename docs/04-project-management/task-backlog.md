@@ -32,13 +32,13 @@ ID theo công cụ quản lý việc: `<KEY>-<N>` (KEY là mã dự án hoặc m
 
 | Task ID | Loại | Tên | Tách từ | Plan | Phục vụ (US/FR/BR) | Module | Ưu tiên | Rủi ro | Phụ thuộc | Trạng thái |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| <KEY>-<N> | | | | PLAN-<NNN> | US-<MODULE>-<NN>, … | | | R1 | | |
+| <KEY>-<N> | | | | PLAN-<NNN> | US-<MODULE>-<NN>, … | | | thấp | | |
 
 ## 4. Ưu tiên
 
 Dùng thang MoSCoW chung với BRD, FR, NFR: `Must` · `Should` · `Could` · `Won't` (xem [FR/README](../01-requirements/FR/README.md)). Task kế thừa ưu tiên cao nhất của User Story/FR mà nó phục vụ; Bug và việc kỹ thuật do PO xếp.
 
-Tiêu chí xếp thứ tự trong cùng mức: giá trị nghiệp vụ, mức phụ thuộc của việc khác, rủi ro, công sức. Rủi ro R1–R3 và mức tự chủ A0–A4 định nghĩa ở [project-rules](../../.ai/rules/project-rules.md) (Thang dùng chung).
+Tiêu chí xếp thứ tự trong cùng mức: giá trị nghiệp vụ, mức phụ thuộc của việc khác, rủi ro, công sức. Rủi ro (thấp, vừa, cao) và mức tự chủ định nghĩa ở [project-rules](../../.ai/rules/project-rules.md) (Thang dùng chung).
 
 ## 5. Trạng thái
 

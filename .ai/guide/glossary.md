@@ -45,11 +45,11 @@
 | Rule | Điều bắt buộc AI và người phải tuân thủ. | Quy tắc | .ai/rules/ |
 | Skill | Hướng dẫn cách làm một loại việc cụ thể (không thay Rule, không nâng mức tự chủ). | Kỹ năng | .ai/skills/ |
 | Agent | Vai thực hiện của AI, định nghĩa theo chức năng và quyền: Planner, Executor, Tester, Reviewer, Security. Không bắt buộc là một AI riêng. AI chỉ là R trong RACI, không bao giờ là A. | Vai AI | .ai/agents/README.md |
-| Workflow | Quy trình điều phối: các bước của một Task và chuỗi Skill theo loại việc (T1…T15). | Quy trình | .ai/workflows/ |
-| RACI | Ma trận vai trò: R (thực hiện), A (chịu trách nhiệm cuối, một người duy nhất; khác A0–A4), C (được tư vấn), I (được thông báo). |  | .ai/agents/README.md |
-| R1 / R2 / R3 | Mức rủi ro review của một Task, tăng dần từ R1 đến R3; mức càng cao review càng chặt (R3 cần hai người, một người độc lập). | Mức rủi ro | .ai/rules/project-rules.md (Thang dùng chung) |
-| A0–A4 | Mức tự chủ của AI do Task cấp, từ A0 đến A4. Skill không được tự nâng mức; thiếu thì dừng và hỏi. | Mức tự chủ | .ai/rules/project-rules.md (Thang dùng chung); trần riêng của dự án: PROJECT.md §2.1 |
-| D0–D3 | Mức nhạy cảm của dữ liệu quy định được đưa gì vào AI; D3 gồm secret, token, dữ liệu cá nhân, không được ghi/log. | Mức dữ liệu | .ai/rules/project-rules.md (Thang dùng chung); dữ liệu của dự án: PROJECT.md §3; xử lý theo mức: security-standards.md §1 |
+| Workflow | Quy trình điều phối: các bước của một Task và chuỗi Skill theo loại việc (mười lăm loại việc, từ tính năng mới đến rà soát định kỳ). | Quy trình | .ai/workflows/ |
+| RACI | Ma trận vai trò: R (thực hiện), A (chịu trách nhiệm cuối, một người duy nhất; khác mức tự chủ của AI), C (được tư vấn), I (được thông báo). |  | .ai/agents/README.md |
+| Rủi ro thấp / vừa / cao | Mức rủi ro review của một Task, tăng dần; mức càng cao review càng chặt (rủi ro cao cần hai người, một người độc lập). | Mức rủi ro | .ai/rules/project-rules.md (Thang dùng chung) |
+| Mức tự chủ | Mức tự chủ của AI do Task cấp: chỉ trả lời, chỉ đọc, duyệt từng bước, làm trọn Task, miễn duyệt từng Task. Skill không được tự nâng mức; thiếu thì dừng và hỏi. | Mức tự chủ | .ai/rules/project-rules.md (Thang dùng chung); trần riêng của dự án: PROJECT.md §2.1 |
+| Công khai / nội bộ / nhạy cảm / bí mật | Mức nhạy cảm của dữ liệu quy định được đưa gì vào AI; mức bí mật gồm secret, token, dữ liệu cá nhân, không được ghi/log. | Mức dữ liệu | .ai/rules/project-rules.md (Thang dùng chung); dữ liệu của dự án: PROJECT.md §3; xử lý theo mức: security-standards.md §1 |
 | RBAC | Role-Based Access Control: phân quyền theo vai trò. | Phân quyền | 03-engineering/security-standards.md |
 | OWASP Top 10 | Danh sách 10 nhóm rủi ro bảo mật web phổ biến nhất của OWASP, mã `A01:2025`…`A10:2025`; dùng để phân loại finding. |  | 03-engineering/security-standards.md §13 |
 | ASVS / L1–L3 | OWASP Application Security Verification Standard: bộ yêu cầu kiểm chứng bảo mật, mã `V<chương>.<mục>.<yêu cầu>`. L1–L3: mức kiểm chứng tăng dần, dự án khai báo mức mục tiêu. | Mức ASVS | PROJECT.md §4; 03-engineering/security-standards.md §13 |
@@ -60,28 +60,28 @@
 | KPI | Key Performance Indicator: chỉ số đo hiệu quả (VD: lead time, thời gian review). |  | 04-project-management/ai-kpi.md |
 | QA | Quality Assurance: vai kiểm thử đảm bảo chất lượng. |  | .ai/agents/README.md |
 | OUT | Outcome đo được của sản phẩm, mã `OUT-<NN>`, khai báo ở vision.md; BRD tham chiếu trong Tiêu chí thành công. | Kết quả mong đợi | 00-project-overview/vision.md |
-| Cổng duyệt (G0–G7) | Điều kiện phải đạt để kết thúc một giai đoạn vòng đời `[01]`–`[08]` và sang giai đoạn kế; G0 đứng trước `[01]`. Có người có thẩm quyền duyệt và có bằng chứng. | Cổng, gate | 04-project-management/gates-and-rigor.md §1 |
-| S1–S3 | Độ nghiêm ngặt quy trình của cả dự án (cổng duyệt, tài liệu, review, truy vết, nhật ký AI), tăng dần; độc lập với R của Task. | Mức nghiêm ngặt | 04-project-management/gates-and-rigor.md §2; giá trị của dự án: PROJECT.md §4 |
+| Cổng duyệt | Điều kiện phải đạt để kết thúc một giai đoạn vòng đời (Khám phá sản phẩm đến Cải tiến) và sang giai đoạn kế; cổng Khai báo dự án đứng trước Khám phá sản phẩm. Có người có thẩm quyền duyệt và có bằng chứng. | Cổng, gate | 04-project-management/gates-and-rigor.md §1 |
+| Gọn / chuẩn / nghiêm ngặt | Độ nghiêm ngặt quy trình của cả dự án (cổng duyệt, tài liệu, review, truy vết, nhật ký AI), tăng dần; độc lập với rủi ro của Task. | Mức nghiêm ngặt | 04-project-management/gates-and-rigor.md §2; giá trị của dự án: PROJECT.md §4 |
 | Goal | Desired Outcome: kết quả đầu ra người dùng hoặc tổ chức muốn đạt ("muốn đạt kết quả gì?"), mã `GOAL-<NN>` (không viết `G<N>` để khỏi nhầm cổng duyệt). Nhóm A. Nguồn: BRQ, OUT, chiến lược kinh doanh hoặc yêu cầu trực tiếp. Liên kết nhiều-nhiều với Epic và Plan, không phải cha-con. | Mục tiêu | 04-project-management/goals.md |
 | Plan | Kế hoạch thực hiện một hoặc nhiều công việc ("sẽ thực hiện như thế nào?"), mã `PLAN-<NNN>`. Nhóm B. Có đúng một Nguồn (Goal, Epic, User Story hoặc yêu cầu độc lập) và danh sách Goals tuỳ chọn; chứa nhiều Task, thứ tự, điểm dừng; AI (Orchestrator) soạn, Tech Lead duyệt; có mục Kết quả sau khi xong. | Kế hoạch | .ai/plans/; 04-project-management/work-model.md |
 | Task Manifest | File khai báo một Task cho bên thực thi: làm gì, chạy bằng cấu hình nào (agent, model·effort bắt đầu, trần, ngân sách, nâng mức), kiểm thế nào (AC kèm lệnh kiểm). Chỉ là metadata, không tự đổi model nếu bên thực thi không áp dụng. | Manifest | .ai/templates/TASK-MANIFEST-TEMPLATE.yaml |
 | Run | Một lần thực thi Task trong phiên hoặc subagent riêng, mã `<KEY>-<N>#<n>`; ghi agent, model·effort thật, kết quả, bằng chứng, chi phí. | Lần chạy | .ai/templates/RUNS-TEMPLATE.md |
 | Orchestrator | Phiên AI chính: lập Plan, gán model·effort cho từng Task, gửi Task tới subagent, đánh giá kết quả, nâng mức, kiểm tra phụ thuộc, tổng hợp. Không tự viết code của Task, không duyệt thay người. | Điều phối | .ai/workflows/task-execution.md |
 | Nâng mức động | Task chạy ở mức model·effort thấp trước; kết quả không đạt vì năng lực thì chạy lại ở bậc cao hơn, tới mức trần đã duyệt. Thiếu đầu vào, yêu cầu mâu thuẫn, ngoài phạm vi thì dừng, không nâng. | Dynamic escalation | .ai/workflows/model-effort.md §3 |
-| M1–M3 / E1–E4 | Hạng model (M1 nhẹ, M2 chuẩn, M3 mạnh) và mức effort (E1 thấp … E4 rất cao), viết gộp `M2·E1`; đổi sang model thật theo công cụ. | Mức model·effort | .ai/workflows/model-effort.md |
+| model/effort | Mức chạy của một Run, ghi như trong ai-config.yaml (ví dụ sonnet/low); văn bản chung nói "mức bắt đầu", "mức kế tiếp", "mức tối đa". | Mức model·effort | .ai/workflows/model-effort.md |
 | Worktree | Môi trường cô lập, mỗi Task một nơi, để AI code và test. | Workspace cô lập | .claude/worktrees/ |
 | MoSCoW | Thang ưu tiên duy nhất của khung: `Must` bắt buộc · `Should` nên có · `Could` có thì tốt · `Won't` không làm đợt này. | Ưu tiên | 01-requirements/FR/README.md |
 | Mặc định khung / Chỗ dự án điền | Hai loại nội dung trong `docs/`: giá trị khung đặt sẵn, dự án được chỉnh (ghi "Mặc định khung"); và chỗ trống dự án điền (`<!-- Điền theo từng dự án: … -->`). Sàn không hạ được nằm ở `.ai/rules/`. | | 04-project-management/gates-and-rigor.md §3 |
-| Tech Lead | Người quyết chia Task, mức rủi ro, mức tự chủ AI; duyệt khung `.ai/`, 03-engineering, 04-project-management và cổng G0, G4–G6. | | PROJECT.md §5; 04-project-management/gates-and-rigor.md §1 |
-| Owner | Người quyết phát hành production; duyệt 05-operations và cổng G7. | | PROJECT.md §5; 05-operations/README.md |
-| Kiến trúc sư | Người duyệt thiết kế ở 02-architecture, ADR và cổng G3. | | 02-architecture/README.md |
+| Tech Lead | Người quyết chia Task, mức rủi ro, mức tự chủ AI; duyệt khung `.ai/`, 03-engineering, 04-project-management và các cổng Khai báo dự án, Sẵn sàng giao việc, Code xong, Sẵn sàng phát hành. | | PROJECT.md §5; 04-project-management/gates-and-rigor.md §1 |
+| Owner | Người quyết phát hành production; duyệt 05-operations và cổng Vận hành. | | PROJECT.md §5; 05-operations/README.md |
+| Kiến trúc sư | Người duyệt thiết kế ở 02-architecture, ADR và cổng Thiết kế. | | 02-architecture/README.md |
 | Security | Người duyệt phần thay đổi chạm tiền, phân quyền, dữ liệu cá nhân, migration, secret. Khác vai AI Security (chỉ khuyến nghị). | | PROJECT.md §5; .ai/agents/README.md |
 | DevOps | Người thực hiện triển khai, sao lưu, khôi phục và diễn tập. | | 05-operations/backup-recovery.md §14 |
-| Dev | Người viết code, là tác giả chịu trách nhiệm bàn giao Task. | Developer | 04-project-management/gates-and-rigor.md §1 (G5) |
-| Reviewer | Người review PR theo mức rủi ro R. Khác vai AI Reviewer (chỉ khuyến nghị, không thay người duyệt). | | .ai/agents/README.md; .ai/skills/code-review/SKILL.md |
+| Dev | Người viết code, là tác giả chịu trách nhiệm bàn giao Task. | Developer | 04-project-management/gates-and-rigor.md §1 (cổng Code xong) |
+| Reviewer | Người review PR theo mức rủi ro. Khác vai AI Reviewer (chỉ khuyến nghị, không thay người duyệt). | | .ai/agents/README.md; .ai/skills/code-review/SKILL.md |
 | Story Task · Technical Task · Bug · Improvement · Spike | Loại Task trong task backlog: hiện thực User Story/FR · việc kỹ thuật không gắn trực tiếp FR · lỗi so với FR/AC đã duyệt · cải tiến không đổi nghiệp vụ · khảo sát có giới hạn thời gian trước khi chia Task. Epic, User Story ở product backlog, không phải Task. | | 04-project-management/task-backlog.md §2 |
 | Product Backlog / Task Backlog | Product Backlog: Epic và User Story có ưu tiên (PO quyết). Task Backlog: Task có ưu tiên, rủi ro (Tech Lead quyết rủi ro). | | 04-project-management/product-backlog.md; task-backlog.md |
-| Delivery Report | Báo cáo bàn giao Task do AI soạn theo DELIVERY-REPORT-TEMPLATE; điều kiện của cổng G5. | Báo cáo bàn giao | .ai/templates/DELIVERY-REPORT-TEMPLATE.md |
+| Delivery Report | Báo cáo bàn giao Task do AI soạn theo DELIVERY-REPORT-TEMPLATE; điều kiện của cổng Code xong. | Báo cáo bàn giao | .ai/templates/DELIVERY-REPORT-TEMPLATE.md |
 | Smoke test | Kiểm tra nhanh các chức năng chính ngay sau deploy để xác nhận bản phát hành chạy được. | | 05-operations/deployment.md §11 |
 | Proposed / Rejected / Superseded | Trạng thái riêng của ADR: đang đề xuất · đã xem xét và không chọn · bị thay bởi ADR mới. | | 02-architecture/ADR/README.md |
 | AP | Access Pattern: mẫu truy cập dữ liệu, mã `AP-<NN>`; mỗi index, partition, phi chuẩn hoá, cache phải truy ra một AP. | Mẫu truy cập | 02-architecture/database-design.md §3.4 |

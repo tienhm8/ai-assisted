@@ -4,7 +4,7 @@
 >
 > **Người quyết: Tech Lead** (chia Task, mức rủi ro, mức tự chủ AI); Product Owner quyết thứ tự ưu tiên và lộ trình.
 >
-> **Điều kiện giao việc cho AI:** Task có đủ Objective, Scope in/out, AC, mức rủi ro R1–R3 và mức tự chủ A0–A4, bám theo FR đã duyệt. **Chưa đạt thì không giao AI code.**
+> **Điều kiện giao việc cho AI:** Task có đủ Objective, Scope in/out, AC, mức rủi ro (thấp, vừa, cao) và mức tự chủ, bám theo FR đã duyệt. **Chưa đạt thì không giao AI code.**
 
 ## Cấu trúc
 
