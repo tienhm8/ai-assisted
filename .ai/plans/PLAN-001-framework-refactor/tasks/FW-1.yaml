@@ -1,0 +1,90 @@
+# Task Manifest — PLAN-001 / FW-1. Format: .ai/templates/TASK-MANIFEST-TEMPLATE.yaml (pre-PLAN-001 fields).
+task_id: FW-1
+plan_id: PLAN-001
+serves: [PLAN-001 §6.1]
+title: Từ vựng thay mã lựa chọn trong project-rules, task-types, task-execution
+objective: Thang dùng chung và loại việc được định nghĩa bằng từ; rule 23 thay bằng quy tắc dùng từ
+type: T7
+risk: R2
+risk_reason: Sửa rule và workflow Approved ở vùng đỏ; mọi Task sau dựa vào từ vựng này; không chạm phân quyền, tiền, dữ liệu cá nhân
+autonomy: A3
+agent: executor
+
+context:
+  docs:
+    - "PLAN.md §6.1 Từ vựng thay cho mã"        # the approved vocabulary; copy terms exactly
+  rules: [git]
+  skills: [documentation]
+
+instructions: |
+  Work only in these three files. English stays English (project-rules 22).
+  1. .ai/rules/project-rules.md
+     - Section "Shared scales": rename each scale to its word and define every term in backticks,
+       using exactly the English terms of PLAN §6.1:
+       risk `low` `medium` `high`; autonomy `answer-only` `read-only` `step-by-step` `full-task`
+       `pre-approved`; data `public` `internal` `sensitive` `secret`. Keep each definition's meaning;
+       keep the ceiling rules, rewritten with words (e.g. "Ceiling: `full-task`. Writing code in a
+       `high`-risk Task: `step-by-step`. `pre-approved` only for writing tests in `low`-risk Tasks").
+     - Add three short definitions to the same section: process rigor `lean` `standard` `strict`
+       (one line each, meaning as in docs/04-project-management/gates-and-rigor.md §2 table);
+       approval gates `setup` `scope` `requirements` `design` `task-ready` `code-complete`
+       `release-ready` `operations` (one line: gate name, which stage it closes);
+       lifecycle stages `discovery` `requirements` `design` `ai-context` `implementation` `testing`
+       `release` `improvement`.
+     - Replace every R1-R3, A0-A4, S1-S3, D0-D3, G0-G7, [01]-[08], T1-T15, M·E code in the file with
+       the word. Zone emoji may stay but add the word: "red zone 🔴".
+     - Replace rule 23 with one rule: "Write choices with the scale words above, never codes.
+       Codes are kept only for object IDs (FR-, BR-, NFR-, OQ-, SRC-, BRQ-, EPIC-, FEAT-, US-,
+       GOAL-, PLAN-, ADR-, Task <KEY>-<N>). The first time an object ID appears in text for humans,
+       say what kind of object it is."
+  2. .ai/workflows/task-types.md
+     - First column becomes the type key in backticks, e.g. | `bug-fix` | Bug fix | ... using the
+       15 keys of PLAN §6.1 in the same row order T1..T15. Replace codes inside cells too
+       (e.g. "affected T2/T5 Tasks" -> "affected `feature`/`schema-change` Tasks").
+  3. .ai/workflows/task-execution.md
+     - Rewrite the two awk commands under "Load just in time" so that
+       `awk -v t=bug-fix '...' .ai/workflows/task-types.md` prints the header rows plus exactly the
+       one row whose first cell is `bug-fix`, and the list command prints key | name for every type.
+       Keep the third awk command (one docs section) unchanged.
+     - Replace every code in the file with words (T7 -> `architecture-change`, A2 or below ->
+       `step-by-step` or lower, R1 Task -> `low`-risk Task, etc.). Do not change any rule's meaning.
+
+inputs: []
+outputs:
+  - .ai/rules/project-rules.md
+  - .ai/workflows/task-types.md
+  - .ai/workflows/task-execution.md
+  - handoff report (DELIVERY-REPORT §1–§4, §8)
+scope:
+  allowed_paths: [.ai/rules/project-rules.md, .ai/workflows/task-types.md, .ai/workflows/task-execution.md]
+  zones: [red]                      # granted by PLAN-001 approval
+  out: [Other files (FW-6 and FW-7 replace codes elsewhere), Changing the meaning of any rule]
+dependencies: []
+
+acceptance_criteria:
+  - id: FW-1-AC1
+    check: { type: command, run: "python3 -I .ai/plans/PLAN-001-framework-refactor/check.py vocab" }
+  - id: FW-1-AC2
+    check: { type: command, run: "python3 -I .ai/plans/PLAN-001-framework-refactor/check.py types" }
+  - id: FW-1-AC3
+    check: { type: command, run: "python3 -I .ai/plans/PLAN-001-framework-refactor/check.py codes .ai/rules/project-rules.md .ai/workflows/task-types.md .ai/workflows/task-execution.md" }
+  - id: FW-1-AC4
+    check: { type: command, run: "python3 -I .ai/plans/PLAN-001-framework-refactor/check.py links .ai/rules .ai/workflows" }
+  - id: FW-1-AC5
+    check: { type: human, who: "Reviewer (step 8): every rule keeps its meaning" }
+
+dispatch: dispatched
+execution:
+  start: M2·E1                      # sonnet/low
+  floor: M2·E1
+  ceiling: M2·E3                    # sonnet/high
+  deviation_reason: ""
+  budget: { max_cost_usd: 1.5, timeout_min: 30, max_output_tokens: 20000 }
+escalation:
+  ladder: [M2·E1, M2·E3]
+  max_attempts: 2
+  escalate_on: [ac_failed, incomplete_output, invalid_output]
+  stop_on: [missing_input, conflicting_requirement, out_of_scope, security_finding, environment_error, permission_denied]
+commit: "refactor(ai): thay mã lựa chọn bằng từ trong project-rules và workflow (body: FW-1, PLAN-001)"
+gate: none
+status: Ready

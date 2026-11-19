@@ -1,0 +1,86 @@
+# Task Manifest — PLAN-001 / FW-3. Format: .ai/templates/TASK-MANIFEST-TEMPLATE.yaml (pre-PLAN-001 fields).
+task_id: FW-3
+plan_id: PLAN-001
+serves: [PLAN-001 §6.2]
+title: ai-config.yaml ghi thẳng model/effort theo loại việc
+objective: Lập Plan chỉ đọc ai-config.yaml để biết model/effort, ngân sách, stack, lệnh kiểm; model-effort.md chỉ còn quy tắc
+type: T7
+risk: R2
+risk_reason: Viết lại quy tắc chọn mức và nâng mức mà mọi Plan sau dựa vào
+autonomy: A3
+agent: executor
+
+context:
+  docs: ["PLAN.md §6.2 ai-config.yaml (gốc repo)"]
+  rules: [git]
+  skills: [documentation]
+
+instructions: |
+  1. Create ai-config.yaml at the repo root with exactly the content of PLAN §6.2 (keys: tool,
+     sessions, tasks, high_risk_min, budget_usd_per_task, stack, commands). Comments may be added
+     in Vietnamese; keep values. Every skill folder in .ai/skills/ plus `lookup` appears in exactly
+     one `for` list.
+  2. .ai/workflows/model-effort.md: keep only the rules. Delete the default-levels table (§2) and
+     the tier definitions (M1-M3, E1-E4, level order). A Task's levels come from ai-config.yaml
+     `tasks`: the row containing the Task's main Skill; a Task with several Skills takes the longest
+     `try`. `try[0]` is the start, the last item is the maximum; escalation moves one item right.
+     `high_risk_min`: a `high`-risk Task or one using authentication-rbac / security-review never runs
+     below it (drop lower items). Rewrite escalation rules in §3 with "next item in try" and
+     "last item" instead of ladder/ceiling/floor. Keep the evaluation table and every stop rule.
+     §4 becomes: switching AI tool = copy the `sessions`/`tasks` block from
+     .ai/agents/references/<tool>.md into ai-config.yaml; do not read the reference file to plan.
+  3. Each .ai/agents/references/<tool>.md (claude-code, codex, copilot, cursor, gemini): replace the
+     M/E mapping table in §1 with one ```yaml block holding `sessions` and `tasks` for that tool,
+     same `for` lists as ai-config.yaml, models from that file's current mapping (tools without
+     effort: model name only, no "/effort"). Keep the other sections; replace any M·E code in them.
+  4. .ai/templates/TASK-MANIFEST-TEMPLATE.yaml: replace execution start/floor/ceiling and
+     escalation.ladder with `execution.try: [sonnet/low, sonnet/high, opus/high]` copied from
+     ai-config.yaml (comment: deviation needs deviation_reason and Plan approval). Keep budget,
+     max_attempts, escalate_on, stop_on. Use scale words from FW-1 for type/risk/autonomy examples.
+  5. .ai/templates/RUNS-TEMPLATE.md and PLAN-TEMPLATE.md: level columns become "model/effort"
+     (e.g. sonnet/low) and "Thứ tự thử"; remove tier codes.
+  6. Skills with technology references (backend-development, frontend-development, database-design,
+     caching, deployment): change the "Load only the file of the framework..." sentence to
+     "Load the file matching ai-config.yaml `stack`; if `stack` lacks the entry, ask."
+  7. task-execution.md: wherever it cites model-effort §2 defaults or "project's default budget",
+     point to ai-config.yaml (`tasks`, `budget_usd_per_task`).
+
+inputs: [FW-2]
+outputs:
+  - ai-config.yaml
+  - .ai/workflows/model-effort.md, .ai/workflows/task-execution.md
+  - .ai/agents/references/*.md
+  - .ai/templates/TASK-MANIFEST-TEMPLATE.yaml, RUNS-TEMPLATE.md, PLAN-TEMPLATE.md
+  - .ai/skills/{backend-development,frontend-development,database-design,caching,deployment}/SKILL.md
+  - handoff report (DELIVERY-REPORT §1–§4, §8)
+scope:
+  allowed_paths: [ai-config.yaml, .ai/workflows/model-effort.md, .ai/workflows/task-execution.md, .ai/agents/references/, .ai/templates/TASK-MANIFEST-TEMPLATE.yaml, .ai/templates/RUNS-TEMPLATE.md, .ai/templates/PLAN-TEMPLATE.md, .ai/skills/backend-development/SKILL.md, .ai/skills/frontend-development/SKILL.md, .ai/skills/database-design/SKILL.md, .ai/skills/caching/SKILL.md, .ai/skills/deployment/SKILL.md]
+  zones: [red]
+  out: [Changing the default levels themselves, Translating reference files to English]
+dependencies: [FW-2]
+
+acceptance_criteria:
+  - id: FW-3-AC1
+    check: { type: command, run: "python3 -I .ai/plans/PLAN-001-framework-refactor/check.py config" }
+  - id: FW-3-AC2
+    check: { type: command, run: "python3 -I .ai/plans/PLAN-001-framework-refactor/check.py codes ai-config.yaml .ai/workflows/model-effort.md .ai/templates .ai/agents/references" }
+  - id: FW-3-AC3
+    check: { type: command, run: "python3 -I .ai/plans/PLAN-001-framework-refactor/check.py links .ai" }
+  - id: FW-3-AC4
+    check: { type: human, who: "Người phát triển khung xem đợt 1 (FW-1..FW-3) trước khi chạy FW-4" }
+
+dispatch: dispatched
+execution:
+  start: M2·E3                      # sonnet/high
+  floor: M2·E3
+  ceiling: M3·E3                    # opus/high
+  deviation_reason: "Viết lại quy tắc nâng mức mà mọi Plan sau dựa vào; bắt đầu ở mức cao (duyệt cùng Plan)"
+  budget: { max_cost_usd: 2, timeout_min: 40, max_output_tokens: 30000 }
+escalation:
+  ladder: [M2·E3, M3·E3]
+  max_attempts: 2
+  escalate_on: [ac_failed, incomplete_output, invalid_output]
+  stop_on: [missing_input, conflicting_requirement, out_of_scope, security_finding, environment_error, permission_denied]
+commit: "refactor(ai): ai-config.yaml ghi thẳng model/effort theo loại việc (body: FW-3, PLAN-001)"
+gate: "Người phát triển khung"
+status: New

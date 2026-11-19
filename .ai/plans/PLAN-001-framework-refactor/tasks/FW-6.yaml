@@ -1,0 +1,52 @@
+# Task Manifest — PLAN-001 / FW-6. Format: .ai/templates/TASK-MANIFEST-TEMPLATE.yaml (fields after FW-3).
+task_id: FW-6
+plan_id: PLAN-001
+serves: [PLAN-001 §6.1]
+title: Đổi mã thành chữ trong file cho AI
+objective: Không còn mã lựa chọn trong rules, skills, workflows, templates, agents
+type: docs-only
+risk: medium
+risk_reason: Sửa hàng loạt file Approved ở vùng đỏ; chỉ đổi cách viết, không đổi nghĩa
+autonomy: full-task
+agent: executor
+
+context:
+  docs: ["PLAN.md §6.1 Từ vựng thay cho mã", ".ai/rules/project-rules.md section Shared scales (after FW-1)"]
+  rules: [git]
+  skills: [documentation]
+
+instructions: |
+  List remaining codes with:
+    python3 -I .ai/plans/PLAN-001-framework-refactor/check.py codes .ai/rules .ai/skills .ai/workflows .ai/templates .ai/agents .ai/README.md
+  Replace each with the English word of PLAN §6.1 (backticks for scale values, e.g. `high`-risk Task,
+  `step-by-step` autonomy, `secret` data, `design` gate, `bug-fix` Task). Model levels become
+  "start level" / "next level in try" / model/effort from ai-config.yaml. Zone emoji: keep and add the
+  word (red zone 🔴). Vietnamese text in .ai/agents/ and .ai/templates/ gets the Vietnamese word.
+  Do not change meaning; do not touch .ai/guide/ or .ai/plans/.
+
+inputs: [FW-5]
+outputs: [".ai/rules, .ai/skills, .ai/workflows, .ai/templates, .ai/agents, .ai/README.md", "handoff report (DELIVERY-REPORT §1–§4, §8)"]
+scope:
+  allowed_paths: [.ai/rules/, .ai/skills/, .ai/workflows/, .ai/templates/, .ai/agents/, .ai/README.md]
+  zones: [red]
+  out: [.ai/guide/, .ai/plans/, docs/, root files (FW-7)]
+dependencies: [FW-5]
+
+acceptance_criteria:
+  - id: FW-6-AC1
+    check: { type: command, run: "python3 -I .ai/plans/PLAN-001-framework-refactor/check.py codes .ai/rules .ai/skills .ai/workflows .ai/templates .ai/agents .ai/README.md" }
+  - id: FW-6-AC2
+    check: { type: command, run: "python3 -I .ai/plans/PLAN-001-framework-refactor/check.py links .ai && python3 -I .ai/plans/PLAN-001-framework-refactor/check.py types && python3 -I .ai/plans/PLAN-001-framework-refactor/check.py config" }
+
+dispatch: dispatched
+execution:
+  try: [sonnet/low, sonnet/high]
+  deviation_reason: ""
+  budget: { max_cost_usd: 1, timeout_min: 40, max_output_tokens: 30000 }
+escalation:
+  max_attempts: 2
+  escalate_on: [ac_failed, incomplete_output, invalid_output]
+  stop_on: [missing_input, conflicting_requirement, out_of_scope, security_finding, environment_error, permission_denied]
+commit: "refactor(ai): đổi mã lựa chọn thành từ trong file cho AI (body: FW-6, PLAN-001)"
+gate: none
+status: New

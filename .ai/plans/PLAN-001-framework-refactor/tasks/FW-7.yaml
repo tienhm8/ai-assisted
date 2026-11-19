@@ -1,0 +1,54 @@
+# Task Manifest — PLAN-001 / FW-7. Format: .ai/templates/TASK-MANIFEST-TEMPLATE.yaml (fields after FW-3).
+task_id: FW-7
+plan_id: PLAN-001
+serves: [PLAN-001 §6.1]
+title: Đổi mã thành chữ trong file cho người
+objective: Người đọc docs/, .ai/guide/, file gốc không gặp mã lựa chọn; bỏ bảng tra ký hiệu
+type: docs-only
+risk: medium
+risk_reason: Sửa nhiều tài liệu cho người; chỉ đổi cách viết, không đổi nghĩa
+autonomy: full-task
+agent: executor
+
+context:
+  docs: ["PLAN.md §6.1 Từ vựng thay cho mã (cột Tiếng Việt)"]
+  rules: [git]
+  skills: [documentation]
+
+instructions: |
+  List remaining codes with:
+    python3 -I .ai/plans/PLAN-001-framework-refactor/check.py codes .ai/guide docs README.md PROJECT.md CHECKLIST.md AGENTS.md CLAUDE.md
+  Replace each with the Vietnamese word of PLAN §6.1 (rủi ro thấp/vừa/cao, duyệt từng bước, dữ liệu
+  bí mật, cổng Thiết kế, giai đoạn Kiểm thử, loại việc "sửa lỗi"...). Model levels: write model/effort
+  as in ai-config.yaml (sonnet/low) or "mức bắt đầu", "mức tối đa".
+  .ai/guide/getting-started.md: delete the code lookup table ("Bảng tra ký hiệu") and every sentence
+  explaining codes; keep the list of object IDs (FR-, OQ-, SRC-...) as a short table "Mã định danh".
+  In prompt examples write words, e.g. "Task PRJ-12 (sửa lỗi · rủi ro thấp · làm trọn Task)".
+  OWASP names such as A01:2025 stay. Do not touch .ai/plans/.
+
+inputs: [FW-5]
+outputs: [".ai/guide, docs, README.md, PROJECT.md, CHECKLIST.md, AGENTS.md", "handoff report (DELIVERY-REPORT §1–§4, §8)"]
+scope:
+  allowed_paths: [.ai/guide/, docs/, README.md, PROJECT.md, CHECKLIST.md, AGENTS.md]
+  zones: [red, green]
+  out: [.ai/rules, .ai/skills, .ai/workflows, .ai/templates, .ai/agents (FW-6), .ai/plans/]
+dependencies: [FW-5]
+
+acceptance_criteria:
+  - id: FW-7-AC1
+    check: { type: command, run: "python3 -I .ai/plans/PLAN-001-framework-refactor/check.py codes .ai/guide docs README.md PROJECT.md CHECKLIST.md AGENTS.md CLAUDE.md" }
+  - id: FW-7-AC2
+    check: { type: command, run: "python3 -I .ai/plans/PLAN-001-framework-refactor/check.py links && ! grep -q 'Bảng tra ký hiệu' .ai/guide/getting-started.md" }
+
+dispatch: dispatched
+execution:
+  try: [sonnet/low, sonnet/high]
+  deviation_reason: ""
+  budget: { max_cost_usd: 1, timeout_min: 40, max_output_tokens: 30000 }
+escalation:
+  max_attempts: 2
+  escalate_on: [ac_failed, incomplete_output, invalid_output]
+  stop_on: [missing_input, conflicting_requirement, out_of_scope, security_finding, environment_error, permission_denied]
+commit: "docs: đổi mã lựa chọn thành từ trong tài liệu cho người (body: FW-7, PLAN-001)"
+gate: none
+status: New

@@ -1,0 +1,69 @@
+# Task Manifest — PLAN-001 / FW-5. Format: .ai/templates/TASK-MANIFEST-TEMPLATE.yaml (fields after FW-3).
+task_id: FW-5
+plan_id: PLAN-001
+serves: [PLAN-001 §1, nguoi phat trien khung 2026-11-19]
+title: CHECKLIST.md và PROJECT.md điền sẵn khuyến nghị
+objective: Một checklist chung cho mọi dự án; PROJECT.md có giá trị khuyến nghị để phần lớn mục chỉ cần giữ
+type: docs-only
+risk: medium
+risk_reason: Đổi cách áp dụng khung cho mọi dự án
+autonomy: full-task
+agent: executor
+
+context:
+  docs: ["PLAN.md §3 (quyết định 2026-11-19)"]
+  rules: [git]
+  skills: [documentation]
+
+instructions: |
+  All text Vietnamese, short, no codes (use FW-1 words).
+  1. Create CHECKLIST.md at the repo root:
+     - One shared list for every project (no separate columns for new / existing projects).
+       Columns: # | Việc | File | Người quyết | Điều kiện hoàn thành. "Điều kiện hoàn thành" is
+       short and exact, checkable by reading the file.
+     - Rows, in order: tạo repo từ khung; đưa mã nguồn vào project/ (ghi ở PROJECT.md); dọn chỉ dẫn AI
+       cũ trong repo con ("không có thì xong"); vai trò; mức dữ liệu; vùng file; độ nghiêm ngặt
+       ("giữ chuẩn hoặc ghi lý do"); công cụ AI và model/effort (ai-config.yaml, chạy thử một Task
+       chỉ sửa tài liệu đạt); stack và lệnh kiểm tra (ai-config.yaml, lệnh chạy được); ngân sách
+       (ai-config.yaml); miễn trừ; duyệt PROJECT.md và ai-config.yaml (Approved, có tên, ngày);
+       hồ sơ của module làm đầu tiên (docs/, Approved).
+     - End with one line: after the checklist, read .ai/guide/getting-started.md §5 to assign work.
+  2. PROJECT.md: prefill recommended values so most rows need only "giữ mặc định":
+     độ nghiêm ngặt = chuẩn (with the reason line "khuyến nghị cho dự án nội bộ và gia công");
+     trần mức tự chủ = để trống (dùng trần chung); mức dữ liệu D table rows get typical examples
+     with "sửa theo dự án"; zone map keeps FW-2 rows and adds typical red paths (xác thực, phân quyền,
+     thanh toán, migration, CI) as examples to edit. Keep status Draft. Point to CHECKLIST.md at top.
+  3. README.md "Bắt đầu": point to CHECKLIST.md first, then .ai/guide/getting-started.md.
+  4. .ai/guide/getting-started.md §3.2 and §4.4: replace the long declaration steps with a pointer to
+     CHECKLIST.md; keep content that CHECKLIST.md does not cover.
+
+inputs: [FW-4]
+outputs: [CHECKLIST.md, PROJECT.md, README.md, .ai/guide/getting-started.md, "handoff report (DELIVERY-REPORT §1–§4, §8)"]
+scope:
+  allowed_paths: [CHECKLIST.md, PROJECT.md, README.md, .ai/guide/getting-started.md]
+  zones: [red, green]
+  out: [Code replacement in other files (FW-6, FW-7)]
+dependencies: [FW-4]
+
+acceptance_criteria:
+  - id: FW-5-AC1
+    check: { type: command, run: "grep -q 'Điều kiện hoàn thành' CHECKLIST.md && test $(grep -cE '^\\| [0-9]+ \\|' CHECKLIST.md) -ge 12 && grep -q 'CHECKLIST.md' README.md && grep -q 'CHECKLIST.md' PROJECT.md" }
+  - id: FW-5-AC2
+    check: { type: command, run: "python3 -I .ai/plans/PLAN-001-framework-refactor/check.py codes CHECKLIST.md PROJECT.md README.md" }
+  - id: FW-5-AC3
+    check: { type: command, run: "python3 -I .ai/plans/PLAN-001-framework-refactor/check.py links" }
+  - id: FW-5-AC4
+    check: { type: human, who: "Người phát triển khung: checklist ngắn, đúng ý" }
+
+dispatch: dispatched
+execution:
+  try: [sonnet/low, sonnet/high]
+  deviation_reason: ""
+  budget: { max_cost_usd: 1, timeout_min: 30, max_output_tokens: 20000 }
+escalation:
+  max_attempts: 2
+  escalate_on: [ac_failed, incomplete_output, invalid_output]
+  stop_on: [missing_input, conflicting_requirement, out_of_scope, security_finding, environment_error, permission_denied]
+commit: "docs: thêm CHECKLIST.md, PROJECT.md điền sẵn giá trị khuyến nghị (body: FW-5, PLAN-001)"
+gate: none
+status: New
