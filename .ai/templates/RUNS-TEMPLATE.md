@@ -16,8 +16,10 @@
 
 ## Điều chỉnh ngân sách
 
-| Lần | Task | Loại (giữ chỗ cấp thêm / trả lại giữ chỗ / thu hồi / dừng hỏi người) | Số tiền (USD) | Ngân sách Task trước → sau | Số dư quỹ trước → sau | Lý do (kèm kết quả đánh giá lại: việc đã xong, việc còn lại, dạng ước tính) | Ngày |
+| Lần | Task | Loại (mở quỹ / giữ chỗ cấp thêm / trả lại giữ chỗ / thu hồi / dừng hỏi người) | Số tiền (USD) | Ngân sách Task trước → sau | Số dư quỹ trước → sau | Lý do (kèm kết quả đánh giá lại: việc đã xong, việc còn lại, dạng ước tính) | Ngày |
 | --- | --- | --- | --- | --- | --- | --- | --- |
+| 0 | (Plan) | mở quỹ | số quỹ đã duyệt | — | 0 → số quỹ đã duyệt | Quỹ duyệt cùng Plan | (ngày) |
 | 1 | <KEY>-<N> | giữ chỗ cấp thêm | 0,6 | 2 → 2,6 | 0,8 → 0,2 | Đã xong: …; còn lại: …; ước tính `DuKienThem` 0,9 | |
 
 - **Mỗi điều chỉnh là một dòng mới**, không sửa dòng cũ. Số dư quỹ chỉ đọc từ bảng này.
+- **Dòng mở quỹ** được ghi một lần, bởi Orchestrator, khi Plan được duyệt; đây là dòng đầu tiên, không có dòng nào đứng trước nó.
