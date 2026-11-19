@@ -23,7 +23,7 @@
 | --- | --- |
 | Test sớm | Viết và chạy test ngay trong Task, không dồn về cuối. |
 | Ưu tiên tự động | Việc lặp lại được thì tự động hoá; test thủ công chỉ cho phần chưa tự động được. |
-| Theo rủi ro | Mức độ kiểm thử tăng theo mức rủi ro R1–R3 và mức dữ liệu D0–D3. |
+| Theo rủi ro | Mức độ kiểm thử tăng theo mức rủi ro (thấp, vừa, cao) và mức dữ liệu. |
 | Độc lập | Test không phụ thuộc thứ tự chạy và không do chính cơ chế sinh code tự xác nhận. |
 | Lặp lại được | Cùng đầu vào cho cùng kết quả; không phụ thuộc thời gian, mạng ngoài, dữ liệu may rủi. |
 
@@ -107,7 +107,7 @@ Không được chỉ kiểm tra trường hợp người dùng có quyền truy
 | --- | --- |
 | Chiến lược | Dùng dữ liệu giả hoặc sinh tự động; nguồn và cách tạo ghi tại đây. |
 | Cô lập | Mỗi test tự tạo và không dùng chung dữ liệu với test khác; không chạm dữ liệu production. |
-| Dữ liệu nhạy cảm | **Cấm** dùng dữ liệu thật mức D3 (secret, token, dữ liệu cá nhân) trong test; mức D1–D2 theo quy định ở [security-standards](security-standards.md) §1; nếu bắt buộc phải ẩn danh ([security-standards](security-standards.md) §6.3). |
+| Dữ liệu nhạy cảm | **Cấm** dùng dữ liệu thật mức bí mật (secret, token, dữ liệu cá nhân) trong test; mức nội bộ và nhạy cảm theo quy định ở [security-standards](security-standards.md) §1; nếu bắt buộc phải ẩn danh ([security-standards](security-standards.md) §6.3). |
 | Dọn dẹp | Test dọn dữ liệu đã tạo hoặc chạy trên DB tạm có thể huỷ. |
 
 <!-- Điền theo từng dự án -->
@@ -136,10 +136,10 @@ Không được chỉ kiểm tra trường hợp người dùng có quyền truy
 | Commit message | Mọi commit, chạy ở hook `commit-msg` | Sai cú pháp Angular ([git-workflow-rules](../../.ai/rules/git-workflow-rules.md) mục 3) |
 | Secret scanning | Mọi commit | Phát hiện secret |
 | Dependency/SCA, license | Khi đổi dependency | Lỗ hổng high/critical, license cấm |
-| SAST | Mức nghiêm ngặt S2 trở lên | Phát hiện high |
+| SAST | Mức nghiêm ngặt chuẩn trở lên | Phát hiện high |
 | Migration check | Khi có migration | Không chạy được trên DB sạch, thiếu cách khôi phục |
 | Truy vết | PR có ID Task/FR | Thiếu liên kết |
-| Đối chiếu phiếu ↔ diff | S2 trở lên | File vùng 🟡/🔴, test bị xoá, xoá cột/bảng không có trong phiếu |
+| Đối chiếu phiếu ↔ diff | Chuẩn trở lên | File vùng vàng 🟡/vùng đỏ 🔴, test bị xoá, xoá cột/bảng không có trong phiếu |
 
 **Luật chung**
 - **Cấm** (xem [testing-rules](../../.ai/rules/testing-rules.md)) tắt lint/kiểm tra kiểu/test, hạ ngưỡng coverage, xoá hoặc làm yếu assertion, bỏ hook (`--no-verify`) để qua cổng.
@@ -150,7 +150,7 @@ Không được chỉ kiểm tra trường hợp người dùng có quyền truy
 **Coverage.** Không nên áp một con số coverage duy nhất cho tất cả module. Có thể đặt mục tiêu riêng cho logic nghiệp vụ, bảo mật, tiện ích và những phần ít rủi ro hơn.
 <!-- Điền theo từng dự án: ngưỡng -->
 
-**Review theo rủi ro.** Mức R1–R3; định nghĩa R1–R3 ở [project-rules](../../.ai/rules/project-rules.md) (Thang dùng chung), cách review ở Skill [code-review](../../.ai/skills/code-review/SKILL.md). R3 cần hai người, một người độc lập; nếu thiếu người thì ghi miễn trừ.
+**Review theo rủi ro.** Mức rủi ro thấp, vừa, cao; định nghĩa ở [project-rules](../../.ai/rules/project-rules.md) (Thang dùng chung), cách review ở Skill [code-review](../../.ai/skills/code-review/SKILL.md). Rủi ro cao cần hai người, một người độc lập; nếu thiếu người thì ghi miễn trừ.
 
 **Ví dụ chọn công cụ** (không bắt buộc, trừ E2E dùng Playwright cho mọi dự án): kiểm tra commit message dùng commitlint ở hook `commit-msg` của husky; dự án TypeScript dùng ESLint + Prettier, `tsc --strict`, Vitest/Jest, gitleaks, `npm audit`; dự án Python dùng ruff, mypy, pytest.
 

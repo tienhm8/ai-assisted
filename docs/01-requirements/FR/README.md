@@ -28,7 +28,7 @@ Trạng thái hoàn thành của FR **chỉ nằm ở bảng này**; nơi khác 
 - Đầu vào / điều kiện tiên quyết:
 - Luồng chính:
 - Luồng lỗi / ngoại lệ:
-- Dữ liệu liên quan (mức D0–D3):
+- Dữ liệu liên quan (công khai, nội bộ, nhạy cảm hoặc bí mật):
 - Điểm chưa rõ: OQ-<NN>
 ```
 

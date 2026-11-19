@@ -4,7 +4,7 @@
 >
 > **Người quyết phát hành: Owner** (tham khảo Tech Lead; thêm Security nếu đụng tới secret, phân quyền, dữ liệu cá nhân, backup dữ liệu).
 >
-> **Điều kiện phát hành:** cổng G7 ở [gates-and-rigor](../../.ai/guide/gates-and-rigor.md) §1.
+> **Điều kiện phát hành:** cổng Vận hành ở [gates-and-rigor](../../.ai/guide/gates-and-rigor.md) §1.
 
 ## Cấu trúc
 

@@ -10,14 +10,14 @@
 
 > **Mục đích.** Chuẩn bảo mật: nguyên tắc, Authentication & Authorization (quy tắc), kiểm tra đầu vào, bảo vệ dữ liệu, secret, API, logging, dependency, ánh xạ OWASP Top 10 và mức ASVS. Sàn không hạ được.
 
-## 1. Xử lý dữ liệu theo mức (D0–D3)
-Định nghĩa D0–D3 ở [project-rules](../../.ai/rules/project-rules.md); dữ liệu của dự án thuộc mức nào và mức nào được đưa vào AI khai báo ở [PROJECT.md](../../PROJECT.md) §3, không chép lại ở đây. Với mỗi mức, ghi việc được/không được ghi log và dùng ở môi trường không phải production.
+## 1. Xử lý dữ liệu theo mức
+Định nghĩa bốn mức dữ liệu (công khai, nội bộ, nhạy cảm, bí mật) ở [project-rules](../../.ai/rules/project-rules.md); dữ liệu của dự án thuộc mức nào và mức nào được đưa vào AI khai báo ở [PROJECT.md](../../PROJECT.md) §3, không chép lại ở đây. Với mỗi mức, ghi việc được/không được ghi log và dùng ở môi trường không phải production.
 | Mức | Được ghi log | Được dùng ở môi trường không phải production |
 | --- | --- | --- |
-| D0 | | |
-| D1 | | |
-| D2 | | |
-| D3 | Không | |
+| Công khai | | |
+| Nội bộ | | |
+| Nhạy cảm | | |
+| Bí mật | Không | |
 
 <!-- Điền theo từng dự án -->
 
@@ -83,7 +83,7 @@ Mỗi endpoint khai báo quyền yêu cầu ([api-design](../02-architecture/api
 Dữ liệu của dự án theo mức ở [PROJECT.md](../../PROJECT.md) §3, cách xử lý ở §1; thiết kế bảo mật cho từng bảng/cột ở [database-design](../02-architecture/database-design.md) §5.
 
 ### 6.1 Xử lý dữ liệu nhạy cảm
-Chỉ thu thập và lưu dữ liệu cần thiết; không đưa dữ liệu D3 vào log, URL, thông báo lỗi.
+Chỉ thu thập và lưu dữ liệu cần thiết; không đưa dữ liệu bí mật vào log, URL, thông báo lỗi.
 
 ### 6.2 Mã hoá
 Mã hoá khi truyền (TLS) và khi lưu; thuật toán, độ dài khoá, nơi quản lý khoá.
@@ -130,7 +130,7 @@ Quy định chung ở [error-handling](error-handling.md) §7; mục này chỉ 
 Sự kiện bất thường (đăng nhập thất bại liên tiếp, truy cập bị từ chối tăng đột biến, đổi quyền quản trị) phải có cảnh báo tới người xử lý; ngưỡng và người nhận khai báo ở [monitoring](../05-operations/monitoring.md) §8. Chỉ ghi log mà không có cảnh báo thì chưa đạt.
 
 ### 9.2 Che dữ liệu nhạy cảm trong log
-Không ghi dữ liệu D3, mật khẩu, token; che hoặc băm dữ liệu cá nhân. Kiểm soát truy cập log.
+Không ghi dữ liệu bí mật, mật khẩu, token; che hoặc băm dữ liệu cá nhân. Kiểm soát truy cập log.
 
 ### 9.3 Yêu cầu audit
 Hành động cần audit trail (ai, làm gì, khi nào, trên đối tượng nào); thời hạn lưu; chống sửa/xoá log.
@@ -161,7 +161,7 @@ Chu kỳ cập nhật, quy tắc ghim phiên bản, kiểm tra license được 
 Dùng khi tự kiểm và review ([coding-standards](coding-standards.md) §9.1).
 - [ ] Mọi thao tác có kiểm tra xác thực và quyền ở server.
 - [ ] Đầu vào được validate; truy vấn được tham số hoá.
-- [ ] Không có secret, dữ liệu D3 trong code, log, prompt.
+- [ ] Không có secret, dữ liệu bí mật trong code, log, prompt.
 - [ ] Lỗi không lộ thông tin nội bộ; khi lỗi hoặc ngoại lệ thì từ chối (fail-closed), không bỏ qua kiểm tra.
 - [ ] URL, đường dẫn file, dữ liệu tuần tự hoá từ đầu vào đã xử lý theo §5 (SSRF, path traversal, deserialization).
 - [ ] Dependency mới đã qua quét lỗ hổng và kiểm tra license; lockfile được cập nhật.
@@ -186,8 +186,8 @@ Dự án khai báo mức ASVS mục tiêu ở [PROJECT.md](../../PROJECT.md) §4
 
 | Điều kiện | Mức tối thiểu |
 | --- | --- |
-| Chỉ có dữ liệu D0–D1, không có tài khoản người dùng | L1 |
-| Có dữ liệu D2–D3, có tài khoản người dùng hoặc phân quyền | L2 |
+| Chỉ có dữ liệu công khai hoặc nội bộ, không có tài khoản người dùng | L1 |
+| Có dữ liệu nhạy cảm hoặc bí mật, có tài khoản người dùng hoặc phân quyền | L2 |
 | Có tiền, y tế, hạ tầng trọng yếu hoặc bắt buộc theo hợp đồng/pháp lý | L3 |
 
 Yêu cầu ASVS ở mức đã khai báo mà chưa đạt thì ghi ngoại lệ theo §12, không bỏ qua âm thầm.

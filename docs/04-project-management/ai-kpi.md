@@ -14,7 +14,7 @@
 
 | Nhóm | KPI | Nguồn dữ liệu | Ghi chú |
 | --- | --- | --- | --- |
-| Productivity | Lead time; thời gian hoàn thành Task (cycle time); giờ người theo giai đoạn; thời gian review; thời gian tiết kiệm được | Công cụ quản lý việc, Git/PR, CD | Thời gian review tách theo R1/R2/R3 |
+| Productivity | Lead time; thời gian hoàn thành Task (cycle time); giờ người theo giai đoạn; thời gian review; thời gian tiết kiệm được | Công cụ quản lý việc, Git/PR, CD | Thời gian review tách theo rủi ro thấp/vừa/cao |
 | Quality | Defect rate; escaped defects (lỗi phát hiện sau release); test pass rate; tỷ lệ PR bị từ chối khi review; bug mở lại | Issue tracker, CI hoặc kết quả test chạy local | Escaped defects tính trên số FR phát hành |
 | Security | Critical vulnerabilities; authorization defects (lỗi phân quyền) | Công cụ quét, review, sự cố | Tách theo nguồn phát hiện: cổng, review, sau release |
 | AI Efficiency | Tỷ lệ code AI được chấp nhận; số vòng sửa; chi phí AI / Task; chi phí người / Task | PR, Delivery Report §8, hoá đơn nhà cung cấp | "Chấp nhận" là dùng mà không phải viết lại lớn |

@@ -17,7 +17,7 @@ Ba nhóm khái niệm, từng khái niệm và cách liên kết: [work-model](.
 - Goal là mục tiêu đầu ra, không phải nhóm công việc (Epic) và không phải kế hoạch (Plan). Không thay Epic bằng Goal.
 - **Nguồn của Goal:** BRQ, Outcome (`OUT`), chiến lược kinh doanh, hoặc yêu cầu trực tiếp của người dùng; ghi ở cột "Nguồn". Goal kỹ thuật (hạ tầng, refactor, sửa lỗi lớn) ghi lý do.
 - **Không phải cây cha-con:** một Goal có thể cần nhiều Epic và nhiều Plan; một Epic có thể đóng góp vào nhiều Goal (Epic ghi Goal ở [product-backlog](product-backlog.md) §1); một Plan có thể phục vụ nhiều Goal hoặc không thuộc Goal nào (Plan ghi Goal ở PLAN.md). Goal không ghi ngược Epic, Plan; tra bằng cách lọc.
-- Mã `GOAL-<NN>` không viết tắt thành `G<N>` để khỏi nhầm với cổng duyệt G0–G7.
+- Mã `GOAL-<NN>` không viết tắt thành `G<N>` để khỏi nhầm với cổng duyệt.
 
 | Ví dụ | Mã |
 | --- | --- |
@@ -30,8 +30,8 @@ Ba nhóm khái niệm, từng khái niệm và cách liên kết: [work-model](.
 
 - **Goal mới:** khi kết quả muốn đạt khác hẳn Goal đang có, và có người sở hữu, tiêu chí hoàn thành riêng.
 - **Plan không bắt buộc có Goal:** Plan tạo từ Epic, User Story hoặc yêu cầu độc lập thì ghi Nguồn đó; không lập Goal chỉ để có chỗ gắn Plan.
-- **Plan mới** (thay vì thêm Task vào Plan có sẵn) khi có ít nhất một điều: mục tiêu đầu ra khác nhau; thực hiện độc lập được; có vòng đời và tiêu chí hoàn thành riêng; cần quản lý tiến độ hoặc quyền truy cập riêng. Mặc định mỗi chặng kết thúc ở một cổng duyệt (phân tích → G2, thiết kế → G3, làm tính năng → G5) là một Plan.
-- Việc nhỏ (một Task R1, rủi ro thấp) không cần Goal hay Plan: chạy fast lane, Task ghi User Story/FR hoặc lý do.
+- **Plan mới** (thay vì thêm Task vào Plan có sẵn) khi có ít nhất một điều: mục tiêu đầu ra khác nhau; thực hiện độc lập được; có vòng đời và tiêu chí hoàn thành riêng; cần quản lý tiến độ hoặc quyền truy cập riêng. Mặc định mỗi chặng kết thúc ở một cổng duyệt (phân tích → cổng Yêu cầu, thiết kế → cổng Thiết kế, làm tính năng → cổng Code xong) là một Plan.
+- Việc nhỏ (một Task rủi ro thấp) không cần Goal hay Plan: chạy fast lane, Task ghi User Story/FR hoặc lý do.
 
 ## 3. Danh sách Goal
 

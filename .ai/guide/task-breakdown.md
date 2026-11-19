@@ -8,7 +8,7 @@
 | Phiên bản · Ngày |  |
 | Tài liệu liên quan | work-model.md, ../../docs/04-project-management/goals.md, ../../docs/04-project-management/task-backlog.md, ../../docs/04-project-management/product-backlog.md, ../../docs/04-project-management/roadmap.md, ../../docs/01-requirements/FR/, ../../.ai/workflows/task-execution.md, ../../.ai/workflows/task-types.md, ../../.ai/rules/project-rules.md |
 
-> **Mục đích.** Chia Task trong Plan (**người quyết: Tech Lead**, duyệt khi duyệt Plan): mỗi Task có objective, scope in/out, AC, mức rủi ro R1–R3, mức tự chủ A0–A4. Plan và Task Manifest nằm ở [.ai/plans/](../../.ai/plans/); Goal ở [goals](../../docs/04-project-management/goals.md); ba nhóm khái niệm ở [work-model](work-model.md).
+> **Mục đích.** Chia Task trong Plan (**người quyết: Tech Lead**, duyệt khi duyệt Plan): mỗi Task có objective, scope in/out, AC, mức rủi ro (thấp, vừa, cao), mức tự chủ. Plan và Task Manifest nằm ở [.ai/plans/](../../.ai/plans/); Goal ở [goals](../../docs/04-project-management/goals.md); ba nhóm khái niệm ở [work-model](work-model.md).
 
 ## 1. Nguyên tắc chia Task
 
@@ -80,7 +80,7 @@ Mục tiêu cần đạt được.
 ## 2. Business Context
 Bối cảnh nghiệp vụ liên quan.
 - Phục vụ: US-…, FR-…, BR-…, NFR-…; tham chiếu: ADR-…
-- Phân loại: loại Task, rủi ro R1 | R2 | R3 (lý do), mức tự chủ AI A0–A4; mỗi mã ghi kèm nghĩa, ví dụ T3 (sửa lỗi) · R1 (thấp, dễ hoàn tác) · A3 (làm trọn, người duyệt kết quả cuối)
+- Phân loại: loại Task, rủi ro thấp | vừa | cao (lý do), mức tự chủ của AI; ví dụ sửa lỗi · rủi ro thấp (dễ hoàn tác) · làm trọn Task (người duyệt kết quả cuối)
 - Thuộc: Plan `PLAN-<NNN>` (Goal, nếu có, ghi ở Plan)
 
 ## 3. Requirements
@@ -132,7 +132,7 @@ Mục 12 do AI điền khi bàn giao. Mục 2 có thêm dòng Liên kết và Ph
 Task giao cho AI chạy trong một Plan còn có Task Manifest ([TASK-MANIFEST-TEMPLATE](../../.ai/templates/TASK-MANIFEST-TEMPLATE.yaml)): manifest lấy mục 1, 3, 6, 7 từ Task Specification và thêm cấu hình chạy (agent, model·effort bắt đầu, trần, ngân sách, nâng mức). Task Specification là bản cho người; manifest là bản cho bên thực thi; nội dung trùng thì Task Specification là gốc.
 
 ### Duyệt khi bàn giao và khi sẵn sàng phát hành
-Bàn giao Task là cổng G5, sẵn sàng phát hành là cổng G6; điều kiện qua và người duyệt ở [gates-and-rigor](gates-and-rigor.md) §1.
+Bàn giao Task là cổng Code xong, sẵn sàng phát hành là cổng Sẵn sàng phát hành; điều kiện qua và người duyệt ở [gates-and-rigor](gates-and-rigor.md) §1.
 
 ### Quy tắc giao việc
 
@@ -166,7 +166,7 @@ Không giao Task kiểu "Xây dựng toàn bộ hệ thống quản lý bất đ
 
 ## 6. Ước lượng
 
-Ước lượng ghi ở mục Estimate của Task Specification, theo độ phức tạp (nhỏ / vừa / lớn) và công sức dự kiến. Rủi ro dùng thang R1–R3, không dùng thang riêng. Task lớn phải chia nhỏ trước khi giao AI.
+Ước lượng ghi ở mục Estimate của Task Specification, theo độ phức tạp (nhỏ / vừa / lớn) và công sức dự kiến. Rủi ro dùng thang thấp, vừa, cao, không dùng thang riêng. Task lớn phải chia nhỏ trước khi giao AI.
 
 ## 7. Điều kiện sẵn sàng (Definition of Ready)
 
@@ -174,7 +174,7 @@ Task chỉ được giao AI khi:
 
 - Có FR/BR/NFR tham chiếu đã duyệt, thiết kế liên quan đã Approved ([02-architecture](../../docs/02-architecture/README.md)).
 - Có Task Specification theo mẫu ở mục 4: Objective, Scope in/out và AC đã điền.
-- Ưu tiên, rủi ro R1–R3 và mức tự chủ A0–A4 đã gán (trực tiếp, hoặc qua Plan đã duyệt).
+- Ưu tiên, rủi ro và mức tự chủ đã gán (trực tiếp, hoặc qua Plan đã duyệt).
 - Task chạy trong Plan: có Task Manifest, mọi AC có cách kiểm.
 - Phụ thuộc đã xong hoặc đã ghi rõ.
 
