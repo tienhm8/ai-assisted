@@ -38,7 +38,7 @@
 | Tám cổng duyệt | Điều kiện phải đạt để sang giai đoạn sau, qua bằng bằng chứng | [gates-and-rigor](gates-and-rigor.md) §1 |
 | Độ nghiêm ngặt | Gọn, chuẩn hoặc nghiêm ngặt; chọn một lần cho cả dự án | [gates-and-rigor](gates-and-rigor.md) §2 |
 | Task với rủi ro và mức tự chủ | Mỗi Task có rủi ro (thấp, vừa, cao) và mức tự chủ (chỉ trả lời, chỉ đọc, duyệt từng bước, làm trọn Task, miễn duyệt từng Task); thiếu thì AI dừng và hỏi | [project-rules](../rules/project-rules.md), mục "Thang dùng chung" |
-| Vùng 🟢🟡🔴 | Đường dẫn AI được sửa tự do, sửa khi plan đã duyệt, hay cần Task riêng | [PROJECT.md](../../PROJECT.md) §2.2 |
+| Vùng 🟢🟡🔴 | Đường dẫn AI được sửa tự do, sửa khi plan đã duyệt, hay cần Task riêng | rule 8 của [project-rules](../rules/project-rules.md) |
 | Ba nhóm khái niệm | A nghiệp vụ và sản phẩm (BRD, BRQ, Goal, Epic, Feature, User Story) · B lập kế hoạch và quản lý công việc (Plan, Task, Subtask, Dependency) · C thực thi bằng AI (Agent, Run, model·effort, Tool, Result, Review). Liên kết nhiều-nhiều, không phải cây cha-con | [work-model](work-model.md) |
 | Plan → Task → Run | Kế hoạch (có Nguồn: Goal, Epic, User Story hoặc yêu cầu độc lập; Goals tuỳ chọn) → việc cụ thể (mỗi Task một mức model·effort) → một lần chạy (nâng mức khi không đạt) | [work-model](work-model.md), [task-execution](../workflows/task-execution.md) |
 
