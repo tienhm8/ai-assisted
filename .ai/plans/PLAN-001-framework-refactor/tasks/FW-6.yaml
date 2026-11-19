@@ -49,4 +49,4 @@ escalation:
   stop_on: [missing_input, conflicting_requirement, out_of_scope, security_finding, environment_error, permission_denied]
 commit: "refactor(ai): đổi mã lựa chọn thành từ trong file cho AI (body: FW-6, PLAN-001)"
 gate: none
-status: New
+status: Done

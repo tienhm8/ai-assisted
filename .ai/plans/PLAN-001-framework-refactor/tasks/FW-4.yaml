@@ -79,4 +79,4 @@ escalation:
   stop_on: [missing_input, conflicting_requirement, out_of_scope, security_finding, environment_error, permission_denied]
 commit: "refactor(docs): chuyển tài liệu khung từ docs/ sang .ai/guide/ (body: FW-4, PLAN-001)"
 gate: none
-status: New
+status: Done

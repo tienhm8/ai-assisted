@@ -74,4 +74,4 @@ escalation:
   stop_on: [missing_input, conflicting_requirement, out_of_scope, security_finding, environment_error, permission_denied]
 commit: "docs: thêm CHECKLIST.md, PROJECT.md điền sẵn giá trị khuyến nghị (body: FW-5, PLAN-001)"
 gate: none
-status: New
+status: Done

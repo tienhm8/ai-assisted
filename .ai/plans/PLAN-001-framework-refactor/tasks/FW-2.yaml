@@ -82,4 +82,4 @@ escalation:
   stop_on: [missing_input, conflicting_requirement, out_of_scope, security_finding, environment_error, permission_denied]
 commit: "chore(ai): thêm CLAUDE.md, vùng theo thư mục con, worktree ở .claude/worktrees (body: FW-2, PLAN-001)"
 gate: none
-status: New
+status: Done
