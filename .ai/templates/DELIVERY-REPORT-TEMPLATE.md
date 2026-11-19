@@ -5,6 +5,18 @@
 ## 1. Kết quả
 Plan đã làm gì; mỗi Task: đạt tiêu chí nghiệm thu nào, AC nào còn chờ người kiểm.
 
+## Mô tả thay đổi (đầu vào của review)
+Review trên máy đọc mục này thay cho mô tả PR.
+- Vấn đề đang giải quyết, gắn với Task và AC nào:
+- Đổi hành vi hay chỉ refactor (refactor thì hành vi bên ngoài phải giữ nguyên):
+- Phạm vi ảnh hưởng: dữ liệu/schema, API hoặc hợp đồng với nơi gọi, job/message, cache, cấu hình/biến môi trường, quyền truy cập:
+- Ngoài phạm vi: điều cố ý không làm:
+- Kiểm thử thế nào, bằng chứng ở đâu:
+- Thay đổi dữ liệu: khối lượng, khoá bảng, tương thích ngược với mã đang chạy:
+- Thay đổi phá tương thích, cần cờ tính năng không, thứ tự triển khai, cách hoàn tác:
+
+Mỗi mục được ghi "không áp dụng: <lý do>".
+
 ## 2. Thay đổi
 Gộp từ **mọi** worktree, nhánh, phiên và lần chạy của các Task trong Plan (không chỉ phiên hiện tại). Lấy từ `git diff <nhánh gốc>...<nhánh Task>` của từng nguồn.
 
