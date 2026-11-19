@@ -8,8 +8,8 @@ PLAN-002 thêm quy tắc xử lý Task thiếu ngân sách: cảnh báo, đánh 
 
 | Task | Kết quả | Tiêu chí còn chờ người |
 | --- | --- | --- |
-| BG-1 quy tắc và mẫu cho AI | Đạt | BG-1-AC6: người phát triển khung đối chiếu quy tắc 9 đến 13 với PLAN §6.1 và thử hai ví dụ số ở PLAN §7 |
-| BG-2 hướng dẫn cho người | Đạt | BG-2-AC5: hướng dẫn khớp quy tắc 9 đến 13, không thêm quy tắc mới |
+| BG-1 quy tắc và mẫu cho AI | Đạt | Không (BG-1-AC6 đã được người phát triển khung xác nhận) |
+| BG-2 hướng dẫn cho người | Đạt | Không (BG-2-AC5 đã được người phát triển khung xác nhận) |
 
 ## Mô tả thay đổi (đầu vào của review)
 
@@ -77,7 +77,6 @@ Orchestrator chạy lại nguyên văn trên kết quả gộp, đều đạt:
 `check.py codes` báo 0, đã thử trên một file mẫu có 2 mã cũ thì báo đúng 2 mã, nên 0 là kết quả quét thật.
 
 **Chưa kiểm tra:**
-- BG-1-AC6 và BG-2-AC5 (kiểm bằng người): chờ người phát triển khung.
 - Hai ví dụ số ở PLAN §7: agent BG-1 và BG-2 chưa đọc §7; chưa có ai tính thử bằng tay.
 - Lỗ hổng thu hồi đã đổi: thu hồi chỉ sau review bước 8 (quy tắc 13, BG-1#2).
 - Quy tắc mới chưa chạy với Plan thật: chưa có Plan nào có quỹ dự phòng để thử cấp thêm, giữ chỗ, thu hồi.
@@ -92,7 +91,7 @@ Orchestrator chạy lại nguyên văn trên kết quả gộp, đều đạt:
 
 ## 5. Hành động cần người thực hiện
 
-1. Làm BG-1-AC6 và BG-2-AC5.
+1. (Đã xong) BG-1-AC6 và BG-2-AC5.
 2. Đưa transcript của phiên điều phối và số USD từ `/cost` hoặc Account & Usage, để ghi dòng `PLAN-002-ĐIỀU-PHỐI#1` (hiện "chưa đo").
 3. Duyệt diff cuối: `git diff 135fe14..HEAD -- . ':!.ai/plans'`.
 4. Mở PR (nhánh `refactor/AI-framework-refactor` vào `master`) hoặc quyết cách gộp.

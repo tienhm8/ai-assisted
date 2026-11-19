@@ -172,10 +172,9 @@ Cả năm điểm trong bản nháp đã được người phát triển khung q
 
 Nguồn: [DELIVERY-REPORT](DELIVERY-REPORT.md) và [runs.md](runs.md). Cả hai Task đã được nhận; Plan và manifest chuyển `Done` theo `task-execution` bước 7.
 
-**Còn chờ người (không chặn Done theo quy tắc hiện có, như PLAN-001):**
-- BG-1-AC6: người phát triển khung đối chiếu quy tắc 9 đến 13 với PLAN §6.1 và thử hai ví dụ số ở §7.
-- BG-2-AC5: hướng dẫn khớp quy tắc 9 đến 13.
-- Phiên điều phối: transcript và số USD từ `/cost` hoặc Account & Usage để ghi dòng PLAN-002-ĐIỀU-PHỐI#1.
+**Người phát triển khung đã xác nhận BG-1-AC6 và BG-2-AC5** (quy tắc 9 đến 13 khớp PLAN §6.1; hướng dẫn khớp quy tắc 9 đến 13).
+
+**Còn chờ (không chặn Done):** phiên điều phối: transcript và số USD từ `/cost` hoặc Account & Usage để ghi dòng PLAN-002-ĐIỀU-PHỐI#1.
 
 **Kết quả:** BG-1 đạt, BG-2 đạt; review bước 8 (PLAN-002-REVIEW#1) duyệt có điều kiện, ba điều kiện Medium đã sửa ở BG-1#2. Chi phí các Run 0,701 + 0,114 USD; review 1,269 USD.
 
