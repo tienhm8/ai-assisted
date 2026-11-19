@@ -8,7 +8,12 @@ The values live in [ai-config.yaml](../../ai-config.yaml) (`sessions`, `tasks`, 
 
 ## 1. Orchestrator session
 
-The main session that plans, classifies, dispatches, evaluates, and merges (steps 1–4, evaluation in step 5, steps 6–7 of task-execution) runs at `sessions.orchestrator`; its comment names the level for a Plan that contains an `architecture-change` Task. Its own cost counts toward the Plan budget. Fast lane: no Orchestrator; the session runs the single Task at that Task's start level.
+The Orchestrator role runs in two sessions, each at one level for its whole life:
+
+- **Planning session** at `sessions.orchestrator` (its comment names the level for a Plan that contains an `architecture-change` Task): steps 1–4 and step 7 of task-execution. Step 7 runs in a new session at this level, or by resuming the planning session.
+- **Dispatch session** at `sessions.dispatch`: steps 5–6 of a Plan already Approved. It starts fresh with the opening line "Plan PLAN-<NNN> đã duyệt…" (getting-started §5.3) and reads only the Plan, the manifests, `runs.md`, and what step 5 loads; never the planning session's history. A Plan with a `high`-risk Task, a Task using `security-review` or `authentication-rbac`, or an `architecture-change` Task runs its dispatch session at `sessions.orchestrator` instead.
+
+The dispatch session never switches model. When it cannot tell whether a failure is a capability failure or a `stop_on` cause (§3 rule 1), it treats it as `stop_on`: stop and ask a human. Each session's cost counts toward the Plan budget (the Orchestrator line of the Plan's maximum budget) and gets its own line in `runs.md`. Fast lane: no Orchestrator; the session runs the single Task at that Task's start level.
 
 ## 2. Levels of a Task
 

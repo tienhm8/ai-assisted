@@ -202,7 +202,8 @@ Mở phiên ở thư mục gốc repo cha. Chọn model, effort **trước khi g
 
 | Phiên | Mức | Nghĩa |
 | --- | --- | --- |
-| Orchestrator (lập Plan, gửi Task, đánh giá) | opus/high; opus/xhigh nếu Plan có đổi kiến trúc hoặc API contract | Model mạnh · effort cao / rất cao |
+| Orchestrator lập Plan (bước 1–4) và soạn báo cáo bàn giao (bước 7) | theo `sessions.orchestrator`: opus/high; opus/xhigh nếu Plan có đổi kiến trúc hoặc API contract | Model mạnh · effort cao / rất cao |
+| Orchestrator chạy Plan đã duyệt (bước 5–6: gửi Task, đánh giá, gộp, kiểm) | phiên **mới**, theo `sessions.dispatch`: sonnet/medium; dùng mức lập Plan nếu Plan có Task rủi ro cao, Skill `security-review` hoặc `authentication-rbac`, hoặc đổi kiến trúc | Model chuẩn · effort vừa |
 | Fast lane (một Task rủi ro thấp) | Mức từ ai-config.yaml `tasks` (phần tử đầu của hàng Skill chính), ví dụ sửa tài liệu sonnet/low | Model chuẩn · effort thấp |
 | Từng Task (Run) | Orchestrator tự chọn theo manifest; Task duyệt từng bước trở xuống hoặc công cụ không có subagent thì bạn mở phiên mới theo mức Orchestrator báo | — |
 | Review (bước 8) | theo `sessions.review`, phiên mới, không dùng lịch sử phiên viết code | Model mạnh · effort cao |

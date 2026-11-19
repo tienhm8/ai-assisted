@@ -6,7 +6,8 @@
 tool: claude-code
 auto_runs: true   # true = Orchestrator tự khởi động từng Run theo mức trong manifest, làm theo .ai/guide/ai-tools.md §3; false = người mở phiên cho từng Run; công cụ không chỉnh được model theo từng Run dùng false
 sessions:
-  orchestrator: opus/high      # Plan có đổi kiến trúc: opus/xhigh
+  orchestrator: opus/high      # Lập Plan (bước 1–4) và báo cáo bàn giao (bước 7). Plan có đổi kiến trúc: opus/xhigh
+  dispatch:     sonnet/medium  # Phiên chạy Plan đã duyệt (bước 5–6). Plan có Task rủi ro cao, Skill security-review hoặc authentication-rbac, hoặc đổi kiến trúc: dùng mức orchestrator. Plan toàn Task rủi ro thấp, mọi AC là lệnh: có thể thử haiku/medium, đo rồi mới đổi
   review:       opus/high
 tasks:
   - for: [lookup]
