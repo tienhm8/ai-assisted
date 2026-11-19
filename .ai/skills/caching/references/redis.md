@@ -45,11 +45,11 @@ Reference for Skill `caching`. Load only when L2 is Redis, and only the section 
 - Classic `PUBLISH` broadcasts to every node; Redis ≥ 7.0 sharded Pub/Sub (`SPUBLISH`/`SSUBSCRIBE`; node-redis `sSubscribe`, ioredis `shardedSubscribers`) scales better if invalidation traffic is heavy.
 - Replica reads (node-redis `useReplicas`, ioredis `scaleReads`) lag the primary: a read right after delete-after-commit can return the old value. Keep cache reads on primaries unless the staleness window explicitly allows replica lag.
 
-## 6. Memory, persistence, access (step 4; step 2 when the value is D3)
+## 6. Memory, persistence, access (step 4; step 2 when the value is `secret`)
 
 - Default `maxmemory` 0 means no limit. Dedicated cache instance: `allkeys-lru` or `allkeys-lfu`. `volatile-*` behaves like `noeviction` when no key has a TTL; `noeviction` makes writes fail when full (cache writes are then errors, fail-open applies).
 - If locks, the hot-list sorted set, or the warm-up epoch key share the instance, `allkeys-*` may evict them; this is acceptable only because each is safe to lose (`warmup.md` §3). Otherwise use a separate instance.
-- D3 key group with persistence off: `save ""` and `appendonly no` on that instance (replicas too).
+- `secret` key group with persistence off: `save ""` and `appendonly no` on that instance (replicas too).
 - Per-service ACL user: `~<service>:*` keys, `&<service>:*` channels (from 7.0 new users get no channels; subscribe fails with `NOPERM`), only needed commands. Key patterns do not limit `FLUSHALL`/`FLUSHDB`/`SWAPDB`: remove them (`-@dangerous` also removes `KEYS`). Without `INFO`, ioredis skips its ready check with a warning; set `enableReadyCheck: false` deliberately.
 - TLS: node-redis `socket.tls: true` (or `rediss://` URL), ioredis `tls: {}`; with `username`/`password` of that ACL user.
 - Eviction and hit metrics come from `INFO stats` (`keyspace_hits`, `keyspace_misses`, `evicted_keys`) read by a monitoring account, since the app user has no `INFO`.

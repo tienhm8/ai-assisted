@@ -19,7 +19,7 @@ Read: Bug Report, Task, related FR/BR/AC, related source code and tests.
 2. **Reproduce** locally or on staging; mask sensitive data. If it cannot be reproduced, say so clearly; do not claim it was reproduced.
 3. **Find the root cause**, distinguished from symptoms. If it cannot be established, stop and report.
 4. **Assess impact:** modules, roles, data, security, regressions. If production data must be fixed, split into a separate Task, with approval.
-5. **Propose the fix:** cause, fix approach, files, risks, tests. Wait for approval before fixing if the Task is R3, autonomy level A2, or touches authorization, architecture, schema, contract.
+5. **Propose the fix:** cause, fix approach, files, risks, tests. Wait for approval before fixing if the Task is `high`-risk, autonomy is `step-by-step`, or touches authorization, architecture, schema, contract.
 6. **Write a regression test** at the lowest layer that reproduces the bug; run it and see it red before fixing.
 7. **Fix minimally** at the root cause; no accompanying refactoring.
 8. **Run** the regression test (must be green), the project's check gates and related regressions.

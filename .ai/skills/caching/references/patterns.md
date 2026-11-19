@@ -22,7 +22,7 @@ The table below is an initial suggestion. Each cache must still meet all six con
 | Read-heavy query results | Yes | Key determinable from parameters, deletable correctly |
 | Aggregate reports | Yes | |
 | Dashboard statistics | Yes | Business accepts staleness; state the staleness window |
-| User profile | Yes | Invalidation covers every write path; per §8 if it contains D3 |
+| User profile | Yes | Invalidation covers every write path; per §8 if it contains `secret` data |
 | Permission / Role | Conditional | On permission change, delete immediately, including L1 on every instance; short TTL |
 | Search result | Conditional | Short TTL; limit key count (first page, common parameters only) |
 | Free-form filtered or paginated lists | Not by default | Unbounded key combinations, cannot delete correctly. If needed, delete by group with version prefix, only when write frequency is low |
@@ -100,16 +100,16 @@ Preventing double-selling and duplicate writes uses transactions, DB locks, or a
 - When the cache is down, all requests fall to DB: limit concurrency (pool, bulkhead) so the DB does not go down too. A circuit breaker helps skip the cache immediately instead of waiting for a timeout per request.
 - Do not depend on request processing order across instances.
 
-## 8. Personal data (D3)
+## 8. Personal data (`secret`)
 
 Mandatory conditions are in Rule `cache`. How to meet them:
 
 - **Cache only needed fields:** create a dedicated type for the cache value per the screen or API using it; do not serialize the whole entity. If a screen needs a name, the value has only ID and name.
 - **Key:** `<service>:<module>:<thực thể>:<mã nội bộ>`, plus tenant ID when multi-tenant. When looking up by email or phone, query DB for the internal ID first; do not build keys from email.
 - **TLS and accounts:** one cache account per service, with permission only on its key prefix (prefix ACL if the technology supports it). Do not use shared passwords.
-- **Disk persistence:** if the cache enables snapshot or append log, encrypt the disk, or put the D3 key group on a cache instance with persistence off. Replicas and cache backup files are also in this scope.
+- **Disk persistence:** if the cache enables snapshot or append log, encrypt the disk, or put the `secret` key group on a cache instance with persistence off. Replicas and cache backup files are also in this scope.
 - **Short TTL:** per the acceptable staleness window, and no longer than the deadline by which deletion requests must take effect.
-- **Delete on request:** the account-deletion flow deletes every D3 key of that person (listed in the database-design cache row), including L1 on every instance; a test proves that after deletion nothing can be read from cache.
+- **Delete on request:** the account-deletion flow deletes every `secret` key of that person (listed in the database-design cache row), including L1 on every instance; a test proves that after deletion nothing can be read from cache.
 
 ## 9. Pitfalls
 
@@ -135,6 +135,6 @@ Without metrics you cannot prove the cache helps, nor know when it breaks.
 Each cache is one row in the database-design cache table. Besides the table columns, also record:
 
 - Acceptable staleness window as a number, not "short" or "a few minutes".
-- Value contains D3: protection per §8.
+- Value contains `secret` data: protection per §8.
 - Has warm-up: the group's trigger and DB load budget.
 - Stale write-back guard chosen (§4), loader source primary or replica with reason (§3), failover handling (§4).

@@ -39,7 +39,7 @@ Record the choice and reason in the design decision table (Report section item 5
 
 | Pattern | Use when | Note |
 | --- | --- | --- |
-| Extended reference | AP reading the parent needs a few fields of another document (customer name on order) | Copy only rarely-changing fields; record the source of truth and sync method, or state explicitly that it is a snapshot. Do not copy D2/D3 fields into a collection with wider access |
+| Extended reference | AP reading the parent needs a few fields of another document (customer name on order) | Copy only rarely-changing fields; record the source of truth and sync method, or state explicitly that it is a snapshot. Do not copy `sensitive`/`secret` fields into a collection with wider access |
 | Subset | Parent needs the N newest child elements (10 latest reviews) | Rest in a separate collection; cap the array with `$push` + `$slice` |
 | Computed | High-frequency AP reads totals/counts | Update in the same write with `$inc`; have a reconciliation job |
 | Approximation | Very high-frequency counter where staleness is acceptable (views) | Application batches and `$inc` by N; lost on crash; never for money, stock, or audited counts |
@@ -187,5 +187,5 @@ Apply `security.md`, plus:
 - Enable authentication (SCRAM or x.509) and TLS. Do not expose the port outside the internal network.
 - The application account has only `readWrite` on its database (or a narrower custom role), no `dbAdmin`, `dbOwner`, `root`. A separate migration account creates indexes and changes validators.
 - **Prevent NoSQL injection:** do not pass request objects into filters as-is (`{ password: { $ne: null } }`). Cast each field; reject keys starting with `$` or containing `.`. Do not use `$where`, `$function`, `$accumulator` with user input; disable server-side JavaScript if not needed.
-- D3 data: encrypt in the application, or Client-Side Field Level Encryption / Queryable Encryption (≥ 7.0) if the project chooses. Disk encryption per infrastructure.
+- `secret` data: encrypt in the application, or Client-Side Field Level Encryption / Queryable Encryption (≥ 7.0) if the project chooses. Disk encryption per infrastructure.
 - Enable audit log if the version/infrastructure supports it and legal requirements need it.

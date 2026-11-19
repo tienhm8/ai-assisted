@@ -34,7 +34,7 @@
 
 20. Do not modify or delete production data directly; handle data with approved scripts.
 21. Do not delete historical business data without an approved retention policy.
-22. Columns holding D2/D3 data must be marked in the design. Passwords are stored only as one-way hashes; other D3 data is stored encrypted in the approved way.
+22. Columns holding `sensitive` or `secret` data must be marked in the design. Passwords are stored only as one-way hashes; other `secret` data is stored encrypted in the approved way.
 23. DDL privileges are granted only to the migration account; the application account has no DDL privileges.
 24. An error mid-transaction must roll back fully, never commit partially. Keep transactions short; do not call external services while a transaction is open.
 25. Seed data is fake or anonymized data.

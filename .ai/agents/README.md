@@ -6,7 +6,7 @@
 
 Agent là **vai thực hiện** của AI: ai làm, với quyền gì. Vai là chức năng, không bắt buộc là một agent hay model riêng.
 
-**Mặc định: một phiên Orchestrator gửi từng Task tới một subagent hoặc phiên mới** theo Task Manifest ([task-execution](../workflows/task-execution.md), "Orchestration"). Mỗi Task chạy với vai, model·effort riêng; không đổi model trong một phiên. Task mức tự chủ A2 trở xuống chạy "Có người": người mở phiên tương tác, duyệt từng bước. Fast lane (một Task R1): một phiên đảm nhiệm lần lượt các vai, không cần nạp file này.
+**Mặc định: một phiên Orchestrator gửi từng Task tới một subagent hoặc phiên mới** theo Task Manifest ([task-execution](../workflows/task-execution.md), "Orchestration"). Mỗi Task chạy với vai, model·effort riêng; không đổi model trong một phiên. Task mức tự chủ duyệt từng bước (`step-by-step`) trở xuống chạy "Có người": người mở phiên tương tác, duyệt từng bước. Fast lane (một Task rủi ro `low`): một phiên đảm nhiệm lần lượt các vai, không cần nạp file này.
 
 ## Vai và quyền
 

@@ -5,7 +5,7 @@ description: Implement and review authentication, authorization, RBAC, session m
 
 # Authentication & RBAC Skill
 
-Implement authentication and authorization exactly per the approved policy, enforced on the backend, deny by default. R3 work by default.
+Implement authentication and authorization exactly per the approved policy, enforced on the backend, deny by default. `high`-risk work by default.
 
 ## Entry gate
 

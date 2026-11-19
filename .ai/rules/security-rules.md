@@ -11,4 +11,4 @@
 7. When dependencies change, run vulnerability scanning and license checks; every commit runs secret scanning.
 8. Do not disable or relax security checks (lint, scan, authentication) to make tests pass.
 9. Changes to authorization, money, personal data, or migrations require Tech Lead and Security approval. AI does not manage secrets on its own.
-10. Tools given to AI (MCP servers, plugins) do not connect to production or D2/D3 data.
+10. Tools given to AI (MCP servers, plugins) do not connect to production or `sensitive`/`secret` data.

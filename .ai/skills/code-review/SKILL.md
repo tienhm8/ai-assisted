@@ -54,7 +54,7 @@ Go through priorities 1 to 8 in order. Load the checklist of the group in progre
 | 3 | Is the code in the right place? (layer and responsibility per the project's architecture docs) | `references/correctness.md` |
 | 4 | What about load and concurrency? (race, idempotency, retry, event after commit) | `references/runtime.md` |
 | 5 | Performance, data, cache (N+1, volume, missing/redundant/duplicate indexes after the change, large-table migrations) | `references/runtime.md` |
-| 6 | Security per OWASP Top 10 (per-record authorization, injection, XSS, D3 exposure, upload, SSRF) | `references/security.md` |
+| 6 | Security per OWASP Top 10 (per-record authorization, injection, XSS, `secret` data exposure, upload, SSRF) | `references/security.md` |
 | 7 | Is it operable? (logs, alerts, config, rollback) | `references/runtime.md` |
 | 8 | Clean code and style; do not comment on what formatter/linter already catches | — |
 
