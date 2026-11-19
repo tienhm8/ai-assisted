@@ -23,9 +23,13 @@ instructions: |
      docs/03-engineering/ai-tools.md.
   2. task-breakdown.md: delete the example Task table at the top (Task rows belong in
      docs/04-project-management/task-backlog.md); keep the rules and the Task Specification template.
-  3. ai-tools.md: keep §1-§2 (how to connect tools). Move §3 (tools the project uses, permissions)
-     and §4 (MCP servers) into a new PROJECT.md section "Công cụ AI" (two tables, empty rows);
-     ai-tools.md points there and to ai-config.yaml for model names.
+  3. ai-tools.md: keep §1-§2 (how to connect tools) and §5 "Chạy Task với Claude Code" (added by FW-3;
+     the Orchestrator reads it when `auto_runs: true`), renumbered §3. Move old §3 (tools the project
+     uses, permissions) and §4 (MCP servers) into a new PROJECT.md section "Công cụ AI" (two tables,
+     empty rows); ai-tools.md points there and to ai-config.yaml for model names. Update every citation
+     of "ai-tools §5" / "ai-tools.md §5" to the new file and number (ai-config.yaml line 7,
+     .ai/workflows/model-effort.md §4, .ai/workflows/task-execution.md "Orchestration",
+     .ai/agents/README.md, getting-started.md).
   4. glossary: create .ai/guide/glossary.md with §1 "Thuật ngữ chung" of
      docs/00-project-overview/glossary.md (framework terms). The project glossary keeps only §2
      (business terms) and its history table, plus one line pointing to .ai/guide/glossary.md.
@@ -44,7 +48,7 @@ outputs:
   - every file whose links pointed to a moved file
   - handoff report (DELIVERY-REPORT §1–§4, §8)
 scope:
-  allowed_paths: [.ai/guide/, docs/, .ai/rules/, .ai/skills/, .ai/workflows/, .ai/templates/, .ai/agents/, .ai/README.md, README.md, AGENTS.md, PROJECT.md]
+  allowed_paths: [.ai/guide/, docs/, ai-config.yaml, .ai/rules/, .ai/skills/, .ai/workflows/, .ai/templates/, .ai/agents/, .ai/README.md, README.md, AGENTS.md, PROJECT.md]
   zones: [red, green]
   out: [Code replacement (FW-6, FW-7), Content changes beyond §6.4]
 dependencies: [FW-3]
@@ -58,6 +62,9 @@ acceptance_criteria:
     check: { type: command, run: "! grep -rnE 'docs/(getting-started|04-project-management/(gates-and-rigor|work-model|task-breakdown)|03-engineering/(ai-governance|external-skills|ai-tools))' --include=*.md --include=*.yaml . --exclude-dir=pilot --exclude-dir=plans" }
   - id: FW-4-AC4
     check: { type: command, run: "grep -q 'Công cụ AI' PROJECT.md && test $(wc -c < docs/00-project-overview/glossary.md) -lt 3000" }
+  - id: FW-4-AC6
+    check: { type: command, run: "grep -q 'guide/ai-tools.md' ai-config.yaml && grep -q '^## 3. Chạy Task với Claude Code' .ai/guide/ai-tools.md" }
+    # added 2026-11-19 with the framework developer's approval of batch 1
   - id: FW-4-AC5
     check: { type: command, run: "python3 -I .ai/plans/PLAN-001-framework-refactor/check.py tree" }
 

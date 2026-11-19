@@ -212,7 +212,7 @@ commands: {}     # ví dụ test: npm test, lint: npm run lint, typecheck: npm r
 | `docs/04-project-management/gates-and-rigor.md`, `work-model.md` | `.ai/guide/` |
 | `docs/04-project-management/task-breakdown.md` | `.ai/guide/task-breakdown.md`; bảng Task mẫu bỏ, Task của dự án ở `task-backlog.md` |
 | `docs/03-engineering/ai-governance.md`, `external-skills.md` | `.ai/guide/` |
-| `docs/03-engineering/ai-tools.md` §1–§2 | `.ai/guide/ai-tools.md` |
+| `docs/03-engineering/ai-tools.md` §1–§2, §5 "Chạy Task với Claude Code" (FW-3 thêm) | `.ai/guide/ai-tools.md`; §5 thành §3. FW-4 thêm `ai-config.yaml` vào phạm vi để sửa đường dẫn (duyệt 2026-11-19) |
 | `docs/03-engineering/ai-tools.md` §3–§4 | Mục mới "Công cụ AI" trong `PROJECT.md` (quyền, MCP). Tên công cụ, model ở `ai-config.yaml` |
 | `docs/00-project-overview/glossary.md` §1 | `.ai/guide/glossary.md`. Glossary của dự án chỉ còn thuật ngữ nghiệp vụ |
 
