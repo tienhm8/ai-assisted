@@ -64,4 +64,4 @@ escalation:
   stop_on: [missing_input, conflicting_requirement, out_of_scope, security_finding, environment_error, permission_denied]
 commit: "docs: đổi mã lựa chọn thành từ trong tài liệu cho người (body: FW-7, PLAN-001)"
 gate: none
-status: New
+status: Done

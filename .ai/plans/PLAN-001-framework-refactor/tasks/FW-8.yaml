@@ -75,4 +75,4 @@ escalation:
   stop_on: [missing_input, conflicting_requirement, out_of_scope, security_finding, environment_error, permission_denied]
 commit: "refactor(ai): code-review nhận báo cáo bàn giao và dải commit khi chưa có PR (body: FW-8, PLAN-001)"
 gate: none
-status: New
+status: Done

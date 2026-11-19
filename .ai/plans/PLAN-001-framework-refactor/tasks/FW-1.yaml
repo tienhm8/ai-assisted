@@ -96,4 +96,4 @@ escalation:
   stop_on: [missing_input, conflicting_requirement, out_of_scope, security_finding, environment_error, permission_denied]
 commit: "refactor(ai): thay mã lựa chọn bằng từ trong project-rules và workflow (body: FW-1, PLAN-001)"
 gate: none
-status: Ready
+status: Done

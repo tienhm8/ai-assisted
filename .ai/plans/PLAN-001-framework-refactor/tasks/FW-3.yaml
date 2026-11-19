@@ -199,4 +199,4 @@ escalation:
   stop_on: [missing_input, conflicting_requirement, out_of_scope, security_finding, environment_error, permission_denied]
 commit: "refactor(ai): ai-config.yaml ghi thẳng model/effort theo loại việc (body: FW-3, PLAN-001)"
 gate: "Người phát triển khung"
-status: In Progress
+status: Done

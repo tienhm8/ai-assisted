@@ -8,7 +8,7 @@
 | ID | `PLAN-001` |
 | Nguồn (Source) | Yêu cầu độc lập của người phát triển khung, 2026-11-18 và 2026-11-19: rà soát và tái cấu trúc khung (5 vấn đề: nhiều file phân mảnh và ký hiệu khó hiểu; tổ chức lại file cấu hình; thư mục `.ai`; checklist áp dụng; file đặt sai thư mục con của `docs/`) |
 | Goals (tuỳ chọn) | Không có (repo khung chưa có `goals.md` thật) |
-| Trạng thái | Approved |
+| Trạng thái | Done |
 | Người duyệt · Ngày duyệt | Người phát triển khung (vai Tech Lead của khung) · 2026-11-19: duyệt từ vựng §6.1, `ai-config.yaml` §6.2, ngân sách, độ nghiêm ngặt chuẩn. Duyệt lại cùng ngày: thêm quy tắc cập nhật cây "Cấu trúc" trong `README.md` (FW-2 đến FW-5, `check.py tree`); ngân sách không đổi |
 | Ngày tạo | 2026-11-19 |
 | Branch · commit gốc | `refactor/AI-framework-refactor` · `a2181d9` |
@@ -251,3 +251,34 @@ Không có code nên không có test đơn vị. Phần nội dung do người p
 Cả bốn điểm đã duyệt.
 
 ## 9. Kết quả (điền sau khi xong)
+
+Nguồn: [DELIVERY-REPORT](DELIVERY-REPORT.md) §1, §5, §8 và `runs.md`. Cả 9 Task đã được nhận; Plan và các manifest chuyển sang `Done` khi báo cáo bàn giao được soạn và đủ Run trong `runs.md` (`task-execution` bước 7).
+
+**Đầu ra theo Task:**
+
+| Task | Kết quả | Còn chờ người |
+| --- | --- | --- |
+| FW-1 từ vựng thay mã | Đạt | Mọi quy tắc giữ nghĩa (review đã trả lời) |
+| FW-2 điểm vào, vùng, worktree | Đạt | Không |
+| FW-3 `ai-config.yaml`, rút `model-effort` | Đạt | Người phát triển khung đã xem đợt 1 |
+| FW-4 chuyển tài liệu sang `.ai/guide/` | Đạt | Không |
+| FW-5 `CHECKLIST.md`, `PROJECT.md` | Đạt | Checklist ngắn, đúng ý |
+| FW-6 đổi mã thành chữ, file cho AI | Đạt | Không |
+| FW-7 đổi mã thành chữ, file cho người | Đạt | Không |
+| FW-8 review trên máy không cần PR | Đạt | Tiêu chí review giữ nguyên (review lần 2 đã trả lời) |
+| FW-9 mẫu báo cáo có mục mô tả thay đổi | Đạt | Không |
+
+**Lệch so với kế hoạch:**
+- Một lần nâng mức: FW-4#2 từ `sonnet/low` lên `sonnet/high`, sau khi FW-4#1 không đạt vì 21 đường dẫn sai.
+- Bốn Run không được nhận: FW-2#1 (lỗi API 503 và quyền `.claude/`), FW-3#4 và FW-7#2 (giới hạn tốc độ của gateway), FW-4#1 (không đạt).
+- Ngân sách: Task 5,52 USD so với 11 USD đã duyệt; review 2,95 USD so với 3 USD, sát trần.
+- Phiên điều phối chưa đo: không đọc được trong phiên, người cần chạy `/cost`.
+
+**Bằng chứng:** 22 Run, tổng 8,466 USD và 277.820 token ra; thời gian AI chạy 46,0 phút. Review lần 1 trả về 7 Medium và 3 Low; lần 2 trả về 1 Medium và 2 Low; mỗi lần mở một đợt sửa. Review lần 2 còn nêu điều kiện và phát hiện 8 của lần 1 không được kiểm lại vì hết ngân sách; lần 3 chưa chạy.
+
+**Việc người cần làm sau khi Done (không chặn trạng thái):**
+1. Xem [CHECKLIST.md](../../../CHECKLIST.md) (FW-5-AC4).
+2. Duyệt diff cuối (`git diff 226ad76..HEAD -- . ':!.ai/plans'`).
+3. Mở PR vào `master`, kèm bảng ánh xạ PLAN §6.1 trong ghi chú phát hành.
+4. Đo chi phí phiên điều phối bằng `/cost` và cộng vào mục 8 của báo cáo.
+5. Quyết về `.ai/plans/PLAN-002-budget-policy/`: thư mục này vẫn chưa được theo dõi bởi git.
