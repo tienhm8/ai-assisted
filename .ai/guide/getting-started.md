@@ -3,12 +3,12 @@
 | Thuộc tính | Giá trị |
 | --- | --- |
 | Trạng thái | Draft |
-| Người phụ trách |  |
+| Người phụ trách | TienHM |
 | Người duyệt (dự án) | Tech Lead |
 | Phiên bản · Ngày | 0.1 · 2026-11-16 |
 | Tài liệu liên quan | ../../README.md, ../../PROJECT.md, gates-and-rigor.md, task-breakdown.md, ai-tools.md |
 
-> **Mục đích.** Hướng dẫn từng bước cho người áp dụng khung vào một **dự án mới** hoặc một **dự án cũ đang chạy**. File chỉ nói làm gì, theo thứ tự nào, ai duyệt; định nghĩa và điều kiện nằm ở tài liệu được trỏ tới. AI không nạp file này khi làm Task.
+> **Mục đích.** Tài liệu hướng dẫn sử dụng framework. AI không nạp file này khi làm Task.
 
 ## 1. Chọn lối vào
 

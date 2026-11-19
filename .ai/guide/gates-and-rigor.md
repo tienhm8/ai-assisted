@@ -6,10 +6,14 @@
 | Người duyệt (dự án) | Tech Lead |
 | Tài liệu liên quan | ../../README.md, ../../PROJECT.md §4, task-breakdown.md |
 
-> **Mục đích.** Tám cổng duyệt (điều kiện qua, người duyệt), độ nghiêm ngặt quy trình (gọn, chuẩn, nghiêm ngặt) và quy ước áp dụng khung vào dự án. Dự án khai báo độ nghiêm ngặt ở [PROJECT.md](../../PROJECT.md) §4; không chép lại ở đây.
+> **Mục đích.** Tám cổng duyệt (điều kiện qua, người duyệt), độ nghiêm ngặt quy trình (gọn, chuẩn, nghiêm ngặt) và quy ước áp dụng khung vào dự án.
 
 ## 1. Tám cổng duyệt
-Cổng là điều kiện phải đạt để kết thúc một giai đoạn và sang giai đoạn kế. Cổng Khai báo dự án đứng trước giai đoạn Khám phá sản phẩm; bảy cổng còn lại đứng cuối bảy giai đoạn đầu (Khám phá sản phẩm đến Phát hành và vận hành). Qua cổng bằng bằng chứng (tài liệu Approved, output test, biên bản review), không bằng lời xác nhận. Tài liệu cần khách hàng duyệt (dự án có Đại diện khách hàng ở `PROJECT.md` §5): Đầu mối gửi khách hàng; khách hàng duyệt thì báo Đầu mối; Đầu mối lưu kết quả duyệt thành `SRC-<NN>` rồi mới chuyển `Approved` (hoặc người ở cột Người duyệt chuyển, dựa trên `SRC` đó). Không có `SRC` ghi kết quả duyệt thì chưa qua cổng. AI chuẩn bị và đề xuất, không tự phê duyệt.
+- **Khái niệm:** Cổng duyệt là chốt kiểm tra bắt buộc để kết thúc một giai đoạn (riêng cổng **Khai báo dự án** nằm ngay trước giai đoạn đầu tiên).
+- **Nguyên tắc qua cổng:** Chỉ công nhận bằng chứng cụ thể (tài liệu `Approved`, kết quả test, biên bản review), không chấp nhận xác nhận bằng lời nói.
+- **Quy trình lưu vết:** Kết quả duyệt phải được lưu thành mã `SRC-<NN>` trước khi chuyển trạng thái sang `Approved`. Nếu thiếu mã `SRC` này, hệ thống coi như chưa qua cổng.
+- **Quy trình với khách hàng:** Nếu dự án có Đại diện khách hàng (theo `PROJECT.md §5`), Đầu mối dự án sẽ gửi tài liệu, nhận phản hồi, lưu mã `SRC-<NN>` rồi mới chuyển `Approved` (hoặc người ở cột **Người duyệt** tự cập nhật dựa trên mã `SRC` đó).
+- **Giới hạn của AI:** AI chỉ hỗ trợ chuẩn bị và đề xuất, tuyệt đối không tự ý phê duyệt.
 
 | Cổng | Cuối giai đoạn | Điều kiện qua | Người duyệt | Phối hợp |
 | --- | --- | --- | --- | --- |
@@ -23,8 +27,7 @@ Cổng là điều kiện phải đạt để kết thúc một giai đoạn và
 | Vận hành | Phát hành và vận hành | Smoke test đạt; không có sự cố nghiêm trọng trong thời gian giám sát; có thể rollback | Owner | Tech Lead tham khảo; DevOps thực hiện; AI không tự deploy |
 
 ## 2. Độ nghiêm ngặt quy trình
-Dự án chọn một mức cho cả dự án, khai báo ở `PROJECT.md` §4. Độ nghiêm ngặt độc lập với rủi ro của từng Task. Ở mọi mức, cổng tự động và review theo quy tắc rủi ro cao vẫn bắt buộc.
-
+Chọn một mức cho cả dự án. Độ nghiêm ngặt độc lập với rủi ro của từng Task.
 | Mức | Cổng duyệt | Tài liệu | Review | Truy vết | Nhật ký AI |
 | --- | --- | --- | --- | --- | --- |
 | Gọn | Ba cổng Phạm vi, Yêu cầu, Thiết kế gộp thành một cổng | Tối thiểu | 1 người cho Task rủi ro thấp hoặc vừa | PR có ID Task/FR | Mức PR |
@@ -32,7 +35,7 @@ Dự án chọn một mức cho cả dự án, khai báo ở `PROJECT.md` §4. �
 | Nghiêm ngặt | Tách riêng, có biên bản | Hồ sơ sẵn sàng cho kiểm toán | Độc lập | Hai chiều đầy đủ | Chi tiết, lưu dài hạn |
 
 ### Chọn mức nào?
-Ba mức áp dụng cho toàn dự án. Bảng dưới chỉ mang tính định hướng; mức cuối cùng cần xét thêm rủi ro và yêu cầu cụ thể của dự án. Chưa chắc thì bắt đầu từ mức chuẩn; chọn gọn khi dự án nhỏ và ít rủi ro; chọn nghiêm ngặt khi có yêu cầu pháp lý, hợp đồng hoặc kiểm soát đặc biệt.
+Chưa chắc thì bắt đầu từ mức chuẩn; chọn nghiêm ngặt khi có yêu cầu pháp lý, hợp đồng hoặc kiểm soát đặc biệt. Bảng dưới mang tính định hướng
 
 | Loại dự án | Mức khuyến nghị | Ghi chú |
 | --- | --- | --- |

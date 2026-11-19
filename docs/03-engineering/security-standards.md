@@ -11,13 +11,13 @@
 > **Mục đích.** Chuẩn bảo mật: nguyên tắc, Authentication & Authorization (quy tắc), kiểm tra đầu vào, bảo vệ dữ liệu, secret, API, logging, dependency, ánh xạ OWASP Top 10 và mức ASVS. Sàn không hạ được.
 
 ## 1. Xử lý dữ liệu theo mức
-Định nghĩa bốn mức dữ liệu (công khai, nội bộ, nhạy cảm, bí mật) ở [project-rules](../../.ai/rules/project-rules.md); dữ liệu của dự án thuộc mức nào và mức nào được đưa vào AI khai báo ở [PROJECT.md](../../PROJECT.md) §3, không chép lại ở đây. Với mỗi mức, ghi việc được/không được ghi log và dùng ở môi trường không phải production.
+Định nghĩa "Data level" ở [project-rules](../../.ai/rules/project-rules.md). Cụ thể :
 | Mức | Được ghi log | Được dùng ở môi trường không phải production |
 | --- | --- | --- |
-| Công khai | | |
-| Nội bộ | | |
-| Nhạy cảm | | |
-| Bí mật | Không | |
+| Công khai | Có | Có |
+| Nội bộ | Có | Có |
+| Nhạy cảm | Hạn chế / Che giấu | Không / Chỉ dùng dữ liệu giả |
+| Bí mật | Không | Không |
 
 <!-- Điền theo từng dự án -->
 
