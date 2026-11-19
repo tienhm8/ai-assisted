@@ -6,11 +6,11 @@
 | Người duyệt (dự án) | Tech Lead |
 | Tài liệu liên quan | ../../AGENTS.md, ../../.ai/rules/security-rules.md, external-skills.md |
 
-> **Mục đích.** Cách nối công cụ AI với `.ai/` và khai báo công cụ dự án dùng. AI không nạp file này khi làm Task.
+> **Mục đích.** Cách nối công cụ AI với `.ai/`. AI không nạp file này khi làm Task.
 
 ## 1. Tích hợp
 
-`.ai/` là nguồn duy nhất. Mỗi công cụ chỉ có file vào trỏ về `.ai/`, không chép nội dung. Đổi công cụ hoặc phiên bản thì chạy thử một Task. Bảng chỉ ghi tên công cụ và file vào; tên model và effort của từng công cụ nằm ở [ai-config.yaml](../../ai-config.yaml).
+`.ai/` là nguồn duy nhất. Mỗi công cụ chỉ có file vào trỏ về `.ai/`, không chép nội dung. Quy định tên công cụ, tên model và effort ở [ai-config.yaml](../../ai-config.yaml).
 
 | Công cụ | File vào | Skill tự kích hoạt |
 | --- | --- | --- |
@@ -29,9 +29,7 @@ mkdir -p .claude && ln -s ../.ai/skills .claude/skills   # Claude Code (Cursor c
 mkdir -p .agents && ln -s ../.ai/skills .agents/skills   # Antigravity
 ```
 
-Không đưa Rule vào `.claude/rules/`, `.cursor/rules/`: Rule không có `paths` nạp từ đầu mọi phiên; `paths` chỉ lọc theo file đang sửa, không theo loại Task như [task-execution](../../.ai/workflows/task-execution.md). Trên Windows cần `git config core.symlinks true`.
-
-Công cụ dự án dùng, quyền được cấp và MCP server khai ở mục "Công cụ AI" của [PROJECT.md](../../PROJECT.md); tên model và effort ở [ai-config.yaml](../../ai-config.yaml).
+Không đưa Rule vào `.claude/rules/`, `.cursor/rules/`: Rule không có `paths` nạp từ đầu mọi phiên; `paths` chỉ lọc theo file đang sửa, không theo loại Task như [task-execution](../../.ai/workflows/task-execution.md).
 
 ## 3. Chạy Task với Claude Code
 
