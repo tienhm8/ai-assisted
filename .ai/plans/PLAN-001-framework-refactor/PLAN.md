@@ -14,7 +14,7 @@
 | Branch · commit gốc | `refactor/AI-framework-refactor` · `a2181d9` |
 | Model · Effort của Orchestrator | opus/high (M3·E3: model mạnh, effort cao) |
 | Độ nghiêm ngặt | chuẩn (S2), người phát triển khung xác nhận 2026-11-19 |
-| Ngân sách cả Plan | 15 USD (7 Task 9 · Review 3 · phiên điều phối 3), ước tính theo số Claude Code tự báo, không phải tiền thực trả qua proxy. Phiên điều phối mở mới, chỉ đọc PLAN và manifest. Chạm trần thì dừng, hỏi người |
+| Ngân sách cả Plan | 16 USD (7 Task 10 · Review 3 · phiên điều phối 3; FW-3 nâng 2 → 3 USD ngày 2026-11-19), ước tính theo số Claude Code tự báo, không phải tiền thực trả qua proxy. Phiên điều phối mở mới, chỉ đọc PLAN và manifest. Chạm trần thì dừng, hỏi người |
 
 ## 1. Mục tiêu và phạm vi
 
@@ -35,7 +35,6 @@
 
 **Không làm:**
 - Điền nội dung Work study (đợt B của pilot).
-- Dịch các file `.ai/agents/references/*.md` sang tiếng Anh. Mâu thuẫn với `project-rules` 22 được ghi ở §8 để làm Plan sau.
 - Sửa Skill ngoài các mục nêu trong manifest.
 - Merge vào `master` (người phát triển khung làm).
 
@@ -64,6 +63,7 @@ Chạy trên kết quả gộp, ở thư mục gốc repo:
 | 2026-11-19 | Bỏ `.ai/worktrees/`. Worktree tạo trong `.claude/worktrees/`, chỗ mặc định của Claude Code; công cụ khác cũng dùng chỗ này |
 | 2026-11-19 | Đổi mã thành chữ ở cả file cho AI và file cho người |
 | 2026-11-19 | Làm xong trước khi pilot bắt đầu code |
+| 2026-11-19 (xem đợt 1) | `ai-config.yaml` là nguồn duy nhất của model/effort. Xoá 5 file `.ai/agents/references/`; cách chạy Task đã kiểm chứng của Claude Code chuyển vào hướng dẫn `ai-tools.md` §5. Công cụ không chỉnh được effort: mỗi mức chỉ ghi model, bậc kế là model mạnh hơn. Bổ sung vào FW-3, nâng ngân sách FW-3 |
 
 **Bằng chứng từ rà soát** (chi tiết ở nhật ký pilot #18 đến #28; nhật ký không commit):
 - Áp dụng khung phải mở 16 file, điền 13 file, quyết 24 việc.
@@ -116,14 +116,14 @@ Mọi Task chạm file của khung ở vùng đỏ. Mức rủi ro đề xuất 
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | FW-1 | Từ vựng: thang dùng chung, tên loại việc, bỏ rule 23 | đổi kiến trúc của khung (T7) | sonnet/low → sonnet/high (M2·E1 → M2·E3: model chuẩn, effort thấp → cao) | 1,5 | Không | — | — | New |
 | FW-2 | Điểm vào `CLAUDE.md`; vùng theo thư mục con; bỏ `.ai/worktrees/`, chuyển worktree sang `.claude/worktrees/` (`.gitignore`, `.claude/settings.json`, sửa 6 chỗ nhắc) | đổi kiến trúc của khung (T7) | sonnet/low → sonnet/high (M2·E1 → M2·E3) | 1 | Không | FW-1 | — | New |
-| FW-3 | `ai-config.yaml`; rút `model-effort` còn quy tắc; sửa mẫu manifest, runs, Plan; khối cấu hình mẫu theo công cụ; Skill chọn reference theo `stack` | đổi kiến trúc của khung (T7) | sonnet/high → opus/high (M2·E3 → M3·E3: chuẩn, cao → mạnh, cao) | 2 | **Có**: bắt đầu ở mức cao vì viết lại quy tắc nâng mức mà mọi Plan sau dựa vào | FW-2 | ⏸ Người phát triển khung xem đợt 1 | New |
+| FW-3 | `ai-config.yaml`; rút `model-effort` còn quy tắc; sửa mẫu manifest, runs, Plan; Skill chọn reference theo `stack`. Bổ sung B (2026-11-19): xoá file reference công cụ, `dispatch`, mức chỉ có model | đổi kiến trúc của khung (T7) | sonnet/high → opus/high (M2·E3 → M3·E3: chuẩn, cao → mạnh, cao) | 3 (nâng từ 2) | **Có**: bắt đầu ở mức cao vì viết lại quy tắc nâng mức mà mọi Plan sau dựa vào | FW-2 | ⏸ Người phát triển khung xem đợt 1 | New |
 | FW-4 | Chuyển tài liệu khung từ `docs/` sang `.ai/guide/`, tách glossary, task-breakdown, ai-tools; sửa link | chỉ sửa tài liệu (T12) | sonnet/low → sonnet/high (M2·E1 → M2·E3) | 1,5 | Không | FW-3 | — | New |
 | FW-5 | `CHECKLIST.md`; `PROJECT.md` điền sẵn khuyến nghị; README trỏ checklist | chỉ sửa tài liệu (T12) | sonnet/low → sonnet/high (M2·E1 → M2·E3) | 1 | Không | FW-4 | — | New |
 | FW-6 | Đổi mã thành chữ trong file cho AI (`.ai/` trừ `guide/`, `plans/`) | chỉ sửa tài liệu (T12) | sonnet/low → sonnet/high (M2·E1 → M2·E3) | 1 | Không | FW-5 | — | New |
 | FW-7 | Đổi mã thành chữ trong file cho người (`.ai/guide/`, `docs/`, file gốc) | chỉ sửa tài liệu (T12) | sonnet/low → sonnet/high (M2·E1 → M2·E3) | 1 | Không | FW-5 | — | New |
 | Review (bước 8) | Review độc lập toàn bộ diff | review Pull Request (T9) | opus/high → opus/xhigh (M3·E3 → M3·E4: mạnh, cao → rất cao); mức tự chủ chỉ đọc và báo cáo (A1) | 3 | Không | mọi Task | — | New |
 
-Tổng: 7 Task 9 USD, Review 3 USD, phiên điều phối 3 USD, cộng 15 USD. Mỗi Run đặt `--max-budget-usd` bằng ngân sách còn lại của Task.
+Tổng: 7 Task 10 USD, Review 3 USD, phiên điều phối 3 USD, cộng 16 USD. Mỗi Run đặt `--max-budget-usd` bằng ngân sách còn lại của Task.
 
 ## 6. Thiết kế
 
@@ -150,11 +150,14 @@ Rule 23 thay bằng một câu: viết lựa chọn bằng từ của các thang
 - Lập Plan chỉ đọc file này, không mở file khác.
 - `try` là thứ tự thử: phần tử đầu là mức bắt đầu, phần tử cuối là mức tối đa. Bỏ `floor`, `ladder`, `start`, `ceiling`.
 - `high_risk_min` giữ sàn cứng cho việc rủi ro cao.
-- Mỗi `.ai/agents/references/<công-cụ>.md` có sẵn khối `sessions`/`tasks` đã điền model của công cụ đó. Đổi công cụ thì chép khối sang.
+- `ai-config.yaml` là nguồn duy nhất của model/effort; không còn file reference theo công cụ. Đổi công cụ thì sửa `tool`, `dispatch` và tên model ngay trong file này (bổ sung 2026-11-19).
+- Công cụ không chỉnh được effort (Cursor, Gemini CLI): mỗi mức chỉ ghi tên model; phần tử kế trong `try` là model mạnh hơn, không lặp model. `try` một phần tử thì chạy lại cùng mức.
+- `dispatch: auto` (Orchestrator tự chạy Run theo mức manifest) hoặc `attended` (người mở phiên cho mỗi Run, cho công cụ không đặt được model theo từng Run).
 - Skill có `references/` theo công nghệ chọn file theo `stack`.
 
 ```yaml
 tool: claude-code
+dispatch: auto   # auto | attended
 sessions:
   orchestrator: opus/high      # Plan có đổi kiến trúc: opus/xhigh
   review:       opus/high
@@ -229,7 +232,6 @@ Không có code nên không có test đơn vị. Phần nội dung do người p
 | Gãy khoảng 190 link khi chuyển file | `check.py links` là AC của FW-4 và tiêu chí §2 |
 | Worktree nằm trong repo nên thấy `CLAUDE.md` của repo chính (thư mục cha) | Prompt của mỗi Run dùng đường dẫn tương đối trong worktree. Tiêu chí Hợp lệ kiểm mọi file sửa nằm trong worktree |
 | Dự án đã áp dụng khung bản cũ không đọc được bản mới | Ghi bảng ánh xạ §6.1 vào ghi chú phát hành của PR |
-| `.ai/agents/references/*.md` viết tiếng Việt, trái `project-rules` 22 | Ngoài phạm vi; ghi nhật ký pilot, làm ở Plan sau |
 
 Điểm người phát triển khung đã quyết khi duyệt Plan (2026-11-19):
 1. Từ vựng §6.1, nhất là tên tiếng Anh của mức tự chủ và loại việc.

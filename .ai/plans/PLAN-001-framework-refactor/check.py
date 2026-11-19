@@ -112,7 +112,9 @@ SCALES = {
     "stages": ["discovery", "requirements", "design", "ai-context", "implementation", "testing",
                "release", "improvement"],
 }
-LEVEL = re.compile(r"^(haiku|sonnet|opus|fable)/(low|medium|high|xhigh|max)$")
+# A level is `model/effort`, or `model` alone when the tool cannot set effort (Cursor, Gemini CLI).
+LEVEL = re.compile(r"^[\w.\-]+/(low|medium|high|xhigh|max)$")
+MODEL_ONLY = re.compile(r"^[\w.\-]+$")
 
 
 def check_vocab():
@@ -154,23 +156,14 @@ def check_types():
     return bad
 
 
-def _check_tasks(tasks, skills, where, need_effort):
-    bad, seen = 0, []
-    for entry in tasks:
-        seen += entry.get("for", [])
-        for lv in entry.get("try", []):
-            ok = LEVEL.match(str(lv)) if need_effort else re.match(r"^[\w.\-]+(/\w+)?$", str(lv))
-            if not ok:
-                print(f"{where}: bad level {lv!r}")
-                bad += 1
-    for sk in skills:
-        if seen.count(sk) != 1:
-            print(f"{where}: skill {sk} listed {seen.count(sk)} times")
-            bad += 1
-    return bad
+def _level_ok(lv, with_effort):
+    return bool((LEVEL if with_effort else MODEL_ONLY).match(str(lv)))
 
 
 def check_config():
+    """ai-config.yaml: keys, one `try` row per Skill, one level format for the whole file.
+    Without effort, the next item in `try` must be another (stronger) model, so no two
+    adjacent items repeat. Tool reference files are gone: .ai/agents/references must not exist."""
     import yaml
     skills = sorted(d for d in os.listdir(".ai/skills") if os.path.isdir(os.path.join(".ai/skills", d)))
     skills.append("lookup")
@@ -180,25 +173,38 @@ def check_config():
     except Exception as e:
         print(f"ai-config.yaml: {e}")
         return 1
-    for key in ("tool", "sessions", "tasks", "high_risk_min", "budget_usd_per_task", "stack", "commands"):
+    for key in ("tool", "dispatch", "sessions", "tasks", "high_risk_min", "budget_usd_per_task", "stack", "commands"):
         if key not in cfg:
             print(f"ai-config.yaml: missing {key}")
             bad += 1
-    bad += _check_tasks(cfg.get("tasks", []), skills, "ai-config.yaml", True)
-    for v in list((cfg.get("sessions") or {}).values()) + [cfg.get("high_risk_min")]:
-        if not LEVEL.match(str(v)):
-            print(f"ai-config.yaml: bad level {v!r}")
+    if cfg.get("dispatch") not in ("auto", "attended"):
+        print(f"ai-config.yaml: dispatch must be auto or attended, got {cfg.get('dispatch')!r}")
+        bad += 1
+    levels = [lv for e in cfg.get("tasks", []) for lv in e.get("try", [])]
+    levels += list((cfg.get("sessions") or {}).values()) + [cfg.get("high_risk_min")]
+    with_effort = "/" in str(levels[0]) if levels else True
+    for lv in levels:
+        if not _level_ok(lv, with_effort):
+            print(f"ai-config.yaml: bad level {lv!r} (whole file uses {'model/effort' if with_effort else 'model only'})")
             bad += 1
-    refdir = ".ai/agents/references"
-    for f in sorted(os.listdir(refdir)):
-        text = open(os.path.join(refdir, f), encoding="utf-8").read()
-        blocks = [b for b in re.findall(r"```yaml\n(.*?)```", text, re.S) if "tasks:" in b]
-        if len(blocks) != 1:
-            print(f"{f}: expected 1 yaml block with tasks:, found {len(blocks)}")
+    seen = []
+    for e in cfg.get("tasks", []):
+        seen += e.get("for", [])
+        t = e.get("try", [])
+        if not t:
+            print(f"ai-config.yaml: empty try for {e.get('for')}")
             bad += 1
-            continue
-        block = yaml.safe_load(blocks[0])
-        bad += _check_tasks(block.get("tasks", []), skills, f, False)
+        for a, b in zip(t, t[1:]):
+            if a == b:
+                print(f"ai-config.yaml: try {t} repeats {a!r}; the next item must be a stronger level")
+                bad += 1
+    for sk in skills:
+        if seen.count(sk) != 1:
+            print(f"ai-config.yaml: skill {sk} listed {seen.count(sk)} times")
+            bad += 1
+    if os.path.exists(".ai/agents/references"):
+        print(".ai/agents/references still exists (tool reference files are removed)")
+        bad += 1
     tpl = yaml.safe_load(open(".ai/templates/TASK-MANIFEST-TEMPLATE.yaml", encoding="utf-8"))
     ex = tpl.get("execution", {})
     if "try" not in ex or any(k in ex for k in ("start", "floor", "ceiling")) or "ladder" in tpl.get("escalation", {}):

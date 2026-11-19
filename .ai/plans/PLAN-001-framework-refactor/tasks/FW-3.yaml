@@ -54,41 +54,97 @@ instructions: |
      - task-execution.md step 6: the merged result passes the README tree check
        (`check.py tree` of PLAN-001 until it moves to a shared script).
 
+  B. Amendment 2026-11-19 after the batch-1 review (framework developer decision; the steps above
+     are done, commit 4e0ff2e). ai-config.yaml is the only source of model/effort; tool reference
+     files go away; a tool without effort escalates to a stronger model.
+  9. ai-config.yaml:
+     - Add `dispatch: auto` after `tool` (comment: auto = the Orchestrator starts each Run itself
+       with the level of the manifest; attended = a human opens each Run's session; tools that cannot
+       set the model per Run use attended).
+     - Header comments: delete the "copy the block from .ai/agents/references" line. Add: "Đổi công cụ
+       AI: sửa `tool`, `dispatch` và ghi tên model của công cụ đó vào `sessions`, `tasks`,
+       `high_risk_min`. Công cụ không chỉnh được effort: mỗi mức chỉ ghi tên model, phần tử kế trong
+       `try` là model mạnh hơn, không lặp model (ví dụ try: [model-chuẩn, model-mạnh])."
+     Keep every current value.
+  10. .ai/workflows/model-effort.md:
+     - §2: a level is `model/effort`, or `model` alone when the tool cannot set effort. The whole file
+       uses one form. Without effort, each next item in `try` is a stronger model; adjacent items never
+       repeat the same model (a repeat is not an escalation). A `try` of one item reruns at the same
+       level (§3 rule 2).
+     - §4 becomes "Tool settings": the values are in ai-config.yaml; switching tool = edit `tool`,
+       `dispatch` and the model names there; nothing else to copy. `dispatch: attended` makes every Run
+       attended (task-execution, "Orchestration"). Keep "Always set effort explicitly" (only when the
+       tool has effort), the "not applied: <field>" rule, and the "lacks a model of the required
+       strength: stop and ask" rule. Delete the tool/reference table and the "tool not listed" line.
+  11. Delete .ai/agents/references/ (git rm -r): claude-code.md, codex.md, copilot.md, cursor.md, gemini.md.
+     Before deleting, move the verified Claude Code facts into docs/03-engineering/ai-tools.md as a new
+     section "## 5. Chạy Task với Claude Code" (Vietnamese, for humans; FW-4 later moves this file to
+     .ai/guide/). Keep only what was verified on Claude Code 2.1.326, short:
+       - one non-interactive Run per Task: `claude -p --model <m> --effort <e> --max-budget-usd <rest>
+         --output-format json --permission-mode acceptEdits --allowedTools "<list>" -- "<prompt>"`,
+         run inside the Task's worktree; prompt after `--`;
+       - `--allowedTools` is one space-separated string; commands outside it are blocked and listed in
+         `permission_denials`; chained commands (`;`, `&&`, `cd`) and helper scripts get blocked, so the
+         prompt asks for one command per Bash call and edits via Edit/Write;
+       - writing files under `.claude/` is blocked in this mode even when allowed by name: a human
+         creates those files;
+       - read `is_error` (an API error can end the Run with `subtype: success`), `total_cost_usd`,
+         `modelUsage`, `permission_denials` from the JSON for runs.md; `--max-budget-usd` works only
+         with `-p` and per call (set it to the Task's remaining budget);
+       - no output-token flag: record "không áp dụng: max_output_tokens";
+       - `step-by-step` Tasks: a human opens `claude --model <m> --effort <e>` in the worktree;
+       - orchestrator session: `/model` and `/effort` from `sessions.orchestrator`;
+       - Reviewer/Security subagent example (`.claude/agents/reviewer.md`, model/effort from
+         `sessions.review`), body only points to .ai/.
+     Also in ai-tools.md §1 table, keep tool names and entry files only; say model names live in
+     ai-config.yaml.
+  12. Fix every link or mention of .ai/agents/references (except files FW-4 moves later, which FW-4 fixes;
+     still fix them now if they would break links): .ai/agents/README.md (section "Subagent theo vai và
+     mức": subagent names from ai-config levels, e.g. `executor-sonnet-low`; last line points to
+     ai-config.yaml and docs/03-engineering/ai-tools.md §5), task-execution.md ("Tool without per-Task
+     model control (see its reference file)" -> "`dispatch: attended` in ai-config.yaml"),
+     TASK-MANIFEST-TEMPLATE.yaml header comment, docs/getting-started.md (§5.2 last bullet: model names
+     from ai-config.yaml; Claude Code run commands in ai-tools §5), README.md tree if it lists references.
+     Also fix the stale "model-effort §2" citations whose meaning changed: task-types.md line 11 and
+     task-planning/SKILL.md "Read:" line both mean "ai-config.yaml `tasks`".
 inputs: [FW-2]
 outputs:
   - ai-config.yaml
   - .ai/workflows/model-effort.md, .ai/workflows/task-execution.md
-  - .ai/agents/references/*.md
+  - .ai/agents/references/ deleted; .ai/agents/README.md; docs/03-engineering/ai-tools.md (§5 Claude Code); docs/getting-started.md; .ai/workflows/task-types.md
   - .ai/templates/TASK-MANIFEST-TEMPLATE.yaml, RUNS-TEMPLATE.md, PLAN-TEMPLATE.md
   - .ai/skills/{backend-development,frontend-development,database-design,caching,deployment,task-planning,documentation}/SKILL.md
   - README.md (tree: add ai-config.yaml)
   - handoff report (DELIVERY-REPORT §1–§4, §8)
 scope:
-  allowed_paths: [ai-config.yaml, README.md, .ai/workflows/model-effort.md, .ai/workflows/task-execution.md, .ai/agents/references/, .ai/templates/TASK-MANIFEST-TEMPLATE.yaml, .ai/templates/RUNS-TEMPLATE.md, .ai/templates/PLAN-TEMPLATE.md, .ai/skills/backend-development/SKILL.md, .ai/skills/frontend-development/SKILL.md, .ai/skills/database-design/SKILL.md, .ai/skills/caching/SKILL.md, .ai/skills/deployment/SKILL.md, .ai/skills/task-planning/SKILL.md, .ai/skills/documentation/SKILL.md]
+  allowed_paths: [ai-config.yaml, README.md, .ai/workflows/model-effort.md, .ai/workflows/task-execution.md, .ai/agents/references/, .ai/templates/TASK-MANIFEST-TEMPLATE.yaml, .ai/templates/RUNS-TEMPLATE.md, .ai/templates/PLAN-TEMPLATE.md, .ai/skills/backend-development/SKILL.md, .ai/skills/frontend-development/SKILL.md, .ai/skills/database-design/SKILL.md, .ai/skills/caching/SKILL.md, .ai/skills/deployment/SKILL.md, .ai/skills/task-planning/SKILL.md, .ai/skills/documentation/SKILL.md, .ai/agents/README.md, .ai/workflows/task-types.md, docs/03-engineering/ai-tools.md, docs/getting-started.md]
   zones: [red]
-  out: [Changing the default levels themselves, Translating reference files to English]
+  out: [Changing the default levels themselves, Moving files to .ai/guide (FW-4), Code replacement beyond touched lines (FW-6, FW-7)]
 dependencies: [FW-2]
 
 acceptance_criteria:
   - id: FW-3-AC1
     check: { type: command, run: "python3 -I .ai/plans/PLAN-001-framework-refactor/check.py config" }
   - id: FW-3-AC2
-    check: { type: command, run: "python3 -I .ai/plans/PLAN-001-framework-refactor/check.py codes ai-config.yaml .ai/workflows/model-effort.md .ai/templates/TASK-MANIFEST-TEMPLATE.yaml .ai/templates/RUNS-TEMPLATE.md .ai/templates/PLAN-TEMPLATE.md .ai/agents/references" }
+    check: { type: command, run: "python3 -I .ai/plans/PLAN-001-framework-refactor/check.py codes ai-config.yaml .ai/workflows/model-effort.md .ai/templates/TASK-MANIFEST-TEMPLATE.yaml .ai/templates/RUNS-TEMPLATE.md .ai/templates/PLAN-TEMPLATE.md docs/03-engineering/ai-tools.md" }
     # Narrowed 2026-11-19 (framework developer approved): BUG-TEMPLATE, TEST-REPORT-TEMPLATE are out of FW-3 scope; FW-6 replaces their codes
   - id: FW-3-AC3
-    check: { type: command, run: "python3 -I .ai/plans/PLAN-001-framework-refactor/check.py links .ai" }
+    check: { type: command, run: "python3 -I .ai/plans/PLAN-001-framework-refactor/check.py links" }
   - id: FW-3-AC4
     check: { type: human, who: "Người phát triển khung xem đợt 1 (FW-1..FW-3) trước khi chạy FW-4" }
   - id: FW-3-AC5
     check: { type: command, run: "grep -q 'ai-config.yaml' README.md && grep -qi 'README' .ai/skills/documentation/SKILL.md && grep -qi 'README' .ai/skills/task-planning/SKILL.md && python3 -I .ai/plans/PLAN-001-framework-refactor/check.py tree" }
 
+  - id: FW-3-AC6
+    check: { type: command, run: "test ! -e .ai/agents/references && ! grep -rn 'agents/references' --include=*.md --include=*.yaml . --exclude-dir=pilot --exclude-dir=plans && grep -q '^## 5' docs/03-engineering/ai-tools.md && grep -q 'dispatch' .ai/workflows/model-effort.md" }
+    # amendment 2026-11-19; AC1 (check.py config) now also checks dispatch, model-only levels, no repeated item in try, references removed
 dispatch: dispatched
 execution:
   start: M2·E3                      # sonnet/high
   floor: M2·E3
   ceiling: M3·E3                    # opus/high
   deviation_reason: "Viết lại quy tắc nâng mức mà mọi Plan sau dựa vào; bắt đầu ở mức cao (duyệt cùng Plan)"
-  budget: { max_cost_usd: 2, timeout_min: 40, max_output_tokens: 30000 }
+  budget: { max_cost_usd: 3, timeout_min: 40, max_output_tokens: 30000 }   # raised 2 -> 3 USD on 2026-11-19 (amendment B)
 escalation:
   ladder: [M2·E3, M3·E3]
   max_attempts: 2
@@ -96,4 +152,4 @@ escalation:
   stop_on: [missing_input, conflicting_requirement, out_of_scope, security_finding, environment_error, permission_denied]
 commit: "refactor(ai): ai-config.yaml ghi thẳng model/effort theo loại việc (body: FW-3, PLAN-001)"
 gate: "Người phát triển khung"
-status: New
+status: In Progress
