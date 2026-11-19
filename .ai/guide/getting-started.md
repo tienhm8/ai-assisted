@@ -81,9 +81,8 @@ Repo này là **repo cha** của một dự án: giữ hồ sơ (`docs/`), khai 
 2. Tạo hoặc clone các repo mã nguồn vào `project/` (ví dụ `project/api`, `project/web`).
 
 ### 3.2 Khai báo dự án (cổng G0)
-1. Yêu cầu AI: *"Tạo PROJECT.md cho dự án …"* và kèm thông tin bạn có (loại dự án, quy mô, dữ liệu xử lý). AI điền bản `Draft`; mục nào AI không biết thì để trống hoặc ghi câu hỏi.
-2. Bạn tự quyết và điền: độ nghiêm ngặt S (§4), mức dữ liệu D0–D3 (§3), vùng 🟢🟡🔴 (§2.2), vai trò (§5).
-3. Tech Lead duyệt thì đổi trạng thái sang `Approved`, ghi người duyệt và ngày. Như vậy là qua G0.
+Làm theo [CHECKLIST.md](../../CHECKLIST.md) (từ việc 4 đến việc 12): [PROJECT.md](../../PROJECT.md) đã có giá trị khuyến nghị, mục nào đúng thì giữ. Tech Lead duyệt thì đổi trạng thái sang `Approved`, ghi người duyệt và ngày; như vậy là qua G0.
+Muốn AI điền giúp: yêu cầu *"Tạo PROJECT.md cho dự án …"* kèm thông tin bạn có (loại dự án, quy mô, dữ liệu xử lý); AI điền bản `Draft`, mục nào không biết thì để trống hoặc ghi câu hỏi.
 
 ### 3.3 Nối công cụ AI
 Chọn công cụ và tạo symlink theo [ai-tools](ai-tools.md) §1–§2, rồi khai báo ở §3–§4 của file đó. Chạy thử một Task nhỏ (ví dụ một Task T12) để chắc công cụ đã đọc `AGENTS.md`.
@@ -140,7 +139,7 @@ Repo cũ có thể đã có `CLAUDE.md`, `AGENTS.md`, `.cursorrules`, `.cursor/r
 Sau khi chuyển xong, xoá file cũ hoặc thu lại thành một dòng trỏ về repo cha. Đây là thay đổi trong repo con, cần một Task T12 riêng.
 
 ### 4.4 Khai báo PROJECT.md cho dự án cũ
-Làm như §3.2, với các điểm riêng sau:
+Làm theo [CHECKLIST.md](../../CHECKLIST.md) như §3.2. Các điểm riêng của dự án cũ mà CHECKLIST.md không nêu:
 
 | Mục PROJECT.md | Gợi ý cho dự án cũ |
 | --- | --- |

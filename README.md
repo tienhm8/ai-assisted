@@ -6,12 +6,13 @@ README là **bản đồ** của repo: nói hệ thống làm gì, tài liệu n
 
 ## Cấu trúc
 
-Mỗi thư mục có README riêng ghi người quyết và điều kiện sang bước sau. `[01]`–`[08]` là giai đoạn vòng đời.
+Mỗi thư mục có README riêng ghi người quyết và điều kiện sang bước sau. Tên giai đoạn vòng đời ghi cạnh thư mục.
 
 ```text
 project/
 ├── README.md                    bản đồ của repo
-├── PROJECT.md                   [04] khai báo giá trị riêng của dự án (mức tự chủ, vùng, dữ liệu, S, vai trò, miễn trừ)
+├── CHECKLIST.md                 việc cần làm khi áp dụng khung
+├── PROJECT.md                   (Chuẩn bị ngữ cảnh AI) khai báo giá trị riêng của dự án (mức tự chủ, vùng, dữ liệu, S, vai trò, miễn trừ)
 ├── AGENTS.md                    điểm vào cho AI, chỉ trỏ về .ai/
 ├── CLAUDE.md                    chỉ chứa @AGENTS.md cho Claude Code
 ├── ai-config.yaml               model/effort theo loại việc, ngân sách, stack, lệnh kiểm
@@ -22,12 +23,12 @@ project/
 │   └── worktrees/               worktree của AI (không commit)
 │
 ├── docs/                        hồ sơ dự án cho cả người và AI; người không dùng AI chỉ đọc docs/
-│   ├── 00-project-overview/     [01] làm gì, cho ai, ranh giới ở đâu?
-│   ├── 01-requirements/         [02] phải làm gì, nghiệm thu ra sao?
-│   ├── 02-architecture/         [03] xây thế nào, đã chốt quyết định nào?
-│   ├── 03-engineering/          [04][06] code, bảo mật, lỗi, test theo chuẩn nào? kiểm soát AI ra sao?
-│   ├── 04-project-management/   [04][08] làm gì trước, chia Task ra sao, qua cổng nào?
-│   └── 05-operations/           [07] phát hành, giám sát, khôi phục thế nào?
+│   ├── 00-project-overview/     (Khám phá sản phẩm) làm gì, cho ai, ranh giới ở đâu?
+│   ├── 01-requirements/         (Yêu cầu) phải làm gì, nghiệm thu ra sao?
+│   ├── 02-architecture/         (Thiết kế) xây thế nào, đã chốt quyết định nào?
+│   ├── 03-engineering/          (Chuẩn bị ngữ cảnh AI, Kiểm thử) code, bảo mật, lỗi, test theo chuẩn nào? kiểm soát AI ra sao?
+│   ├── 04-project-management/   (Chuẩn bị ngữ cảnh AI, Cải tiến) làm gì trước, chia Task ra sao, qua cổng nào?
+│   └── 05-operations/           (Phát hành và vận hành) phát hành, giám sát, khôi phục thế nào?
 │
 └── .ai/                         AI làm gì, làm thế nào (dạng mệnh lệnh, không chứa giá trị riêng của dự án)
     ├── README.md                bản đồ của .ai/
@@ -44,19 +45,19 @@ Danh mục Rule và Skill: [rules/](.ai/rules/README.md), [skills/](.ai/skills/R
 
 ## Giai đoạn và người duyệt
 
-Cổng G0–G7 giữa các giai đoạn và độ nghiêm ngặt S1–S3: [gates-and-rigor.md](.ai/guide/gates-and-rigor.md).
+Tám cổng duyệt giữa các giai đoạn (Khai báo dự án, Phạm vi, Yêu cầu, Thiết kế, Sẵn sàng giao việc, Code xong, Sẵn sàng phát hành, Vận hành) và ba độ nghiêm ngặt (gọn, chuẩn, nghiêm ngặt): [gates-and-rigor.md](.ai/guide/gates-and-rigor.md).
 
 | Giai đoạn | Người duyệt |
 | --- | --- |
-| `[01]` Product Discovery | PO (Đại diện khách hàng cung cấp nguồn, duyệt phạm vi qua Đầu mối) |
-| `[02]` Requirements Engineering | PO/BA (QA rà khả năng kiểm thử; Đại diện khách hàng trả lời câu hỏi, duyệt yêu cầu qua Đầu mối) |
-| `[03]` System Design | Kiến trúc sư (thêm Security nếu đụng tới tiền, phân quyền, dữ liệu cá nhân, migration) |
-| `[04]` AI Context & Governance | Tech Lead |
-| `[05]` Implementation | Tech Lead |
-| `[06]` Quality Engineering | Tech Lead |
-| `[07]` Delivery & Operations | Owner (tham khảo Tech Lead; DevOps thực hiện; AI không tự deploy) |
-| `[08]` Continuous Improvement | Tech Lead |
+| Khám phá sản phẩm (Product Discovery) | PO (Đại diện khách hàng cung cấp nguồn, duyệt phạm vi qua Đầu mối) |
+| Yêu cầu (Requirements Engineering) | PO/BA (QA rà khả năng kiểm thử; Đại diện khách hàng trả lời câu hỏi, duyệt yêu cầu qua Đầu mối) |
+| Thiết kế (System Design) | Kiến trúc sư (thêm Security nếu đụng tới tiền, phân quyền, dữ liệu cá nhân, migration) |
+| Chuẩn bị ngữ cảnh AI (AI Context & Governance) | Tech Lead |
+| Lập trình (Implementation) | Tech Lead |
+| Kiểm thử (Quality Engineering) | Tech Lead |
+| Phát hành và vận hành (Delivery & Operations) | Owner (tham khảo Tech Lead; DevOps thực hiện; AI không tự deploy) |
+| Cải tiến (Continuous Improvement) | Tech Lead |
 
 ## Bắt đầu
 
-Xem [.ai/guide/getting-started.md](.ai/guide/getting-started.md)
+Làm theo [CHECKLIST.md](CHECKLIST.md) trước, rồi đọc [.ai/guide/getting-started.md](.ai/guide/getting-started.md).
