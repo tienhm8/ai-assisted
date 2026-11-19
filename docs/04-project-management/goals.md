@@ -6,7 +6,7 @@
 | Người phụ trách |  |
 | Người duyệt (dự án) | Tech Lead (PO quyết Goal nghiệp vụ) |
 | Phiên bản · Ngày |  |
-| Tài liệu liên quan | work-model.md, roadmap.md, product-backlog.md, task-backlog.md, ../00-project-overview/vision.md, ../01-requirements/BRD.md, ../../.ai/workflows/task-execution.md |
+| Tài liệu liên quan | ../../.ai/guide/work-model.md, roadmap.md, product-backlog.md, task-backlog.md, ../00-project-overview/vision.md, ../01-requirements/BRD.md, ../../.ai/workflows/task-execution.md |
 
 > **Mục đích.** Nơi duy nhất ghi Goal (Desired Outcome): kết quả đầu ra mà người dùng hoặc tổ chức muốn đạt, trả lời "muốn đạt kết quả gì?". Goal thuộc nhóm A, định nghĩa nghiệp vụ và sản phẩm ([work-model](../../.ai/guide/work-model.md)); cách đạt nằm ở các Plan (`.ai/plans/`), việc cụ thể ở Task ([task-backlog](task-backlog.md)), từng lần thực thi ở `runs.md` của Plan.
 

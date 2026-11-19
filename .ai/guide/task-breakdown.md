@@ -6,7 +6,7 @@
 | Người phụ trách |  |
 | Người duyệt (dự án) | Tech Lead |
 | Phiên bản · Ngày |  |
-| Tài liệu liên quan | work-model.md, goals.md, task-backlog.md, product-backlog.md, roadmap.md, ../01-requirements/FR/, ../../.ai/workflows/task-execution.md, ../../.ai/workflows/task-types.md, ../../.ai/rules/project-rules.md |
+| Tài liệu liên quan | work-model.md, ../../docs/04-project-management/goals.md, ../../docs/04-project-management/task-backlog.md, ../../docs/04-project-management/product-backlog.md, ../../docs/04-project-management/roadmap.md, ../../docs/01-requirements/FR/, ../../.ai/workflows/task-execution.md, ../../.ai/workflows/task-types.md, ../../.ai/rules/project-rules.md |
 
 > **Mục đích.** Chia Task trong Plan (**người quyết: Tech Lead**, duyệt khi duyệt Plan): mỗi Task có objective, scope in/out, AC, mức rủi ro R1–R3, mức tự chủ A0–A4. Plan và Task Manifest nằm ở [.ai/plans/](../../.ai/plans/); Goal ở [goals](../../docs/04-project-management/goals.md); ba nhóm khái niệm ở [work-model](work-model.md).
 

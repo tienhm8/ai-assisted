@@ -6,7 +6,7 @@
 | Người phụ trách |  |
 | Người duyệt (dự án) | Tech Lead (PO quyết ưu tiên) |
 | Phiên bản · Ngày |  |
-| Tài liệu liên quan | work-model.md, product-backlog.md, goals.md, task-breakdown.md, roadmap.md, ../01-requirements/FR/, ../01-requirements/business-rules.md |
+| Tài liệu liên quan | ../../.ai/guide/work-model.md, product-backlog.md, goals.md, ../../.ai/guide/task-breakdown.md, roadmap.md, ../01-requirements/FR/, ../01-requirements/business-rules.md |
 
 > **Mục đích.** Danh sách Task (nhóm B, lập kế hoạch và quản lý công việc, [work-model](../../.ai/guide/work-model.md)) chờ làm, có ưu tiên. Task có ID theo công cụ quản lý việc (<KEY>-<N>). Epic và User Story ở [product-backlog](product-backlog.md), không ở đây. Backlog chỉ liệt kê và xếp thứ tự; Objective, Scope, AC chi tiết của từng Task nằm ở [task-breakdown](../../.ai/guide/task-breakdown.md), không chép vào đây.
 

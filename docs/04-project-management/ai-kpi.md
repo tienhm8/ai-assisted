@@ -6,7 +6,7 @@
 | Người phụ trách |  |
 | Người duyệt (dự án) | Tech Lead |
 | Phiên bản · Ngày |  |
-| Tài liệu liên quan | roadmap.md, task-backlog.md, task-breakdown.md, ../03-engineering/testing-strategy.md, ../05-operations/monitoring.md |
+| Tài liệu liên quan | roadmap.md, task-backlog.md, ../../.ai/guide/task-breakdown.md, ../03-engineering/testing-strategy.md, ../05-operations/monitoring.md |
 
 > **Mục đích.** Chọn chỉ số, ghi baseline và kết quả đo để đánh giá AI có thực sự cải thiện việc phát triển hay không. Mục 2 định nghĩa KPI dự án chọn đo; KPI lấy thêm từ mục 1 phải điền đủ mục 2 trước khi đo. File này chỉ ghi chỉ số dự án chọn đo và số liệu thực tế. Không chỉ đo số dòng code AI tạo ra hoặc số Task hoàn thành.
 

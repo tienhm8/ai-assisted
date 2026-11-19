@@ -6,7 +6,7 @@
 | Người phụ trách |  |
 | Người duyệt (dự án) | PO (BA soạn) |
 | Phiên bản · Ngày |  |
-| Tài liệu liên quan | work-model.md, goals.md, roadmap.md, task-backlog.md, ../01-requirements/BRD.md, ../01-requirements/features.md, ../01-requirements/FR/ |
+| Tài liệu liên quan | ../../.ai/guide/work-model.md, goals.md, roadmap.md, task-backlog.md, ../01-requirements/BRD.md, ../01-requirements/features.md, ../01-requirements/FR/ |
 
 > **Mục đích.** Danh sách Epic và User Story của sản phẩm (nhóm A, định nghĩa nghiệp vụ và sản phẩm, [work-model](../../.ai/guide/work-model.md)), có ưu tiên. Không chứa Task: Task ở [task-backlog](task-backlog.md); Task và Plan ghi User Story mà chúng phục vụ, backlog này không ghi ngược.
 >
