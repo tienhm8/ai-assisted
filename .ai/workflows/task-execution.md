@@ -21,7 +21,7 @@ Templates: [PLAN-TEMPLATE](../templates/PLAN-TEMPLATE.md), [TASK-MANIFEST-TEMPLA
 
 ## Orchestration
 
-The main session is the **Orchestrator**, run as a planning session (steps 1–4 and 7, level `sessions.orchestrator` in [ai-config.yaml](../../ai-config.yaml)) and a dispatch session (steps 5–6, level `sessions.dispatch`); rules in [model-effort.md](model-effort.md) §1. It: creates Plans and Tasks; sets each Task's type, proposed risk and autonomy level, agent, Skills and `try`; dispatches each Task to a fresh subagent or session configured from the manifest; receives results; evaluates and escalates (model-effort §3); checks dependencies; merges outputs and updates Plan and Goal status.
+The main session is the **Orchestrator**, run as a planning session (steps 1–4, level `sessions.orchestrator` in [ai-config.yaml](../../ai-config.yaml)), a dispatch session (steps 5–6, level `sessions.dispatch`) and a report session (step 7, level `sessions.report`); rules in [model-effort.md](model-effort.md) §1. It: creates Plans and Tasks; sets each Task's type, proposed risk and autonomy level, agent, Skills and `try`; dispatches each Task to a fresh subagent or session configured from the manifest; receives results; evaluates and escalates (model-effort §3); checks dependencies; merges outputs and updates Plan and Goal status.
 
 The Orchestrator does not write a Task's code or documents itself, does not approve, and stops at every ⏸ gate. A subagent receives only: its manifest, the failure note of the previous Run if any, `project-rules`, and the Rules, Skills, and document sections the manifest lists. It never receives the Orchestrator's history.
 
@@ -54,7 +54,7 @@ awk -v s='## 5' 'BEGIN{n=index(s," ")} /^```/{f=!f} !f&&!p&&(index($0,s" ")==1||
 
 ## Steps
 
-Steps 1–4 and 7 run in the Orchestrator's planning session; steps 5–6 (evaluation, merging, tests) in its dispatch session ([model-effort.md](model-effort.md) §1); the work of each Task in step 5 runs in its own Run.
+Steps 1–4 run in the Orchestrator's planning session; steps 5–6 (evaluation, merging, tests) in its dispatch session; step 7 in its report session ([model-effort.md](model-effort.md) §1); the work of each Task in step 5 runs in its own Run.
 
 | Step | Work | Load | Output |
 | --- | --- | --- | --- |

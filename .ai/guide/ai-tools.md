@@ -53,7 +53,7 @@ Không đưa Rule vào `.claude/rules/`, `.cursor/rules/`: Rule không có `path
 - **Ngân sách còn lại** là ngân sách hiện tại của Task (ban đầu cộng cấp thêm, bằng `budget.max_cost_usd` trong manifest sau khi Orchestrator đồng bộ) trừ chi phí đã dùng. Run bị cắt ở mức này thì đọc từ JSON (trường `is_error` và các trường kết quả đã nêu ở trên), và Orchestrator coi như Task chạm ngưỡng cảnh báo.
 - **Không có cờ giới hạn token đầu ra:** Run ghi "không áp dụng: max_output_tokens".
 - **Task `step-by-step`:** người mở phiên tương tác `claude --model <model> --effort <effort>` trong worktree của Task.
-- **Phiên Orchestrator:** phiên lập Plan dùng `/model` và `/effort` theo `sessions.orchestrator`; phiên chạy Plan đã duyệt là phiên mới, mở bằng `claude --model <model> --effort <effort>` theo `sessions.dispatch` (hoặc theo `sessions.orchestrator` trong các trường hợp ghi ở chú thích của khoá đó).
+- **Phiên Orchestrator:** phiên lập Plan dùng `/model` và `/effort` theo `sessions.orchestrator`; phiên chạy Plan đã duyệt là phiên mới, mở bằng `claude --model <model> --effort <effort>` theo `sessions.dispatch`; phiên soạn báo cáo bàn giao cũng là phiên mới, theo `sessions.report` (hai khoá này dùng mức `sessions.orchestrator` trong các trường hợp ghi ở chú thích của khoá).
 - **Subagent Reviewer/Security:** một file mỗi vai trong `.claude/agents/`, model và effort theo `sessions.review`; nội dung chỉ trỏ về `.ai/`. Ví dụ `.claude/agents/reviewer.md`:
 
   ```markdown

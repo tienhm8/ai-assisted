@@ -202,8 +202,9 @@ Mở phiên ở thư mục gốc repo cha. Chọn model, effort **trước khi g
 
 | Phiên | Mức | Nghĩa |
 | --- | --- | --- |
-| Orchestrator lập Plan (bước 1–4) và soạn báo cáo bàn giao (bước 7) | theo `sessions.orchestrator`: opus/high; opus/xhigh nếu Plan có đổi kiến trúc hoặc API contract | Model mạnh · effort cao / rất cao |
+| Orchestrator lập Plan (bước 1–4) | theo `sessions.orchestrator`: opus/high; opus/xhigh nếu Plan có đổi kiến trúc hoặc API contract | Model mạnh · effort cao / rất cao |
 | Orchestrator chạy Plan đã duyệt (bước 5–6: gửi Task, đánh giá, gộp, kiểm) | phiên **mới**, theo `sessions.dispatch`: sonnet/medium; dùng mức lập Plan nếu Plan có Task rủi ro cao, Skill `security-review` hoặc `authentication-rbac`, hoặc đổi kiến trúc | Model chuẩn · effort vừa |
+| Orchestrator soạn báo cáo bàn giao (bước 7) | phiên **mới** sau bước 6, theo `sessions.report`: sonnet/high; dùng mức lập Plan nếu Plan có Task rủi ro cao hoặc đổi kiến trúc | Model chuẩn · effort cao |
 | Fast lane (một Task rủi ro thấp) | Mức từ ai-config.yaml `tasks` (phần tử đầu của hàng Skill chính), ví dụ sửa tài liệu sonnet/low | Model chuẩn · effort thấp |
 | Từng Task (Run) | Orchestrator tự chọn theo manifest; Task duyệt từng bước trở xuống hoặc công cụ không có subagent thì bạn mở phiên mới theo mức Orchestrator báo | — |
 | Review (bước 8) | theo `sessions.review`, phiên mới, không dùng lịch sử phiên viết code | Model mạnh · effort cao |
@@ -243,6 +244,7 @@ Thay phần `<...>`. Mã Task, loại, rủi ro, mức tự chủ lấy từ Tas
 | Thiết kế | `Task <KEY>-<N> (tính năng mới · rủi ro <thấp/vừa/cao> · duyệt từng bước). Thiết kế module <tên> trên nền <hệ thống sẵn có, đường dẫn code>. Căn cứ: FR-<MODULE>-* đã Approved.` |
 | Lập Plan | `Lập Plan từ <GOAL-<NN> | EPIC-<NN> | US-<MODULE>-<NN> | yêu cầu: …>; phục vụ Goal <GOAL-<NN> hoặc không>. Căn cứ FR-<MODULE>-*, thiết kế đã Approved. Chia thành Plan và Task kèm manifest; đề xuất rủi ro, mức tự chủ, mức model·effort cho từng Task.` |
 | Chạy Plan đã duyệt | `Plan PLAN-<NNN> đã duyệt. Chạy các Task theo manifest, ghi runs.md.` |
+| Soạn báo cáo bàn giao (phiên mới) | `Plan PLAN-<NNN> đã qua bước 6. Soạn báo cáo bàn giao theo DELIVERY-REPORT-TEMPLATE từ runs.md và git diff <base>..<head>.` |
 | Làm tính năng | `Task <KEY>-<N> (làm tính năng · rủi ro <...> · mức tự chủ <...>). Làm theo AGENTS.md.` + dán Task |
 | Sửa lỗi | `Task <KEY>-<N> (sửa lỗi · rủi ro <...> · mức tự chủ <...>). Làm theo AGENTS.md.` + dán bug report theo BUG-TEMPLATE |
 | Review PR (phiên mới) | `Task <KEY>-<N> (review PR · rủi ro <...> · chỉ đọc). Review PR <link/số> của Task <KEY>-<M>. Không dùng lịch sử phiên viết code.` Khi chưa có PR (review trên máy): `Task <KEY>-<N> (review PR · rủi ro <...> · chỉ đọc). Review thay đổi git diff <base>..<head> theo báo cáo bàn giao <đường dẫn>. Không dùng lịch sử phiên viết code.` |

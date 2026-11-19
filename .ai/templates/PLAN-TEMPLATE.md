@@ -11,7 +11,7 @@
 | Trạng thái | Draft / Approved / In Progress / Done / Cancelled |
 | Người duyệt · Ngày duyệt | |
 | Ngày tạo | |
-| Model/effort của Orchestrator | Phiên lập Plan (bước 1–4, 7): theo `sessions.orchestrator` trong `ai-config.yaml` (ví dụ opus/high); mức ghi chú trong file đó nếu Plan có Task loại `architecture-change` (đổi kiến trúc hoặc API contract). Phiên chạy (bước 5–6): theo `sessions.dispatch` (ví dụ sonnet/medium); dùng mức của phiên lập Plan nếu Plan có Task rủi ro cao, Skill `security-review` hoặc `authentication-rbac`, hoặc đổi kiến trúc |
+| Model/effort của Orchestrator | Phiên lập Plan (bước 1–4): theo `sessions.orchestrator` trong `ai-config.yaml` (ví dụ opus/high); mức ghi chú trong file đó nếu Plan có Task loại `architecture-change` (đổi kiến trúc hoặc API contract). Phiên chạy (bước 5–6): theo `sessions.dispatch` (ví dụ sonnet/medium); dùng mức của phiên lập Plan nếu Plan có Task rủi ro cao, Skill `security-review` hoặc `authentication-rbac`, hoặc đổi kiến trúc. Phiên báo cáo bàn giao (bước 7): theo `sessions.report` (ví dụ sonnet/high); dùng mức của phiên lập Plan nếu Plan có Task rủi ro cao hoặc đổi kiến trúc |
 | Ngân sách tối đa của Plan | Ghi công thức `NganSachToiDa >= NganSachTask + QuyDuPhong + Review + PhienDieuPhoi` với số cụ thể. `NganSachTask` là tổng ngân sách ban đầu của các Task. Quỹ nằm bên trong, không cộng thêm; không tự tăng; vượt thì dừng, hỏi người |
 | Quỹ dự phòng | Số tiền (USD); mặc định `budget_pool_pct` % tổng ngân sách ban đầu của các Task (ghi lý do nếu khác); không có quỹ thì ghi 0 |
 
