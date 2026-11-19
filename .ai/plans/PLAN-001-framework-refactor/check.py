@@ -173,12 +173,12 @@ def check_config():
     except Exception as e:
         print(f"ai-config.yaml: {e}")
         return 1
-    for key in ("tool", "dispatch", "sessions", "tasks", "high_risk_min", "budget_usd_per_task", "stack", "commands"):
+    for key in ("tool", "auto_runs", "sessions", "tasks", "high_risk_min", "budget_usd_per_task", "stack", "commands"):
         if key not in cfg:
             print(f"ai-config.yaml: missing {key}")
             bad += 1
-    if cfg.get("dispatch") not in ("auto", "attended"):
-        print(f"ai-config.yaml: dispatch must be auto or attended, got {cfg.get('dispatch')!r}")
+    if cfg.get("auto_runs") not in (True, False):
+        print(f"ai-config.yaml: auto_runs must be true or false, got {cfg.get('auto_runs')!r}")
         bad += 1
     levels = [lv for e in cfg.get("tasks", []) for lv in e.get("try", [])]
     levels += list((cfg.get("sessions") or {}).values()) + [cfg.get("high_risk_min")]

@@ -107,6 +107,20 @@ instructions: |
      from ai-config.yaml; Claude Code run commands in ai-tools §5), README.md tree if it lists references.
      Also fix the stale "model-effort §2" citations whose meaning changed: task-types.md line 11 and
      task-planning/SKILL.md "Read:" line both mean "ai-config.yaml `tasks`".
+  C. Amendment 2026-11-19 after FW-3#2 (framework developer decision): the key `dispatch` in
+     ai-config.yaml clashes with the manifest field `dispatch: dispatched | attended`. Rename it.
+  13. ai-config.yaml: replace `dispatch: auto` with `auto_runs: true` (comment: true = the Orchestrator
+     starts each Run itself at the manifest's level, following docs/03-engineering/ai-tools.md §5;
+     false = a human opens each Run's session; tools that cannot set the model per Run use false).
+     Header comment: "sửa `tool`, `auto_runs` ...".
+  14. Replace the ai-config key `dispatch` / values `auto`/`attended` with `auto_runs` / `true`/`false` in
+     model-effort.md §4, task-execution.md "Orchestration" ("Tool without per-Task model control
+     (`auto_runs: false` ...)"), docs/getting-started.md §5.2. Do NOT touch the manifest field
+     `dispatch: dispatched | attended` (TASK-MANIFEST-TEMPLATE, task-execution "Dispatch mode").
+  15. docs/03-engineering/ai-tools.md §5 intro: replace "AI không nạp mục này khi làm Task" with
+     "Orchestrator đọc mục này khi `auto_runs: true` và `tool: claude-code`; Run của Task không nạp".
+     model-effort.md §4 and task-execution.md "Orchestration" point to that section for how to start
+     a Run when `auto_runs: true`.
 inputs: [FW-2]
 outputs:
   - ai-config.yaml
@@ -136,8 +150,11 @@ acceptance_criteria:
     check: { type: command, run: "grep -q 'ai-config.yaml' README.md && grep -qi 'README' .ai/skills/documentation/SKILL.md && grep -qi 'README' .ai/skills/task-planning/SKILL.md && python3 -I .ai/plans/PLAN-001-framework-refactor/check.py tree" }
 
   - id: FW-3-AC6
-    check: { type: command, run: "test ! -e .ai/agents/references && ! grep -rn 'agents/references' --include=*.md --include=*.yaml . --exclude-dir=pilot --exclude-dir=plans && grep -q '^## 5' docs/03-engineering/ai-tools.md && grep -q 'dispatch' .ai/workflows/model-effort.md" }
-    # amendment 2026-11-19; AC1 (check.py config) now also checks dispatch, model-only levels, no repeated item in try, references removed
+    check: { type: command, run: "test ! -e .ai/agents/references && ! grep -rn 'agents/references' --include=*.md --include=*.yaml . --exclude-dir=pilot --exclude-dir=plans && grep -q '^## 5' docs/03-engineering/ai-tools.md && grep -q 'auto_runs' .ai/workflows/model-effort.md" }
+  - id: FW-3-AC7
+    check: { type: command, run: "! grep -rnE '(dispatch: (auto|attended)\\b|`dispatch`.*ai-config|ai-config.*`dispatch`)' --include=*.md --include=*.yaml . --exclude-dir=pilot --exclude-dir=plans && grep -q 'auto_runs' .ai/workflows/task-execution.md && grep -q 'auto_runs' docs/03-engineering/ai-tools.md" }
+    # amendment C 2026-11-19
+    # amendment 2026-11-19; AC1 (check.py config) now also checks auto_runs, model-only levels, no repeated item in try, references removed
 dispatch: dispatched
 execution:
   start: M2·E3                      # sonnet/high

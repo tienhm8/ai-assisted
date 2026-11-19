@@ -63,6 +63,7 @@ Chạy trên kết quả gộp, ở thư mục gốc repo:
 | 2026-11-19 | Bỏ `.ai/worktrees/`. Worktree tạo trong `.claude/worktrees/`, chỗ mặc định của Claude Code; công cụ khác cũng dùng chỗ này |
 | 2026-11-19 | Đổi mã thành chữ ở cả file cho AI và file cho người |
 | 2026-11-19 | Làm xong trước khi pilot bắt đầu code |
+| 2026-11-19 (xem đợt 1, sau FW-3#2) | Khoá chọn cách chạy trong `ai-config.yaml` tên là `auto_runs` (`true` hoặc `false`), không dùng `dispatch` để khỏi trùng trường `dispatch` của manifest |
 | 2026-11-19 (xem đợt 1) | `ai-config.yaml` là nguồn duy nhất của model/effort. Xoá 5 file `.ai/agents/references/`; cách chạy Task đã kiểm chứng của Claude Code chuyển vào hướng dẫn `ai-tools.md` §5. Công cụ không chỉnh được effort: mỗi mức chỉ ghi model, bậc kế là model mạnh hơn. Bổ sung vào FW-3, nâng ngân sách FW-3 |
 
 **Bằng chứng từ rà soát** (chi tiết ở nhật ký pilot #18 đến #28; nhật ký không commit):
@@ -116,7 +117,7 @@ Mọi Task chạm file của khung ở vùng đỏ. Mức rủi ro đề xuất 
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | FW-1 | Từ vựng: thang dùng chung, tên loại việc, bỏ rule 23 | đổi kiến trúc của khung (T7) | sonnet/low → sonnet/high (M2·E1 → M2·E3: model chuẩn, effort thấp → cao) | 1,5 | Không | — | — | New |
 | FW-2 | Điểm vào `CLAUDE.md`; vùng theo thư mục con; bỏ `.ai/worktrees/`, chuyển worktree sang `.claude/worktrees/` (`.gitignore`, `.claude/settings.json`, sửa 6 chỗ nhắc) | đổi kiến trúc của khung (T7) | sonnet/low → sonnet/high (M2·E1 → M2·E3) | 1 | Không | FW-1 | — | New |
-| FW-3 | `ai-config.yaml`; rút `model-effort` còn quy tắc; sửa mẫu manifest, runs, Plan; Skill chọn reference theo `stack`. Bổ sung B (2026-11-19): xoá file reference công cụ, `dispatch`, mức chỉ có model | đổi kiến trúc của khung (T7) | sonnet/high → opus/high (M2·E3 → M3·E3: chuẩn, cao → mạnh, cao) | 3 (nâng từ 2) | **Có**: bắt đầu ở mức cao vì viết lại quy tắc nâng mức mà mọi Plan sau dựa vào | FW-2 | ⏸ Người phát triển khung xem đợt 1 | New |
+| FW-3 | `ai-config.yaml`; rút `model-effort` còn quy tắc; sửa mẫu manifest, runs, Plan; Skill chọn reference theo `stack`. Bổ sung B (2026-11-19): xoá file reference công cụ, `auto_runs`, mức chỉ có model | đổi kiến trúc của khung (T7) | sonnet/high → opus/high (M2·E3 → M3·E3: chuẩn, cao → mạnh, cao) | 3 (nâng từ 2) | **Có**: bắt đầu ở mức cao vì viết lại quy tắc nâng mức mà mọi Plan sau dựa vào | FW-2 | ⏸ Người phát triển khung xem đợt 1 | New |
 | FW-4 | Chuyển tài liệu khung từ `docs/` sang `.ai/guide/`, tách glossary, task-breakdown, ai-tools; sửa link | chỉ sửa tài liệu (T12) | sonnet/low → sonnet/high (M2·E1 → M2·E3) | 1,5 | Không | FW-3 | — | New |
 | FW-5 | `CHECKLIST.md`; `PROJECT.md` điền sẵn khuyến nghị; README trỏ checklist | chỉ sửa tài liệu (T12) | sonnet/low → sonnet/high (M2·E1 → M2·E3) | 1 | Không | FW-4 | — | New |
 | FW-6 | Đổi mã thành chữ trong file cho AI (`.ai/` trừ `guide/`, `plans/`) | chỉ sửa tài liệu (T12) | sonnet/low → sonnet/high (M2·E1 → M2·E3) | 1 | Không | FW-5 | — | New |
@@ -150,14 +151,14 @@ Rule 23 thay bằng một câu: viết lựa chọn bằng từ của các thang
 - Lập Plan chỉ đọc file này, không mở file khác.
 - `try` là thứ tự thử: phần tử đầu là mức bắt đầu, phần tử cuối là mức tối đa. Bỏ `floor`, `ladder`, `start`, `ceiling`.
 - `high_risk_min` giữ sàn cứng cho việc rủi ro cao.
-- `ai-config.yaml` là nguồn duy nhất của model/effort; không còn file reference theo công cụ. Đổi công cụ thì sửa `tool`, `dispatch` và tên model ngay trong file này (bổ sung 2026-11-19).
+- `ai-config.yaml` là nguồn duy nhất của model/effort; không còn file reference theo công cụ. Đổi công cụ thì sửa `tool`, `auto_runs` và tên model ngay trong file này (bổ sung 2026-11-19).
 - Công cụ không chỉnh được effort (Cursor, Gemini CLI): mỗi mức chỉ ghi tên model; phần tử kế trong `try` là model mạnh hơn, không lặp model. `try` một phần tử thì chạy lại cùng mức.
-- `dispatch: auto` (Orchestrator tự chạy Run theo mức manifest) hoặc `attended` (người mở phiên cho mỗi Run, cho công cụ không đặt được model theo từng Run).
+- `auto_runs: true` (Orchestrator tự chạy Run theo mức manifest, cách chạy ở `ai-tools.md` §5) hoặc `false` (người mở phiên cho mỗi Run, cho công cụ không đặt được model theo từng Run).
 - Skill có `references/` theo công nghệ chọn file theo `stack`.
 
 ```yaml
 tool: claude-code
-dispatch: auto   # auto | attended
+auto_runs: true  # true | false
 sessions:
   orchestrator: opus/high      # Plan có đổi kiến trúc: opus/xhigh
   review:       opus/high
