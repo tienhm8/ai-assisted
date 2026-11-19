@@ -32,7 +32,7 @@ Read: work-model; the Source; goals.md; product-backlog (Epic, User Story); FR, 
 
 - Each Plan has a Source, optional Goals, the User Stories/FRs it implements (or the reason for a technical Plan), and done criteria.
 - Each Task lists what it serves (`serves`), so a Task traces to BRQ, User Story, or Goal.
-- Each Task has a manifest with in/out scope, AC traced to FR with a check each, clear order and dependencies, a level range within model-effort floors.
+- Each Task has a manifest with in/out scope, AC traced to FR with a check each, clear order and dependencies, `execution.try` copied from one ai-config.yaml `tasks` row (deviation stated).
 - Tasks meet Definition of Ready or state clearly what is missing.
 
 ## Report
