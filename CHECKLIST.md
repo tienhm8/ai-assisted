@@ -4,7 +4,7 @@ Hoàn thành checklist tuần tự trước khi bắt đầu.
 
 | # | Việc | File | Người quyết | Điều kiện hoàn thành |
 | --- | --- | --- | --- | --- |
-| [x] 1 | Tạo repo từ framework | repo cha | Tech Lead | Repo cha có `.ai/`, `docs/`, `PROJECT.md` |
+| [ ] 1 | Tạo repo từ framework | repo cha | Tech Lead | Repo cha có `.ai/`, `docs/`, `PROJECT.md` |
 | [ ] 2 | Đưa mã nguồn vào `project/` | `PROJECT.md` §1 | Tech Lead | Mỗi repo con nằm trong `project/`; dòng Repository ghi đường dẫn |
 | [ ] 3 | Dọn chỉ dẫn AI cũ trong repo con | repo con | Tech Lead | Repo con không còn `CLAUDE.md`, `AGENTS.md`, `.cursorrules` trái `.ai/`, hoặc trỏ về repo cha |
 | [ ] 4 | Điền vai trò | `PROJECT.md` §5 | Tech Lead | Mọi dòng có tên người hoặc "Không áp dụng" |
