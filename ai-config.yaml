@@ -27,5 +27,8 @@ tasks:
     try: [opus/high, opus/xhigh]
 high_risk_min: opus/high       # sàn cứng cho việc rủi ro cao
 budget_usd_per_task: 2
+budget_warn_pct: 80          # Cảnh báo khi chi phí cộng dồn của Task đạt mức này (% ngân sách hiện hành)
+budget_topup_max_pct: 50     # Tổng cấp thêm tối đa cho một Task (% ngân sách ban đầu)
+budget_pool_pct: 20          # Quỹ dự phòng mặc định của Plan (% tổng ngân sách ban đầu của các Task)
 stack: {}        # ví dụ backend: nestjs@11, orm: prisma@6, database: postgresql@17
 commands: {}     # ví dụ test: npm test, lint: npm run lint, typecheck: npm run typecheck

@@ -53,7 +53,8 @@ execution:                          # levels come from ai-config.yaml `tasks` (m
   try: [sonnet/low, sonnet/high, opus/high]   # copied from ai-config.yaml; first = start, last = maximum; deviation needs deviation_reason and Plan approval
   deviation_reason: ""              # required when try differs from ai-config.yaml
   budget:                           # cumulative over every Run of this Task
-    max_cost_usd: 2                 # Orchestrator stops before a Run that would exceed it (default: ai-config.yaml budget_usd_per_task)
+    initial_cost_usd: 2             # initial budget approved with the Plan; never edited; top-up limits are computed on it (default: ai-config.yaml budget_usd_per_task)
+    max_cost_usd: 2                 # current budget = initial plus top-ups; the Orchestrator edits only this field when it grants a top-up (model-effort §3 rule 12) and stops before a Run that would exceed it
     timeout_min: 30                 # per Run
     max_output_tokens: 20000        # per Run; applied only where the tool supports it, else "not applied" in the Run
 
