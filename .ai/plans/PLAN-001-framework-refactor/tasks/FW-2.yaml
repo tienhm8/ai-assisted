@@ -63,7 +63,8 @@ acceptance_criteria:
   - id: FW-2-AC3
     check: { type: command, run: "! grep -rn '\\.ai/worktrees' --include=*.md --include=*.yaml --include=.gitignore . --exclude-dir=pilot --exclude-dir=plans" }
   - id: FW-2-AC4
-    check: { type: command, run: "grep -q '\\.ai/plans/' PROJECT.md && grep -q '\\.ai/rules/' PROJECT.md && python3 -I .ai/plans/PLAN-001-framework-refactor/check.py links" }
+    check: { type: command, run: "grep -q '\\.ai/rules/' PROJECT.md && python3 -I .ai/plans/PLAN-001-framework-refactor/check.py links" }
+    # AC4 revised 2026-11-19: the framework developer kept the hand-edited PROJECT.md, which no longer has the green-zone row for .ai/plans/ (decision: option 1)
   - id: FW-2-AC5
     check: { type: command, run: "python3 -I .ai/plans/PLAN-001-framework-refactor/check.py tree" }
 
