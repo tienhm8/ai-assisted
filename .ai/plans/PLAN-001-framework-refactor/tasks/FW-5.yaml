@@ -34,6 +34,7 @@ instructions: |
      with "sửa theo dự án"; zone map keeps FW-2 rows and adds typical red paths (xác thực, phân quyền,
      thanh toán, migration, CI) as examples to edit. Keep status Draft. Point to CHECKLIST.md at top.
   3. README.md "Bắt đầu": point to CHECKLIST.md first, then .ai/guide/getting-started.md.
+     README.md "Cấu trúc" tree: add CHECKLIST.md (one line: việc cần làm khi áp dụng khung).
   4. .ai/guide/getting-started.md §3.2 and §4.4: replace the long declaration steps with a pointer to
      CHECKLIST.md; keep content that CHECKLIST.md does not cover.
 
@@ -51,7 +52,7 @@ acceptance_criteria:
   - id: FW-5-AC2
     check: { type: command, run: "python3 -I .ai/plans/PLAN-001-framework-refactor/check.py codes CHECKLIST.md PROJECT.md README.md" }
   - id: FW-5-AC3
-    check: { type: command, run: "python3 -I .ai/plans/PLAN-001-framework-refactor/check.py links" }
+    check: { type: command, run: "python3 -I .ai/plans/PLAN-001-framework-refactor/check.py links && python3 -I .ai/plans/PLAN-001-framework-refactor/check.py tree" }
   - id: FW-5-AC4
     check: { type: human, who: "Người phát triển khung: checklist ngắn, đúng ý" }
 

@@ -44,6 +44,15 @@ instructions: |
      "Load the file matching ai-config.yaml `stack`; if `stack` lacks the entry, ask."
   7. task-execution.md: wherever it cites model-effort §2 defaults or "project's default budget",
      point to ai-config.yaml (`tasks`, `budget_usd_per_task`).
+  8. Repo structure in README.md (added 2026-11-19 at the framework developer's request):
+     - task-execution.md step 7 (Self-review) and .ai/skills/documentation/SKILL.md "Done when": a Task
+       that adds, moves, renames or deletes a file or folder updates the tree under "Cấu trúc" in
+       README.md in the same change.
+     - task-execution.md step 5 and .ai/skills/task-planning/SKILL.md step 5 (Parallelize): README.md is
+       a shared file, so Tasks running in parallel never edit its tree; each lists its structure change
+       in its handoff report, and the Orchestrator updates the tree once after merging, before step 6.
+     - task-execution.md step 6: the merged result passes the README tree check
+       (`check.py tree` of PLAN-001 until it moves to a shared script).
 
 inputs: [FW-2]
 outputs:
@@ -51,10 +60,11 @@ outputs:
   - .ai/workflows/model-effort.md, .ai/workflows/task-execution.md
   - .ai/agents/references/*.md
   - .ai/templates/TASK-MANIFEST-TEMPLATE.yaml, RUNS-TEMPLATE.md, PLAN-TEMPLATE.md
-  - .ai/skills/{backend-development,frontend-development,database-design,caching,deployment}/SKILL.md
+  - .ai/skills/{backend-development,frontend-development,database-design,caching,deployment,task-planning,documentation}/SKILL.md
+  - README.md (tree: add ai-config.yaml)
   - handoff report (DELIVERY-REPORT §1–§4, §8)
 scope:
-  allowed_paths: [ai-config.yaml, .ai/workflows/model-effort.md, .ai/workflows/task-execution.md, .ai/agents/references/, .ai/templates/TASK-MANIFEST-TEMPLATE.yaml, .ai/templates/RUNS-TEMPLATE.md, .ai/templates/PLAN-TEMPLATE.md, .ai/skills/backend-development/SKILL.md, .ai/skills/frontend-development/SKILL.md, .ai/skills/database-design/SKILL.md, .ai/skills/caching/SKILL.md, .ai/skills/deployment/SKILL.md]
+  allowed_paths: [ai-config.yaml, README.md, .ai/workflows/model-effort.md, .ai/workflows/task-execution.md, .ai/agents/references/, .ai/templates/TASK-MANIFEST-TEMPLATE.yaml, .ai/templates/RUNS-TEMPLATE.md, .ai/templates/PLAN-TEMPLATE.md, .ai/skills/backend-development/SKILL.md, .ai/skills/frontend-development/SKILL.md, .ai/skills/database-design/SKILL.md, .ai/skills/caching/SKILL.md, .ai/skills/deployment/SKILL.md, .ai/skills/task-planning/SKILL.md, .ai/skills/documentation/SKILL.md]
   zones: [red]
   out: [Changing the default levels themselves, Translating reference files to English]
 dependencies: [FW-2]
@@ -68,6 +78,8 @@ acceptance_criteria:
     check: { type: command, run: "python3 -I .ai/plans/PLAN-001-framework-refactor/check.py links .ai" }
   - id: FW-3-AC4
     check: { type: human, who: "Người phát triển khung xem đợt 1 (FW-1..FW-3) trước khi chạy FW-4" }
+  - id: FW-3-AC5
+    check: { type: command, run: "grep -q 'ai-config.yaml' README.md && grep -qi 'README' .ai/skills/documentation/SKILL.md && grep -qi 'README' .ai/skills/task-planning/SKILL.md && python3 -I .ai/plans/PLAN-001-framework-refactor/check.py tree" }
 
 dispatch: dispatched
 execution:

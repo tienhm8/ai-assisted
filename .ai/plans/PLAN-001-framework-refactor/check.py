@@ -7,6 +7,7 @@ Usage (from the repo root; -I keeps Python from importing files in the repo):
   python3 -I .ai/plans/PLAN-001-framework-refactor/check.py vocab    # scale words defined in project-rules
   python3 -I .ai/plans/PLAN-001-framework-refactor/check.py types    # task-types rows + filter command
   python3 -I .ai/plans/PLAN-001-framework-refactor/check.py config   # ai-config.yaml + tool reference blocks
+  python3 -I .ai/plans/PLAN-001-framework-refactor/check.py tree     # README "Cấu trúc" tree matches the repo
 Paths default to the whole repo. Exit code 1 when a check finds a problem.
 """
 import os
@@ -207,9 +208,50 @@ def check_config():
     return bad
 
 
+def check_tree():
+    """README.md "## Cấu trúc" tree: every listed path exists, and every tracked entry at the
+    repo root, in .ai/ and in docs/ is listed (git-ignored folders listed in the tree are allowed)."""
+    import subprocess
+    text = open("README.md", encoding="utf-8").read()
+    m = re.search(r"^## Cấu trúc\n.*?```text\n(.*?)```", text, re.S | re.M)
+    if not m:
+        print("README.md: no ```text tree under '## Cấu trúc'")
+        return 1
+    listed, stack, bad = set(), [], 0
+    for line in m.group(1).splitlines()[1:]:          # first line is the repo root label
+        g = re.match(r"^([│ ]*)[├└]── (\S+)", line)
+        if not g:
+            continue
+        depth = len(g.group(1)) // 4
+        name = g.group(2)
+        stack = stack[:depth] + [name.rstrip("/")]
+        path = "/".join(stack)
+        listed.add(path)
+        if not os.path.exists(path):
+            print(f"README tree lists missing path: {path}")
+            bad += 1
+    tracked = subprocess.run(["git", "ls-files"], capture_output=True, text=True).stdout.split()
+    expected = set()
+    for f in tracked:
+        parts = f.split("/")
+        if parts[-1] in {".gitkeep", ".gitignore"} and len(parts) == 1:
+            continue
+        expected.add(parts[0])
+        if parts[0] in {".ai", "docs"} and len(parts) > 1:
+            if parts[-1] == ".gitkeep" and len(parts) == 2:
+                continue
+            expected.add("/".join(parts[:2]))
+    expected -= {".gitignore"}
+    for p in sorted(expected - listed):
+        print(f"README tree misses tracked path: {p}")
+        bad += 1
+    print(f"tree problems: {bad}")
+    return bad
+
+
 if __name__ == "__main__":
-    if len(sys.argv) >= 2 and sys.argv[1] in {"vocab", "types", "config"}:
-        fn = {"vocab": check_vocab, "types": check_types, "config": check_config}[sys.argv[1]]
+    if len(sys.argv) >= 2 and sys.argv[1] in {"vocab", "types", "config", "tree"}:
+        fn = {"vocab": check_vocab, "types": check_types, "config": check_config, "tree": check_tree}[sys.argv[1]]
         sys.exit(1 if fn() else 0)
     if len(sys.argv) < 2 or sys.argv[1] not in {"links", "codes", "sizes"}:
         print(__doc__)

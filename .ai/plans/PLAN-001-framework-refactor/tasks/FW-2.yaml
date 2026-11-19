@@ -34,6 +34,10 @@ instructions: |
      .ai/workflows/task-execution.md ("Isolation and merging": say Claude Code creates them with
      `claude -w <Task-ID>`; other tools use `git worktree add .claude/worktrees/<Task-ID> -b <branch> <base>`),
      .ai/agents/references/claude-code.md (cd example), docs/00-project-overview/glossary.md (Worktree row).
+  7. README.md "Cấu trúc" tree (added 2026-11-19): it must match the repo. Add CLAUDE.md (one line:
+     chỉ chứa @AGENTS.md cho Claude Code) and a `.claude/` folder line with `settings.json` and
+     `worktrees/` (không commit) under it; remove `worktrees/` from under `.ai/`; add the missing
+     `.ai/README.md`. Keep the tree's box-drawing format and 4-space indent per level.
   Human-facing files stay Vietnamese.
 
 inputs: [FW-1]
@@ -60,6 +64,8 @@ acceptance_criteria:
     check: { type: command, run: "! grep -rn '\\.ai/worktrees' --include=*.md --include=*.yaml --include=.gitignore . --exclude-dir=pilot --exclude-dir=plans" }
   - id: FW-2-AC4
     check: { type: command, run: "grep -q '\\.ai/plans/' PROJECT.md && grep -q '\\.ai/rules/' PROJECT.md && python3 -I .ai/plans/PLAN-001-framework-refactor/check.py links" }
+  - id: FW-2-AC5
+    check: { type: command, run: "python3 -I .ai/plans/PLAN-001-framework-refactor/check.py tree" }
 
 dispatch: dispatched
 execution:

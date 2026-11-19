@@ -9,7 +9,7 @@
 | Nguồn (Source) | Yêu cầu độc lập của người phát triển khung, 2026-11-18 và 2026-11-19: rà soát và tái cấu trúc khung (5 vấn đề: nhiều file phân mảnh và ký hiệu khó hiểu; tổ chức lại file cấu hình; thư mục `.ai`; checklist áp dụng; file đặt sai thư mục con của `docs/`) |
 | Goals (tuỳ chọn) | Không có (repo khung chưa có `goals.md` thật) |
 | Trạng thái | Approved |
-| Người duyệt · Ngày duyệt | Người phát triển khung (vai Tech Lead của khung) · 2026-11-19: duyệt từ vựng §6.1, `ai-config.yaml` §6.2, ngân sách, độ nghiêm ngặt chuẩn |
+| Người duyệt · Ngày duyệt | Người phát triển khung (vai Tech Lead của khung) · 2026-11-19: duyệt từ vựng §6.1, `ai-config.yaml` §6.2, ngân sách, độ nghiêm ngặt chuẩn. Duyệt lại cùng ngày: thêm quy tắc cập nhật cây "Cấu trúc" trong `README.md` (FW-2 đến FW-5, `check.py tree`); ngân sách không đổi |
 | Ngày tạo | 2026-11-19 |
 | Branch · commit gốc | `refactor/AI-framework-refactor` · `a2181d9` |
 | Model · Effort của Orchestrator | opus/high (M3·E3: model mạnh, effort cao) |
@@ -47,6 +47,7 @@ Chạy trên kết quả gộp, ở thư mục gốc repo:
 - `python3 -I .ai/plans/PLAN-001-framework-refactor/check.py links` trả 0 link gãy. Mốc trước Plan: 0.
 - `python3 -I .ai/plans/PLAN-001-framework-refactor/check.py codes .ai/rules .ai/skills .ai/workflows .ai/templates .ai/agents .ai/guide .ai/README.md docs README.md PROJECT.md CHECKLIST.md AGENTS.md CLAUDE.md ai-config.yaml` trả 0 mã lựa chọn. Mốc trước Plan: 683 mã trong 56 file.
 - `ai-config.yaml` đọc được bằng YAML, mỗi Skill trong `.ai/skills/` có đúng một dòng mức.
+- `check.py tree` trả 0: cây "Cấu trúc" trong `README.md` khớp repo, gồm mọi file, thư mục mới (`CLAUDE.md`, `.claude/`, `ai-config.yaml`, `CHECKLIST.md`, `.ai/guide/`). Mốc trước Plan: thiếu `.ai/README.md`.
 - Lệnh lọc dòng loại việc trong `task-execution.md` trả đúng một dòng cho mỗi loại việc.
 - Mọi AC của 7 Task đạt. Review ở bước 8 không còn phát hiện mức Critical hoặc High.
 - Người phát triển khung duyệt diff cuối.
@@ -97,6 +98,10 @@ Chạy trên kết quả gộp, ở thư mục gốc repo:
   - FW-4: chuyển tài liệu khung.
   - FW-5: `CHECKLIST.md` và `PROJECT.md`.
   - FW-6 ∥ FW-7: đổi mã thành chữ, hai Task không chung file nên chạy song song.
+- **Cây "Cấu trúc" trong `README.md`** (bổ sung 2026-11-19 theo yêu cầu người phát triển khung):
+  - Task nào thêm, chuyển, xoá file hoặc thư mục thì sửa cây trong cùng thay đổi: FW-2 (`CLAUDE.md`, `.claude/`), FW-3 (`ai-config.yaml`), FW-4 (`.ai/guide/`), FW-5 (`CHECKLIST.md`).
+  - FW-6 ∥ FW-7 không đổi cấu trúc. Task song song không sửa `README.md` vì đó là file chung; Orchestrator sửa cây một lần sau khi gộp.
+  - FW-3 ghi quy tắc này vào `task-execution`, Skill `task-planning`, Skill `documentation`.
 - **Chuỗi Skill:** theo loại việc "đổi kiến trúc của khung" (T7). Bước thiết kế (`architecture-design`) đã làm trong Plan này, ở §6, nên các Task chỉ còn `documentation`.
 - **Cách chạy:**
   - Mỗi Task chạy trong worktree riêng, tạo bằng `git worktree add .claude/worktrees/<Task> -b plan-001/<Task> <commit gốc>`. Dùng lệnh git thay `claude -w` để chọn đúng commit gốc, vì `.claude/settings.json` chỉ có từ FW-2.

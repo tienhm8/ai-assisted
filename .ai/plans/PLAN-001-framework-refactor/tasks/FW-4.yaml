@@ -33,6 +33,8 @@ instructions: |
      paths like `docs/getting-started.md`, "Tài liệu liên quan" rows), including .ai/ files, README.md,
      AGENTS.md, PROJECT.md, docs/*/README.md (remove moved files from their tree and table).
   6. Add .ai/guide/README.md: one table, file -> what it answers (Vietnamese, 10 rows max).
+  7. README.md "Cấu trúc" tree: add .ai/guide/ (one line: tài liệu khung cho người), remove
+     getting-started.md from under docs/.
   Do not change any rule content while moving.
 
 inputs: [FW-3]
@@ -56,6 +58,8 @@ acceptance_criteria:
     check: { type: command, run: "! grep -rnE 'docs/(getting-started|04-project-management/(gates-and-rigor|work-model|task-breakdown)|03-engineering/(ai-governance|external-skills|ai-tools))' --include=*.md --include=*.yaml . --exclude-dir=pilot --exclude-dir=plans" }
   - id: FW-4-AC4
     check: { type: command, run: "grep -q 'Công cụ AI' PROJECT.md && test $(wc -c < docs/00-project-overview/glossary.md) -lt 3000" }
+  - id: FW-4-AC5
+    check: { type: command, run: "python3 -I .ai/plans/PLAN-001-framework-refactor/check.py tree" }
 
 dispatch: dispatched
 execution:
