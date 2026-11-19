@@ -47,7 +47,7 @@ Công cụ mà AI gọi được, ví dụ MCP server của Laravel Boost. Guide
 
 ## 5. Chạy Task với Claude Code
 
-> Dành cho người vận hành; AI không nạp mục này khi làm Task. Chỉ ghi điều đã kiểm chứng trên Claude Code 2.1.326 (2026-11). Model và effort lấy từ [ai-config.yaml](../../ai-config.yaml); đổi phiên bản Claude Code thì kiểm lại.
+> Dành cho người vận hành; Orchestrator đọc mục này khi `auto_runs: true` và `tool: claude-code`; Run của Task không nạp. Chỉ ghi điều đã kiểm chứng trên Claude Code 2.1.326 (2026-11). Model và effort lấy từ [ai-config.yaml](../../ai-config.yaml); đổi phiên bản Claude Code thì kiểm lại.
 
 - **Một Run không tương tác cho mỗi Task**, chạy trong worktree của Task, prompt đặt sau `--`:
 

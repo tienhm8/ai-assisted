@@ -66,7 +66,7 @@ Run at try[0] ──► Evaluate ──► Pass ──────────�
 
 ## 4. Tool settings
 
-The values are in `ai-config.yaml`. Switching AI tool = edit `tool`, `dispatch` and the model names there; nothing else to copy. `dispatch: attended` makes every Run attended ([task-execution](task-execution.md), "Orchestration").
+The values are in `ai-config.yaml`. Switching AI tool = edit `tool`, `auto_runs` and the model names there; nothing else to copy. `auto_runs: false` makes every Run attended ([task-execution](task-execution.md), "Orchestration"). When `auto_runs: true`, how to start a Run is in [ai-tools.md](../../docs/03-engineering/ai-tools.md) §5.
 
 Always set effort explicitly on every Run when the tool has effort; never rely on the tool's or model's default, which differs per model.
 
