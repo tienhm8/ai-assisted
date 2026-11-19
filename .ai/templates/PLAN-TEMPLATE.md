@@ -12,7 +12,8 @@
 | Người duyệt · Ngày duyệt | |
 | Ngày tạo | |
 | Model/effort của Orchestrator | Theo `sessions.orchestrator` trong `ai-config.yaml` (ví dụ opus/high); mức ghi chú trong file đó nếu Plan có Task loại `architecture-change` (đổi kiến trúc hoặc API contract) |
-| Ngân sách cả Plan | Tổng `budget` các Task cộng chi phí phiên Orchestrator; vượt thì dừng, hỏi người |
+| Ngân sách tối đa của Plan | Ghi công thức `NganSachToiDa >= NganSachTask + QuyDuPhong + Review + PhienDieuPhoi` với số cụ thể. `NganSachTask` là tổng ngân sách ban đầu của các Task. Quỹ nằm bên trong, không cộng thêm; không tự tăng; vượt thì dừng, hỏi người |
+| Quỹ dự phòng | Số tiền (USD); mặc định `budget_pool_pct` % tổng ngân sách ban đầu của các Task (ghi lý do nếu khác); không có quỹ thì ghi 0 |
 
 ## 1. Mục tiêu và phạm vi
 - Đầu ra của Plan (khác các Plan khác cùng Nguồn hoặc cùng Goal ở chỗ nào):
@@ -52,3 +53,4 @@ Mỗi AC ứng với test nào, Task nào chạy, lệnh nào (trùng với `acc
 
 ## 9. Kết quả (điền sau khi xong)
 Đầu ra của từng Task, lệch kế hoạch ở đâu, Task nào phải nâng mức (tóm tắt từ `runs.md`), bằng chứng test, trạng thái tiêu chí hoàn thành §2.
+Ngân sách: các lần cấp thêm, thu hồi và số dư quỹ cuối Plan (từ bảng "Điều chỉnh ngân sách" trong `runs.md`).
