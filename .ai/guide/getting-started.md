@@ -244,7 +244,7 @@ Thay phần `<...>`. Mã Task, loại, rủi ro, mức tự chủ lấy từ Tas
 | Chạy Plan đã duyệt | `Plan PLAN-<NNN> đã duyệt. Chạy các Task theo manifest, ghi runs.md.` |
 | Làm tính năng | `Task <KEY>-<N> (làm tính năng · rủi ro <...> · mức tự chủ <...>). Làm theo AGENTS.md.` + dán Task |
 | Sửa lỗi | `Task <KEY>-<N> (sửa lỗi · rủi ro <...> · mức tự chủ <...>). Làm theo AGENTS.md.` + dán bug report theo BUG-TEMPLATE |
-| Review PR (phiên mới) | `Task <KEY>-<N> (review PR · rủi ro <...> · chỉ đọc). Review PR <link/số> của Task <KEY>-<M>. Không dùng lịch sử phiên viết code.` Khi chưa có PR (review trên máy): `Task <KEY>-<N> (review PR · rủi ro <...> · chỉ đọc). Review thay đổi `git diff <base>..<head>` theo báo cáo bàn giao <đường dẫn>. Không dùng lịch sử phiên viết code.` |
+| Review PR (phiên mới) | `Task <KEY>-<N> (review PR · rủi ro <...> · chỉ đọc). Review PR <link/số> của Task <KEY>-<M>. Không dùng lịch sử phiên viết code.` Khi chưa có PR (review trên máy): `Task <KEY>-<N> (review PR · rủi ro <...> · chỉ đọc). Review thay đổi git diff <base>..<head> theo báo cáo bàn giao <đường dẫn>. Không dùng lịch sử phiên viết code.` |
 | Tiếp tục phiên bị ngắt | `Tiếp tục Plan PLAN-<NNN> từ .ai/plans/<thư mục>. Đọc bảng Task trong PLAN.md và runs.md để biết đã làm tới đâu.` |
 | Duyệt tài liệu | `<Vai> <tên> duyệt, chuyển <file> sang Approved.` |
 | Trả lời câu hỏi cần quyết | `OQ-<NN>: chọn phương án <A/B>, lý do <...>.` hoặc `Chưa quyết OQ-<NN>, làm tiếp phần không bị chặn.` |

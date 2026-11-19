@@ -129,7 +129,7 @@ Theo DELIVERY-REPORT-TEMPLATE: một báo cáo cho cả Plan chứa Task này (f
 
 Mục 12 do AI điền khi bàn giao. Mục 2 có thêm dòng Liên kết và Phân loại để khớp với bảng Task ở trên (cột Rủi ro, Tự chủ AI).
 
-Task giao cho AI chạy trong một Plan còn có Task Manifest ([TASK-MANIFEST-TEMPLATE](../../.ai/templates/TASK-MANIFEST-TEMPLATE.yaml)): manifest lấy mục 1, 3, 6, 7 từ Task Specification và thêm cấu hình chạy (agent, model·effort bắt đầu, trần, ngân sách, nâng mức). Task Specification là bản cho người; manifest là bản cho bên thực thi; nội dung trùng thì Task Specification là gốc.
+Task giao cho AI chạy trong một Plan còn có Task Manifest ([TASK-MANIFEST-TEMPLATE](../../.ai/templates/TASK-MANIFEST-TEMPLATE.yaml)): manifest lấy mục 1, 3, 6, 7 từ Task Specification và thêm cấu hình chạy (agent, thứ tự thử `try` (mức bắt đầu đến mức tối đa), ngân sách, nâng mức). Task Specification là bản cho người; manifest là bản cho bên thực thi; nội dung trùng thì Task Specification là gốc.
 
 ### Duyệt khi bàn giao và khi sẵn sàng phát hành
 Bàn giao Task là cổng Code xong, sẵn sàng phát hành là cổng Sẵn sàng phát hành; điều kiện qua và người duyệt ở [gates-and-rigor](gates-and-rigor.md) §1.

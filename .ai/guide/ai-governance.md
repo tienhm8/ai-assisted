@@ -10,7 +10,7 @@
 
 ## 1. Nguyên tắc
 
-AI không tự suy diễn quy tắc nghiệp vụ và không tự ý đổi kiến trúc khi chưa được phê duyệt. Định nghĩa mức tự chủ, trần mặc định và nghĩa của vùng 🟢🟡🔴 ở [project-rules](../../.ai/rules/project-rules.md); dự án khai báo phần siết thêm và bản đồ vùng trong [PROJECT.md](../../PROJECT.md) §2 (vai ở [.ai/agents/](../../.ai/agents/README.md) không có mức riêng).
+AI không tự suy diễn quy tắc nghiệp vụ và không tự ý đổi kiến trúc khi chưa được phê duyệt. Định nghĩa mức tự chủ, mức tự chủ tối đa mặc định và nghĩa của vùng 🟢🟡🔴 ở [project-rules](../../.ai/rules/project-rules.md); dự án khai báo phần siết thêm và bản đồ vùng trong [PROJECT.md](../../PROJECT.md) §2 (vai ở [.ai/agents/](../../.ai/agents/README.md) không có mức riêng).
 
 ## 2. Việc cần người duyệt hoặc kiểm soát đặc biệt
 

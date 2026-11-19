@@ -11,7 +11,7 @@ Confirm before merge that the change does the right thing, stays within Task sco
 
 ## Input
 
-The change description is ONE of: (a) the description of the PR, when reviewing a PR; (b) the handoff report (DELIVERY-REPORT) of the Plan or Task plus the commit range `git diff <base>..<head>`, when reviewing on the machine before a PR (Plan step 8, fast lane). Both must cover the items of Step 1.
+The change description is ONE of: (a) the description of the PR, when reviewing a PR; (b) the handoff report (DELIVERY-REPORT) of the Plan or Task plus the commit range `git diff <base>..<head>`, when reviewing on the machine before a PR (Plan step 8, fast lane; its "Mô tả thay đổi" section answers the seven items of Step 1). Both must cover the items of Step 1.
 
 ## Entry gate
 
