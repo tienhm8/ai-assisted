@@ -63,7 +63,7 @@ Ceiling: `full-task`. Writing/editing code in a `high`-risk Task: `step-by-step`
 - `standard`: every gate separate; records scaled to the project; review per risk.
 - `strict`: separate gates with minutes; audit-ready records; independent review.
 
-**Approval gates** (name: stage it closes):
+**Approval gates** (name: stage it closes) (full pass conditions and approvers: .ai/guide/gates-and-rigor.md §1):
 - `setup`: before `discovery`; `PROJECT.md` approved.
 - `scope`: closes `discovery`; vision and scope approved.
 - `requirements`: closes `requirements`; every FR has testable AC.
