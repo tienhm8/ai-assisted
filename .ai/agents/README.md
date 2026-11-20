@@ -6,13 +6,13 @@
 
 Agent là **vai thực hiện** của AI: ai làm, với quyền gì. Vai là chức năng, không bắt buộc là một agent hay model riêng.
 
-**Mặc định: một phiên Orchestrator gửi từng Task tới một subagent hoặc phiên mới** theo Task Manifest ([task-execution](../workflows/task-execution.md), "Orchestration"). Mỗi Task chạy với vai, model·effort riêng; không đổi model trong một phiên. Task mức tự chủ A2 trở xuống chạy "Có người": người mở phiên tương tác, duyệt từng bước. Fast lane (một Task R1): một phiên đảm nhiệm lần lượt các vai, không cần nạp file này.
+**Mặc định: một phiên Orchestrator gửi từng Task tới một subagent hoặc phiên mới** theo Task Manifest ([task-execution](../workflows/task-execution.md), "Orchestration"). Mỗi Task chạy với vai, model·effort riêng; không đổi model trong một phiên. Task mức tự chủ duyệt từng bước (`step-by-step`) trở xuống chạy "Có người": người mở phiên tương tác, duyệt từng bước. Fast lane (một Task rủi ro `low`): một phiên đảm nhiệm lần lượt các vai, không cần nạp file này.
 
 ## Vai và quyền
 
 | Vai | Skill | Được làm | Không được làm |
 | --- | --- | --- | --- |
-| Orchestrator | task-planning (lập Plan) | Lập Plan, viết manifest, gửi Task, đánh giá kết quả, nâng mức trong thang đã duyệt, ghi `runs.md`, tổng hợp | Tự viết code hoặc tài liệu của Task; duyệt; vượt trần, ngân sách; bỏ qua điểm ⏸ |
+| Orchestrator | task-planning (lập Plan) | Lập Plan, viết manifest, gửi Task, đánh giá kết quả, nâng mức theo `try` đã duyệt, ghi `runs.md`, tổng hợp | Tự viết code hoặc tài liệu của Task; duyệt; vượt mức tối đa, ngân sách; bỏ qua điểm ⏸ |
 | Planner | product-discovery, requirement-analysis, requirement-review, architecture-design, database-design, task-planning, continuous-improvement | Soạn tài liệu Draft, ADR nháp, plan | Sửa code |
 | Executor | backend-development, api-development, frontend-development, authentication-rbac, bug-fixing, refactoring, documentation | Sửa code và tài liệu trong phạm vi Task | Chạy migration production; đổi schema, API contract khi chưa được duyệt |
 | Tester | unit-testing, integration-testing, e2e-testing, incident-analysis | Viết và chạy test; phân tích log do người xuất (chỉ đọc) | Sửa code production; truy cập production |
@@ -30,10 +30,6 @@ Phát hành không phải vai AI: AI chỉ soạn nháp bằng Skill `deployment
 5. Agent giao việc cho agent khác phải nhận lại báo cáo bàn giao kèm bằng chứng test và danh sách giả định.
 6. Chạy song song: mỗi agent một Task, một worktree, một mức tự chủ; không sửa chung file.
 
-## Subagent theo vai và mức
-
-Subagent khai báo theo **vai × mức** (ví dụ `executor-m2-e1`, `executor-m3-e3`, `reviewer-m3-e3`) khi công cụ chỉ đặt được model·effort trong file khai báo. Orchestrator chọn subagent khớp `agent` và mức hiện tại của manifest; không có file khớp thì dừng và hỏi, không tự chạy ở mức khác. Cách khai báo theo công cụ: [references/](references/).
-
 ## Khi nào tách thành agent riêng
 
 Ngoài việc chạy mỗi Task ở một subagent, chỉ tách thêm vai cố định khi có ít nhất một lý do:
@@ -45,4 +41,4 @@ Ngoài việc chạy mỗi Task ở một subagent, chỉ tách thêm vai cố �
 | Cần review độc lập | Reviewer không phải phiên vừa viết code |
 | Việc chạy song song được | Frontend và backend khi API contract đã Approved |
 
-Ánh xạ model/effort và cấu hình theo công cụ AI: [references/](references/): [claude-code.md](references/claude-code.md), [cursor.md](references/cursor.md), [copilot.md](references/copilot.md), [gemini.md](references/gemini.md), [codex.md](references/codex.md). Dùng file của công cụ dự án chọn.
+Model/effort theo công cụ AI nằm ở [ai-config.yaml](../../ai-config.yaml); cách chạy Task với Claude Code: [ai-tools.md](../guide/ai-tools.md) §3.

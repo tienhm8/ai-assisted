@@ -1,6 +1,7 @@
 # PROJECT
 
 > Khi có yêu cầu "tạo/cập nhật PROJECT.md cho dự án …" thì mới cập nhật.
+> Việc cần làm theo thứ tự: [CHECKLIST.md](CHECKLIST.md). Giá trị khuyến nghị đã điền sẵn; mục nào đúng thì giữ.
 
 > **Người quyết:** Tech Lead.
 > 
@@ -25,38 +26,29 @@
 | Repository | |
 
 ## 2. Mức tự chủ và bản đồ vùng
-Định nghĩa A0–A4, trần mặc định và nghĩa của ba vùng ở [project-rules](.ai/rules/project-rules.md).
+Định nghĩa năm mức tự chủ (chỉ trả lời, chỉ đọc, duyệt từng bước, làm trọn Task, miễn duyệt từng Task), trần chung và nghĩa của ba vùng ở [project-rules](.ai/rules/project-rules.md).
 
 ### 2.1 Trần mức tự chủ của dự án
-Chỉ ghi dòng dự án siết thấp hơn trần mặc định, hoặc danh mục việc hẹp được bật A4. Để trống là dùng trần mặc định.
-| Loại việc | Mức rủi ro | Mức tối đa | Lý do |
-| --- | --- | --- | --- |
-|  | | | |
+Chỉ ghi dòng dự án siết thấp hơn trần chung, hoặc danh mục việc hẹp được bật mức miễn duyệt từng Task. Để trống là dùng trần chung (khuyến nghị). Xem Autonomy mục Shared scales (Thang dùng chung) ở [project-rules](.ai/rules/project-rules.md).
+Mặc định: full-task (trần chung)
 
 ### 2.2 Bản đồ vùng 🟢🟡🔴
+Xem rule 8 của [project-rules](.ai/rules/project-rules.md). Mặc định không dưới bảng là: 🟢
 | Vùng | Đường dẫn / loại file | Ghi chú |
 | --- | --- | --- |
-| 🟢 | | |
-| 🟡 | | |
-| 🔴 | `.ai/` | Rule, Skill, workflow của AI; sửa cần Task riêng và Tech Lead duyệt |
+| 🟡 | | Ví dụ, sửa theo dự án: module chưa có test hoặc chưa có hồ sơ |
+| 🔴 | Xác thực, phân quyền, thanh toán, migration, cấu hình CI | Ví dụ, sửa theo dự án: đường dẫn thật của các phần này; sửa cần Task riêng và người duyệt |
+| 🔴 | `.ai/rules/`, `.ai/skills/`, `.ai/workflows/`, `.ai/templates/`, `.ai/agents/`, `.ai/guide/`, các file README trong `.ai/` | Rule, Skill, workflow của AI; sửa cần Task riêng và Tech Lead duyệt |
 
-## 3. Dữ liệu của dự án theo mức (D0–D3)
-Định nghĩa D0–D3 ở [project-rules](.ai/rules/project-rules.md); cách xử lý theo mức (log, môi trường không phải production) ở [security-standards](docs/03-engineering/security-standards.md) §1.
-| Mức | Dữ liệu của dự án | Được đưa vào AI |
-| --- | --- | --- |
-| D0 | | |
-| D1 | | |
-| D2 | | |
-| D3 | | Không |
+## 3. Dữ liệu của dự án theo mức (công khai, nội bộ, nhạy cảm, bí mật)
+Xử lý dữ liệu theo mức ở [security-standards](docs/03-engineering/security-standards.md) §1.
+
+Mặc định: Nhạy cảm
 
 ## 4. Độ nghiêm ngặt và mức ASVS
-Định nghĩa S1–S3 và cách chọn ở [gates-and-rigor](docs/04-project-management/gates-and-rigor.md).
-| Hạng mục | Giá trị |
-| --- | --- |
-| Độ nghiêm ngặt quy trình (S1–S3) | Chọn theo [gates-and-rigor](docs/04-project-management/gates-and-rigor.md) §2 (bảng "Chọn mức nào?") |
-| Lý do chọn S | Theo loại dự án (§1), quy mô, yêu cầu pháp lý hoặc hợp đồng |
-| Mức ASVS mục tiêu (L1–L3) | Không thấp hơn mức tối thiểu ở [security-standards](docs/03-engineering/security-standards.md) §13.1 |
-| Lý do chọn mức ASVS | Theo mức dữ liệu (§3), có tài khoản/phân quyền, tiền, ràng buộc pháp lý |
+Xem "Độ nghiêm ngặt quy trình" ở [gates-and-rigor](.ai/guide/gates-and-rigor.md).
+
+Mặc định: Chuẩn
 
 ## 5. Vai trò
 Một người có thể giữ nhiều vai. Dự án không có khách hàng bên ngoài thì ghi "Không áp dụng" ở hai dòng cuối.
@@ -69,9 +61,9 @@ Một người có thể giữ nhiều vai. Dự án không có khách hàng bê
 | Security | |
 | QA | |
 | DevOps | |
-| Owner (người quyết phát hành) | |
-| Đại diện khách hàng (cung cấp tài liệu nguồn, trả lời câu hỏi, duyệt tài liệu được gửi sang; không trực tiếp chuyển trạng thái tài liệu trong repo) | |
-| Đầu mối với khách hàng (nhận gói câu hỏi từ AI, gửi tài liệu cho khách hàng duyệt, lưu câu trả lời và kết quả duyệt; chỉ chuyển `Approved` khi khách hàng đã duyệt; thường là BA) | |
+| Owner | |
+| Đại diện khách hàng | |
+| Đầu mối với khách hàng | |
 
 ## 6. Lựa chọn áp dụng khung (Tailoring)
 Ghi lý do khi gộp, bỏ hoặc đổi cách dùng tài liệu cho phù hợp quy mô dự án.
@@ -85,3 +77,6 @@ Miễn trừ có thời hạn một yêu cầu của khung. Ví dụ: chưa có 
 | Yêu cầu được miễn | Lý do | Người duyệt | Hết hạn | Kế hoạch khắc phục |
 | --- | --- | --- | --- | --- |
 |  | | | | |
+
+## 8. Công cụ AI
+Cách nối công cụ với `.ai/` ở [ai-tools](.ai/guide/ai-tools.md); tên model và effort ở [ai-config.yaml](ai-config.yaml).

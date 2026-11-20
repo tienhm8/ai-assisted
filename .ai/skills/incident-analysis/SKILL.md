@@ -1,15 +1,15 @@
 ---
 name: incident-analysis
-description: Analyze incidents from logs, metrics, traces exported by a human with D3 data masked; build a timeline, separate confirmed causes from hypotheses, draft a Draft incident report and bugs; AI only reads and reports.
+description: Analyze incidents from logs, metrics, traces exported by a human with `secret` data masked; build a timeline, separate confirmed causes from hypotheses, draft a Draft incident report and bugs; AI only reads and reports.
 ---
 
 # Incident Analysis Skill
 
-Understand what happened, why, and the impact, from human-provided data. Only read and report (A1); a human decides how to handle it.
+Understand what happened, why, and the impact, from human-provided data. Only read and report (`read-only`); a human decides how to handle it.
 
 ## Entry gate
 
-- Logs, metrics, traces exported by an authorized person with D3 masked. If unmasked D3 is seen, stop, report, and do not use it.
+- Logs, metrics, traces exported by an authorized person with `secret` data masked. If unmasked `secret` data is seen, stop, report, and do not use it.
 - Incident description: time, symptoms, environment.
 - If missing, stop and state what data is needed.
 
@@ -24,7 +24,7 @@ Read: masked data, user reports; release report, handoff reports, PRs near the i
 5. **Propose immediate action** (rollback or hotfix) per deployment and backup-recovery; a human decides.
 6. **Propose prevention:** missing tests, monitoring, alerts, runbooks.
 7. **Create a bug** per BUG-TEMPLATE for each defect.
-8. **Propose next Tasks** for a human to decide: bug fix (T3) per bug; security review (T10) if security-related; runbook update (T12).
+8. **Propose next Tasks** for a human to decide: `bug-fix` Task per bug; `security-check` Task if security-related; `docs-only` Task for a runbook update.
 
 ## Limits
 

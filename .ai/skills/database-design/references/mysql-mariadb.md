@@ -1,6 +1,6 @@
 # Database Design – MySQL and MariaDB
 
-> Reference for Skill `database-design`. Load only when the chosen DBMS is MySQL or MariaDB (InnoDB engine), and only the section for the current step. Principles live in the topic file; this file states only specific syntax, limits and versions. The two systems have diverged: always check the exact system and version the project uses.
+> Principles are in the topic files; this file has only syntax, limits and versions. The two systems differ: check the exact system and version.
 
 ## 1. Key characteristics
 
@@ -32,12 +32,10 @@
 | Long text | `TEXT`/`MEDIUMTEXT`; older versions disallow DEFAULT, indexing needs a prefix length |
 | Encoding | `utf8mb4` + suitable collation (`utf8mb4_0900_ai_ci`, `utf8mb4_unicode_520_ci`, `uca1400` in newer MariaDB); do not use `utf8`/`utf8mb3` |
 | Case-insensitive | `_ci` collation |
-| Boolean | `BOOLEAN` (= `TINYINT(1)`) |
 | Fixed value set | `VARCHAR` + CHECK; `ENUM` stores by index, reordering values breaks sorting |
 | JSON | MySQL `JSON`; MariaDB `JSON` is `LONGTEXT` + CHECK `JSON_VALID` |
 | IP address | MariaDB `INET4`/`INET6`; MySQL `VARBINARY(16)` |
 | Small binary, encrypted columns | `VARBINARY`/`BLOB` |
-| Password (hash) | `VARCHAR(255)` |
 | Geographic coordinates | `POINT SRID 4326` + `SPATIAL` index |
 
 `NVARCHAR` is treated as `VARCHAR` with charset `utf8mb3`: do not use. FKs must match the PK type exactly, including `UNSIGNED`, charset and collation.
@@ -48,12 +46,9 @@
 - **Covering:** secondary indexes already contain the PK; plan shows `Using index` in `Extra`.
 - **Expression index:** MySQL ≥ 8.0.13 functional index; MariaDB uses an indexed generated column.
 - **Redundant indexes:** MySQL `sys.schema_unused_indexes`; MariaDB enable `userstat` then view `INFORMATION_SCHEMA.INDEX_STATISTICS`. Disable first before dropping: MySQL ≥ 8.0 `INVISIBLE`, MariaDB ≥ 10.6 `IGNORED`.
-- **Specialized types:** `FULLTEXT`, `SPATIAL`.
 - **Non-write-blocking creation:** `ALGORITHM=INPLACE, LOCK=NONE`.
-- **Skip scan:** MySQL ≥ 8.0.13.
 - **`LIKE 'abc%'`:** can use B-Tree with the column's collation.
 - **`OR` across columns:** index merge over separate indexes.
-- **Sort not served by index:** `Using filesort` in `Extra`.
 
 ## 4. Queries
 
@@ -62,13 +57,11 @@
 - No materialized views: use summary tables.
 - Bulk load: `LOAD DATA`.
 - Timeouts: MariaDB `max_statement_time`; MySQL `max_execution_time` (SELECT only).
-- Procedures are cached per connection.
 
 ## 5. Concurrency and connections
 
 - REPEATABLE READ has gap locks: locks the gaps between keys too, easily causing waits or deadlocks on concurrent inserts.
 - Queue in a table: `FOR UPDATE SKIP LOCKED` (MySQL ≥ 8.0, MariaDB ≥ 10.6).
-- MariaDB can use a thread pool.
 
 ## 6. Verification and monitoring
 
@@ -76,10 +69,8 @@
 | --- | --- |
 | Update statistics | `ANALYZE TABLE`; histograms: MariaDB ≥ 10.4 `ANALYZE TABLE … PERSISTENT FOR …`, MySQL 8.0 `ANALYZE TABLE … UPDATE HISTOGRAM` |
 | Command | `EXPLAIN`; actual figures: MariaDB `ANALYZE FORMAT=JSON`, MySQL ≥ 8.0.18 `EXPLAIN ANALYZE` |
-| Good | `type` column: `const`, `eq_ref`, `ref`, `range` |
 | Needs review | `type = ALL` (full table scan); `type = index` (full index scan); `Extra`: `Using filesort`, `Using temporary` |
-| Index in use | `key` column (`possible_keys` are only candidates) |
-| Misestimate | `rows`/`filtered` columns far from actual |
+| Index in use | `key` column (`possible_keys` are only candidates); `rows`/`filtered` far from actual means a misestimate |
 | Monitoring | Slow query log (`long_query_time`), `performance_schema` |
 | Tier 1 config | `innodb_buffer_pool_size` |
 

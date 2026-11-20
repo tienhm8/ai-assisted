@@ -1,6 +1,6 @@
 # Database Design – Modeling patterns
 
-> Reference for Skill `database-design`, used at steps 3–4 and 6. This is **how to do it**; project-specific conventions (naming, key types) come from database-design §2 and take priority. Look up DBMS-specific syntax in `postgresql.md` or `mysql-mariadb.md`.
+> Project conventions (naming, key types) in database-design §2 take priority. DBMS syntax: `postgresql.md` or `mysql-mariadb.md`.
 
 ## 1. From business logic to entities
 
@@ -38,7 +38,6 @@ Check cardinality with two-way questions: "How many B does one A have?" and "How
 
 ## 4. State machines
 
-- `status` column + CHECK on the set of valid states.
 - Check valid transitions in the application or a trigger, with a condition in the UPDATE (`WHERE id = ? AND status = 'pending'`) to avoid race conditions.
 - Traceability needed: table `<entity>_status_history(entity_id, from_status, to_status, changed_by, changed_at, reason)`.
 - State-dependent constraints use conditional CHECK, e.g. `CHECK (status <> 'paid' OR paid_at IS NOT NULL)`.
@@ -55,7 +54,6 @@ Check cardinality with two-way questions: "How many B does one A have?" and "How
 ## 6. Soft delete
 
 - Use only when the business needs restore or traceability; not by default for every table.
-- A `deleted_at` (timestamp) column is better than a boolean flag.
 - UNIQUE must ignore deleted rows: partial unique index `WHERE deleted_at IS NULL`, or a generated column that is NULL when deleted with UNIQUE on it (NULL does not violate UNIQUE).
 - FKs to soft-deleted rows remain valid; child rows are a business decision.
 - Personal data under deletion request: soft delete is not enough; hard delete or anonymize.

@@ -33,4 +33,4 @@
 
 `sources` → `vision` → `scope` → `glossary` → `open-questions` (cập nhật xuyên suốt khi phát sinh điểm chưa rõ).
 
-Đầu ra: là đầu vào của [01-requirements](../01-requirements/) (BRD, FR, NFR, business rules). Điểm chưa rõ ở mọi tài liệu ghi vào `open-questions.md`, không tự đoán.
+Đầu ra: là đầu vào của [01-requirements](../01-requirements/) (BRD, Epic/Feature, User Story, FR, NFR, business rules). Điểm chưa rõ ở mọi tài liệu ghi vào `open-questions.md`, không tự đoán.

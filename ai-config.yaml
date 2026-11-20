@@ -1,0 +1,47 @@
+# Cấu hình AI của dự án. Lập Plan chỉ đọc file này để biết model/effort, ngân sách, stack, lệnh kiểm.
+# `try` là thứ tự thử: phần tử đầu là mức bắt đầu, phần tử cuối là mức tối đa.
+# Đổi công cụ AI: sửa `tool`, `auto_runs` và ghi tên model của công cụ đó vào `sessions`, `tasks`,
+# `high_risk_min`. Công cụ không chỉnh được effort: mỗi mức chỉ ghi tên model, phần tử kế trong
+# `try` là model mạnh hơn, không lặp model (ví dụ try: [model-chuẩn, model-mạnh]).
+tool: claude-code
+auto_runs: true   # true = Orchestrator tự khởi động từng Run theo mức trong manifest, làm theo .ai/guide/ai-tools.md §3; false = người mở phiên cho từng Run; công cụ không chỉnh được model theo từng Run dùng false
+sessions:
+  orchestrator: opus/high      # Lập Plan (bước 1–4). Plan có đổi kiến trúc: opus/xhigh
+  dispatch:     sonnet/medium  # Phiên chạy Plan đã duyệt (bước 5–6). Plan có Task rủi ro cao, Skill security-review hoặc authentication-rbac, hoặc đổi kiến trúc: dùng mức orchestrator. Plan toàn Task rủi ro thấp, mọi AC là lệnh: có thể thử haiku/medium, đo rồi mới đổi
+  report:       sonnet/high    # Báo cáo bàn giao (bước 7), phiên mới. Plan có Task rủi ro cao hoặc đổi kiến trúc: dùng mức orchestrator. Mục "Kết quả" của PLAN.md và dòng runs.md (chép, tóm tắt số đã có) do phiên chạy viết
+  review:       opus/high
+tasks:
+  - for: [lookup]
+    try: [haiku/low, sonnet/medium]
+  - for: [documentation]
+    try: [sonnet/low, sonnet/high]
+  - for: [unit-testing, integration-testing, e2e-testing]
+    try: [sonnet/low, sonnet/high, opus/high]
+  - for: [backend-development, api-development, frontend-development]
+    try: [sonnet/low, sonnet/high, opus/high]
+  - for: [refactoring, caching, deployment, requirement-review, continuous-improvement]
+    try: [sonnet/medium, opus/medium, opus/high]
+  - for: [bug-fixing]
+    try: [sonnet/medium, opus/high, opus/xhigh]
+  - for: [product-discovery, requirement-analysis, architecture-design, database-design, task-planning, incident-analysis, code-review]
+    try: [opus/high, opus/xhigh]
+  - for: [authentication-rbac, security-review]
+    try: [opus/high, opus/xhigh]
+high_risk_min: opus/high       # sàn cứng cho việc rủi ro cao
+budget_usd_per_task: 2
+budget_warn_pct: 80          # Cảnh báo khi chi phí cộng dồn của Task đạt mức này (% ngân sách hiện hành)
+budget_topup_max_pct: 50     # Tổng cấp thêm tối đa cho một Task (% ngân sách ban đầu)
+budget_pool_pct: 20          # Quỹ dự phòng mặc định của Plan (% tổng ngân sách ban đầu của các Task)
+stack:           # khóa và giá trị khớp tên file reference của Skill; nguồn: project/aisoft-backend (package.json, docker-compose.yml), đối chiếu 2026-11-20
+  backend: nestjs@11      # @nestjs/core ^11.2.7 -> backend-development/references/nestjs-11.md
+  orm: sequelize@6        # sequelize ^6.37.8, @nestjs/sequelize ^11.0.1 -> sequelize.md
+  odm: mongoose@9         # mongoose ^9.8.0, @nestjs/mongoose ^11.0.4 -> mongoose-9.md
+  database: postgresql@15 # docker-compose.yml: postgres:15-alpine
+  transport: nestjs-microservices  # @nestjs/microservices ^11.1.29 (TCP, gRPC), @nestjs/schedule ^6.1.3 -> nestjs-microservices.md
+  queue: bull@4           # bull ^4.16.5, @nestjs/bull ^11.0.5 -> backend-development/references/bull-4.md
+  cache: redis@6.2        # docker-compose.yml: redis:6.2-alpine; client ioredis ^5.11.1
+commands:        # chạy trong project/aisoft-backend; lệnh chỉ đọc; CHƯA kiểm chứng, chạy thật ở PLAN-005 (CHECKLIST mục 8)
+  build: npm run build
+  typecheck: npx tsc --noEmit -p tsconfig.json
+  lint: npx eslint "{src,apps,libs,test}/**/*.ts"   # không --fix; script `lint` của project có --fix nên không dùng
+  test: npm test

@@ -18,7 +18,7 @@ Read: FR, BR, AC; glossary; NFR (latency, throughput, RPO/RTO, volume, retention
 
 ## References
 
-Load only the file for the current step, and read only the listed sections.
+Load only the file for the current step, and read only the listed sections. Where a file depends on the DBMS, load the part matching ai-config.yaml `stack` (`database`, `orm`, `odm`); if `stack` lacks the entry, ask. Where a file has a version-notes section §0, read it together with any section loaded from that file.
 
 | File in `references/` | Load at step |
 | --- | --- |
@@ -28,9 +28,9 @@ Load only the file for the current step, and read only the listed sections.
 | `security.md` | 8 |
 | `migration.md` | Step 9: §1–§4, §6 · Step 10: §5 |
 | `prisma-migrate.md` (migration tool is Prisma Migrate only) | Step 9: §1, §2, §4 · Step 10: §2, §3, §4 |
-| `sequelize-migrations.md` (migration tool is sequelize-cli only) | Step 9: §1, §3 · Step 10: §2, §3 |
+| `sequelize-migrations.md` (`orm: sequelize@6` and migration tool is sequelize-cli) | Step 9: §1, §3 · Step 10: §2, §3 |
 | `postgresql.md` or `mysql-mariadb.md` (only the file of the chosen DBMS) | Step 4: §9 · Step 5: §1, §2 · Step 6: §5, §9 · Step 7: §3, §4 (§7 only when moving to the partitioning/sharding tier) · Step 8: §10 · Step 9: §8 · Step 10: §6 |
-| `mongodb.md` | DBMS is MongoDB: replaces the relational parts of steps 4, 5, 7, 9, 10 |
+| `mongodb.md` (`odm: mongoose@<version>` or the DBMS is MongoDB) | Replaces the relational parts of steps 4, 5, 7, 9, 10 |
 
 ## Procedure
 
@@ -67,7 +67,7 @@ Load only the file for the current step, and read only the listed sections.
    - Limit the connection pool.
    - Cache only after queries and indexes for that access pattern are optimized; if the cacheability conditions of Rule `cache` are met, hand the caching part to Skill `caching`.
    - Scale by tiers, move to the next tier only when the previous is insufficient and there are metrics: optimize queries and indexes → cache, read replicas → partitioning → archive old data → split database by module → sharding. From partitioning upward, record the partition key, reason, consequences and put it in an ADR.
-8. **Data security.** Assign a data level to each column; hash passwords, encrypt D3 columns, mask data outside production; separate DB accounts by role (schema owner, migration runner, application, read-only); tenant isolation; audit tables; data lifecycle.
+8. **Data security.** Assign a data level to each column; hash passwords, encrypt `secret` columns, mask data outside production; separate DB accounts by role (schema owner, migration runner, application, read-only); tenant isolation; audit tables; data lifecycle.
 
 ### D · Migration and verification
 
@@ -95,7 +95,7 @@ Load only the file for the current step, and read only the listed sections.
 
 - Every table traces to FR/BR; the `AP-<NN>` table and volume estimates exist, or are clearly marked as assumptions.
 - Each important BR has a DB constraint or a recorded check location; each index serves an access pattern.
-- D2/D3 columns are marked; DB accounts are separated by role.
+- `sensitive` and `secret` columns are marked; DB accounts are separated by role.
 - Migrations (implementation mode) have run up, rollback, up on a clean database; negative cases and EXPLAIN have evidence.
 - Reviewer: Architect; add Security when there are migrations, money or personal data.
 
@@ -108,7 +108,7 @@ Load only the file for the current step, and read only the listed sections.
 5. Notable design decisions with reasons and rejected options.
 6. Constraints ↔ BR; indexes ↔ AP.
 7. Cache (if any): per the Report of Skill `caching`.
-8. Security: D2/D3 columns, encryption, accounts and permissions.
+8. Security: `sensitive`/`secret` columns, encryption, accounts and permissions.
 9. Migrations: files, release order, lock level and run time, rollback method.
 10. Verification evidence.
 11. Who must approve and ADRs to decide.

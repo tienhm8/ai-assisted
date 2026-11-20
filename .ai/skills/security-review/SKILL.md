@@ -20,8 +20,8 @@ Read: Task, AC; security-standards; architecture docs (roles, authorization matr
 2. **Authentication:** password storage, login, sessions, tokens, expiry, revocation, account lifecycle, rate limiting and brute-force protection.
 3. **Authorization:** missing checks, privilege escalation, IDOR/BOLA, per-record permissions, role boundaries, cross-application access.
 4. **Input and output:** injection (SQL, command), XSS, CSRF, SSRF, path traversal, deserialization; uploads (type, size, content, storage location, access permissions).
-5. **Data protection:** sensitive data exposure, secret management, encryption in transit and at rest, backups; D3 in logs, URLs, error messages.
-6. **Audit log:** sufficient security events and no D3.
+5. **Data protection:** sensitive data exposure, secret management, encryption in transit and at rest, backups; `secret` data in logs, URLs, error messages.
+6. **Audit log:** sufficient security events and no `secret` data.
 7. **Dependencies:** known vulnerabilities, end-of-life packages, excess permissions, supply chain risk.
 8. **Configuration:** environment variables, DB exposure, CORS, HTTPS, security headers; pipeline and artifact integrity.
 9. **Map against OWASP Top 10 and ASVS** per the mapping table in security-standards: for each item record applicable or not with reason; for applicable items check the ASVS chapters up to the project's declared level.

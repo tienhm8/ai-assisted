@@ -1,30 +1,34 @@
 ---
 name: code-review
-description: Review a code change (PR), language-agnostic, in priority order correctness → tests → placement → concurrency → performance → security → operability → clean code; read the PR description before the code; every finding has a location, failure scenario, and severity.
+description: Review a code change (PR or local commit range), language-agnostic, in priority order correctness → tests → placement → concurrency → performance → security → operability → clean code; read the change description before the code; every finding has a location, failure scenario, and severity.
 ---
 
 # Code Review Skill
 
 Confirm before merge that the change does the right thing, stays within Task scope, sits in the right place in the architecture, withstands load and concurrency, is safe, is operable, and has real test evidence.
 
-**Wrong logic: do not approve; ugly code: comment, do not block the PR.**
+**Wrong logic: do not approve; ugly code: comment, do not block the change.**
+
+## Input
+
+The change description is ONE of: (a) the description of the PR, when reviewing a PR; (b) the handoff report (DELIVERY-REPORT) of the Plan or Task plus the commit range `git diff <base>..<head>`, when reviewing on the machine before a PR (Plan step 8, fast lane; its "Mô tả thay đổi" section answers the seven items of Step 1). Both must cover the items of Step 1.
 
 ## Entry gate
 
-If any item is missing, stop, state the missing item, and return the PR to the author; do not review the code:
+If any item is missing, stop, state the missing item, and return it to the author (or the Orchestrator); do not review the code:
 
-- PR description has all items in Step 1.
+- Change description has all items in Step 1.
 - Task has scope, AC, risk level.
-- Automated gates (build, lint, type check, test, secret scan) are green: taken from CI; no CI yet, then from a local run recorded in the PR, with command and output.
-- PR size is within the project threshold; over threshold, suggest splitting, unless the PR states a reason (generated code, mass rename…).
+- Automated gates (build, lint, type check, test, secret scan) are green: taken from CI; no CI yet, then from a local run recorded in the change description, with command and output.
+- Change size is within the project threshold; over threshold, suggest splitting, unless the change description states a reason (generated code, mass rename…).
 
-Read: PR description, Task, AC, related FR/BR; architecture docs (layers, module boundaries, dependency direction), coding-standards, error-handling, testing-strategy, NFR; git diff **and context outside the diff** (callers of the changed code, schema, migrations, config, existing tests); test report and handoff report.
+Read: change description, Task, AC, related FR/BR; architecture docs (layers, module boundaries, dependency direction), coding-standards, error-handling, testing-strategy, NFR; git diff **and context outside the diff** (callers of the changed code, schema, migrations, config, existing tests); test report and handoff report.
 
 ## Procedure
 
-### Step 1: Read the PR description first, not the code yet
+### Step 1: Read the change description first, not the code yet
 
-From the PR description, answer the following; any you cannot answer becomes a finding or question; do not infer it from the code:
+From the change description, answer the following; any you cannot answer becomes a finding or question; do not infer it from the code:
 
 1. What problem is being solved, linked to which Task and AC?
 2. Behavior change or refactor only? If refactor, external behavior must stay the same.
@@ -38,10 +42,10 @@ From that, form a **hypothesis of what the code must do**, then read the diff to
 
 ### Step 2: Compare Task with diff
 
-- List changed files and affected modules; compare with the scope in the Task ticket and the PR's "out of scope" item.
+- List changed files and affected modules; compare with the scope in the Task ticket and the change description's "out of scope" item.
 - Report files in the 🟡/🔴 zone and files out of scope.
 - Report tests deleted, disabled, or weakened; columns/tables deleted out of scope; new dependencies without a stated reason.
-- PR says "refactor only" but the diff changes behavior (changed conditions, return values, side-effect order): finding.
+- Change description says "refactor only" but the diff changes behavior (changed conditions, return values, side-effect order): finding.
 
 ### Step 3: Review in priority order
 
@@ -54,7 +58,7 @@ Go through priorities 1 to 8 in order. Load the checklist of the group in progre
 | 3 | Is the code in the right place? (layer and responsibility per the project's architecture docs) | `references/correctness.md` |
 | 4 | What about load and concurrency? (race, idempotency, retry, event after commit) | `references/runtime.md` |
 | 5 | Performance, data, cache (N+1, volume, missing/redundant/duplicate indexes after the change, large-table migrations) | `references/runtime.md` |
-| 6 | Security per OWASP Top 10 (per-record authorization, injection, XSS, D3 exposure, upload, SSRF) | `references/security.md` |
+| 6 | Security per OWASP Top 10 (per-record authorization, injection, XSS, `secret` data exposure, upload, SSRF) | `references/security.md` |
 | 7 | Is it operable? (logs, alerts, config, rollback) | `references/runtime.md` |
 | 8 | Clean code and style; do not comment on what formatter/linter already catches | — |
 
@@ -88,7 +92,7 @@ Presentation rules:
 ### Step 5: Recommendation
 
 - **Do not approve**: Critical/High remain, or the entry gate failed.
-- **Approve with conditions**: Medium remain; state the conditions clearly (fix in this PR or create a Task with a deadline).
+- **Approve with conditions**: Medium remain; state the conditions clearly (fix in this change or create a Task with a deadline).
 - **Approve**: only Low, suggestions, or no findings.
 
 ## Limits
@@ -105,8 +109,8 @@ Presentation rules:
 
 ## Report
 
-- PR summary as the reviewer understands it: problem, behavior change or refactor, impact scope; risk level; files reviewed, including 🟡/🔴 zone files and out-of-scope files.
-- Missing items in the PR description.
+- Change summary as the reviewer understands it: problem, behavior change or refactor, impact scope; risk level; files reviewed, including 🟡/🔴 zone files and out-of-scope files.
+- Missing items in the change description.
 - Findings by severity; questions and suggestions for the author.
 - Test assessment: AC with or without evidence, source of gate results (CI or local).
 - Non-applicable priorities and reasons; whether `security-review` was used.

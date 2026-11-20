@@ -91,7 +91,7 @@ Thông điệp rõ ràng, nói được người dùng cần làm gì tiếp; kh
 | Định dạng log (khuyến nghị có cấu trúc) |  |
 | Trường bắt buộc (thời gian, mức, module, mã lỗi, ...) |  |
 | Correlation/request ID | Sinh ở điểm vào, truyền xuyên suốt các module và hệ thống ngoài |
-| **Không ghi** secret, token, dữ liệu cá nhân (D3) | Bắt buộc; yêu cầu bảo mật thêm ở [security-standards](security-standards.md) §9 |
+| **Không ghi** secret, token, dữ liệu cá nhân (mức bí mật) | Bắt buộc; yêu cầu bảo mật thêm ở [security-standards](security-standards.md) §9 |
 | Nơi lưu, thời hạn lưu |  |
 
 Giám sát và cảnh báo dựa trên log: xem [monitoring](../05-operations/monitoring.md).

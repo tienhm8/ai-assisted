@@ -1,9 +1,18 @@
 # Caching – Redis
 
-> Nguồn: github.com/redis/agent-skills @ 74708da, skill `redis-core`, `redis-connections` (đối chiếu thêm `redis-security`, `redis-clustering`) v0.1.0, MIT · Ngày lấy: 2026-11-15 · Áp dụng cho: Redis server 7.x/8.x; client Node `redis` (node-redis) 6.3.1 (`@redis/client` 6.3.1) và `ioredis` 6.0.0, chọn client là quyết định dự án (dự án chưa chốt phiên bản ở system-architecture §4, rà lại khi chốt)
-> Đã điều chỉnh: viết lại cho client Node (bản gốc Python/Java), chỉ giữ lỗi AI hay mắc khi làm L2 bằng Redis: timeout và hàng đợi offline của client, kết nối dùng chung, `SCAN`, `SET … NX PX` và nhả khoá có kiểm tra chủ, `UNLINK`, pub/sub cho L1, hash tag, `maxmemory-policy`, ACL/TLS theo service. Bổ sung từ tài liệu redis.io và file `.d.ts` của hai client (không có trong bản gốc): `SET` mất TTL, `DELEX`/`SET IFEQ` (8.4), pub/sub at-most-once, ACL kênh, `keyPrefix`. Bỏ: chọn kiểu dữ liệu (Hash để sửa từng field trái Rule `cache` 5: xoá, không cập nhật), kiến thức chung (đặt tên key có dấu `:`, `SSCAN`/`HSCAN`, hàng đợi `BLPOP`), cấu hình máy chủ thuộc hạ tầng (`bind`, `protected-mode`, firewall, `rename-command`); sửa: đọc từ replica không còn là "phù hợp cho cache" (§5). Không lấy code minh hoạ.
+> Áp dụng cho: Redis server 7.x/8.x, client Node `redis` và `ioredis` 6.x. Project dùng Redis 6.2 và `ioredis` 5: §0 quy định điều nào áp dụng được; khi §0 mâu thuẫn với §1–§6 thì §0 thắng.
 
-Reference for Skill `caching`. Load only when L2 is Redis, and only the section for the current step. Rule `cache` and `patterns.md` win over anything here; this file only adds the Redis/Node-client HOW.
+Rule `cache` and `patterns.md` win over anything here; this file only adds the Redis/Node-client specifics.
+
+## 0. Version notes for Redis 6.2 and ioredis 5 (steps 2 to 6)
+
+Applies when `stack` has `cache: redis@6.2`. Check the server with `INFO server` (`redis_version`) before relying on a feature below.
+
+- **Not available on a 6.2 server:** `DELEX` and `SET … IFEQ` (8.4, §3), sharded Pub/Sub `SPUBLISH`/`SSUBSCRIBE` (7.0, §5), per-channel ACL rules `&<pattern>` (7.0, §6). Release a lock with the Lua compare-and-delete script only. Use classic `PUBLISH`. In 6.2 ACL cannot limit channels; scope them by the key prefix convention and a separate instance if the data level needs it.
+- **ioredis 5.11.1, not 6.0.0:** `enableAutoPipelining` defaults to `false`; `commandTimeout` has no default (waits forever); `connectTimeout` 10000 ms; `maxRetriesPerRequest` 20; `enableOfflineQueue` and `enableReadyCheck` default to `true`; `scaleReads` and `shardedSubscribers` exist for Cluster. Option names in §2 for ioredis are valid in 5.11.1. `RedisOptions` in 5.11.1 has no `protocol` option, so the connection is RESP2: a connection that called `SUBSCRIBE` rejects normal commands, so use `duplicate()` for subscribers (§4). Typed methods that §3 says "ioredis 6.0.0 lacks" are also absent in 5.x: use `call`.
+- **node-redis lines** (`commandOptions.timeout`, `createClientPool`, `clientSideCache`, `useReplicas`) do not apply: the project uses `ioredis`. Do not add `redis` (node-redis) as a second client (`project-rules` 6).
+- RESP3 client-side caching is not available (no RESP3 in ioredis 5.11.1); L1 invalidation uses Pub/Sub per §4.
+- `UNLINK`, `SET … NX PX`, `SCAN`, Lua scripts, `maxmemory-policy`, TLS and ACL users for keys and commands exist in 6.2 and §1 to §6 hold for them.
 
 ## 1. Keys and TTL (step 2)
 
@@ -45,11 +54,11 @@ Reference for Skill `caching`. Load only when L2 is Redis, and only the section 
 - Classic `PUBLISH` broadcasts to every node; Redis ≥ 7.0 sharded Pub/Sub (`SPUBLISH`/`SSUBSCRIBE`; node-redis `sSubscribe`, ioredis `shardedSubscribers`) scales better if invalidation traffic is heavy.
 - Replica reads (node-redis `useReplicas`, ioredis `scaleReads`) lag the primary: a read right after delete-after-commit can return the old value. Keep cache reads on primaries unless the staleness window explicitly allows replica lag.
 
-## 6. Memory, persistence, access (step 4; step 2 when the value is D3)
+## 6. Memory, persistence, access (step 4; step 2 when the value is `secret`)
 
 - Default `maxmemory` 0 means no limit. Dedicated cache instance: `allkeys-lru` or `allkeys-lfu`. `volatile-*` behaves like `noeviction` when no key has a TTL; `noeviction` makes writes fail when full (cache writes are then errors, fail-open applies).
 - If locks, the hot-list sorted set, or the warm-up epoch key share the instance, `allkeys-*` may evict them; this is acceptable only because each is safe to lose (`warmup.md` §3). Otherwise use a separate instance.
-- D3 key group with persistence off: `save ""` and `appendonly no` on that instance (replicas too).
+- `secret` key group with persistence off: `save ""` and `appendonly no` on that instance (replicas too).
 - Per-service ACL user: `~<service>:*` keys, `&<service>:*` channels (from 7.0 new users get no channels; subscribe fails with `NOPERM`), only needed commands. Key patterns do not limit `FLUSHALL`/`FLUSHDB`/`SWAPDB`: remove them (`-@dangerous` also removes `KEYS`). Without `INFO`, ioredis skips its ready check with a warning; set `enableReadyCheck: false` deliberately.
 - TLS: node-redis `socket.tls: true` (or `rediss://` URL), ioredis `tls: {}`; with `username`/`password` of that ACL user.
 - Eviction and hit metrics come from `INFO stats` (`keyspace_hits`, `keyspace_misses`, `evicted_keys`) read by a monitoring account, since the app user has no `INFO`.

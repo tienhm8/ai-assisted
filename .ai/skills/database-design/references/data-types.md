@@ -1,6 +1,6 @@
 # Database Design – Choosing data types
 
-> Reference for Skill `database-design`, used at step 5. Standard types fixed in database-design §2 take priority; use this file when proposing or when the project has not fixed them. Look up concrete type names in the chosen DBMS file (`postgresql.md` §2, `mysql-mariadb.md` §2). Always check the DBMS version before using a type.
+> Types fixed in database-design §2 take priority. Concrete type names: the chosen DBMS file (§2). Check the DBMS version before using a type.
 
 ## 1. Lookup table by data kind
 
@@ -38,7 +38,5 @@
 5. **Do not store formatted values** (money with separators, dates as strings).
 6. **State the unit** in the column name when not obvious (`weight_grams`, `duration_seconds`).
 7. **Generated columns** for derived values needing an index or constraint; do not store derived values manually.
-8. **Set Unicode at DB/table level**, do not use `NCHAR`/`NVARCHAR` (the SQL Server way).
-9. **Fixed-length strings only for truly fixed values** (ISO country code, currency code): fixed types pad with spaces, waste space, compare unpredictably.
-10. **Smaller types give smaller indexes**, especially when the PK is in every secondary index (clustered index); but do not trade away growth capacity (rule 2).
-11. **Check behavior differences of the chosen DBMS** before use: whether DDL can roll back, whether CHECK is enforced, strict SQL mode, index key length, default string comparison (§1 of the DBMS file).
+8. **Fixed-length strings only for truly fixed values** (ISO country code, currency code): fixed types pad with spaces, waste space, compare unpredictably.
+9. **Smaller types give smaller indexes**, especially when the PK is in every secondary index (clustered index); but do not trade away growth capacity (rule 2).

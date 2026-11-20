@@ -21,7 +21,7 @@ Chia theo domain hoặc năng lực nghiệp vụ. Mã `<MODULE>` dùng thống 
 | --- | --- | --- | --- | --- | --- |
 |  | | | | | |
 
-Ưu tiên không ghi ở đây: ưu tiên yêu cầu theo MoSCoW ở [FR](../01-requirements/FR/README.md), thứ tự làm ở [backlog](../04-project-management/backlog.md) và [roadmap](../04-project-management/roadmap.md).
+Ưu tiên không ghi ở đây: ưu tiên yêu cầu theo MoSCoW ở [FR](../01-requirements/FR/README.md), thứ tự làm ở [task-backlog](../04-project-management/task-backlog.md) và [roadmap](../04-project-management/roadmap.md).
 
 ## 2. Chi tiết module
 Lặp lại mẫu dưới đây cho từng module. Module nhỏ chỉ cần điền các dòng có nội dung; không viết lại nội dung đã có ở tài liệu khác, chỉ dẫn mã và liên kết.

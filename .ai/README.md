@@ -10,6 +10,6 @@ Nguồn chuẩn, độc lập công cụ cho Rule, Skill, Agent, Workflow.
 | [workflows/](workflows/) | Các bước của một Task; loại Task nạp Rule, Skill nào |
 | [templates/](templates/) | Mẫu Plan, Task Manifest, Runs, Bug, PR, các Report |
 | [plans/](plans/) | Mỗi Plan một thư mục: `PLAN.md`, `tasks/*.yaml`, `runs.md` (commit) |
-| [worktrees/](worktrees/) | Git worktree của AI (không commit) |
+| `.claude/worktrees/` (ngoài `.ai/`) | Git worktree của AI (không commit) |
 
-Sửa `.ai/` cần Task riêng và người duyệt; AI chỉ đề xuất, không tự sửa.
+Sửa `rules/`, `skills/`, `workflows/`, `templates/`, `agents/`, `guide/` và các README trong `.ai/` (vùng 🔴) cần Task riêng và người duyệt; AI chỉ đề xuất, không tự sửa. `plans/` là vùng 🟢: Plan có bước duyệt riêng trước mọi Run.
