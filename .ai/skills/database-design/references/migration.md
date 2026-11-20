@@ -1,13 +1,12 @@
 # Database Design – Migration
 
-> Reference for Skill `database-design`, used at steps 9–10. Migration tool, directory and file naming follow the project (database-design §7); this file describes how to write safe migrations, tool-independent. Look up DBMS-specific syntax in `postgresql.md` or `mysql-mariadb.md`.
+> Tool, directory and file naming follow database-design §7; this file is tool-independent. DBMS syntax: `postgresql.md` or `mysql-mariadb.md`.
 
 ## 1. Structure of a migration
 
 - Name describes the action: `<timestamp>_create_order`, `<timestamp>_add_order_paid_at`, `<timestamp>_backfill_order_paid_at`.
 - One migration, one purpose; structure changes and data migration go in separate migrations.
 - Has an up part and a rollback part. If rollback loses data (dropping a column that has data), state it in the migration and in the report.
-- Name constraints and indexes explicitly so rollbacks and later migrations can reference them.
 - Do not depend on application code (models, ORM) that may change later; data migrations use SQL or standalone queries.
 - DBMS with transactional DDL: wrap the migration in a transaction (except statements that cannot run in a transaction). DBMS with auto-commit DDL: one DDL per migration, or write it to be rerunnable (`IF NOT EXISTS`, pre-checks).
 
@@ -27,9 +26,9 @@ Changes to tables in use are split across several releases so old and new applic
 
 Before writing a migration on a table with data, look up the lock level and non-locking method of each operation in §8 of the chosen DBMS file. General principles:
 
-- Adding a nullable column or one with a constant DEFAULT is usually fast; a volatile DEFAULT (`now()`, functions) rewrites the whole table.
-- Changing column type or setting NOT NULL usually rewrites or scans the table under lock: use expand → migrate → contract (§2), or deferred-validation constraints (add unvalidated, then validate) if supported.
-- Adding indexes, UNIQUE, FK on large tables: use non-write-blocking mode or online tools; duplicate data fails the migration, check beforehand.
+- A volatile DEFAULT (`now()`, functions) rewrites the whole table.
+- Changing column type or setting NOT NULL usually rewrites or scans the table under lock: use expand → migrate → contract (§2), or add the constraint unvalidated then validate, if supported.
+- Indexes, UNIQUE, FK on large tables: use non-write-blocking mode or online tools; duplicate data fails the migration, check beforehand.
 
 Always set a lock wait timeout (a few seconds) so the migration does not stall the query queue. On lock errors, retry later; do not raise the timeout indefinitely.
 

@@ -1,9 +1,8 @@
 # Frontend Development – Next.js (App Router) and React
 
-> Nguồn: github.com/vercel-labs/agent-skills, skill `vercel-react-best-practices` v1.0.0 @ dc8367e · Ngày lấy: 2026-11-15 · Áp dụng cho: Next.js 16.x App Router, React 19.2+ (đối chiếu `next` 16.4.6, `react` 19.3.1, `@types/react` 19.3.0 và docs đi kèm `next/dist/docs`; dự án chưa chốt phiên bản ở system-architecture §4, rà lại khi chốt)
-> Đã điều chỉnh: chỉ giữ khoảng 20 trong 70 quy tắc, là lỗi AI hay mắc với RSC, Server Action, hydration, bundle, re-render. Bỏ: `server-cache-lru` (cache ngoài repository, L1 không đồng bộ giữa instance: trái cache-rules 7, 11); `client-swr-dedup`, `async-dependencies` (cần thêm package SWR, `better-all`); 14 quy tắc `js-*` và phần lớn `rendering-*`, `rerender-*`, `advanced-*` (kiến thức JS/React chung hoặc tối ưu vi mô); số liệu hiệu năng và code minh hoạ. Thêm: khác biệt phiên bản Next.js 16 lấy từ docs nâng cấp `version-16.md` đi kèm package (không có trong skill gốc).
+> Áp dụng cho: Next.js 16.x App Router, React 19.2+.
 
-Reference for Skill `frontend-development`. Load only when the frontend uses Next.js App Router, and only the section for the current step. Project conventions (api-design, security-standards, cache-rules, Design System) win over anything here.
+Project conventions (api-design, security-standards, cache-rules, Design System) win over anything here.
 
 ## 1. Next.js 16 version differences (steps 2, 3)
 

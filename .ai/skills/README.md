@@ -14,7 +14,7 @@ File này dành cho người viết và duyệt Skill; AI không cần nạp khi
 | architecture-design | Thiết kế kiến trúc |
 | database-design | Thiết kế database |
 | caching | Thiết kế, cài đặt cache dữ liệu L1/L2 |
-| task-planning | Chia Goal thành Plan, Plan thành Task kèm Task Manifest |
+| task-planning | Từ Nguồn (Goal, Epic, User Story, yêu cầu độc lập) chia thành Plan, Plan thành Task kèm Task Manifest |
 | api-development | Phát triển API |
 | frontend-development | Phát triển giao diện |
 | backend-development | Phát triển backend |
@@ -74,4 +74,4 @@ Mỗi dòng trong Skill được nạp lại ở mọi Task dùng nó, nên:
 
 ## Tiếp nhận Skill bên ngoài
 
-Skill cộng đồng và guideline do package sinh ra chỉ là tài liệu tham khảo, không cài thẳng. Quy trình tiếp nhận: [docs/03-engineering/external-skills.md](../../docs/03-engineering/external-skills.md).
+Skill cộng đồng và guideline do package sinh ra chỉ là tài liệu tham khảo, không cài thẳng. Quy trình tiếp nhận: [.ai/guide/external-skills.md](../guide/external-skills.md).

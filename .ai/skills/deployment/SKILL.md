@@ -21,7 +21,7 @@ Read: release Task, list of merged Tasks/PRs, commits or tags; operations docs; 
 2. **Check readiness:** in-scope Tasks are done, PRs reviewed and passed gates, no open Critical/High findings, tests actually run. If any gate fails, stop.
 3. **Configuration:** list the **names** of environment variables and configuration required in the target environment. Do not read, create, rotate or write secret values.
 4. **Merge and migration order:** merge order when there are migrations or backward-incompatible API contracts; migration order, compatibility while app and DB versions overlap, run time, table-lock risk, whether destructive, backup before running, rollback path. Code rollback does not revert DB changes; state clearly how to restore data.
-5. **Prepare execution:** draft commands, a step-by-step runbook and migration scripts per the approved deployment mechanism; do not invent deploy commands. Commands to cut a release, close a release, hotfix come from `references/gitflow-release.md`.
+5. **Prepare execution:** draft commands, a step-by-step runbook and migration scripts per the approved deployment mechanism; do not invent deploy commands. Commands to cut a release, close a release, hotfix come from `references/gitflow-release.md`. Load the reference file matching ai-config.yaml `stack`; if `stack` lacks the entry, ask.
 6. **Release notes** from merged Tasks, written for end users, with Task/FR and PR.
 7. **Rollback plan:** trigger conditions, steps, decision maker, whether tested outside production.
 8. **Verify:** run regression and smoke tests on staging or local. After a human deploys, compare health checks and monitoring against the project's thresholds; if thresholds are exceeded, recommend rollback.

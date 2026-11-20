@@ -1,9 +1,8 @@
 # Database Design – Prisma Migrate
 
-> Nguồn: github.com/prisma/skills, skill `prisma-cli` v7.9.1 (migrate-dev, migrate-deploy, migrate-diff, migrate-resolve, migrate-status, migrate-reset, db-push, db-execute, agent-safety) và `prisma-upgrade-v7` (chỉ phần CLI khác v6) @ a6f1929 · Ngày lấy: 2026-11-15 · Áp dụng cho: Prisma ORM 7.x (đối chiếu help và mã CLI `prisma` 7.10.1, kiểu `@prisma/config` 7.10.1; dự án chưa chốt phiên bản ở system-architecture §4, rà lại khi chốt)
-> Đã điều chỉnh: chỉ giữ lỗi AI hay mắc khi viết và kiểm chứng migration bằng Prisma Migrate, cùng cờ/hành vi v7 khác v6. Bỏ: AI tự chạy `migrate deploy`, `migrate resolve` trên môi trường dùng chung/production, CI/Docker chạy migrate khi khởi động (trái `database-rules` 19, `project-rules` 13); quy trình xin đồng ý rồi đặt `PRISMA_USER_CONSENT_FOR_DANGEROUS_AI_ACTION` để chạy `migrate reset`/`db push --force-reset`/`--accept-data-loss` (trái `project-rules` 17, đổi thành cấm); `db push` làm đường đổi schema và cho MongoDB (trái `database-rules` 1); `prisma init`, `prisma dev`, studio, mcp, seed, Bun (công cụ/hạ tầng). Sửa theo 7.10.1: `directUrl` không còn trong kiểu `prisma.config.ts` (bản gốc vẫn ghi); file cấu hình tìm `prisma7.config.*` trước, rồi `prisma.config.*`; `migrate dev` không chạy generate/seed dù help vẫn ghi "trigger generators". Không lấy code minh hoạ.
+> Áp dụng cho: Prisma ORM 7.x (Prisma Migrate).
 
-Reference for Skill `database-design`. Load only when the project's migration tool (database-design §7) is Prisma Migrate on a SQL database, and only the section for the current step. `migration.md` and `database-rules` win over anything here.
+`migration.md` and `database-rules` win over anything here.
 
 ## 1. Writing a migration (step 9)
 

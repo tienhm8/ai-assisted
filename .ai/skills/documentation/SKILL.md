@@ -23,14 +23,14 @@ Read: Task, diff or change description, related existing docs, related ADRs.
    | Behavior, business rules, AC | `01-requirements` |
    | Architecture, schema, API, modules | `02-architecture` |
    | Coding standards, security, testing, error handling | `03-engineering` |
-   | Progress, backlog, KPI | `04-project-management` |
+   | Goals, Epics, User Stories, Tasks, progress, KPI | `04-project-management` |
    | Deployment, monitoring, backup | `05-operations` |
    | Open questions, assumptions | open-questions |
 
 2. **Verify sources** in priority order: approved business decisions, Approved requirements, Approved designs and ADRs, then current code and old docs. Current code does not by itself become a requirement. If sources conflict, report; do not choose yourself.
 3. **Write or update** per the project's structure, naming and standard IDs; keep existing IDs unchanged.
 4. **Single source:** each rule, decision, status is managed in only one place; other places reference it by ID.
-5. **One-way traceability:** FRs keep links to BRQ/BR; ACs point to FRs; do not create back-links.
+5. **One-way traceability** per work-model §3 (links, not a tree): Goal → Source (BRQ/OUT/strategy/request); Feature → BRQs; Epic → BRQs, Goals; User Story → Epic, Features, FRs; FR → BRQ, Feature, BR; AC → FR; Plan → Source, Goals; Task → Plan, User Stories/FRs. Do not create back-links.
 6. **ADR**, only when the decision requires an ADR per the ADR folder's guidance: create `ADR-<NNNN>-<slug>.md` from `_template.md` with the next number, status Proposed, at least two options; add one row to the index. Small, easily reversible decisions go in the design doc.
 7. **Check drift:** compare docs with existing code, schema, API; list outdated, conflicting and missing parts.
 
@@ -44,6 +44,7 @@ Read: Task, diff or change description, related existing docs, related ADRs.
 - Every affected doc is updated or has a recorded reason it is not needed.
 - No content is duplicated in two places; standard IDs are kept.
 - ADRs (if any) are Proposed and in the index.
+- A Task that adds, moves, renames or deletes a file or folder updates the tree under "Cấu trúc" in README.md in the same change.
 
 ## Report
 

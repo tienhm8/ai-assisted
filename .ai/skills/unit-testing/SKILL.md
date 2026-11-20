@@ -10,7 +10,7 @@ Prove each code unit works correctly under normal, boundary, and error condition
 ## Entry gate
 
 - Task has AC. If missing, stop and ask.
-- The project's test framework is decided; if not, record an open question, do not choose one yourself.
+- The project's test framework is decided and its run command is in ai-config.yaml `commands.test`; if not, record an open question, do not choose one yourself.
 
 Primary sources: Task Manifest (AC → check); code under test and existing test structure.
 If the manifest lacks something, look up only the exact section, do not read the whole file: testing-strategy §4 Các tầng test, §6 Thiết kế test, §9 Cổng chất lượng (Quality Gates).

@@ -20,7 +20,7 @@ When two principles conflict, KISS and YAGNI win: do not add abstraction to achi
 
 ## Conventions and error handling
 
-7. Follow the language, version, naming, and lint/type-check tools fixed for the project. If an item is not fixed: stop and ask; do not choose yourself.
+7. Follow the language, version, naming, and lint/type-check tools fixed for the project (ai-config.yaml `stack` and `commands`). If an item is not fixed: stop and ask; do not choose yourself.
 8. Check-relaxing mechanisms (type ignores, disabling lint...) may be used only with a reason written in place and reviewer acceptance.
 9. Do not swallow errors (catch and ignore); every error must be handled, logged, or rethrown.
 10. Classify errors and use the project's shared error codes; error responses must not expose stack traces, queries, or internal paths.

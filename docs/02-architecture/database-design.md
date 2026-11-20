@@ -45,7 +45,7 @@ Mô hình khái niệm và logic: thực thể chính và quan hệ. Mỗi thự
 <!-- Điền theo từng dự án: sơ đồ (Mermaid hoặc ảnh trong repo) -->
 
 ### 3.2 Danh sách bảng
-| Bảng | Module sở hữu | Mục đích | Khoá / ràng buộc | Dữ liệu nhạy cảm (D2/D3) |
+| Bảng | Module sở hữu | Mục đích | Khoá / ràng buộc | Dữ liệu nhạy cảm (mức nhạy cảm hoặc bí mật) |
 | --- | --- | --- | --- | --- |
 |  | | | | |
 
@@ -100,7 +100,7 @@ Chỉ ghi khi đã áp dụng; mỗi cache truy ra một AP ở §3.4 đã qua t
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 |  | | | | | | | | | | | |
 
-Value chứa D3: ghi cách bảo vệ ở tầng cache và người duyệt Security. Công nghệ cache, quy ước key, trần kích thước value ghi ở đây nếu chưa có ở system-architecture §7.
+Value chứa dữ liệu bí mật: ghi cách bảo vệ ở tầng cache và người duyệt Security. Công nghệ cache, quy ước key, trần kích thước value ghi ở đây nếu chưa có ở system-architecture §7.
 
 Warm-up: trigger, timeout của W1, giới hạn N của W2, ngân sách tải CSDL (lô, đồng thời) và nơi snapshot hot list. Thứ tự chạy khi phát hành ghi ở [deployment](../05-operations/deployment.md) §9.
 
@@ -113,7 +113,7 @@ Warm-up: trigger, timeout của W1, giới hạn N của W2, ngân sách tải C
 | Lưu giữ (thời hạn, lưu trữ, huỷ) |  |
 
 ## 5. Bảo mật dữ liệu
-Quy tắc bắt buộc về mức dữ liệu D0–D3, secret ở [security-standards](../03-engineering/security-standards.md); mục này chỉ áp dụng cho từng bảng/cột.
+Quy tắc bắt buộc về mức dữ liệu (công khai đến bí mật), secret ở [security-standards](../03-engineering/security-standards.md); mục này chỉ áp dụng cho từng bảng/cột.
 
 | Hạng mục | Quyết định |
 | --- | --- |
@@ -127,7 +127,7 @@ Ranh giới transaction, mức cô lập, cách xử lý xung đột (khoá lạ
 <!-- Điền theo từng dự án -->
 
 ## 7. Migration và seed
-Quy tắc viết migration (có thể quay lui, tương thích ngược khi deploy), thứ tự chạy, seed dữ liệu, dữ liệu test (giả/ẩn danh). Mức kiểm soát khi chạy migration production: xem [ai-governance](../03-engineering/ai-governance.md) §2. Quy trình triển khai migration xem [deployment](../05-operations/deployment.md) §9.
+Quy tắc viết migration (có thể quay lui, tương thích ngược khi deploy), thứ tự chạy, seed dữ liệu, dữ liệu test (giả/ẩn danh). Mức kiểm soát khi chạy migration production: xem [ai-governance](../../.ai/guide/ai-governance.md) §2. Quy trình triển khai migration xem [deployment](../05-operations/deployment.md) §9.
 <!-- Điền theo từng dự án -->
 
 ## 8. Sao lưu và khôi phục

@@ -6,7 +6,7 @@
 | Người phụ trách |  |
 | Người duyệt (dự án) | Tech Lead |
 | Phiên bản · Ngày |  |
-| Tài liệu liên quan | roadmap.md, backlog.md, task-breakdown.md, ../03-engineering/testing-strategy.md, ../05-operations/monitoring.md |
+| Tài liệu liên quan | roadmap.md, task-backlog.md, ../../.ai/guide/task-breakdown.md, ../03-engineering/testing-strategy.md, ../05-operations/monitoring.md |
 
 > **Mục đích.** Chọn chỉ số, ghi baseline và kết quả đo để đánh giá AI có thực sự cải thiện việc phát triển hay không. Mục 2 định nghĩa KPI dự án chọn đo; KPI lấy thêm từ mục 1 phải điền đủ mục 2 trước khi đo. File này chỉ ghi chỉ số dự án chọn đo và số liệu thực tế. Không chỉ đo số dòng code AI tạo ra hoặc số Task hoàn thành.
 
@@ -14,11 +14,11 @@
 
 | Nhóm | KPI | Nguồn dữ liệu | Ghi chú |
 | --- | --- | --- | --- |
-| Productivity | Lead time; thời gian hoàn thành Task (cycle time); giờ người theo giai đoạn; thời gian review; thời gian tiết kiệm được | Công cụ quản lý việc, Git/PR, CD | Thời gian review tách theo R1/R2/R3 |
+| Productivity | Lead time; thời gian hoàn thành Task (cycle time); giờ người theo giai đoạn; thời gian review; thời gian tiết kiệm được | Công cụ quản lý việc, Git/PR, CD | Thời gian review tách theo rủi ro thấp/vừa/cao |
 | Quality | Defect rate; escaped defects (lỗi phát hiện sau release); test pass rate; tỷ lệ PR bị từ chối khi review; bug mở lại | Issue tracker, CI hoặc kết quả test chạy local | Escaped defects tính trên số FR phát hành |
 | Security | Critical vulnerabilities; authorization defects (lỗi phân quyền) | Công cụ quét, review, sự cố | Tách theo nguồn phát hiện: cổng, review, sau release |
 | AI Efficiency | Tỷ lệ code AI được chấp nhận; số vòng sửa; chi phí AI / Task; chi phí người / Task | PR, Delivery Report §8, hoá đơn nhà cung cấp | "Chấp nhận" là dùng mà không phải viết lại lớn |
-| Reliability | Tỷ lệ Task AI hoàn thành đúng AC; tỷ lệ làm lại (rework); số lần AI bịa thông tin (hallucination); Task bỏ dở; độ nhất quán khi chạy lại cùng đầu vào | Delivery Report, PR, nhật ký AI | Dựa trên Delivery Report của [task-breakdown](task-breakdown.md) |
+| Reliability | Tỷ lệ Task AI hoàn thành đúng AC; tỷ lệ làm lại (rework); số lần AI bịa thông tin (hallucination); Task bỏ dở; độ nhất quán khi chạy lại cùng đầu vào | Delivery Report, PR, nhật ký AI | Dựa trên Delivery Report của [task-breakdown](../../.ai/guide/task-breakdown.md) |
 | Governance | Tuân thủ quy chuẩn kỹ thuật; tuân thủ review của người; thay đổi ngoài phạm vi chưa khai; tuân thủ phê duyệt | PR, review, Delivery Report | Đối chiếu [.ai/rules](../../.ai/rules/README.md) |
 
 ## 2. Định nghĩa KPI
@@ -27,7 +27,7 @@ Mỗi KPI được chọn đo phải điền đủ bảng này trước khi ghi 
 
 | KPI | Công thức | Nguồn | Tần suất | Mục tiêu | Người phụ trách |
 | --- | --- | --- | --- | --- | --- |
-| Lead time | Ngày hoàn thành − ngày Task vào backlog | Công cụ quản lý việc | Mỗi mốc |  |  |
+| Lead time | Ngày hoàn thành − ngày Task vào task backlog | Công cụ quản lý việc | Mỗi mốc |  |  |
 | Cycle time | Ngày Done − ngày bắt đầu Task | Công cụ quản lý việc | Mỗi mốc |  |  |
 | Tỷ lệ code AI được chấp nhận | Số PR dùng không phải viết lại lớn / tổng PR có AI | PR | Mỗi mốc |  |  |
 | Tỷ lệ rework | Số Task phải làm lại / tổng Task AI | Delivery Report, PR | Mỗi mốc |  |  |
@@ -65,11 +65,21 @@ Mỗi KPI được chọn đo phải điền đủ bảng này trước khi ghi 
 - **Phân tích:** xem xu hướng; với KPI xấu đi, tìm nguyên nhân gốc trước khi đề xuất thay đổi.
 - **Hành động cải tiến:** ghi vào bảng dưới, phân loại theo đối tượng cải tiến (rule, skill, workflow, agent).
 
-| Kỳ | Vấn đề phát hiện | Đối tượng cải tiến | Hành động | Người phụ trách | Kết quả |
+| Kỳ | Vấn đề phát hiện | Đối tượng cải tiến | Cấp | Hành động | Người phụ trách | Kết quả |
+| --- | --- | --- | --- | --- | --- | --- |
+|  | | | | | | |
+
+- **Cấp:** `Framework` (trung lập công nghệ, có bằng chứng, chờ người duyệt vùng `.ai/`) hoặc `Project` (riêng công nghệ hoặc phiên bản của dự án). Luồng đầy đủ: [framework-evolution](../../.ai/guide/framework-evolution.md).
+
+### Đánh giá bên ngoài
+
+Ghi cuối mỗi Plan và khi có thay đổi lớn (model AI mới, nâng phiên bản chính của công nghệ trong `stack`).
+
+| Kỳ | Thứ bên ngoài (công nghệ, model, skill, tool, pattern) | Nguồn · Ngày | Liên quan đến | Quyết định (thử trong dự án này / chưa) | Bằng chứng sau khi thử |
 | --- | --- | --- | --- | --- | --- |
 |  | | | | | |
 
 ## 7. Tham chiếu
 
-- [roadmap](roadmap.md), [backlog](backlog.md), [task-breakdown](task-breakdown.md)
+- [roadmap](roadmap.md), [task-backlog](task-backlog.md), [task-breakdown](../../.ai/guide/task-breakdown.md)
 - [testing-strategy](../03-engineering/testing-strategy.md), [monitoring](../05-operations/monitoring.md)

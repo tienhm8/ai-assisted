@@ -5,7 +5,7 @@ description: Implement and review authentication, authorization, RBAC, session m
 
 # Authentication & RBAC Skill
 
-Implement authentication and authorization exactly per the approved policy, enforced on the backend, deny by default. R3 work by default.
+Implement authentication and authorization exactly per the approved policy, enforced on the backend, deny by default. `high`-risk work by default.
 
 ## Entry gate
 
@@ -15,6 +15,14 @@ Besides `project-rules` 2, the design must have a role model, permission matrix,
 
 Primary sources: Task Manifest (and the Plan points it cites); existing authentication and authorization code.
 If the manifest lacks something, look up the exact section, do not read the whole file: system-architecture §6 Authentication & Authorization (design); security-standards §3 Authentication, §4 Authorization, §9 Logging và Audit; api-design §4 Authentication & Authorization; error-handling §5.2 Ánh xạ HTTP status.
+
+## References
+
+Load the file matching ai-config.yaml `stack` (`backend`); if `stack` lacks the entry, ask. Read only the listed sections.
+
+| File in `references/` | Load at step |
+| --- | --- |
+| `nestjs-guards.md` (`backend: nestjs@11` or `nestjs@12`) | Step 3: §1, §2, §3 · Step 6: §4 |
 
 ## Procedure
 

@@ -15,23 +15,25 @@ Put a cache into a read path so it is faster without being wrong: clearing the w
 - The AP has frequency, target latency, and the business-acceptable staleness window. Missing staleness window: record an open question for PO/BA; do not set it yourself.
 - The module owning the data and every write path touching that data are known.
 - Implementation: the cache row in database-design §3.7 is Approved. If not, do steps 1–4 then stop and wait for approval.
-- Value contains D3: Security must approve the design before implementation.
+- Value contains `secret` data: Security must approve the design before implementation.
 
 Main sources: Task Manifest (and the Plan points it cites); existing cache code (shared read function, client, config).
-If the manifest is missing something, look up the exact section: database-design §3.4 Mẫu truy cập và khối lượng, §3.7 Cache; module-design §5 Ranh giới và quyền sở hữu; system-architecture §7 Cross-cutting Concerns; error-handling §8 Retry, timeout, fallback, §9 Transaction và nhất quán dữ liệu; security-standards §1 Xử lý dữ liệu theo mức (D0–D3), §6 Bảo vệ dữ liệu; monitoring §4 Metrics; deployment §9 Database Deployment and Migration.
+If the manifest is missing something, look up the exact section: database-design §3.4 Mẫu truy cập và khối lượng, §3.7 Cache; module-design §5 Ranh giới và quyền sở hữu; system-architecture §7 Cross-cutting Concerns; error-handling §8 Retry, timeout, fallback, §9 Transaction và nhất quán dữ liệu; security-standards §1 Xử lý dữ liệu theo mức (`public`, `internal`, `sensitive`, `secret`), §6 Bảo vệ dữ liệu; monitoring §4 Metrics; deployment §9 Database Deployment and Migration.
 
 ## References
+
+Load the file matching ai-config.yaml `stack` (`cache`); if `stack` lacks the entry, ask. Read only the listed sections. Where a file has a version-notes section §0, read it first: it states which of the other sections do not apply to the project's version.
 
 | File in `references/` | Load at step |
 | --- | --- |
 | `patterns.md` | Step 1: §1, §2 · Step 2: §5, §8 · Step 3: §3, §4, §6, §7 · Step 4: §11 · Step 5: §9 · Step 6: §10 |
 | `warmup.md` | Step 4, only when production has a cache |
-| `redis.md` (L2 is Redis only) | Step 2: §1, §5 · Step 3: §2–§5 · Step 4: §6 · Step 5: §2–§4 |
+| `redis.md` (`cache: redis@<version>` only) | Step 2: §0, §1, §5 · Step 3: §0, §2–§5 · Step 4: §6 · Step 5: §2–§4 |
 
 ## Procedure
 
 1. **Decide whether to cache.** Use query cost **after** optimization, not pre-optimization numbers. Check each condition of Rule `cache` against the access pattern; record whether each condition is met by data or by assumption. "Changes constantly" and "rarely read" are checked against thresholds in database-design §3.7; no threshold yet: record an assumption with data from the AP table. On the do-not-cache list, or missing one condition: stop and report; do not cache.
-2. **Key and TTL.** Key format, distinguishing factors (tenant, viewer, permission, language), version, TTL per tier based on the acceptable staleness window, jitter. Assign a data level to the value; D3: record all protection measures.
+2. **Key and TTL.** Key format, distinguishing factors (tenant, viewer, permission, language), version, TTL per tier based on the acceptable staleness window, jitter. Assign a data level to the value; `secret`: record all protection measures.
 3. **Read and write paths.**
    - Read through the shared read function with single-flight; if none exists, implement it first and use it for every path.
    - List **every** write path touching the data (repository, bulk update, raw SQL, import, job, other services) and where each path deletes keys after commit.

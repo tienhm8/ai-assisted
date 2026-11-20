@@ -145,7 +145,7 @@ suggest splitting on the next change to this function.
 ## 7. Sample review report
 
 ```text
-PR #142 · Task SHOP-31 · R3 (touches money)
+PR #142 · Task SHOP-31 · `high` risk (touches money)
 Understanding: adds VIP discount on order creation; behavior change; touches orders table, no API change.
 PR description: missing rollback item.
 

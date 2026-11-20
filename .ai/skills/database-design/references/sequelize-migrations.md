@@ -1,9 +1,8 @@
 # Database Design – Sequelize migrations
 
-> Nguồn: github.com/agents-inc/skills, skill `api-database-sequelize` (examples/advanced, mục Migrations with queryInterface và Migration Gotchas) @ 845a1f2, MIT · Ngày lấy: 2026-11-16 · Áp dụng cho: `sequelize-cli` 6.x với Sequelize 6.x (đối chiếu mã `sequelize-cli` 6.6.5, `umzug` 2.x đi kèm, `sequelize` 6.37.8; dự án chưa chốt phiên bản ở system-architecture §4, rà lại khi chốt)
-> Đã điều chỉnh: chỉ giữ lỗi AI hay mắc khi viết và kiểm migration bằng `sequelize-cli`/`queryInterface`. Bỏ: backfill bằng một câu UPDATE cả bảng trong migration cấu trúc (trái `database-rules` 18); seed mật khẩu mẫu thật trong migration (trái `database-rules` 25); bảng method `queryInterface` (kiến thức chung). Sửa theo mã nguồn: ví dụ gốc gọi `changeColumn` với `unique: true` sau `addColumn` đã `unique: true`, trên PostgreSQL sinh thêm một UNIQUE constraint thứ hai; `changeColumn` trên PostgreSQL bỏ NOT NULL và DEFAULT nếu định nghĩa mới không ghi lại; `dropTable` trong migration không xoá kiểu ENUM; seeder mặc định không lưu trạng thái. Thêm phần an toàn khi AI chạy lệnh theo `project-rules` 13, 17 và `database-rules` 19. Không lấy code minh hoạ.
+> Áp dụng cho: `sequelize-cli` 6.x với Sequelize 6.x.
 
-Reference for Skill `database-design`. Load only when the project's migration tool (database-design §7) is `sequelize-cli` (or `umzug` with `queryInterface`) on a SQL database, and only the section for the current step. `migration.md` and `database-rules` win over anything here.
+`migration.md` and `database-rules` win over anything here.
 
 ## 1. Writing a migration (step 9)
 
