@@ -29,10 +29,8 @@
 Định nghĩa năm mức tự chủ (chỉ trả lời, chỉ đọc, duyệt từng bước, làm trọn Task, miễn duyệt từng Task), trần chung và nghĩa của ba vùng ở [project-rules](.ai/rules/project-rules.md).
 
 ### 2.1 Trần mức tự chủ của dự án
-Chỉ ghi dòng dự án siết thấp hơn trần chung, hoặc danh mục việc hẹp được bật mức miễn duyệt từng Task. Để trống là dùng trần chung (khuyến nghị).
-| Loại việc | Mức rủi ro | Mức tối đa | Lý do |
-| --- | --- | --- | --- |
-|  | | | |
+Chỉ ghi dòng dự án siết thấp hơn trần chung, hoặc danh mục việc hẹp được bật mức miễn duyệt từng Task. Để trống là dùng trần chung (khuyến nghị). Xem Autonomy mục Shared scales (Thang dùng chung) ở [project-rules](.ai/rules/project-rules.md).
+Mặc định: full-task (trần chung)
 
 ### 2.2 Bản đồ vùng 🟢🟡🔴
 Xem rule 8 của [project-rules](.ai/rules/project-rules.md). Mặc định không dưới bảng là: 🟢
