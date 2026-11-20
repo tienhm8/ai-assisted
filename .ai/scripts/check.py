@@ -1,13 +1,14 @@
-"""Checks for PLAN-001: broken links, leftover choice codes, file sizes.
+"""Shared checks of the framework (moved from PLAN-001): broken links, leftover choice codes, file sizes.
+History of Plans 001 and 002 still names the old path .ai/plans/PLAN-001-framework-refactor/check.py.
 
 Usage (from the repo root; -I keeps Python from importing files in the repo):
-  python3 -I .ai/plans/PLAN-001-framework-refactor/check.py links [paths...]
-  python3 -I .ai/plans/PLAN-001-framework-refactor/check.py codes [paths...]
-  python3 -I .ai/plans/PLAN-001-framework-refactor/check.py sizes [paths...]
-  python3 -I .ai/plans/PLAN-001-framework-refactor/check.py vocab    # scale words defined in project-rules
-  python3 -I .ai/plans/PLAN-001-framework-refactor/check.py types    # task-types rows + filter command
-  python3 -I .ai/plans/PLAN-001-framework-refactor/check.py config   # ai-config.yaml + tool reference blocks
-  python3 -I .ai/plans/PLAN-001-framework-refactor/check.py tree     # README "Cấu trúc" tree matches the repo
+  python3 -I .ai/scripts/check.py links [paths...]
+  python3 -I .ai/scripts/check.py codes [paths...]
+  python3 -I .ai/scripts/check.py sizes [paths...]
+  python3 -I .ai/scripts/check.py vocab    # scale words defined in project-rules
+  python3 -I .ai/scripts/check.py types    # task-types rows + filter command
+  python3 -I .ai/scripts/check.py config   # ai-config.yaml + tool reference blocks
+  python3 -I .ai/scripts/check.py tree     # README "Cấu trúc" tree matches the repo
 Paths default to the whole repo. Exit code 1 when a check finds a problem.
 """
 import os

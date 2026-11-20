@@ -38,6 +38,7 @@ project/
     ├── agents/                  VAI: ai làm, với quyền gì? (mặc định một AI Coding Agent)
     ├── workflows/               ĐIỀU PHỐI: chọn Skill, xếp thứ tự, dừng ở đâu?
     ├── templates/               MẪU: kết quả trình bày dưới dạng nào?
+    ├── scripts/                 CÔNG CỤ chung: check.py (kiểm link, từ vựng, cấu trúc), session-cost.py (ước USD từ transcript)
     ├── plans/                   Plan do AI soạn, Tech Lead duyệt: mỗi Plan một thư mục (PLAN.md, tasks/*.yaml, runs.md), được commit
 ```
 
