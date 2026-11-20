@@ -170,6 +170,8 @@ Dự án mới đi từ bước 0 sau khi qua cổng Khai báo dự án (§3). D
 
 ### 5.1 Đi qua các giai đoạn
 
+Sơ đồ các bước từ nhập User Story đến khi code được, kèm cổng duyệt: [luong-ba-yeu-cau.html](../../docs/00-project-overview/luong-ba-yeu-cau.html) (tải file về và mở bằng trình duyệt).
+
 Mỗi dòng là một hoặc nhiều Task; AI soạn `Draft`, người ở cột "Duyệt" chuyển `Approved`. Đầu ra của bước trước là đầu vào của bước sau; AI chỉ dùng đầu vào đã `Approved` (bước 0 không cần duyệt, chỉ cần đã ẩn danh).
 
 | Bước | Đầu vào (người cung cấp) | Loại Task giao AI | Đầu ra AI soạn (`Draft`) | Duyệt | Cổng |
