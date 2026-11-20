@@ -1,9 +1,8 @@
 # Backend Development – Prisma
 
-> Nguồn: github.com/prisma/skills, skill `prisma-client-api` v7.9.1 và `prisma-upgrade-v7` (chỉ phần khác biệt v6 → v7) @ a6f1929 · Ngày lấy: 2026-11-15 · Áp dụng cho: Prisma ORM 7.x (đối chiếu `prisma`, `@prisma/client`, `@prisma/adapter-pg`, `@prisma/config` 7.10.1; dự án chưa chốt phiên bản ở system-architecture §4, rà lại khi chốt)
-> Đã điều chỉnh: chỉ giữ lỗi AI hay mắc khi dùng Prisma Client (khởi tạo client, `undefined` trong `where`, `select`/`omit`, Decimal/JSON null, transaction, raw SQL, mã lỗi) và API v6 đã bỏ ở v7. Bỏ: bảng liệt kê method, toán tử lọc, phân trang, quan hệ, aggregate (kiến thức chung); singleton qua `globalThis` và pattern Next.js (quyết định kiến trúc, NestJS dùng DI); log `console.log` qua `$on` (không có correlation ID, trái `coding-rules` 12; log query có thể lộ tham số `secret`); Accelerate, SQL commenter, `queryPlanCacheMaxSize`, Bun, ESM/tsconfig (hạ tầng); lệnh `npm install` adapter/dotenv (trái `project-rules` 6); ví dụ soft delete bằng extension (quy ước dự án chưa chốt). Sửa theo 7.10.1: mặc định `maxWait` 2000 ms, `timeout` 5000 ms (bản gốc ghi 5000/10000 như mặc định); thêm `tx.$transaction` lồng qua savepoint; pool do driver quyết định, `connection_limit` trong URL không có tác dụng với adapter. Không lấy code minh hoạ.
+> Áp dụng cho: Prisma ORM 7.x (rà lại khi project chốt phiên bản).
 
-Reference for Skill `backend-development`. Load only when the backend uses Prisma ORM, and only the section for the current step. Rules (`database-rules`, `security-rules`, `coding-rules`) and error-handling win over anything here; for NestJS wiring see `nestjs-11.md` or `nestjs-12.md` (the one matching `stack`).
+Rules and error-handling win over anything here. NestJS wiring: `nestjs-11.md` or `nestjs-12.md` matching `stack`.
 
 ## 1. Version check and client construction (steps 2, 3)
 
@@ -23,11 +22,10 @@ Reference for Skill `backend-development`. Load only when the backend uses Prism
 - `null` filters "is null"; `undefined` means "no condition". Do not map missing input to `null` or the reverse.
 - `select` with `omit`, or `select` with `include`, on the same level is a validation error. Choose `select` for list/API reads (`database-rules` 11); `omit` only hides fields and still loads the rest.
 - `include` loads every related row; add `take`/`where` on to-many relations in list reads (`database-rules` 9). For N+1, load relations in the same query (`include`/`select`) or with one `in` query, never per row.
-- Cursor pagination needs `orderBy` on a unique field (or ending with one) matching the cursor; `skip` with large offsets scans.
+- Cursor pagination needs `orderBy` on a unique field (or ending with one) matching the cursor.
 - `Decimal` columns return `Prisma.Decimal`; do not convert money to `Number` for arithmetic (`database-rules` 6).
 - JSON columns: to store or filter SQL NULL vs JSON `null` use `Prisma.DbNull`/`Prisma.JsonNull`/`Prisma.AnyNull`, not literal `null`.
 - `update`/`delete` on a missing row throws `P2025`; `findUnique` returns `null`. Map both per error-handling §4; do not choose a status code yourself.
-- `updateMany`/`deleteMany`/`createMany` return `{ count }`; `createManyAndReturn`/`updateManyAndReturn` return rows. Do not chain a re-read for data the `...AndReturn` variant returns.
 
 ## 3. Transactions and concurrency (step 4)
 
@@ -50,5 +48,4 @@ Reference for Skill `backend-development`. Load only when the backend uses Prism
 ## 5. Errors (step 5)
 
 - Prisma errors are `Prisma.PrismaClientKnownRequestError` with `code`: `P2002` unique violation (`meta` carries model and target), `P2003` foreign key, `P2025` record not found, `P2028` transaction API (often timeout), `P2034` write conflict. Map to the project's codes in one place per error-handling §3, §4; do not leak `meta` or SQL in responses (`coding-rules` 10).
-- `P2039` wraps an unmapped database error from the driver adapter with the original code; do not parse the message text.
 - Do not catch `P2002` to implement "insert if absent" unless the design chose that; otherwise the UNIQUE constraint is the guard and the error is mapped.

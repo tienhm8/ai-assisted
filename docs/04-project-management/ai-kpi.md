@@ -65,7 +65,17 @@ Mỗi KPI được chọn đo phải điền đủ bảng này trước khi ghi 
 - **Phân tích:** xem xu hướng; với KPI xấu đi, tìm nguyên nhân gốc trước khi đề xuất thay đổi.
 - **Hành động cải tiến:** ghi vào bảng dưới, phân loại theo đối tượng cải tiến (rule, skill, workflow, agent).
 
-| Kỳ | Vấn đề phát hiện | Đối tượng cải tiến | Hành động | Người phụ trách | Kết quả |
+| Kỳ | Vấn đề phát hiện | Đối tượng cải tiến | Cấp | Hành động | Người phụ trách | Kết quả |
+| --- | --- | --- | --- | --- | --- | --- |
+|  | | | | | | |
+
+- **Cấp:** `Framework` (trung lập công nghệ, có bằng chứng, chờ người duyệt vùng `.ai/`) hoặc `Project` (riêng công nghệ hoặc phiên bản của dự án). Luồng đầy đủ: [framework-evolution](../../.ai/guide/framework-evolution.md).
+
+### Đánh giá bên ngoài
+
+Ghi cuối mỗi Plan và khi có thay đổi lớn (model AI mới, nâng phiên bản chính của công nghệ trong `stack`).
+
+| Kỳ | Thứ bên ngoài (công nghệ, model, skill, tool, pattern) | Nguồn · Ngày | Liên quan đến | Quyết định (thử trong dự án này / chưa) | Bằng chứng sau khi thử |
 | --- | --- | --- | --- | --- | --- |
 |  | | | | | |
 

@@ -11,4 +11,5 @@ Tài liệu giải thích khung cho người đọc; AI không nạp khi làm Ta
 | [ai-governance.md](ai-governance.md) | Vì sao kiểm soát AI, việc nào cần duyệt? |
 | [ai-tools.md](ai-tools.md) | Nối công cụ AI với `.ai/` và chạy Task với Claude Code thế nào? |
 | [external-skills.md](external-skills.md) | Tiếp nhận Skill bên ngoài theo quy trình nào? |
+| [framework-evolution.md](framework-evolution.md) | Project đề xuất lên Framework và đánh giá thứ bên ngoài theo luồng nào? |
 | [glossary.md](glossary.md) | Thuật ngữ của khung nghĩa là gì? |

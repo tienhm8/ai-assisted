@@ -1,6 +1,6 @@
 # Database Design – Data security
 
-> Reference for Skill `database-design`, used at step 8. Definitions of levels (`public`, `internal`, `sensitive`, `secret`), algorithms, key management location and legal requirements come from the project's security documents; this file describes how to apply them to tables and columns. Look up DBMS-specific syntax in `postgresql.md` or `mysql-mariadb.md`.
+> Level definitions, algorithms, key management and legal requirements come from the project security documents; this file applies them to tables and columns. DBMS syntax: `postgresql.md` or `mysql-mariadb.md`.
 
 ## 1. Column classification
 
@@ -22,7 +22,7 @@ For each table, mark `sensitive` and `secret` columns in the table list of datab
 | `sensitive` data | Per project rules; at minimum encryption at rest at disk/tablespace level |
 | Whole database | Disk encryption or DBMS TDE; TLS required for connections |
 
-In-DB encryption with DBMS SQL functions puts keys into statements and may leak via query logs; prefer application-level encryption.
+In-DB encryption with SQL functions puts keys into statements and query logs: encrypt in the application.
 
 ## 3. Accounts and permissions
 
@@ -57,7 +57,7 @@ In-DB encryption with DBMS SQL functions puts keys into statements and may leak 
 
 ## 7. Lifecycle and non-production environments
 
-- Retention policy per data group; archive or purge jobs by partition/batch.
+- Retention policy per data group; archive or purge by partition/batch.
 - Deletion on data-subject request: list every table holding that person's data (including audit, denormalized copies, backups) and how to handle it (hard delete, anonymize).
 - Dev/test/staging data: fake data or irreversibly anonymized copies; do not copy production dumps as is.
 - Backups are encrypted; restore permissions are limited.

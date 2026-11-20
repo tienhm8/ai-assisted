@@ -18,7 +18,7 @@ Read: FR, BR, AC; glossary; NFR (latency, throughput, RPO/RTO, volume, retention
 
 ## References
 
-Load only the file for the current step, and read only the listed sections. Where a file depends on the DBMS, load the part matching ai-config.yaml `stack`; if `stack` lacks the entry, ask.
+Load only the file for the current step, and read only the listed sections. Where a file depends on the DBMS, load the part matching ai-config.yaml `stack` (`database`, `orm`, `odm`); if `stack` lacks the entry, ask. Where a file has a version-notes section §0, read it together with any section loaded from that file.
 
 | File in `references/` | Load at step |
 | --- | --- |
@@ -28,9 +28,9 @@ Load only the file for the current step, and read only the listed sections. Wher
 | `security.md` | 8 |
 | `migration.md` | Step 9: §1–§4, §6 · Step 10: §5 |
 | `prisma-migrate.md` (migration tool is Prisma Migrate only) | Step 9: §1, §2, §4 · Step 10: §2, §3, §4 |
-| `sequelize-migrations.md` (migration tool is sequelize-cli only) | Step 9: §1, §3 · Step 10: §2, §3 |
+| `sequelize-migrations.md` (`orm: sequelize@6` and migration tool is sequelize-cli) | Step 9: §1, §3 · Step 10: §2, §3 |
 | `postgresql.md` or `mysql-mariadb.md` (only the file of the chosen DBMS) | Step 4: §9 · Step 5: §1, §2 · Step 6: §5, §9 · Step 7: §3, §4 (§7 only when moving to the partitioning/sharding tier) · Step 8: §10 · Step 9: §8 · Step 10: §6 |
-| `mongodb.md` | DBMS is MongoDB: replaces the relational parts of steps 4, 5, 7, 9, 10 |
+| `mongodb.md` (`odm: mongoose@<version>` or the DBMS is MongoDB) | Replaces the relational parts of steps 4, 5, 7, 9, 10 |
 
 ## Procedure
 

@@ -7,7 +7,6 @@ Mandatory rules are in Rule `cache`; this file only describes how.
 - **L1:** local cache, within one request or in one process's RAM. Optional.
 - **L2:** cache shared across instances. Concrete technology per the project's architecture.
 - **DB:** the single source of truth.
-- Cache is a layer on top of an optimized query, not a way to dodge optimization. A query slow from a missing index is only hidden by a cache: on every miss, warm-up, or cache outage, that slow query runs again.
 - Cached data reads the nearest tier first: L1 → L2 → DB. Data not meeting cache conditions reads DB directly.
 
 ## 2. Data classification
@@ -16,12 +15,9 @@ The table below is an initial suggestion. Each cache must still meet all six con
 
 | Data type | Cache? | Accompanying condition |
 | --- | --- | --- |
-| Master data, reference data, category lists | Yes | |
-| System configuration | Yes | |
-| Product catalog | Yes | |
+| Master data, reference data, category lists, system configuration, product catalog | Yes | |
 | Read-heavy query results | Yes | Key determinable from parameters, deletable correctly |
-| Aggregate reports | Yes | |
-| Dashboard statistics | Yes | Business accepts staleness; state the staleness window |
+| Aggregate reports, dashboard statistics | Yes | Business accepts staleness; state the staleness window |
 | User profile | Yes | Invalidation covers every write path; per §8 if it contains `secret` data |
 | Permission / Role | Conditional | On permission change, delete immediately, including L1 on every instance; short TTL |
 | Search result | Conditional | Short TTL; limit key count (first page, common parameters only) |
@@ -55,15 +51,13 @@ L2 error         → skip cache → read DB → return; log, count fail-open
 Transaction commit → delete L2 key → emit invalidation event → every instance deletes L1
 ```
 
-- **After commit:** attach to the transaction's after-commit hook, or outbox. Deleting before commit lets an interleaved read reload the old value; on rollback the delete was needless.
-- **Delete, do not update.** If two concurrent writes both update the cache, observer order does not follow commit order, and the cache may hold the old value until TTL expires. Deleting lets the next read reload the correct value.
+- **After commit:** use the transaction's after-commit hook, or outbox. Deleting before commit lets an interleaved read reload the old value.
+- **Delete, do not update:** two concurrent writes that both update the cache do not land in commit order, so the cache can hold the old value until TTL.
 - **Stale write-back race:** delete-after-commit alone does not prevent it. Read A misses and loads the old row; write B commits and deletes the key; A then writes the old value, which lives until TTL. Choose one per cache, record it in the cache row:
   - **Invalidation marker (default when read-after-write matters):** the delete step first sets a short marker for the key (TTL ≥ loader timeout), then deletes the key. Write-back is an atomic conditional write: skip if the marker exists, just return the DB value. Marker and key must be usable in one atomic step (Redis: one Lua script, same hash slot, `redis.md` §3, §5).
-  - **Version overwrite:** writes overwrite with version comparison instead of deleting, and write-back also compares versions (W1 keys).
+  - **Version overwrite:** the cached value carries a version (or a precise `updated_at`); writes use a compare-then-write script and only overwrite when newer, and write-back compares versions too. For W1 keys (config, catalogs) when the cache must not be empty after a write.
   - **Accept TTL:** only when the staleness window ≥ that key's TTL.
 - **Cache failover can undo deletes:** with asynchronous replication, deletes acknowledged shortly before a failover may be lost and old values reappear. For groups whose staleness window is shorter than TTL, the failover runbook clears the group (version prefix bump or batched scan + delete) then triggers warm-up (`warmup.md` §1); otherwise record that TTL covers it.
-- **Update only with a version:** the cached value carries a version (or a sufficiently precise `updated_at`); write with a compare-then-write script, writing only when the version is newer. Use for W1 keys (config, catalogs) when you do not want the cache empty after a write.
-- **Read right after write must be correct:** use the stale write-back guard above (marker or version); never delete before commit.
 - **Failed deletes must not be ignored** like failed reads: the old key lives until TTL expires. Retry with a limit; when exhausted, push to a reprocessing queue and log a warning.
 - **L1 invalidation events** have retry or a recovery mechanism. An instance that loses its connection to the event channel clears all of L1 on reconnect. Short L1 TTL is the safety net when events still slip through.
 - **ORM observers do not catch** bulk updates, raw SQL, migrations, imports, jobs, other services writing the same DB: these paths delete keys after commit or emit events themselves.
@@ -96,9 +90,7 @@ Preventing double-selling and duplicate writes uses transactions, DB locks, or a
 
 ## 7. Errors and fail-open
 
-- Connection pool to the cache is bounded.
-- When the cache is down, all requests fall to DB: limit concurrency (pool, bulkhead) so the DB does not go down too. A circuit breaker helps skip the cache immediately instead of waiting for a timeout per request.
-- Do not depend on request processing order across instances.
+- When the cache is down, all requests fall to DB: limit concurrency (pool, bulkhead) so the DB does not go down too. A circuit breaker skips the cache immediately instead of waiting for a timeout per request.
 
 ## 8. Personal data (`secret`)
 
@@ -127,8 +119,6 @@ Minimum:
 - DB load on miss.
 - Count of single-flight waits; hot keys.
 - Count of failed key deletions; count and latency of failed invalidation events.
-
-Without metrics you cannot prove the cache helps, nor know when it breaks.
 
 ## 11. Recording in the design
 

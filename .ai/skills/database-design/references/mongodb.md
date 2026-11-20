@@ -1,18 +1,12 @@
 # Database Design – MongoDB
 
-> Nguồn: github.com/mongodb/agent-skills, skill `mongodb-schema-design` v1.0.0 @ 776c47f · Ngày lấy: 2026-11-15 · Áp dụng cho: MongoDB 8.x (đối chiếu mongodb.com/docs/manual bản hiện hành; dự án chưa chốt phiên bản ở system-architecture §4, rà lại khi chốt)
-> Đã điều chỉnh: chỉ lấy điểm chưa có: chuyển từ schema quan hệ, cây phân cấp, pattern approximation và document versioning, không nhúng binary lớn, không chép PII khi copy field, tìm document vi phạm validator, index thừa theo prefix, khi nào tăng `schema_version`, lưu ý time series, cách archive. Bỏ: phần đã có (embed/reference, 16 MB, subset, computed, outlier, polymorphic, attribute, bucket, hide index); ngưỡng kinh nghiệm không có trong tài liệu chính thức (< 1 MB, 200 KB, 1:N < 100); Atlas (Query Stats, Slow Query Logs, Performance Advisor, Online Archive, Schema Suggestions) và MCP; quy trình hỏi người dùng, chính sách tự chạy lệnh ghi; code minh hoạ.
-> Nguồn: github.com/mongodb/agent-skills, skill `mongodb-query-optimizer` v1.0.0 @ 776c47f · Ngày lấy: 2026-11-15 · Áp dụng cho: MongoDB 8.x (như trên)
-> Đã điều chỉnh: lấy `$in` trong ESR, ERS, sparse index, covered query, tối ưu aggregation (`$project` sớm, top-N, giới hạn 100 MB, `$lookup`, `$facet`, `$unwind`+`$group`), `findOneAndUpdate`. Sửa §5.3: bỏ chỉ dẫn cũ "`$project` sớm" vì trái tài liệu MongoDB. Bỏ: Atlas Performance Advisor, MCP, quy trình làm việc của skill; `replaceOne` → update pipeline giảm oplog (không xác minh được trên tài liệu chính thức); ngưỡng 20 index/collection (kinh nghiệm); code minh hoạ.
-> Đối chiếu với aisoft-backend 2026-11-20: file viết cho MongoDB 8.x; **phiên bản MongoDB thật của project chưa biết** (`docker-compose.yml` không có MongoDB, `example.env` dùng `replicaSet=rs0`; `stack` chưa khai `mongodb`). Driver kèm `mongoose 9.8.0` là `mongodb ~7.5`. Chưa đối chiếu được; hỏi người có thẩm quyền phiên bản server trước khi dùng điều có ngưỡng phiên bản (time series ≥ 5.0, `allowDiskUseByDefault` 6.0).
-
-> Reference for Skill `database-design`, used when the chosen DBMS is MongoDB. Replaces the relational parts of steps 4–5, 7, 9–10; steps 1–3, 6, 8, 11 stay unchanged. MongoDB version, migration tool, driver/ODM follow the project; for features with a stated minimum version, check the version in use before applying.
+> Áp dụng cho: MongoDB 8.x. Phiên bản server của project chưa biết: hỏi người có thẩm quyền trước khi dùng điều có ngưỡng phiên bản (time series ≥ 5.0, `allowDiskUseByDefault` 6.0).
 
 Term mapping for database-design.md: table → collection, row → document, column → field, FK → reference (`_id` of another document), CHECK/NOT NULL → schema validation.
 
 ## 1. Modeling principles
 
-Relational: normalize first, optimize later. MongoDB is the reverse: **design by access pattern**. Data read together is stored together. So the `AP-NN` table (step 2) must exist before drawing documents. No AP, no design.
+Design by access pattern: data read together is stored together. The `AP-NN` table (step 2) must exist before drawing documents; no AP, no design.
 
 For each relationship in the ERD, choose embed or reference:
 
@@ -59,10 +53,8 @@ Record the choice and reason in the design decision table (Report section item 5
 | Splitting always-read-together data into many collections then `$lookup` in high-frequency APs | Loses document advantage, slower than relational join | Embed or extended reference |
 | Embedding data modified from many places (customer info embedded in every order, synced on change) | Wide-spread updates, data drift | Reference; embed only snapshots or near-immutable fields |
 | Large binary (files, images) in the document | Bloats working set and replication, nears 16 MB | Object storage (or GridFS) + reference field |
-| Bloated document (many rarely used fields) | Wastes cache (working set), slow reads | Move rarely used parts to another collection |
 | One collection per tenant/day/user | Large numbers of collections and indexes waste resources, hard to operate | One collection + indexed discriminator field |
 | Dynamic field names (value as key: `{"2026-11-11": 5}`) | Cannot be indexed or validated | `{ k, v }` array (attribute pattern) with `(k, v)` index |
-| No schema validation | Wrong-typed data and missing fields slip in, surfacing only on read | `$jsonSchema` validator for every collection (§4) |
 
 ## 4. Data types and schema validation
 
@@ -131,15 +123,7 @@ Validators cannot replace cross-document constraints. Map each BR to one of:
 
 ### 5.4 Verify with explain
 
-`explain("executionStats")` on sufficiently large fake data:
-
-| Good | Needs review |
-| --- | --- |
-| `IXSCAN`, `totalKeysExamined` and `totalDocsExamined` close to `nReturned` | `COLLSCAN` on a large collection |
-| No `SORT` stage (sorted by index) | In-memory `SORT` stage; `totalDocsExamined` much larger than `nReturned` |
-| The chosen index is the one designed for the AP (`winningPlan`) | Another index chosen; many plans rejected (`rejectedPlans`) due to overlapping indexes |
-
-Monitor under real load: profiler (`slowms`), slow query log, `$indexStats`, `$collStats`.
+`explain("executionStats")` on sufficiently large fake data. Needs review: `COLLSCAN` on a large collection; in-memory `SORT` stage; `totalKeysExamined` or `totalDocsExamined` far above `nReturned`; `winningPlan` using an index other than the one designed for the AP. Under real load monitor the profiler (`slowms`), `$indexStats`, `$collStats`.
 
 ## 6. Schema changes (migration)
 

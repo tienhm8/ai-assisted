@@ -22,13 +22,13 @@ If the manifest is missing something, look up the exact section: database-design
 
 ## References
 
-Load the file matching ai-config.yaml `stack`; if `stack` lacks the entry, ask. Read only the listed sections.
+Load the file matching ai-config.yaml `stack` (`cache`); if `stack` lacks the entry, ask. Read only the listed sections. Where a file has a version-notes section §0, read it first: it states which of the other sections do not apply to the project's version.
 
 | File in `references/` | Load at step |
 | --- | --- |
 | `patterns.md` | Step 1: §1, §2 · Step 2: §5, §8 · Step 3: §3, §4, §6, §7 · Step 4: §11 · Step 5: §9 · Step 6: §10 |
 | `warmup.md` | Step 4, only when production has a cache |
-| `redis.md` (L2 is Redis only) | Step 2: §1, §5 · Step 3: §2–§5 · Step 4: §6 · Step 5: §2–§4 |
+| `redis.md` (`cache: redis@<version>` only) | Step 2: §0, §1, §5 · Step 3: §0, §2–§5 · Step 4: §6 · Step 5: §2–§4 |
 
 ## Procedure
 

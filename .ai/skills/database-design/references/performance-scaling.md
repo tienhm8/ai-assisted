@@ -1,6 +1,6 @@
 # Database Design – Performance and scaling
 
-> Reference for Skill `database-design`, used in steps 2, 7 and 10. Performance thresholds (latency, throughput) come from the project's NFRs, not from this file. This file states DBMS-neutral principles; syntax, tool names and version limits are in the chosen DBMS's file (`postgresql.md`, `mysql-mariadb.md`): indexes §3, queries §4, concurrency §5, verification §6, partition and sharding §7.
+> Thresholds (latency, throughput) come from the project NFRs. DBMS-neutral; syntax and version limits: `postgresql.md`, `mysql-mariadb.md`.
 
 ## 1. Access pattern (AP) profile
 
@@ -22,15 +22,12 @@ Add volume estimates per table: current rows, growth/month, average row size, af
    - Very small tables (a few thousand rows or fewer): full scan is cheaper, the optimizer ignores the index.
    - Low-cardinality, evenly distributed columns (boolean, status 0/1) on their own. Exception: skewed distribution and the AP looks only for the rare part (e.g. 1% `pending` orders); then use a partial index if available, or a composite with the selective column after.
    - Columns updated constantly with no AP filtering on them: every UPDATE must modify the index too and may lose the DBMS's in-place update optimization.
-   - Unfiltered queries (`SELECT … FROM t` fetching everything): an index does not help.
 4. **Sparse columns (mostly NULL):** if the AP looks for non-NULL rows, the index is highly selective. If partial indexes are available, use `WHERE col IS NOT NULL` for compactness; otherwise a normal index.
 5. **Covering index:** include returned columns in the index to avoid table reads; with a clustered index, secondary indexes already contain the PK.
 6. **Expression index** when the filter must use a function (`lower(email)`): expression index, or an indexed generated column.
 7. **FK columns** need indexes so joins and parent deletes do not scan the child table; check whether the DBMS creates them automatically.
 8. **Remove redundant indexes:** indexes that are prefixes of another index, duplicates of UNIQUE/PK, indexes no AP uses (check with the DBMS's index usage stats). Before dropping an index in production, hide it first if supported; otherwise drop via a migration with rollback.
-9. **Write cost:** each index slows INSERT/UPDATE/DELETE and takes space; write-heavy tables need few indexes.
-10. **Specialized index types:** full-text, spatial, JSON/array, range, very large time-ordered insert tables; use only types the chosen DBMS supports.
-11. **Create indexes on tables with data** using the DBMS's non-write-blocking mode; record consequences of mid-way failure.
+9. **Create indexes on tables with data** using the DBMS's non-write-blocking mode; record consequences of mid-way failure.
 
 ### 2.2 Multi-column (composite) indexes
 
@@ -55,10 +52,8 @@ Add volume estimates per table: current rows, growth/month, average row size, af
 
 | Problem | Handling |
 | --- | --- |
-| `SELECT *` | List needed columns: less I/O and transfer, enables covering index, does not break when columns are added |
-| No row limit | Always `LIMIT`; large lists use pagination |
-| Large `OFFSET` pagination | Keyset: `WHERE (created_at, id) < (?, ?) ORDER BY created_at DESC, id DESC LIMIT n`; if the optimizer does not use the index for row-value comparison, split as `created_at < ? OR (created_at = ? AND id < ?)` |
-| N+1 (child query per row in application/ORM) | Join, or batch load `WHERE id IN (…)` (ORM eager loading); detect by counting queries per request in tests or logs |
+| Large `OFFSET` pagination (lists always have `LIMIT`) | Keyset: `WHERE (created_at, id) < (?, ?) ORDER BY created_at DESC, id DESC LIMIT n`; if the optimizer does not use the index for row-value comparison, split as `created_at < ? OR (created_at = ? AND id < ?)` |
+| N+1 | Join, or batch load `WHERE id IN (…)`; detect by counting queries per request in tests or logs |
 | Scalar subquery in `SELECT` (re-run per row) | Rewrite with `JOIN` (plus `GROUP BY` if needed) or `LATERAL` if available; the optimizer does not always decorrelate automatically, verify with EXPLAIN |
 | Existence check | `EXISTS (SELECT 1 …)` stops at the first match; do not use `COUNT(*) > 0`. With `IN (subquery)`, modern DBMSs usually convert to semi-join so performance is equivalent; the significant difference is `NOT IN`: a subquery with NULL returns empty, always use `NOT EXISTS` |
 | Filtering with `HAVING` on non-aggregate conditions | Move to `WHERE` to eliminate rows before grouping; `HAVING` only for conditions on aggregate results (`HAVING SUM(x) > ?`) |
@@ -72,7 +67,7 @@ Add volume estimates per table: current rows, growth/month, average row size, af
 
 **Denormalization to reduce joins** (storing a redundant column from another table, summary tables) is tier 3 in §6: do it only when APs and metrics prove the join is the bottleneck; record the data's source of truth and how copies sync (same transaction, trigger, job, event).
 
-**Stored procedures, functions, triggers:** not a default speed-up tool. The "precompiled" benefit is limited: plans are usually cached only per session or connection. Prepared statements at the application/driver layer give most of that benefit. The real benefit is fewer network round trips for multi-step processing over many rows. Putting business logic in the DB affects testing, review, migration and portability across DBMSs, so it requires an ADR.
+**Stored procedures, functions, triggers** are not a default speed-up (`database-rules` 14). Prepared statements at the driver layer give most of the "precompiled" benefit; the real gain is fewer round trips for multi-step work over many rows.
 
 ## 4. Verification and monitoring
 
@@ -80,21 +75,19 @@ Verify key APs with execution plans on fake data with near-real size and distrib
 
 Reading execution plans:
 
-- **Good:** index (or index-only) access on large tables; record the index name used.
-- **Needs review:** full scan of a large table with a selective condition; full index scan; sort or temp table (especially spilling to disk); many rows filtered out.
+- Record the index name used. **Needs review:** full scan of a large table with a selective condition; full index scan; sort or temp table (especially spilling to disk); many rows filtered out.
 - **Misestimate:** estimated rows far from actual due to stale stats or column correlation; update statistics, add extended statistics or histograms.
 
 Monitor continuously in environments with real load using the DBMS's query statistics and slow query log. Prioritize optimization by total time (frequency × latency), not only the slowest query. Specific commands and indicators: §6 of the DBMS file.
 
 ## 5. Concurrency and transactions
 
-- Short transactions; do not call external APIs or wait for users inside a transaction.
 - Optimistic locking (`version` column, `UPDATE … WHERE id = ? AND version = ?`) for rare conflicts; pessimistic locking (`SELECT … FOR UPDATE`) for hot spots needing serialization.
 - Job queues in a table: `FOR UPDATE SKIP LOCKED` if supported.
 - Avoid deadlocks: lock in a fixed order (e.g. ascending `id`).
 - Know the default isolation level of the chosen DBMS. If business logic needs stricter, state it and handle serialization errors with retry.
 - Hot counter updates: `UPDATE … SET qty = qty - ? WHERE id = ? AND qty >= ?` instead of read-then-write.
-- **Connections:** the application uses a bounded connection pool; total connections of all application instances, jobs and tools combined stay below `max_connections`, leaving room for admin. More connections are not faster: beyond CPU cores and I/O capacity, contention grows. Under heavy load consider a connection pooler in front of the DB or a thread pool. Pool and `max_connections` values are recorded in environment configuration, not set by gut feeling.
+- **Connections:** more connections are not faster; beyond CPU cores and I/O capacity contention grows. Under heavy load consider a connection pooler in front of the DB. Record pool size and `max_connections` in environment configuration, derived from the instance count (`database-rules` 13), not guessed.
 
 ## 6. Scaling tiers
 

@@ -1,16 +1,10 @@
 # Backend Development – NestJS 11
 
-> Nguồn: github.com/kadajett/agent-nestjs-skills, skill `nestjs-best-practices` v1.2.0 @ 3986e0c · Ngày lấy: 2026-11-14 · Áp dụng cho: NestJS 11.x (đối chiếu lại ngày 2026-11-20 với mã `@nestjs/core` và `@nestjs/common` 11.1.29, `@nestjs/event-emitter` 3.0.1, `@nestjs/sequelize` 11.0.1; project aisoft-backend dùng `@nestjs/core ^11.2.7`)
-> Đã điều chỉnh: chỉ giữ lỗi AI hay mắc riêng của NestJS (module, DI, scope, lifecycle, event, validation, serialize, transaction, test). Bỏ: kiến thức chung (feature module, SRP, ISP, LSP, N+1); phần trái `docs/`, Rule (ném `HttpException` từ service, cache bằng `CacheModule`, `console.log`, Supertest cho E2E, gọi dịch vụ ngoài trong transaction); phần là quyết định kiến trúc/hạ tầng hoặc thêm dependency (repository pattern, event-driven, JWT, throttler, sanitize HTML, microservice, queue, health check, versioning, config, logging). Sửa: handler `@OnEvent` lỗi không làm sập process mà bị nuốt lỗi (mặc định `suppressErrors: true`). Không lấy script build và code minh hoạ. Đối chiếu 2026-11-20: các mục §1–§7 giữ nguyên nội dung vì đã kiểm đúng trên 11.1.29 (`ValidationPipe.toValidate` bỏ qua String, Boolean, Number, Array, Object, Buffer, Date; `@OnEvent` mặc định `suppressErrors ?? true` ở event-emitter 3.0.1). Thêm §0 (khác biệt 11 so với 12 và 10) và sửa §2, §7 theo `package.json` của project.
-> Nguồn: github.com/affaan-m/ecc, skill `nestjs-patterns` @ d2ef268 · Ngày lấy: 2026-11-14 · Áp dụng cho: NestJS 11.x (đối chiếu như trên)
-> Đã điều chỉnh: chỉ lấy 2 điểm chưa có ở trên: `ValidationPipe` bỏ qua tham số kiểu nguyên thuỷ và mảng (§5), pipe/filter global khai báo ở `main.ts` không có trong app test (§7). Bỏ: cấu trúc thư mục, repository, config/env, production defaults (quyết định kiến trúc/hạ tầng); exception filter `@Catch()` và ném framework exception cho lỗi client (trái error-handling §4, §5); guard/role (thuộc security-standards §4, Skill `authentication-rbac`); kiến thức chung (controller mỏng, DTO `class-validator`, response DTO đã có ở §5). Không lấy code minh hoạ.
-> Nguồn: docs.nestjs.com, `migration.md` của NestJS 11 (tag 11.0.0) và trang migration-guide v12 · Ngày lấy: 2026-11-20 · Áp dụng cho: NestJS 11.x. Đã điều chỉnh: chỉ lấy thay đổi phá vỡ 10→11 (§0.1) và điểm khác 11↔12 (§0.2) mà AI hay làm sai; bỏ GraphQL, NATS, Terminus, Webpack/rspack vì project không dùng hoặc chưa kiểm.
+> Áp dụng cho: NestJS 11.x.
 
-Reference for Skill `backend-development`. Load only when `stack` has `backend: nestjs@11`, and only the section for the current step. Project conventions (error-handling, security-standards, module-design) win over anything here; where a section says "per the project", look it up there.
+Project conventions (error-handling, security-standards, module-design) win over anything here.
 
 ## 0. Version notes (steps 2, 3)
-
-Do not copy patterns from NestJS 12 documentation or from `nestjs-12.md` examples into this project without checking them here.
 
 ### 0.1 Changed from NestJS 10 to 11 (still applies to code in this project)
 
@@ -18,18 +12,14 @@ Do not copy patterns from NestJS 12 documentation or from `nestjs-12.md` example
 - **Dynamic module identity is by object reference**, not by a hash of its options. Calling `XModule.forRoot(opts)` in two places creates two module instances (two copies of its providers). Assign the result to one variable and import that variable, or follow what the codebase already does.
 - **Termination hooks run in reverse order of init hooks** (`onModuleDestroy`, `beforeApplicationShutdown`, `onApplicationShutdown`). A resource opened first closes last; do not rely on the old order.
 - **`Reflector`:** `getAllAndOverride` returns `T | undefined`, so handle `undefined`; `getAllAndMerge` returns an object, not a one-element array, when the only metadata is an object.
-- **`@nestjs/cache-manager` moved to Keyv.** The `store: redisStore` option no longer works; use `stores: [new KeyvRedis(...)]`. The project does not list `@nestjs/cache-manager`; Redis caching follows the `caching` Skill, not `CacheModule`.
+- **`@nestjs/cache-manager` moved to Keyv:** `store: redisStore` no longer works (use `stores: [new KeyvRedis(...)]`). Redis caching follows the `caching` Skill, not `CacheModule`.
 - **`@nestjs/config` 4:** values set by `registerAs`/`load` take precedence over `process.env`. `ignoreEnvVars` is deprecated (use `validatePredefined`).
-- **Node.js 20 or higher.** The project requires `>=24`.
 
-### 0.2 Differs from NestJS 12 (do not apply 12 advice here)
+### 0.2 Differs from NestJS 12 (do not apply 12 advice or `nestjs-12.md` examples here)
 
 - In 12, init and shutdown hooks run by component hierarchy level, which can change their order. Do not reorder code for 12 behavior, and do not assume the 12 order.
 - In 12, `@Optional()` is not inherited by a subclass that redeclares its constructor and Nest throws `UnknownDependenciesException`. Declare `@Optional()` on the subclass constructor parameter too, so the code works on both versions.
-- 12 requires Joi 18 for `@nestjs/config` schemas and removes legacy Terminus `HealthIndicator`/`HealthCheckError`; with `@nestjs/terminus ^11.1.1` the legacy API still exists.
 - `@nestjs/event-emitter` is 3.x for NestJS 11 (12.x for NestJS 12); `@nestjs/sequelize` 11.x and `@nestjs/mongoose` 11.x for 11. Never bump a `@nestjs/*` package to 12 inside a feature Task (`project-rules` 6).
-- `ConsoleLogger` structured params are the default only in 12.
-- 12 packages are ESM-only and Jest loads them only on Node 24.9+. This is a 12 upgrade concern, not part of a feature Task.
 
 ## 1. Modules and dependencies (steps 2, 3)
 
@@ -49,6 +39,7 @@ Do not copy patterns from NestJS 12 documentation or from `nestjs-12.md` example
 - An async `onModuleInit`/`onApplicationBootstrap` must `return`/`await` its promise; otherwise the app starts before the resource is ready.
 - Constructors stay synchronous and light; I/O goes into lifecycle hooks. Work that needs other modules initialized goes into `onApplicationBootstrap`, not `onModuleInit`.
 - `onModuleDestroy`/`beforeApplicationShutdown`/`onApplicationShutdown` only run on SIGTERM/SIGINT when `app.enableShutdownHooks()` is called in bootstrap; check it exists before relying on them to release resources.
+- Liveness and readiness are separate probes (`@nestjs/terminus`). A liveness probe that checks a database or Redis restarts healthy instances during a downstream outage; put dependency checks (with a timeout) only in readiness, and keep health output free of connection strings and internal topology. Which endpoints exist is a project decision (architecture docs), not part of a feature Task.
 
 ## 4. Errors in async work (step 5)
 
@@ -71,7 +62,14 @@ Do not copy patterns from NestJS 12 documentation or from `nestjs-12.md` example
 - Do not call external services or publish events inside a DB transaction; do it after commit per error-handling §9.
 - Do not enable schema auto-sync (TypeORM `synchronize`, etc.) in any shared environment; schema changes stop per this Skill's Limits.
 
-## 7. Tests (step 8)
+## 7. Request lifecycle and enhancers (step 4)
+
+- Order per request: middleware → guards → interceptors (before handler) → pipes → handler → interceptors (after handler) → exception filters. Within one stage, global runs first, then controller, then route; exception filters resolve the other way (route, controller, global).
+- Consequences: a guard sees the raw request, not what pipes transform or validate, so it must not trust `body`/`query` shape; an interceptor running before the handler also sees the raw input; an exception thrown by a guard, pipe or interceptor reaches the exception filters, so error mapping is the same for all of them.
+- A global enhancer registered with `app.useGlobalGuards()/useGlobalPipes()/...` in `main.ts` is outside the DI container and cannot inject providers. If it needs a dependency, register it as an `APP_GUARD`/`APP_PIPE`/`APP_INTERCEPTOR`/`APP_FILTER` provider in a module (this is also what keeps it present in tests, see §8).
+- Authentication/authorization decisions belong in the existing guards and permission checks (`authentication-rbac`, security-standards §4); do not move them into an interceptor or the controller body.
+
+## 8. Tests (step 8)
 
 - Unit tests build the module with `Test.createTestingModule()` and replace dependencies with `useValue`/`overrideProvider()` using the **same token** as production code; call `compile()` before `get()`.
 - Global pipes/filters/interceptors registered with `app.useGlobal*()` in `main.ts` are absent from an app built by `createNestApplication()` in tests, so validation and error mapping silently differ from production. Apply the same setup in the test (reuse the bootstrap setup function if the codebase has one), or rely on enhancers registered as `APP_PIPE`/`APP_FILTER`/`APP_INTERCEPTOR` providers, which come with the imported module.

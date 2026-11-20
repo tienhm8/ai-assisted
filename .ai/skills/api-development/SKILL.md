@@ -16,11 +16,11 @@ If the manifest lacks something, look up the exact section, do not read the whol
 
 ## References
 
-Load the file matching ai-config.yaml `stack`; if `stack` lacks the entry, ask.
+Load the file matching ai-config.yaml `stack` (`backend`); if `stack` lacks the entry, ask.
 
 | File in `references/` | Load at step |
 | --- | --- |
-| `nestjs-swagger.md` (NestJS only) | Step 6 |
+| `nestjs-swagger.md` (`backend: nestjs@11` or `nestjs@12`) | Step 6 |
 
 ## Procedure
 

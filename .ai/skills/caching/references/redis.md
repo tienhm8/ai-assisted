@@ -1,11 +1,8 @@
 # Caching – Redis
 
-> Nguồn: github.com/redis/agent-skills @ 74708da, skill `redis-core`, `redis-connections` (đối chiếu thêm `redis-security`, `redis-clustering`) v0.1.0, MIT · Ngày lấy: 2026-11-15 · Áp dụng cho: Redis server 7.x/8.x; client Node `redis` (node-redis) 6.3.1 (`@redis/client` 6.3.1) và `ioredis` 6.0.0, chọn client là quyết định dự án (dự án chưa chốt phiên bản ở system-architecture §4, rà lại khi chốt)
-> Đã điều chỉnh: viết lại cho client Node (bản gốc Python/Java), chỉ giữ lỗi AI hay mắc khi làm L2 bằng Redis: timeout và hàng đợi offline của client, kết nối dùng chung, `SCAN`, `SET … NX PX` và nhả khoá có kiểm tra chủ, `UNLINK`, pub/sub cho L1, hash tag, `maxmemory-policy`, ACL/TLS theo service. Bổ sung từ tài liệu redis.io và file `.d.ts` của hai client (không có trong bản gốc): `SET` mất TTL, `DELEX`/`SET IFEQ` (8.4), pub/sub at-most-once, ACL kênh, `keyPrefix`. Bỏ: chọn kiểu dữ liệu (Hash để sửa từng field trái Rule `cache` 5: xoá, không cập nhật), kiến thức chung (đặt tên key có dấu `:`, `SSCAN`/`HSCAN`, hàng đợi `BLPOP`), cấu hình máy chủ thuộc hạ tầng (`bind`, `protected-mode`, firewall, `rename-command`); sửa: đọc từ replica không còn là "phù hợp cho cache" (§5). Không lấy code minh hoạ.
+> Áp dụng cho: Redis server 7.x/8.x, client Node `redis` và `ioredis` 6.x. Project dùng Redis 6.2 và `ioredis` 5: §0 quy định điều nào áp dụng được; khi §0 mâu thuẫn với §1–§6 thì §0 thắng.
 
-> Đối chiếu với aisoft-backend 2026-11-20 (`docker-compose.yml`: `redis:6.2-alpine`; `package.json`: `ioredis ^5.11.1`, đối chiếu mã `ioredis` 5.11.1; `stack` khai `cache: redis@6.2`): file này viết cho server 7.x/8.x và `ioredis` 6.0.0, nên phần ghi chú phiên bản bên dưới (§0) quy định điều nào áp dụng được cho project. Nội dung gốc §1–§6 chưa sửa; khi §0 mâu thuẫn với §1–§6 thì §0 thắng.
-
-Reference for Skill `caching`. Load only when L2 is Redis, and only the section for the current step. Rule `cache` and `patterns.md` win over anything here; this file only adds the Redis/Node-client HOW.
+Rule `cache` and `patterns.md` win over anything here; this file only adds the Redis/Node-client specifics.
 
 ## 0. Version notes for Redis 6.2 and ioredis 5 (steps 2 to 6)
 

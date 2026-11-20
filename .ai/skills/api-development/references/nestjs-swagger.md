@@ -1,8 +1,8 @@
 # NestJS + Swagger (`@nestjs/swagger`)
 
-> Nguồn: viết nội bộ (không lấy từ skill bên ngoài) · Áp dụng cho: `@nestjs/swagger` 11.x (đối chiếu mã 11.4.6 ngày 2026-11-20: `PickType`, `OmitType`, `PartialType`, `IntersectionType`, `getSchemaPath` có trong `@nestjs/swagger`; peer `@nestjs/common ^11.0.1`); project aisoft-backend dùng `^11.4.6`, đã có `src/common/utils/swagger.util.ts` (wrapper của project, xem §Project wrappers). Chưa đối chiếu các decorator còn lại với mã nguồn.
+> Áp dụng cho: `@nestjs/swagger` 11.x.
 
-Load for NestJS projects at Procedure step 6. Verify decorator names and options in the installed `@nestjs/swagger` version before use (`project-rules` 16).
+Verify decorator names and options in the installed `@nestjs/swagger` version before use (`project-rules` 16).
 
 Project wrappers first: if the project already wraps Swagger decorators (response helpers, controller or auth decorators), use them; do not mix in raw decorators for the same purpose. Wrappers and security scheme names are project conventions, not defined here.
 
