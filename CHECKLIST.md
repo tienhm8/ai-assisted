@@ -15,6 +15,6 @@ Hoàn thành checklist tuần tự trước khi bắt đầu.
 | [x] 9 | Đặt ngân sách | `ai-config.yaml` | Tech Lead | Ngân sách mỗi Task đã ghi |
 | [x] 10 | Ghi miễn trừ nếu có | `PROJECT.md` §7 | Tech Lead | Mỗi miễn trừ có lý do, người duyệt, hạn, kế hoạch khắc phục; không có thì ghi "Không có" |
 | [ ] 11 | Duyệt `PROJECT.md` và `ai-config.yaml` | `PROJECT.md`, `ai-config.yaml` | Tech Lead | Trạng thái Approved |
-| [ ] 12 | Lập hồ sơ của module làm đầu tiên | `docs/` | PO/BA, Techlead | Trạng thái Approved |
+| [ ] 12 | Lập hồ sơ của module làm đầu tiên | `docs/` | PO/BA, Techlead | Trạng thái Approved. Hồ sơ chưa duyệt vẫn được tạo `SRC-<NN>` bằng cách đăng ký tài liệu vào bảng ở [sources/README.md](docs/00-project-overview/sources/README.md) |
 
-Xong checklist: đọc [.ai/guide/getting-started.md](.ai/guide/getting-started.md) §5 để giao việc.
+Xong checklist: đọc [.ai/guide/getting-started.md](.ai/guide/getting-started.md) §5 (các giai đoạn) và §6 (giao việc).
