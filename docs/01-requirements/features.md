@@ -14,6 +14,8 @@
 
 Mã `FEAT-<NN>`. Một Feature có thể đáp ứng nhiều BRQ, một BRQ có thể liên quan nhiều Feature: ghi danh sách mã ở cột BRQ. Tra FR của một Feature thì lọc cột "Feature" của bảng FR; tra User Story chạm Feature thì lọc [product-backlog](../04-project-management/product-backlog.md) §2.
 
+Thêm Feature mới thì trong cùng thay đổi tạo thư mục `FR/<MODULE>/<FEAT-NN>-<tên>/` (chỉ có `open-questions.md` nếu chưa có FR) và thêm một dòng vào bảng tổng hợp ở [FR/README](FR/README.md).
+
 | ID | Tên | Mô tả ngắn | BRQ | Module | Ưu tiên |
 | --- | --- | --- | --- | --- | --- |
 | FEAT-<NN> |  |  | BRQ-<NN>, … | | |

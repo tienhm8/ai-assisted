@@ -98,7 +98,7 @@ Ai làm được gì, lạm dụng thế nào, chặn bằng gì.
 <!-- Điền theo từng dự án -->
 
 ## 9. Giả định và ràng buộc kiến trúc
-Giả định chưa kiểm chứng đặt kèm cách xác nhận; giả định chưa rõ ghi vào [open-questions](../00-project-overview/open-questions.md).
+Giả định chưa kiểm chứng đặt kèm cách xác nhận; giả định chưa rõ ghi vào đúng sổ OQ theo cấp (xem [open-questions](../00-project-overview/open-questions.md)).
 <!-- Điền theo từng dự án -->
 
 ## 10. Quyết định liên quan
