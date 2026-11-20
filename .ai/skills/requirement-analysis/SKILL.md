@@ -1,6 +1,6 @@
 ---
 name: requirement-analysis
-description: Analyze business needs into traceable software requirements (BRQ, Epic, Feature, User Story, FR, business rules, NFR, acceptance criteria) and write them into the correct requirement documents; unclear points go into open-questions.
+description: Analyze business needs into traceable software requirements (BRQ, Epic, Feature, User Story, FR, business rules, NFR, acceptance criteria) and write them into the correct requirement documents; unclear points go into the open-question ledgers.
 ---
 
 # Requirement Analysis Skill
@@ -11,7 +11,7 @@ Turn business needs into clear, testable, traceable requirements, sufficient for
 
 - Vision and scope are Approved, or there is an approved stakeholder source registered as `SRC-<NN>`. If vision and scope are missing, switch to `product-discovery`.
 
-Read: existing vision, scope, BRD, features, product-backlog (Epic, User Story), FR, business-rules, NFR, acceptance-criteria; glossary; open-questions (apply `Closed` answers, do not re-ask); sources index and registered sources.
+Read: existing vision, scope, BRD, features, product-backlog (Epic, User Story), FR, business-rules, NFR, acceptance-criteria; glossary; the OQ index in the general ledger, then the relevant Module/Feature ledgers (apply `Closed` answers, do not re-ask); sources index and registered sources.
 
 ## Conventions
 
@@ -30,7 +30,7 @@ Read: existing vision, scope, BRD, features, product-backlog (Epic, User Story),
 6. **NFR:** each NFR has a metric and how to measure; if not measurable, record an open question.
 7. **AC:** Given / When / Then form, observable results; include error flows and boundary values.
 8. **Dependencies** between FRs, modules, APIs, data entities, external services, roles: record at the relevant FR.
-9. **Unclear points:** ambiguities, missing decisions, contradictions, assumptions all go into open-questions with a type (`Input`, `Clarify`, `Decision`); assumptions have a review deadline. Questions for the customer go through the liaison as a question pack (open-questions §"Hỏi khách hàng qua đầu mối"). When the customer must confirm a process, screens or rules, draft one confirmation pack per topic from [CONFIRMATION-PACK-TEMPLATE](../../templates/CONFIRMATION-PACK-TEMPLATE.md) (scope, process, wireframe or mockup per screen, rules, questions, sign-off); it holds the question pack. Wireframes show layout and content only: no invented fields, rules or numbers; each unsure point gets a numbered pin and an `OQ-<NN>`. The BA exports it with `python3 -I .ai/scripts/export-pack.py`.
+9. **Unclear points:** ambiguities, missing decisions, contradictions, assumptions all go into the right ledger by level (Feature/FR/BR/AC → Feature ledger `FR/<MODULE>/<FEAT-NN>-<name>/open-questions.md`; Module-wide → Module ledger `FR/<MODULE>/open-questions.md`; vision, scope, BRQ, BRD, NFR, Epic, Goal → general ledger `00-project-overview/open-questions.md`) and add a row to the index in the general ledger, with a type (`Input`, `Clarify`, `Decision`); assumptions have a review deadline. Questions for the customer go through the liaison as a question pack (general ledger §"Hỏi khách hàng qua đầu mối"). When the customer must confirm a process, screens or rules, draft one confirmation pack per topic from [CONFIRMATION-PACK-TEMPLATE](../../templates/CONFIRMATION-PACK-TEMPLATE.md) (scope, process, wireframe or mockup per screen, rules, questions, sign-off); it holds the question pack. Wireframes show layout and content only: no invented fields, rules or numbers; each unsure point gets a numbered pin and an `OQ-<NN>`. The BA exports it with `python3 -I .ai/scripts/export-pack.py`.
 
 ## Limits
 

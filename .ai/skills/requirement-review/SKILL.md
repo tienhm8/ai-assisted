@@ -11,7 +11,7 @@ Find gaps, contradictions, ambiguities, and risks in requirements. Propose only 
 
 Requirement documents to review (BRD, features, product-backlog, FR table, AC) exist in Draft or In Review. If missing, stop and ask.
 
-Read: work-model §3; BRD, features, product-backlog, FR table, business-rules, NFR, acceptance-criteria, scope, glossary, open-questions, relevant architecture docs if any.
+Read: work-model §3; BRD, features, product-backlog, FR table, business-rules, NFR, acceptance-criteria, scope, glossary, OQ index in the general ledger then the relevant Module/Feature ledgers, relevant architecture docs if any.
 
 ## Procedure
 

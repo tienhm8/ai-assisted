@@ -37,7 +37,7 @@ Khám phá sản phẩm ─▶ [2.1 Thu thập] ─▶ [2.2 Phân tích & mô h�
 | Phỏng vấn, workshop, quan sát quy trình, phân tích tài liệu nghiệp vụ | Việc của người (PO/BA, Đầu mối dự án). Kết quả được lưu thành nguồn `SRC-<NN>` thì AI mới dùng được |
 | Thu thập business rules | Ghi vào [business-rules](../../docs/01-requirements/business-rules.md) (`BR-<MODULE>-<NN>`); phải có nguồn đã duyệt, AI không tự tạo |
 | Thu thập yêu cầu chức năng, phi chức năng ban đầu | FR ở `FR/FR-<MODULE>.md`; NFR ở [NFR](../../docs/01-requirements/NFR.md) |
-| Xác định assumptions và constraints | Ghi vào [open-questions](../../docs/00-project-overview/open-questions.md) với loại `Input`/`Clarify`/`Decision`; assumption có hạn rà soát |
+| Xác định assumptions và constraints | Ghi vào đúng sổ OQ theo cấp (sổ chung, Module, Feature) và thêm dòng vào mục lục ở [sổ chung](../../docs/00-project-overview/open-questions.md), với loại `Input`/`Clarify`/`Decision`; assumption có hạn rà soát |
 
 **Sản phẩm:** Stakeholder Requirements và Business Requirements (BRQ trong [BRD](../../docs/01-requirements/BRD.md)); FR và NFR ban đầu; Business Rules.
 
@@ -154,4 +154,4 @@ Khung chưa có tài liệu riêng cho Use Case Model, Business Process Model ha
 | Rà soát | QA rà khả năng kiểm thử | `requirement-review` báo cáo, khuyến nghị |
 | Duyệt, sign-off, đổi ưu tiên | PO/BA (và Đại diện khách hàng qua Đầu mối) | Không duyệt, không tự đặt `Approved` |
 
-Điểm chưa rõ, giả định, mâu thuẫn luôn ghi vào [open-questions](../../docs/00-project-overview/open-questions.md); AI không tự trả lời và không làm theo phỏng đoán.
+Điểm chưa rõ, giả định, mâu thuẫn luôn ghi vào đúng sổ OQ theo cấp (Feature/FR/BR/AC → sổ Feature; chung Module → sổ Module; còn lại → [sổ chung](../../docs/00-project-overview/open-questions.md)) và cập nhật mục lục ở sổ chung; AI không tự trả lời và không làm theo phỏng đoán.
