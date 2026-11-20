@@ -2,10 +2,8 @@
 
 | Thuộc tính | Giá trị |
 | --- | --- |
-| Trạng thái | Draft |
-| Người phụ trách |  |
-| Người duyệt (khung) | Tech Lead |
-| Phiên bản · Ngày |  |
+| Trạng thái | Approved |
+| Người duyệt | Tech Lead |
 | Tài liệu liên quan | work-model.md, gates-and-rigor.md, ../../docs/01-requirements/README.md, ../../docs/04-project-management/product-backlog.md, ../skills/requirement-analysis/SKILL.md, ../skills/requirement-review/SKILL.md, ../workflows/task-types.md |
 
 > **Mục đích.** Giải thích Requirements Engineering (RE) trong vòng đời phát triển phần mềm và chỉ ra từng nhóm công việc RE được khung này thực hiện ở đâu: tài liệu nào chứa kết quả, Skill nào hỗ trợ, ai quyết. Tài liệu cho người đọc; AI không nạp khi làm Task. Khái niệm BRQ, Epic, Feature, User Story ở [work-model](work-model.md); cổng duyệt ở [gates-and-rigor](gates-and-rigor.md).
