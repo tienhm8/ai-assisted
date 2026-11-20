@@ -18,10 +18,10 @@
 ├── acceptance-criteria.md
 └── FR/
     ├── README.md
-    └── <MODULE>/                                  # tạo khi có FR
+    └── <MODULE>/                                  # tạo khi có FEAT-<NN> thuộc Module
         ├── open-questions.md                      # câu hỏi chung của Module
-        └── <FEAT-NN>-<tên>/
-            ├── FR.md                              # bảng FR của Feature
+        └── <FEAT-NN>-<tên>/                       # tạo khi Feature có mã FEAT-<NN>
+            ├── FR.md                              # thêm khi Feature có FR
             └── open-questions.md                  # câu hỏi của Feature, FR, BR, AC
 ```
 
