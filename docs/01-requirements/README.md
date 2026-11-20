@@ -49,4 +49,4 @@ Truy vết: Feature ghi BRQ (nhiều-nhiều); bảng FR giữ liên kết FR �
 
 ## Câu hỏi làm rõ với BA
 
-Câu hỏi mở chia theo cấp: sổ Module `FR/<MODULE>/open-questions.md`; sổ Feature `FR/<MODULE>/<FEAT-NN>-<tên>/open-questions.md`. Câu hỏi cấp dự án chưa có sổ thay thế (xem [FR/README](FR/README.md)). Tra sổ con trước khi hỏi; OQ đã `Closed` thì áp dụng quyết định. Mã `OQ-<NN>` duy nhất toàn dự án.
+Câu hỏi mở chia theo cấp: sổ Module `FR/<MODULE>/open-questions.md`; sổ Feature `FR/<MODULE>/<FEAT-NN>-<tên>/open-questions.md`. Câu hỏi cấp dự án (vision, scope, BRQ, BRD, NFR, Epic, Goal): sổ [00-project-overview/open-questions.md](../00-project-overview/open-questions.md). Tra sổ con trước khi hỏi; OQ đã `Closed` thì áp dụng quyết định. Mã `OQ-<NN>` duy nhất toàn dự án.
