@@ -10,17 +10,19 @@
 
 > **Mục đích.** Sổ chung của câu hỏi mở, giả định và đầu vào còn thiếu: ghi câu hỏi **cấp dự án** và giữ **mục lục** mọi `OQ-<NN>` của dự án (mã, sổ chứa, trạng thái). Các tài liệu khác chỉ trỏ tới mã `OQ-<NN>`. AI gặp điểm chưa rõ thì ghi vào đúng sổ (bảng dưới), không tự trả lời hay triển khai theo phỏng đoán.
 >
-> **Ba cấp sổ** (mỗi câu hỏi nằm ở đúng một sổ, theo đối tượng nó hỏi):
+> **Ba cấp sổ** (mỗi câu hỏi nằm ở đúng một sổ chứa, theo đối tượng nó hỏi; nơi khác liên quan chỉ được nhắc ở cột "Mã liên quan"):
 >
 > | Sổ | Đường dẫn | Chứa câu hỏi về |
 > | --- | --- | --- |
-> | Sổ chung (file này) | `docs/00-project-overview/open-questions.md` | Vision, scope, BRQ (yêu cầu nghiệp vụ), BRD, NFR, Epic, Goal; đồng thời là mục lục toàn bộ OQ |
+> | Sổ chung (file này) | `docs/00-project-overview/open-questions.md` | Vision, scope, BRQ (yêu cầu nghiệp vụ), BRD, NFR, Epic, Goal, glossary; kiến trúc và kỹ thuật (ADR, hạ tầng, kiểm thử); mâu thuẫn code–tài liệu chưa gắn được Feature hay Module; mọi câu hỏi không thuộc hai sổ còn lại; đồng thời là mục lục toàn bộ OQ |
 > | Sổ Module | `docs/01-requirements/FR/<MODULE>/open-questions.md` | Câu hỏi chung của một Module |
 > | Sổ Feature | `docs/01-requirements/FR/<MODULE>/<FEAT-NN>-<tên>/open-questions.md` | Feature, FR, BR, AC thuộc Feature đó |
 >
+> **Câu hỏi chạm nhiều nơi:** chạm từ hai Feature trở lên trong cùng Module → sổ Module; chạm từ hai Module trở lên → sổ chung. BR (mã theo Module, nằm ở `business-rules.md`) áp cho FR của nhiều Feature → sổ Module; BR chỉ phục vụ một Feature → sổ Feature. Các Feature, Module, US liên quan ghi ở cột "Mã liên quan".
+>
 > User Story không có thư mục riêng: câu hỏi về User Story nằm ở sổ của Feature hoặc Module liên quan, mã `US-<MODULE>-<NN>` ghi ở cột "Mã liên quan". Tên thư mục Feature dạng có tên, không dấu, chữ thường, nối bằng gạch ngang (ví dụ `FEAT-03-dang-ky-work-study`).
 >
-> **Quy tắc mã và mục lục:** mã `OQ-<NN>` duy nhất toàn dự án, chỉ cấp ở sổ chung; sổ con dùng cùng mã, không đánh số riêng. Mục lục bên dưới **bắt buộc cập nhật** mỗi khi thêm OQ hoặc đổi trạng thái; sổ con và mục lục phải khớp.
+> **Quy tắc mã và mục lục:** mã `OQ-<NN>` duy nhất toàn dự án, chỉ cấp ở sổ chung; sổ con dùng cùng mã, không đánh số riêng. Mục lục bên dưới **bắt buộc cập nhật** mỗi khi thêm OQ hoặc đổi trạng thái; sổ con và mục lục phải khớp. Khi rà (review) phải đối chiếu mỗi OQ trong sổ con có dòng ở mục lục và trạng thái khớp.
 >
 > **Người quyết định:** người ghi ở cột "Người quyết" (thường là PO/BA; câu hỏi kiến trúc là Kiến trúc sư).
 >

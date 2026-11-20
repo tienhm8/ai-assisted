@@ -69,7 +69,7 @@ Một người có thể giữ nhiều vai. Dự án không có khách hàng bê
 Ghi lý do khi gộp, bỏ hoặc đổi cách dùng tài liệu cho phù hợp quy mô dự án.
 | Hạng mục | Lựa chọn | Lý do |
 | --- | --- | --- |
-| Phạm vi file AC | Một file hoặc đặt trong `FR/FR-<MODULE>.md` ([acceptance-criteria](docs/01-requirements/acceptance-criteria.md)) | |
+| Phạm vi file AC | Một file hoặc đặt trong `FR/<MODULE>/<FEAT-NN>-<tên>/FR.md` ([acceptance-criteria](docs/01-requirements/acceptance-criteria.md)) | |
 | Tài liệu gộp / bỏ | | |
 
 ## 7. Miễn trừ (Waiver)

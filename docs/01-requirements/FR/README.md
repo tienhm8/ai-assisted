@@ -8,7 +8,9 @@ FR/<MODULE>/<FEAT-NN>-<tên>/FR.md              # bảng FR của Feature
 FR/<MODULE>/<FEAT-NN>-<tên>/open-questions.md  # câu hỏi của Feature, FR, BR, AC
 ```
 
-Tên thư mục Feature: không dấu, chữ thường, nối bằng gạch ngang (ví dụ `FEAT-03-dang-ky-work-study`). Thư mục chỉ được tạo khi Feature đã có FR. Mã định danh: `FR-<MODULE>-<NN>`; tiêu chí nghiệm thu: `<FR>-AC<N>`.
+Tên thư mục Feature: không dấu, chữ thường, nối bằng gạch ngang (ví dụ `FEAT-03-dang-ky-work-study`). Thư mục Feature được tạo ngay khi Feature đã có mã `FEAT-<NN>` ở [features](../features.md), kể cả chưa có FR; lúc đó thư mục chỉ có `open-questions.md`, `FR.md` thêm khi có FR. Mã định danh: `FR-<MODULE>-<NN>`; tiêu chí nghiệm thu: `<FR>-AC<N>`.
+
+**Đổi tên, chuyển, đổi cấp:** đổi tên hoặc chuyển thư mục Feature sang Module khác thì cập nhật trong cùng thay đổi cột "Sổ chứa" của mục lục ở [sổ chung](../../00-project-overview/open-questions.md), bảng tổng hợp Feature/Module dưới đây và mọi đường dẫn trỏ tới thư mục đó. Câu hỏi nằm sai sổ hoặc đổi cấp thì giữ nguyên mã `OQ-<NN>`, chuyển nguyên dòng và phần chi tiết sang sổ đúng, cập nhật mục lục, không mở OQ mới.
 
 ## Tổng hợp Feature / Module
 
