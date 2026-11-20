@@ -21,7 +21,6 @@
 | ADR | Architecture Decision Record: ghi lại một quyết định kiến trúc lớn và lý do, mã `ADR-<NNNN>`. | Quyết định kiến trúc | 02-architecture/ADR/ |
 | PO | Product Owner: Người duyệt phạm vi và ưu tiên sản phẩm. |  | PROJECT.md |
 | BA | Business Analyst: người phân tích và làm rõ yêu cầu nghiệp vụ. |  | PROJECT.md |
-| Đại diện khách hàng | Người phía khách hàng cung cấp tài liệu nguồn, trả lời câu hỏi làm rõ, duyệt tài liệu được gửi sang. AI không làm việc trực tiếp mà qua Đầu mối (BA hoặc PO nội bộ); Đầu mối chỉ chuyển `Approved` khi khách hàng đã duyệt. |  | PROJECT.md §5 |
 | SRC | Tài liệu nguồn: tài liệu đầu vào từ khách hàng, PO, bên liên quan, hoặc biên bản câu trả lời, mã `SRC-<NN>`. | Tài liệu nguồn | 00-project-overview/sources/README.md |
 | E2E | End-to-end test: kiểm thử toàn luồng từ giao diện đến dữ liệu. |  | 03-engineering/testing-strategy.md |
 | BRD | Business Requirements Document: tài liệu yêu cầu nghiệp vụ ở mức mục tiêu và giá trị; nguồn để suy ra FR/NFR. |  | 01-requirements/BRD.md |
@@ -78,7 +77,6 @@
 | Tech Lead | Người quyết chia Task, mức rủi ro, mức tự chủ AI; duyệt khung `.ai/`, 03-engineering, 04-project-management và các cổng Khai báo dự án, Sẵn sàng giao việc, Code xong, Sẵn sàng phát hành. | | PROJECT.md §5; 04-project-management/gates-and-rigor.md §1 |
 | Owner | Người quyết phát hành production; duyệt 05-operations và cổng Vận hành. | | PROJECT.md §5; 05-operations/README.md |
 | Kiến trúc sư | Người duyệt thiết kế ở 02-architecture, ADR và cổng Thiết kế. | | 02-architecture/README.md |
-| Security | Người duyệt phần thay đổi chạm tiền, phân quyền, dữ liệu cá nhân, migration, secret. Khác vai AI Security (chỉ khuyến nghị). | | PROJECT.md §5; .ai/agents/README.md |
 | DevOps | Người thực hiện triển khai, sao lưu, khôi phục và diễn tập. | | 05-operations/backup-recovery.md §14 |
 | Dev | Người viết code, là tác giả chịu trách nhiệm bàn giao Task. | Developer | 04-project-management/gates-and-rigor.md §1 (cổng Code xong) |
 | Reviewer | Người review PR theo mức rủi ro. Khác vai AI Reviewer (chỉ khuyến nghị, không thay người duyệt). | | .ai/agents/README.md; .ai/skills/code-review/SKILL.md |

@@ -20,7 +20,7 @@ Read: sources index and registered sources; existing vision, scope, glossary, OQ
 2. **vision:** problem, target users, measurable outcomes as `OUT-<NN>` (metric and how to measure). If not yet measurable, record an open question; do not invent numbers.
 3. **scope:** in scope, out of scope, constraints. Record constraints, including legal ones, only when sourced.
 4. **glossary:** terms taken from sources. For ambiguous or synonymous terms, record an open question.
-5. **OQ records:** record every gap, contradiction, assumption as `OQ-<NN>` with type (`Input`, `Clarify`, `Decision`), decision-maker and deadline; assumptions have a review deadline. If PROJECT.md §5 names a customer representative, draft a question pack for the liaison; never contact the customer directly.
+5. **OQ records:** record every gap, contradiction, assumption as `OQ-<NN>` with type (`Input`, `Clarify`, `Decision`), decision-maker and deadline; assumptions have a review deadline. If there is a customer representative, draft a question pack for the liaison; never contact the customer directly.
 6. **Cross-check:** vision, scope, glossary use the same terms and do not contradict each other.
 7. **Submit to PO.** PO approves vision, scope and resolves scope-blocking open questions before moving to `requirement-analysis`.
 

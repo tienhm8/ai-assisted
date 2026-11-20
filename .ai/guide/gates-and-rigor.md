@@ -12,7 +12,7 @@
 - **Khái niệm:** Cổng duyệt là chốt kiểm tra bắt buộc để kết thúc một giai đoạn (riêng cổng **Khai báo dự án** nằm ngay trước giai đoạn đầu tiên).
 - **Nguyên tắc qua cổng:** Chỉ công nhận bằng chứng cụ thể (tài liệu `Approved`, kết quả test, biên bản review), không chấp nhận xác nhận bằng lời nói.
 - **Quy trình lưu vết:** Kết quả duyệt phải được lưu thành mã `SRC-<NN>` trước khi chuyển trạng thái sang `Approved`. Nếu thiếu mã `SRC` này, hệ thống coi như chưa qua cổng.
-- **Quy trình với khách hàng:** Nếu dự án có Đại diện khách hàng (theo `PROJECT.md §5`), Đầu mối dự án sẽ gửi tài liệu, nhận phản hồi, lưu mã `SRC-<NN>` rồi mới chuyển `Approved` (hoặc người ở cột **Người duyệt** tự cập nhật dựa trên mã `SRC` đó).
+- **Quy trình với khách hàng:** Nếu dự án có Đại diện khách hàng, Đầu mối dự án sẽ gửi tài liệu, nhận phản hồi, lưu mã `SRC-<NN>` rồi mới chuyển `Approved` (hoặc người ở cột **Người duyệt** tự cập nhật dựa trên mã `SRC` đó).
 - **Giới hạn của AI:** AI chỉ hỗ trợ chuẩn bị và đề xuất, tuyệt đối không tự ý phê duyệt.
 
 | Cổng | Cuối giai đoạn | Điều kiện qua | Người duyệt | Phối hợp |
