@@ -108,7 +108,7 @@ Khung chưa có tài liệu riêng cho Use Case Model, Business Process Model ha
 | Công việc | Trong khung này |
 | --- | --- |
 | Requirement review, inspection, acceptance criteria review | Skill `requirement-review`: kiểm đủ, rõ, nhất quán, kiểm thử được, truy vết được; chỉ khuyến nghị, không sửa tài liệu |
-| Stakeholder review, walkthrough, prototype validation | Việc của người; kết quả lưu thành `SRC-<NN>` |
+| Stakeholder review, walkthrough, prototype validation | Việc của người. AI soạn **gói xác nhận** theo [CONFIRMATION-PACK-TEMPLATE](../templates/CONFIRMATION-PACK-TEMPLATE.md) (phạm vi, quy trình, wireframe/mockup từng màn hình, quy tắc, câu hỏi, ô xác nhận); BA rà, xuất HTML/PDF bằng `python3 -I .ai/scripts/export-pack.py <gói>.md --pdf`, gửi khách hàng. Khách trả lời và duyệt thì Đầu mối lưu thành `SRC-<NN>` |
 | Sign-off | Cổng **Yêu cầu**: PO/BA duyệt, QA rà khả năng kiểm thử, Đại diện khách hàng duyệt qua Đầu mối (nếu có). Kết quả duyệt có `SRC-<NN>` thì mới chuyển `Approved` |
 
 **Quản lý (Management):**
