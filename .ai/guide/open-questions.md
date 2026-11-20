@@ -4,7 +4,7 @@
 | --- | --- |
 | Trạng thái | Approved |
 | Người duyệt | Tech Lead |
-| Tài liệu liên quan | ../../docs/00-project-overview/vision.md, ../../docs/00-project-overview/scope.md, ../../docs/01-requirements/README.md, ../../docs/01-requirements/FR/README.md |
+| Tài liệu liên quan | ../../docs/00-project-overview/vision.md, ../../docs/00-project-overview/scope.md, ../../docs/00-project-overview/open-questions.md, ../../docs/01-requirements/README.md, ../../docs/01-requirements/FR/README.md |
 
 > **Mục đích.** Giải thích cách chọn sổ chứa cho một câu hỏi mở (`OQ-<NN>`): ba cấp sổ, câu hỏi chạm nhiều nơi thì nằm ở đâu, và đặt tên thư mục Feature thế nào. Tài liệu cho người đọc; AI không nạp file này khi làm Task.
 
@@ -14,6 +14,7 @@ Mỗi câu hỏi nằm ở đúng một sổ chứa, theo đối tượng nó h�
 
 | Sổ | Đường dẫn | Chứa câu hỏi về |
 | --- | --- | --- |
+| Sổ dự án | `docs/00-project-overview/open-questions.md` | Vision, scope, BRQ, BRD, NFR, Epic, Goal; câu hỏi không thuộc Module hay Feature nào |
 | Sổ Module | `docs/01-requirements/FR/<MODULE>/open-questions.md` | Câu hỏi chung của một Module |
 | Sổ Feature | `docs/01-requirements/FR/<MODULE>/<FEAT-NN>-<tên>/open-questions.md` | Feature, FR, BR, AC thuộc Feature đó |
 
