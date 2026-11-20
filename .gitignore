@@ -1,3 +1,6 @@
+# Plan của AI: không commit nội dung; giữ lại thư mục bằng .gitkeep
+.ai/plans/*
+!.ai/plans/.gitkeep
 # Worktree của AI: không commit
 .claude/worktrees/
 # Repo con của dự án: mỗi repo tự commit, repo cha không theo dõi

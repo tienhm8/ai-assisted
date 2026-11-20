@@ -39,7 +39,7 @@ project/
     ├── workflows/               ĐIỀU PHỐI: chọn Skill, xếp thứ tự, dừng ở đâu?
     ├── templates/               MẪU: kết quả trình bày dưới dạng nào?
     ├── scripts/                 CÔNG CỤ chung: check.py (kiểm link, từ vựng, cấu trúc), session-cost.py (ước USD từ transcript)
-    ├── plans/                   Plan do AI soạn, Tech Lead duyệt: mỗi Plan một thư mục (PLAN.md, tasks/*.yaml, runs.md), được commit
+    ├── plans/                   Plan do AI soạn, Tech Lead duyệt: mỗi Plan một thư mục (PLAN.md, tasks/*.yaml, runs.md), không commit (git bỏ qua, chỉ giữ .gitkeep)
 ```
 
 Danh mục Rule và Skill: [rules/](.ai/rules/README.md), [skills/](.ai/skills/README.md).
