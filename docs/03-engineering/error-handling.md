@@ -2,10 +2,7 @@
 
 | Thuộc tính | Giá trị |
 | --- | --- |
-| Trạng thái | Draft |
-| Người phụ trách |  |
-| Người duyệt (dự án) | Tech Lead |
-| Phiên bản · Ngày |  |
+| Người duyệt | Tech Lead |
 | Tài liệu liên quan | coding-standards.md, security-standards.md, testing-strategy.md, ../02-architecture/api-design.md, ../02-architecture/database-design.md, ../05-operations/monitoring.md, ../../.ai/rules/coding-rules.md |
 
 > **Mục đích.** Error handling và Logging: nguyên tắc, phân loại và mã lỗi, xử lý exception, phản hồi lỗi API, quy ước ghi log (không ghi dữ liệu nhạy cảm), retry, nhất quán dữ liệu khi lỗi.

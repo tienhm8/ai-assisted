@@ -10,7 +10,7 @@ FR/<MODULE>/<FEAT-NN>-<tên>/open-questions.md  # câu hỏi của Feature, FR, 
 
 Tên thư mục Feature: không dấu, chữ thường, nối bằng gạch ngang (ví dụ `FEAT-03-dang-ky-work-study`). Thư mục Feature được tạo ngay khi Feature đã có mã `FEAT-<NN>` ở [features](../features.md), kể cả chưa có FR; lúc đó thư mục chỉ có `open-questions.md`, `FR.md` thêm khi có FR. Mã định danh: `FR-<MODULE>-<NN>`; tiêu chí nghiệm thu: `<FR>-AC<N>`.
 
-**Đổi tên, chuyển, đổi cấp:** đổi tên hoặc chuyển thư mục Feature sang Module khác thì cập nhật trong cùng thay đổi cột "Sổ chứa" của mục lục ở [sổ chung](../../00-project-overview/open-questions.md), bảng tổng hợp Feature/Module dưới đây và mọi đường dẫn trỏ tới thư mục đó. Câu hỏi nằm sai sổ hoặc đổi cấp thì giữ nguyên mã `OQ-<NN>`, chuyển nguyên dòng và phần chi tiết sang sổ đúng, cập nhật mục lục, không mở OQ mới.
+**Đổi tên, chuyển, đổi cấp:** đổi tên hoặc chuyển thư mục Feature sang Module khác thì cập nhật trong cùng thay đổi bảng tổng hợp Feature/Module dưới đây và mọi đường dẫn trỏ tới thư mục đó. Câu hỏi nằm sai sổ hoặc đổi cấp thì giữ nguyên mã `OQ-<NN>`, chuyển nguyên dòng và phần chi tiết sang sổ đúng, không mở OQ mới.
 
 ## Tổng hợp Feature / Module
 
@@ -30,7 +30,7 @@ Cái nhìn một chỗ cho toàn bộ FR; thêm một dòng khi tạo thư mục
 
 **Mô tả FR** viết ngắn, một câu, đủ để kiến trúc sư, Tech Lead và developer hiểu hệ thống phải làm gì.
 
-Điểm chưa rõ ghi `OQ-<NN>` vào sổ của Feature (hoặc Module), đồng thời vào mục lục ở [sổ chung](../../00-project-overview/open-questions.md), không đoán.
+Điểm chưa rõ ghi `OQ-<NN>` vào sổ của Feature (hoặc Module), không đoán.
 
 Trạng thái: `☐` chưa làm · `◐ <lý do>` đang làm/lệch plan · `◐ chưa nghiệm thu` · `☑` có code + test + review theo mức rủi ro.
 

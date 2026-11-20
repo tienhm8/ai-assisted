@@ -1,6 +1,6 @@
 # Cache Rules
 
-> Status: **Approved** (Tech Lead approved 2026-11-13). Mandatory Rule when a change alters cache keys, values, or eviction timing (load condition in `load-conditions` §1).
+> Status: **Approved**. Mandatory Rule when a change alters cache keys, values, or eviction timing (load condition in `load-conditions` §1).
 
 1. The database is the source of truth. Clearing the entire cache must not change business results, only make them slower. On a cache miss, read the source; do not treat a miss as "does not exist".
 2. Optimize the source first, cache second: the query is already optimized (index, query rewrite, table structure); cache does not replace source optimization. If the source is a DB query, have the post-optimization execution plan; if there is no DB to run it on yet, record it as an assumption and verify before implementing. Then cache only when all six conditions hold: read-heavy; expensive query or computation (complex joins, aggregation, external service calls); reproducible from the source; the business accepts stale data within a defined staleness window; TTL and every invalidating event are defined; data is correctly separated by user, tenant, and permission.

@@ -2,10 +2,8 @@
 
 | Thuộc tính | Giá trị |
 | --- | --- |
-| Trạng thái | Draft |
-| Người phụ trách |  |
-| Người duyệt (khung) | Tech Lead |
-| Phiên bản · Ngày |  |
+| Trạng thái | Approved |
+| Người duyệt | Tech Lead |
 | Tài liệu liên quan | ../../docs/04-project-management/goals.md, ../../docs/04-project-management/product-backlog.md, ../../docs/04-project-management/task-backlog.md, task-breakdown.md, ../../docs/01-requirements/BRD.md, ../../docs/01-requirements/features.md, ../../docs/00-project-overview/glossary.md, ../../.ai/workflows/task-execution.md |
 
 > **Mục đích.** Nguồn duy nhất mô tả các khái niệm quản lý yêu cầu, công việc và thực thi bằng AI: thuộc nhóm nào, quản lý ở đâu, liên kết với nhau thế nào. Tài liệu khác chỉ trỏ tới đây, không chép lại.

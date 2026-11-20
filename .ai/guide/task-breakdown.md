@@ -4,7 +4,7 @@
 | --- | --- |
 | Trạng thái | Draft |
 | Người phụ trách |  |
-| Người duyệt (dự án) | Tech Lead |
+| Người duyệt | Tech Lead |
 | Phiên bản · Ngày |  |
 | Tài liệu liên quan | work-model.md, ../../docs/04-project-management/goals.md, ../../docs/04-project-management/task-backlog.md, ../../docs/04-project-management/product-backlog.md, ../../docs/04-project-management/roadmap.md, ../../docs/01-requirements/FR/, ../../.ai/workflows/task-execution.md, ../../.ai/workflows/task-types.md, ../../.ai/rules/project-rules.md |
 

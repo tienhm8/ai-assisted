@@ -25,7 +25,7 @@ Read: Task, diff or change description, related existing docs, related ADRs.
    | Coding standards, security, testing, error handling | `03-engineering` |
    | Goals, Epics, User Stories, Tasks, progress, KPI | `04-project-management` |
    | Deployment, monitoring, backup | `05-operations` |
-   | Open questions, assumptions | open-questions |
+   | Open questions, assumptions | 01-requirements/FR/README (sổ OQ theo cấp) |
 
 2. **Verify sources** in priority order: approved business decisions, Approved requirements, Approved designs and ADRs, then current code and old docs. Current code does not by itself become a requirement. If sources conflict, report; do not choose yourself.
 3. **Write or update** per the project's structure, naming and standard IDs; keep existing IDs unchanged.

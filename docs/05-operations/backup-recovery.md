@@ -2,10 +2,7 @@
 
 | Thuộc tính | Giá trị |
 | --- | --- |
-| Trạng thái | Draft |
-| Người phụ trách |  |
-| Người duyệt (dự án) | Owner |
-| Phiên bản · Ngày |  |
+| Người duyệt | Owner |
 | Tài liệu liên quan | deployment.md, monitoring.md, ../01-requirements/NFR.md, ../02-architecture/database-design.md, ../03-engineering/security-standards.md, ../../.ai/rules/database-rules.md, ../../.ai/workflows/release-workflow.md |
 
 > **Mục đích.** Sao lưu, khôi phục, RPO/RTO, diễn tập.
@@ -63,7 +60,7 @@ Mô tả chiến lược: loại sao lưu (full / incremental / differential / s
 | Mất cả site/vùng | | | |
 
 ## 10. Recovery Procedures
-Từng bước khôi phục cho mỗi kịch bản: điều kiện kích hoạt, người quyết định, các bước thực hiện, cách xác nhận dữ liệu toàn vẹn, thông báo các bên liên quan. Rollback ứng dụng xem [deployment](deployment.md) §10.
+Từng bước khôi phục cho mỗi kịch bản: điều kiện kích hoạt, Người duyệt, các bước thực hiện, cách xác nhận dữ liệu toàn vẹn, thông báo các bên liên quan. Rollback ứng dụng xem [deployment](deployment.md) §10.
 
 ## 11. Disaster Recovery
 - Kịch bản thảm họa và tiêu chí tuyên bố:

@@ -2,10 +2,7 @@
 
 | Thuộc tính | Giá trị |
 | --- | --- |
-| Trạng thái | Draft |
-| Người phụ trách |  |
-| Người duyệt (dự án) | Tech Lead |
-| Phiên bản · Ngày |  |
+| Người duyệt | Tech Lead |
 | Tài liệu liên quan | security-standards.md, error-handling.md, testing-strategy.md, ../02-architecture/system-architecture.md, ../02-architecture/module-design.md, ../../.ai/rules/coding-rules.md |
 
 > **Mục đích.** Convention code của dự án: cấu trúc source code, naming, format, lint, thực hành lập trình, ngưỡng review. Cụ thể hoá các quy tắc ở [.ai/rules/coding-rules.md](../../.ai/rules/coding-rules.md), không trái chúng.
@@ -46,13 +43,15 @@ Quy tắc thêm/nâng cấp thư viện, ghim phiên bản, kiểm tra license v
 
 | Đối tượng | Quy ước | Ví dụ |
 | --- | --- | --- |
-| Biến |  | |
-| Hằng số |  | |
-| Hàm / method |  | |
-| Class / interface |  | |
-| File / thư mục |  | |
-| Bảng / cột DB |  | |
-| Route API |  | |
+| Biến, tham số, thuộc tính class | `camelCase`; thuộc tính private khai báo `private readonly` khi không gán lại | `requestType`, `baseServiceList`, `biSettingService` |
+| Hằng số, giá trị enum | `UPPER_SNAKE_CASE`; tên enum `PascalCase`, giá trị chuỗi của enum do nghiệp vụ quyết định | `REQUEST_QUERY_FIELDS`, `QueueName.ONE_SIGNAL = "OneSignal"` |
+| Hàm / method | `camelCase`, bắt đầu bằng động từ | `getSheetName`, `deleteAllRepository` |
+| Class / interface / type | `PascalCase`, không tiền tố `I`; hậu tố theo vai trò: `Service`, `Controller`, `Module`, `Dto`, `Guard`, `Pipe`, `Interceptor`, `Model` (Sequelize). Entity không hậu tố; mỗi file tối đa một class (`max-classes-per-file`) | `AuditLog`, `HamSinhMaModel`, `BaseEntity`, `CommonQueryDto` |
+| File / thư mục | `kebab-case`; file dạng `<tên>.<vai-trò>.ts` (`.service`, `.controller`, `.module`, `.dto`, `.entity`, `.model`, `.repository`, `.guard`, `.spec`); thư mục theo Module ở `src/modules/<module>/` | `audit-log.entity.ts`, `user.controller.ts`, `tcp-payload-transform.interceptor.spec.ts` |
+| Bảng / collection / cột DB | Tên bảng, collection lấy từ hằng số `Entity` (`PascalCase`), dùng chung cho Sequelize `tableName` và Mongoose `collection`; cột, trường là `camelCase`, trùng tên thuộc tính entity. Quy ước chi tiết (index, constraint) ở [database-design](../02-architecture/database-design.md) §2 | `Entity.AUDIT_LOG = "AuditLog"`, cột `uId`, `requestType` |
+| Route API | `kebab-case`, danh từ số ít theo tài nguyên, tham số đường dẫn `:camelCase`; phân tầng bằng `/` | `@Controller("audit-log")`, `data-partition/user`, `:id/upsert` |
+
+**Nguồn và chỗ lệch.** Điền theo code hiện có của backend `aisoft-backend` (đối chiếu 2026-11-20: ESLint, Prettier, `src/modules/`) nên chỉ mô tả cái đang dùng, chưa phải quyết định mới. Code hiện có hai chỗ chưa khớp quy ước trên, chưa quyết: tên Module nghiệp vụ dùng tiếng Việt không dấu (`quy-tac-ma`, `ham-sinh-ma`) trong khi hạ tầng dùng tiếng Anh; một file util sai chính tả (`sql.ulti.ts`). Tech Lead duyệt mục này trước khi dùng làm chuẩn cho code mới.
 
 Quy ước riêng cho database ở [database-design](../02-architecture/database-design.md) §2; cho API ở [api-design](../02-architecture/api-design.md) §3.2. Mục này là quy ước chung cho mã nguồn.
 

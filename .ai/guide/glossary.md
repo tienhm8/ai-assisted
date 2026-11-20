@@ -2,15 +2,13 @@
 
 | Thuộc tính | Giá trị |
 | --- | --- |
-| Trạng thái | Draft |
-| Người phụ trách |  |
-| Người duyệt (dự án) | Tech Lead |
-| Phiên bản · Ngày |  |
+| Trạng thái | Approved |
+| Người duyệt | Tech Lead |
 | Tài liệu liên quan | ../../docs/00-project-overview/glossary.md, ../../README.md |
 
 > **Mục đích.** Thuật ngữ của khung, dùng thống nhất cho người và AI. AI không tự đặt nghĩa mới.
 >
-> **Người quyết định:** Tech Lead.
+> **Người duyệt:** Tech Lead.
 
 ## 1. Thuật ngữ chung
 
@@ -21,7 +19,7 @@
 | AC | Acceptance Criteria: tiêu chí nghiệm thu, điều kiện kiểm thử được để coi một FR là xong. Mã `<FR>-AC<N>`. | Tiêu chí nghiệm thu | 01-requirements/acceptance-criteria.md |
 | Given / When / Then | Cách viết AC theo 3 bước: **Given** (bối cảnh ban đầu), **When** (hành động xảy ra), **Then** (kết quả mong đợi). VD: Given người dùng đã đăng nhập, When bấm "Đăng xuất", Then hệ thống quay về trang đăng nhập. | GWT | 01-requirements/acceptance-criteria.md |
 | ADR | Architecture Decision Record: ghi lại một quyết định kiến trúc lớn và lý do, mã `ADR-<NNNN>`. | Quyết định kiến trúc | 02-architecture/ADR/ |
-| PO | Product Owner: người quyết định phạm vi và ưu tiên sản phẩm. |  | PROJECT.md |
+| PO | Product Owner: Người duyệt phạm vi và ưu tiên sản phẩm. |  | PROJECT.md |
 | BA | Business Analyst: người phân tích và làm rõ yêu cầu nghiệp vụ. |  | PROJECT.md |
 | Đại diện khách hàng | Người phía khách hàng cung cấp tài liệu nguồn, trả lời câu hỏi làm rõ, duyệt tài liệu được gửi sang. AI không làm việc trực tiếp mà qua Đầu mối (BA hoặc PO nội bộ); Đầu mối chỉ chuyển `Approved` khi khách hàng đã duyệt. |  | PROJECT.md §5 |
 | SRC | Tài liệu nguồn: tài liệu đầu vào từ khách hàng, PO, bên liên quan, hoặc biên bản câu trả lời, mã `SRC-<NN>`. | Tài liệu nguồn | 00-project-overview/sources/README.md |
@@ -32,9 +30,9 @@
 | Function / Feature | Chức năng hệ thống ("hệ thống cần có chức năng gì?"), mã `FEAT-<NN>`. Nhóm A. Ghi BRQ (nhiều-nhiều); chi tiết hoá bằng nhiều FR (bảng FR ghi Feature). | Chức năng | 01-requirements/features.md |
 | User Story | Nhu cầu của người dùng ("người dùng muốn làm gì và vì sao?", mẫu "Là…, tôi muốn…, để…"), mã `US-<MODULE>-<NN>`. Nhóm A. Ghi Epic, Feature, FR; một User Story có thể cần nhiều Task, một Task có thể phục vụ nhiều User Story. | Story | 04-project-management/product-backlog.md §2 |
 | BR | Business Rule: quy tắc nghiệp vụ, mã `BR-<MODULE>-<NN>`. | Quy tắc nghiệp vụ | 01-requirements/business-rules.md |
-| Open / Asked / Assumption / Closed | Trạng thái của điểm chưa rõ, mã `OQ-<NN>`. `Open`: chưa có câu trả lời. `Asked`: đã gửi người trả lời, đang chờ. `Assumption`: giả định tạm dùng để đi tiếp, cần xác nhận. `Closed`: đã quyết. | Câu hỏi mở | 00-project-overview/open-questions.md |
+| Open / Asked / Assumption / Closed | Trạng thái của điểm chưa rõ, mã `OQ-<NN>`. `Open`: chưa có câu trả lời. `Asked`: đã gửi người trả lời, đang chờ. `Assumption`: giả định tạm dùng để đi tiếp, cần xác nhận. `Closed`: đã quyết. | Câu hỏi mở | 01-requirements/FR/README.md |
 | Draft / Approved | Trạng thái tài liệu: Draft → In Review → Approved → Deprecated. `Draft`: bản nháp. `Approved`: đã được người có thẩm quyền duyệt, được dùng làm căn cứ; chỉ người có thẩm quyền chuyển sang. `Deprecated`: hết hiệu lực. |  | Bảng thuộc tính đầu mỗi tài liệu |
-| OQ | Open Question: câu hỏi mở, mã `OQ-<NN>`. | Câu hỏi mở | 00-project-overview/open-questions.md |
+| OQ | Open Question: câu hỏi mở, mã `OQ-<NN>`. | Câu hỏi mở | 01-requirements/FR/README.md |
 | Traceability | Truy vết: lưu được nguồn gốc yêu cầu để biết Task đáp ứng BRQ, User Story hay Goal nào. Dùng liên kết (danh sách mã, khai một chiều ở đối tượng đứng sau), không dùng cây cha-con; tra ngược bằng cách lọc. Bảng liên kết: 04-project-management/work-model.md §3. | Truy vết yêu cầu | 04-project-management/work-model.md |
 | DoD | Definition of Done: danh sách điều kiện để coi một Task là hoàn thành. Khác mục "Hoàn thành khi" của Skill (điều kiện kết thúc từng Skill). | Definition of Done | 03-engineering/testing-strategy.md §12 |
 | DoR | Definition of Ready: điều kiện để một Task được giao cho AI. | Definition of Ready | 04-project-management/task-breakdown.md §7 |

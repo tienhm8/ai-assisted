@@ -3,9 +3,7 @@
 | Thuộc tính | Giá trị |
 | --- | --- |
 | Trạng thái | Draft |
-| Người phụ trách |  |
-| Người duyệt (dự án) | Kiến trúc sư |
-| Phiên bản · Ngày |  |
+| Người duyệt | Techlead |
 | Tài liệu liên quan | system-architecture.md, module-design.md, api-design.md, ../01-requirements/business-rules.md, ../03-engineering/coding-standards.md, ../03-engineering/security-standards.md, ../05-operations/deployment.md, ../05-operations/backup-recovery.md, ../../.ai/rules/database-rules.md, ../../.ai/skills/database-design/SKILL.md |
 
 > **Mục đích.** Database Schema: mô hình dữ liệu, ràng buộc, quy tắc migration, seed và dữ liệu test (dữ liệu test là dữ liệu giả/ẩn danh).

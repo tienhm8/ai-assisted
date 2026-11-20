@@ -2,8 +2,8 @@
 
 | Thuộc tính | Giá trị |
 | --- | --- |
-| Trạng thái | Draft |
-| Người duyệt (dự án) | Tech Lead |
+| Trạng thái | Approved |
+| Người duyệt | Tech Lead |
 | Tài liệu liên quan | ../../README.md, ../../PROJECT.md §4, task-breakdown.md |
 
 > **Mục đích.** Tám cổng duyệt (điều kiện qua, người duyệt), độ nghiêm ngặt quy trình (gọn, chuẩn, nghiêm ngặt) và quy ước áp dụng khung vào dự án.
@@ -47,7 +47,7 @@ Chưa chắc thì bắt đầu từ mức chuẩn; chọn nghiêm ngặt khi có
 | Dự án nhỏ, ít rủi ro | gọn | Tối đa 3 người, tối đa 3 tháng |
 
 ## 3. Áp dụng khung vào dự án
-Tài liệu trong `docs/` là mẫu dùng chung và luôn ở trạng thái `Draft`, không ghi phiên bản, ngày. Việc Tech Lead duyệt mẫu ghi bằng PR có người duyệt trong repo khung, không ghi vào dòng Trạng thái. Dòng "Người duyệt (dự án)" là người duyệt nội dung khi áp vào dự án.
+Tài liệu trong `docs/` là mẫu dùng chung và luôn ở trạng thái `Draft`, không ghi phiên bản, ngày. Việc Tech Lead duyệt mẫu ghi bằng PR có người duyệt trong repo khung, không ghi vào dòng Trạng thái. Dòng "Người duyệt" là người duyệt nội dung khi áp vào dự án.
 
 - Chỉ người duyệt của dự án chuyển một tài liệu sang `Approved`, sau khi nội dung dự án đã điền. Repo khung không chứa tài liệu `Approved` nào trong `docs/`.
 - Lịch sử thay đổi là lịch sử git và PR có người duyệt. Bảng "Lịch sử thay đổi" trong file chỉ bắt buộc ở `00-project-overview` và `01-requirements` (nội dung nghiệp vụ, người duyệt không dùng git).

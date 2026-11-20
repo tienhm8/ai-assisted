@@ -2,10 +2,7 @@
 
 | Thuộc tính | Giá trị |
 | --- | --- |
-| Trạng thái | Draft |
-| Người phụ trách |  |
-| Người duyệt (dự án) | PO |
-| Phiên bản · Ngày |  |
+| Người duyệt | PO |
 | Tài liệu liên quan | product-backlog.md, task-backlog.md, ../00-project-overview/vision.md, ../00-project-overview/scope.md, ../01-requirements/FR/ |
 
 > **Mục đích.** Lộ trình theo mốc. Chỉ tham chiếu FR; trạng thái hoàn thành FR không chép vào đây. Tầm nhìn nằm ở [vision](../00-project-overview/vision.md), phạm vi ở [scope](../00-project-overview/scope.md); không chép lại vào file này.

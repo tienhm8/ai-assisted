@@ -4,7 +4,7 @@
 >
 > **Người quyết: PO/BA** (QA rà khả năng kiểm thử).
 >
-> **Điều kiện duyệt:** mọi FR trong phạm vi có AC kiểm thử được; QA đã rà; điểm chưa rõ ghi vào đúng sổ OQ theo cấp (xem [open-questions](../00-project-overview/open-questions.md)). **Chưa đạt thì không sang thiết kế/code.**
+> **Điều kiện duyệt:** mọi FR trong phạm vi có AC kiểm thử được; QA đã rà; điểm chưa rõ ghi vào đúng sổ OQ theo cấp (xem [FR/README](FR/README.md)). **Chưa đạt thì không sang thiết kế/code.**
 
 ## Cấu trúc
 
@@ -49,4 +49,4 @@ Truy vết: Feature ghi BRQ (nhiều-nhiều); bảng FR giữ liên kết FR �
 
 ## Câu hỏi làm rõ với BA
 
-Câu hỏi mở chia theo cấp: sổ chung và mục lục ở [open-questions](../00-project-overview/open-questions.md); sổ Module `FR/<MODULE>/open-questions.md`; sổ Feature `FR/<MODULE>/<FEAT-NN>-<tên>/open-questions.md`. Tra mục lục rồi mở sổ con trước khi hỏi; OQ đã `Closed` thì áp dụng quyết định. Mã `OQ-<NN>` duy nhất toàn dự án; thêm OQ hoặc đổi trạng thái phải cập nhật mục lục.
+Câu hỏi mở chia theo cấp: sổ Module `FR/<MODULE>/open-questions.md`; sổ Feature `FR/<MODULE>/<FEAT-NN>-<tên>/open-questions.md`. Câu hỏi cấp dự án chưa có sổ thay thế (xem [FR/README](FR/README.md)). Tra sổ con trước khi hỏi; OQ đã `Closed` thì áp dụng quyết định. Mã `OQ-<NN>` duy nhất toàn dự án.
