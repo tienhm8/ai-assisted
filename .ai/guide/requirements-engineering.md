@@ -36,7 +36,7 @@ Khám phá sản phẩm ─▶ [2.1 Thu thập] ─▶ [2.2 Phân tích & mô h�
 | Xác định stakeholders và nguồn yêu cầu | Vai trò ở `PROJECT.md` §5; mỗi tài liệu nguồn đăng ký mã `SRC-<NN>` ở [sources](../../docs/00-project-overview/sources/README.md) |
 | Phỏng vấn, workshop, quan sát quy trình, phân tích tài liệu nghiệp vụ | Việc của người (PO/BA, Đầu mối dự án). Kết quả được lưu thành nguồn `SRC-<NN>` thì AI mới dùng được |
 | Thu thập business rules | Ghi vào [business-rules](../../docs/01-requirements/business-rules.md) (`BR-<MODULE>-<NN>`); phải có nguồn đã duyệt, AI không tự tạo |
-| Thu thập yêu cầu chức năng, phi chức năng ban đầu | FR ở `FR/FR-<MODULE>.md`; NFR ở [NFR](../../docs/01-requirements/NFR.md) |
+| Thu thập yêu cầu chức năng, phi chức năng ban đầu | FR ở `FR/<MODULE>/<FEAT-NN>-<tên>/FR.md`; NFR ở [NFR](../../docs/01-requirements/NFR.md) |
 | Xác định assumptions và constraints | Ghi vào đúng sổ OQ theo cấp (sổ chung, Module, Feature) và thêm dòng vào mục lục ở [sổ chung](../../docs/00-project-overview/open-questions.md), với loại `Input`/`Clarify`/`Decision`; assumption có hạn rà soát |
 
 **Sản phẩm:** Stakeholder Requirements và Business Requirements (BRQ trong [BRD](../../docs/01-requirements/BRD.md)); FR và NFR ban đầu; Business Rules.
@@ -60,13 +60,13 @@ Khám phá sản phẩm ─▶ [2.1 Thu thập] ─▶ [2.2 Phân tích & mô h�
 
 | Kỹ thuật | Mục đích | Nên đặt ở |
 | --- | --- | --- |
-| Use Case Diagram | Tương tác giữa actor và hệ thống | [features](../../docs/01-requirements/features.md) hoặc `FR/FR-<MODULE>.md` |
-| Activity Diagram | Luồng nghiệp vụ | `FR/FR-<MODULE>.md` (chỉ FR rủi ro cao hoặc mơ hồ) |
-| BPMN | Mô hình hoá quy trình nghiệp vụ | `FR/FR-<MODULE>.md` hoặc [scope](../../docs/00-project-overview/scope.md) cho quy trình xuyên module |
+| Use Case Diagram | Tương tác giữa actor và hệ thống | [features](../../docs/01-requirements/features.md) hoặc `FR/<MODULE>/<FEAT-NN>-<tên>/FR.md` |
+| Activity Diagram | Luồng nghiệp vụ | `FR/<MODULE>/<FEAT-NN>-<tên>/FR.md` (chỉ FR rủi ro cao hoặc mơ hồ) |
+| BPMN | Mô hình hoá quy trình nghiệp vụ | `FR/<MODULE>/<FEAT-NN>-<tên>/FR.md` hoặc [scope](../../docs/00-project-overview/scope.md) cho quy trình xuyên module |
 | Sequence Diagram | Tương tác theo thời gian | Thiết kế: [system-architecture](../../docs/02-architecture/system-architecture.md), [api-design](../../docs/02-architecture/api-design.md) |
 | Data Flow Diagram | Luồng dữ liệu | [system-architecture](../../docs/02-architecture/system-architecture.md) |
 | ERD | Mô hình dữ liệu (khái niệm/logic) | [database-design](../../docs/02-architecture/database-design.md) |
-| State Diagram | Trạng thái và chuyển trạng thái | `FR/FR-<MODULE>.md` (vòng đời nghiệp vụ) hoặc thiết kế |
+| State Diagram | Trạng thái và chuyển trạng thái | `FR/<MODULE>/<FEAT-NN>-<tên>/FR.md` (vòng đời nghiệp vụ) hoặc thiết kế |
 
 Khung chưa có tài liệu riêng cho Use Case Model, Business Process Model hay Requirement Analysis Report: hình và phân tích nằm trong các tài liệu ở cột "Nên đặt ở"; báo cáo phân tích là báo cáo của `requirement-review`.
 
@@ -80,7 +80,7 @@ Khung chưa có tài liệu riêng cho Use Case Model, Business Process Model ha
 | --- | --- |
 | Business Requirements | [BRD](../../docs/01-requirements/BRD.md) (BRQ) |
 | Product Requirements | [features](../../docs/01-requirements/features.md) (Feature) và [scope](../../docs/00-project-overview/scope.md); khung không có file PRD riêng |
-| Functional Requirements | Bảng FR ở `FR/FR-<MODULE>.md`, mỗi FR một câu; FR rủi ro cao hoặc mơ hồ có thêm tiền điều kiện, luồng chính, luồng lỗi bên dưới bảng |
+| Functional Requirements | Bảng FR ở `FR/<MODULE>/<FEAT-NN>-<tên>/FR.md`, mỗi FR một câu; FR rủi ro cao hoặc mơ hồ có thêm tiền điều kiện, luồng chính, luồng lỗi bên dưới bảng |
 | Non-functional Requirements | [NFR](../../docs/01-requirements/NFR.md): mỗi NFR có chỉ số và cách đo |
 | User Stories | [product-backlog](../../docs/04-project-management/product-backlog.md) §2, dạng "Là <vai>, tôi muốn…, để…" |
 | Use Case Specifications, exception và alternative flows, input/output, validation rules | Phần chi tiết dưới bảng FR (luồng chính, luồng thay thế, luồng lỗi) |
@@ -154,4 +154,4 @@ Khung chưa có tài liệu riêng cho Use Case Model, Business Process Model ha
 | Rà soát | QA rà khả năng kiểm thử | `requirement-review` báo cáo, khuyến nghị |
 | Duyệt, sign-off, đổi ưu tiên | PO/BA (và Đại diện khách hàng qua Đầu mối) | Không duyệt, không tự đặt `Approved` |
 
-Điểm chưa rõ, giả định, mâu thuẫn luôn ghi vào đúng sổ OQ theo cấp (Feature/FR/BR/AC → sổ Feature; chung Module → sổ Module; còn lại → [sổ chung](../../docs/00-project-overview/open-questions.md)) và cập nhật mục lục ở sổ chung; AI không tự trả lời và không làm theo phỏng đoán.
+Điểm chưa rõ, giả định, mâu thuẫn luôn ghi vào đúng sổ OQ theo cấp (Feature/FR/BR/AC → sổ Feature, thư mục Feature có thể chỉ có `open-questions.md` khi chưa có FR; chung Module hoặc chạm nhiều Feature cùng Module hoặc BR dùng chung nhiều Feature → sổ Module; chạm nhiều Module, glossary, kiến trúc và kỹ thuật (ADR, hạ tầng, kiểm thử), mâu thuẫn code–tài liệu chưa gắn được Feature hay Module, và mọi câu hỏi còn lại → [sổ chung](../../docs/00-project-overview/open-questions.md); nơi liên quan ghi ở cột "Mã liên quan") và cập nhật mục lục ở sổ chung; AI không tự trả lời và không làm theo phỏng đoán.
