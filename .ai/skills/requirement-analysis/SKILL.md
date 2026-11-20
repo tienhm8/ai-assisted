@@ -30,7 +30,7 @@ Read: existing vision, scope, BRD, features, product-backlog (Epic, User Story),
 6. **NFR:** each NFR has a metric and how to measure; if not measurable, record an open question.
 7. **AC:** Given / When / Then form, observable results; include error flows and boundary values.
 8. **Dependencies** between FRs, modules, APIs, data entities, external services, roles: record at the relevant FR.
-9. **Unclear points:** ambiguities, missing decisions, contradictions, assumptions all go into open-questions with a type (`Input`, `Clarify`, `Decision`); assumptions have a review deadline. Questions for the customer go through the liaison as a question pack (open-questions §"Hỏi khách hàng qua đầu mối").
+9. **Unclear points:** ambiguities, missing decisions, contradictions, assumptions all go into open-questions with a type (`Input`, `Clarify`, `Decision`); assumptions have a review deadline. Questions for the customer go through the liaison as a question pack (open-questions §"Hỏi khách hàng qua đầu mối"). When the customer must confirm a process, screens or rules, draft one confirmation pack per topic from [CONFIRMATION-PACK-TEMPLATE](../../templates/CONFIRMATION-PACK-TEMPLATE.md) (scope, process, wireframe or mockup per screen, rules, questions, sign-off); it holds the question pack. Wireframes show layout and content only: no invented fields, rules or numbers; each unsure point gets a numbered pin and an `OQ-<NN>`. The BA exports it with `python3 -I .ai/scripts/export-pack.py`.
 
 ## Limits
 
