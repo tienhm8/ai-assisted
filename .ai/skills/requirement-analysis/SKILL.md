@@ -1,6 +1,6 @@
 ---
 name: requirement-analysis
-description: Analyze business needs into traceable software requirements (BRQ, Epic, Feature, User Story, FR, business rules, NFR, acceptance criteria) and write them into the correct requirement documents; unclear points go into open-questions.
+description: Analyze business needs into traceable software requirements (BRQ, Epic, Feature, User Story, FR, business rules, NFR, acceptance criteria) and write them into the correct requirement documents; unclear points go into the open-question ledgers.
 ---
 
 # Requirement Analysis Skill
@@ -11,7 +11,7 @@ Turn business needs into clear, testable, traceable requirements, sufficient for
 
 - Vision and scope are Approved, or there is an approved stakeholder source registered as `SRC-<NN>`. If vision and scope are missing, switch to `product-discovery`.
 
-Read: existing vision, scope, BRD, features, product-backlog (Epic, User Story), FR, business-rules, NFR, acceptance-criteria; glossary; open-questions (apply `Closed` answers, do not re-ask); sources index and registered sources.
+Read: existing vision, scope, BRD, features, product-backlog (Epic, User Story), FR, business-rules, NFR, acceptance-criteria; glossary; the OQ index in the general ledger, then the relevant Module/Feature ledgers (apply `Closed` answers, do not re-ask); sources index and registered sources.
 
 ## Conventions
 
@@ -24,13 +24,13 @@ Read: existing vision, scope, BRD, features, product-backlog (Epic, User Story),
 
 1. **Context:** problem, goals, users, scope and out of scope, constraints. Record goals in the BRD.
 2. **Actors:** roles, responsibilities, permissions; do not assume all actors have the same permissions.
-3. **Feature, Epic, User Story:** Features in `01-requirements/features.md`; Epics and User Stories ("Là <vai>, tôi muốn…, để…", roles from the glossary) in `04-project-management/product-backlog.md`. Do not invent any of them without a BRQ; do not create Goals (owner's decision), only propose them as open questions.
-4. **FR:** write into the FR table of `FR/FR-<MODULE>.md`, one sentence per FR. Only high-risk or ambiguous FRs get extra detail (preconditions, main flow, error flows) below the table.
+3. **Feature, Epic, User Story:** Features in `01-requirements/features.md`; Epics and User Stories ("Là <vai>, tôi muốn…, để…", roles from the glossary) in `04-project-management/product-backlog.md`. When adding a Feature, create its folder `FR/<MODULE>/<FEAT-NN>-<name>/` at once (only `open-questions.md` if there is no FR yet) and add a row to the Feature/Module summary table in `FR/README.md`. Do not invent any of them without a BRQ; do not create Goals (owner's decision), only propose them as open questions.
+4. **FR:** write into the FR table of `FR/<MODULE>/<FEAT-NN>-<name>/FR.md` (create the Feature folder if missing, as in step 3), one sentence per FR. Only high-risk or ambiguous FRs get extra detail (preconditions, main flow, error flows) below the table.
 5. **Business rule:** write into business-rules only with an approved source, stating the source. Without a source, record an open question.
 6. **NFR:** each NFR has a metric and how to measure; if not measurable, record an open question.
 7. **AC:** Given / When / Then form, observable results; include error flows and boundary values.
 8. **Dependencies** between FRs, modules, APIs, data entities, external services, roles: record at the relevant FR.
-9. **Unclear points:** ambiguities, missing decisions, contradictions, assumptions all go into open-questions with a type (`Input`, `Clarify`, `Decision`); assumptions have a review deadline. Questions for the customer go through the liaison as a question pack (open-questions §"Hỏi khách hàng qua đầu mối"). When the customer must confirm a process, screens or rules, draft one confirmation pack per topic from [CONFIRMATION-PACK-TEMPLATE](../../templates/CONFIRMATION-PACK-TEMPLATE.md) (scope, process, wireframe or mockup per screen, rules, questions, sign-off); it holds the question pack. Wireframes show layout and content only: no invented fields, rules or numbers; each unsure point gets a numbered pin and an `OQ-<NN>`. The BA exports it with `python3 -I .ai/scripts/export-pack.py`.
+9. **Unclear points:** ambiguities, missing decisions, contradictions, assumptions all go into the right ledger by level (Feature/FR/BR/AC → Feature ledger (sổ Feature) `FR/<MODULE>/<FEAT-NN>-<name>/open-questions.md`, which may exist alone while the Feature has no FR yet; Module-wide → Module ledger (sổ Module) `FR/<MODULE>/open-questions.md`; vision, scope, BRQ, BRD, NFR, Epic, Goal, glossary, architecture and technical topics (ADR, infrastructure, testing), code–doc contradictions not attributable to a Feature or Module, and any question outside the other two → general ledger (sổ chung) `00-project-overview/open-questions.md`). A question touching several Features of one Module → Module ledger; several Modules → general ledger; a BR shared by several Features → Module ledger; list the other affected places in the "Mã liên quan" column and add a row to the index in the general ledger, with a type (`Input`, `Clarify`, `Decision`); assumptions have a review deadline. Questions for the customer go through the liaison as a question pack (general ledger §"Hỏi khách hàng qua đầu mối"). When the customer must confirm a process, screens or rules, draft one confirmation pack per topic from [CONFIRMATION-PACK-TEMPLATE](../../templates/CONFIRMATION-PACK-TEMPLATE.md) (scope, process, wireframe or mockup per screen, rules, questions, sign-off); it holds the question pack. Wireframes show layout and content only: no invented fields, rules or numbers; each unsure point gets a numbered pin and an `OQ-<NN>`. The BA exports it with `python3 -I .ai/scripts/export-pack.py`.
 
 ## Limits
 

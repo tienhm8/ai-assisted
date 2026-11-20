@@ -22,7 +22,7 @@
 | Cần biết mỗi giai đoạn nhận gì, ra gì, ai kiểm soát | §3.4 |
 | Chọn model, effort trước khi mở phiên AI | §5.2 |
 | Cần mẫu prompt cho một tình huống | §5.3 |
-| Nhận tài liệu, hỏi lại khách hàng | [sources](../../docs/00-project-overview/sources/README.md), [open-questions](../../docs/00-project-overview/open-questions.md) mục "Hỏi khách hàng qua đầu mối" |
+| Nhận tài liệu, hỏi lại khách hàng | [sources](../../docs/00-project-overview/sources/README.md), [sổ OQ chung](../../docs/00-project-overview/open-questions.md) mục "Hỏi khách hàng qua đầu mối" |
 | Chọn công cụ AI | [ai-tools](ai-tools.md) §1 |
 | Tạo symlink cho công cụ AI | [ai-tools](ai-tools.md) §2 |
 | Khai báo giá trị riêng của dự án | [PROJECT.md](../../PROJECT.md) |
@@ -47,7 +47,7 @@
 | Mã | Nghĩa |
 | --- | --- |
 | `SRC-<NN>` | Tài liệu nguồn từ khách hàng hoặc PO ([sources](../../docs/00-project-overview/sources/README.md)) |
-| `OQ-<NN>` | Câu hỏi mở, giả định, đầu vào còn thiếu ([open-questions](../../docs/00-project-overview/open-questions.md)) |
+| `OQ-<NN>` | Câu hỏi mở, giả định, đầu vào còn thiếu (mục lục ở [sổ chung](../../docs/00-project-overview/open-questions.md); chi tiết ở sổ Module hoặc sổ Feature) |
 | `OUT-<NN>` · `BRQ-<NN>` | Kết quả đo được của dự án (vision) · Yêu cầu nghiệp vụ (BRD) |
 | `EPIC-<NN>` · `FEAT-<NN>` · `US-<MODULE>-<NN>` | Epic (nhóm công việc lớn) · Function/Feature (chức năng hệ thống) · User Story (nhu cầu người dùng) |
 | `FR-<MODULE>-<NN>` · `BR-…` · `NFR-<NN>` | Yêu cầu chức năng · Quy tắc nghiệp vụ · Yêu cầu phi chức năng |
@@ -149,7 +149,7 @@ Mỗi dòng là một Task chỉ sửa tài liệu (rủi ro thấp, làm trọn
 
 Yêu cầu chung cho Task lập hồ sơ:
 - Mỗi điều mô tả ghi nguồn `file:line` để người duyệt kiểm được.
-- Chỗ code và tài liệu cũ mâu thuẫn, hành vi trông như lỗi, logic không rõ lý do: ghi `OQ-<NN>` vào [open-questions](../../docs/00-project-overview/open-questions.md), không đoán.
+- Chỗ code và tài liệu cũ mâu thuẫn, hành vi trông như lỗi, logic không rõ lý do: ghi `OQ-<NN>` vào đúng sổ (Feature, Module hoặc [sổ chung](../../docs/00-project-overview/open-questions.md)) và thêm vào mục lục, không đoán.
 - Lỗi đã chắc chắn: lập bug theo [BUG-TEMPLATE](../templates/BUG-TEMPLATE.md) để sửa ở Task sửa lỗi riêng, không sửa trong Task tài liệu.
 
 Mẫu Task (điền vào mẫu đầy đủ ở [task-breakdown](task-breakdown.md) §4):
@@ -240,7 +240,7 @@ Thay phần `<...>`. Mã Task, loại, rủi ro, mức tự chủ lấy từ Tas
 | Khám phá sản phẩm từ tài liệu nguồn | `Task <KEY>-<N> (tính năng mới · rủi ro <thấp/vừa/cao> · duyệt từng bước). Soạn vision, scope, glossary cho module <tên> từ SRC-<NN>, SRC-<NN>. Soạn gói câu hỏi gửi khách hàng cho các điểm chưa rõ.` |
 | Phân tích yêu cầu | `Task <KEY>-<N> (tính năng mới · rủi ro <thấp/vừa/cao> · duyệt từng bước). Viết BRD, FR, BR, AC cho module <tên>. Căn cứ: vision, scope đã Approved; SRC-<NN>; OQ đã Closed.` |
 | Soạn gói xác nhận gửi khách hàng | `Task <KEY>-<N> (chỉ sửa tài liệu · rủi ro thấp · duyệt từng bước). Soạn gói xác nhận cho <quy trình> theo CONFIRMATION-PACK-TEMPLATE từ SRC-<NN>: phạm vi, quy trình, wireframe từng màn hình, quy tắc, câu hỏi. Điểm chưa rõ thành OQ, không đoán.` Sau đó BA chạy `python3 -I .ai/scripts/export-pack.py <gói>.md --pdf` để gửi |
-| Khách hàng đã trả lời | `Khách hàng trả lời các câu hỏi OQ-<NN>, OQ-<NN> (đã lưu SRC-<NN>). Cập nhật open-questions và các tài liệu bị ảnh hưởng; câu trả lời sinh câu hỏi mới thì mở OQ mới.` |
+| Khách hàng đã trả lời | `Khách hàng trả lời các câu hỏi OQ-<NN>, OQ-<NN> (đã lưu SRC-<NN>). Cập nhật sổ OQ chứa chúng (và mục lục) và các tài liệu bị ảnh hưởng; câu trả lời sinh câu hỏi mới thì mở OQ mới.` |
 | Rà soát yêu cầu | `Task <KEY>-<N> (rà soát yêu cầu · rủi ro thấp · chỉ đọc). Rà soát FR-<MODULE>-* và AC trước khi trình PO duyệt.` |
 | Thiết kế | `Task <KEY>-<N> (tính năng mới · rủi ro <thấp/vừa/cao> · duyệt từng bước). Thiết kế module <tên> trên nền <hệ thống sẵn có, đường dẫn code>. Căn cứ: FR-<MODULE>-* đã Approved.` |
 | Lập Plan | `Lập Plan từ <GOAL-<NN> | EPIC-<NN> | US-<MODULE>-<NN> | yêu cầu: …>; phục vụ Goal <GOAL-<NN> hoặc không>. Căn cứ FR-<MODULE>-*, thiết kế đã Approved. Chia thành Plan và Task kèm manifest; đề xuất rủi ro, mức tự chủ, mức model·effort cho từng Task.` |

@@ -11,7 +11,7 @@ Find gaps, contradictions, ambiguities, and risks in requirements. Propose only 
 
 Requirement documents to review (BRD, features, product-backlog, FR table, AC) exist in Draft or In Review. If missing, stop and ask.
 
-Read: work-model §3; BRD, features, product-backlog, FR table, business-rules, NFR, acceptance-criteria, scope, glossary, open-questions, relevant architecture docs if any.
+Read: work-model §3; BRD, features, product-backlog, FR table, business-rules, NFR, acceptance-criteria, scope, glossary, OQ index in the general ledger then the relevant Module/Feature ledgers, relevant architecture docs if any.
 
 ## Procedure
 
@@ -20,7 +20,7 @@ Read: work-model §3; BRD, features, product-backlog, FR table, business-rules, 
 3. **Consistency:** FR vs. BR, vs. NFR, vs. scope, vs. authorization, vs. existing decisions, across FRs.
 4. **Testability:** AC observable, with preconditions and results, with boundaries and error flows.
 5. **One-way traceability:** each BRQ and BR cites a `SRC-<NN>`; each Feature and Epic links to BRQs, each User Story to an Epic and FRs; each FR links to BRQ/Feature/BR; each Must/Should BRQ has at least one FR (filter the "BRQ nguồn" column of the FR table); each AC points to an FR; every BR has AC. A requirement document or product backlog naming Plan or Task, or a document declaring two-way links, is a finding.
-6. **Open questions:** which scope each `Open`/`Asked` question blocks; `Asked` questions past their deadline; assumptions past their review deadline; ambiguities without an open question.
+6. **Open questions:** which scope each `Open`/`Asked` question blocks; `Asked` questions past their deadline; assumptions past their review deadline; ambiguities without an open question; each OQ in a Module/Feature ledger has a row in the general ledger index with a matching status (report any mismatch in the review report, do not fix it).
 7. **Feasibility:** only flag risks (technical, integration, data, performance, security) to hand to `architecture-design`; do not make architecture decisions.
 8. **Classify findings:** Critical (blocks implementation) · High (major gap or contradiction) · Medium (unclear) · Low (documentation improvement).
 
