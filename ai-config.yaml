@@ -32,5 +32,14 @@ budget_usd_per_task: 2
 budget_warn_pct: 80          # Cảnh báo khi chi phí cộng dồn của Task đạt mức này (% ngân sách hiện hành)
 budget_topup_max_pct: 50     # Tổng cấp thêm tối đa cho một Task (% ngân sách ban đầu)
 budget_pool_pct: 20          # Quỹ dự phòng mặc định của Plan (% tổng ngân sách ban đầu của các Task)
-stack: {}        # ví dụ backend: nestjs@11, orm: prisma@6, database: postgresql@17
-commands: {}     # ví dụ test: npm test, lint: npm run lint, typecheck: npm run typecheck
+stack:           # khóa và giá trị khớp tên file reference của Skill; nguồn: project/aisoft-backend (package.json, docker-compose.yml), đối chiếu 2026-11-20
+  backend: nestjs@11      # @nestjs/core ^11.2.7 -> backend-development/references/nestjs-11.md
+  orm: sequelize@6        # sequelize ^6.37.8, @nestjs/sequelize ^11.0.1 -> sequelize.md
+  odm: mongoose@9         # mongoose ^9.8.0, @nestjs/mongoose ^11.0.4 -> mongoose-9.md
+  database: postgresql@15 # docker-compose.yml: postgres:15-alpine
+  cache: redis@6.2        # docker-compose.yml: redis:6.2-alpine; client ioredis ^5.11.1
+commands:        # chạy trong project/aisoft-backend; lệnh chỉ đọc; CHƯA kiểm chứng, chạy thật ở PLAN-005 (CHECKLIST mục 8)
+  build: npm run build
+  typecheck: npx tsc --noEmit -p tsconfig.json
+  lint: npx eslint "{src,apps,libs,test}/**/*.ts"   # không --fix; script `lint` của project có --fix nên không dùng
+  test: npm test

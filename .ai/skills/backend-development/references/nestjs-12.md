@@ -1,11 +1,11 @@
 # Backend Development – NestJS
 
-> Nguồn: github.com/kadajett/agent-nestjs-skills, skill `nestjs-best-practices` v1.2.0 @ 3986e0c · Ngày lấy: 2026-11-14 · Áp dụng cho: NestJS 12.x (đối chiếu `@nestjs/common`, `@nestjs/core` 12.5.0, `@nestjs/event-emitter` 12.0.3; dự án chưa chốt phiên bản ở system-architecture §4, rà lại khi chốt)
+> Nguồn: github.com/kadajett/agent-nestjs-skills, skill `nestjs-best-practices` v1.2.0 @ 3986e0c · Ngày lấy: 2026-11-14 · Áp dụng cho: NestJS 12.x (đối chiếu `@nestjs/common`, `@nestjs/core` 12.5.0, `@nestjs/event-emitter` 12.0.3). Không dùng cho project NestJS 11: dùng `nestjs-11.md`
 > Đã điều chỉnh: chỉ giữ lỗi AI hay mắc riêng của NestJS (module, DI, scope, lifecycle, event, validation, serialize, transaction, test). Bỏ: kiến thức chung (feature module, SRP, ISP, LSP, N+1); phần trái `docs/`, Rule (ném `HttpException` từ service, cache bằng `CacheModule`, `console.log`, Supertest cho E2E, gọi dịch vụ ngoài trong transaction); phần là quyết định kiến trúc/hạ tầng hoặc thêm dependency (repository pattern, event-driven, JWT, throttler, sanitize HTML, microservice, queue, health check, versioning, config, logging). Sửa: handler `@OnEvent` lỗi không làm sập process mà bị nuốt lỗi (mặc định `suppressErrors: true`). Không lấy script build và code minh hoạ.
 > Nguồn: github.com/affaan-m/ecc, skill `nestjs-patterns` @ d2ef268 · Ngày lấy: 2026-11-14 · Áp dụng cho: NestJS 12.x (đối chiếu `@nestjs/common`, `@nestjs/core` 12.5.0)
 > Đã điều chỉnh: chỉ lấy 2 điểm chưa có ở trên: `ValidationPipe` bỏ qua tham số kiểu nguyên thuỷ và mảng (§5), pipe/filter global khai báo ở `main.ts` không có trong app test (§7). Bỏ: cấu trúc thư mục, repository, config/env, production defaults (quyết định kiến trúc/hạ tầng); exception filter `@Catch()` và ném framework exception cho lỗi client (trái error-handling §4, §5); guard/role (thuộc security-standards §4, Skill `authentication-rbac`); kiến thức chung (controller mỏng, DTO `class-validator`, response DTO đã có ở §5). Không lấy code minh hoạ.
 
-Reference for Skill `backend-development`. Load only when the backend uses NestJS, and only the section for the current step. Project conventions (error-handling, security-standards, module-design) win over anything here; where a section says "per the project", look it up there.
+Reference for Skill `backend-development`. Load only when `stack` has `backend: nestjs@12`, and only the section for the current step. Project conventions (error-handling, security-standards, module-design) win over anything here; where a section says "per the project", look it up there.
 
 ## 1. Modules and dependencies (steps 2, 3)
 

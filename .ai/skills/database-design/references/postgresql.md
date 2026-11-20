@@ -3,7 +3,17 @@
 > Nguồn: github.com/supabase/agent-skills, skill `supabase-postgres-best-practices` v1.1.1 @ c9be0e9 · Ngày lấy: 2026-11-15 · Áp dụng cho: PostgreSQL 13–18 (đối chiếu tài liệu postgresql.org bản 18.7; dự án chưa chốt phiên bản ở system-architecture §4, rà lại khi chốt)
 > Đã điều chỉnh: chỉ lấy điểm riêng PostgreSQL mà AI hay sai và chưa có trong file này: GIN cho `jsonb`/full-text, partial index với tham số, upsert `ON CONFLICT`, advisory lock, `idle_session_timeout`, `work_mem`, `pg_stat_statements`, autovacuum theo bảng, lỗi `ADD CONSTRAINT IF NOT EXISTS`, identifier có ngoặc kép, quyền `EXECUTE` mặc định, `ALTER DEFAULT PRIVILEGES`, hiệu năng RLS. Bỏ: phần riêng Supabase (`auth.uid()`, role `anon`/`authenticated`, dashboard, cổng pooler); kiến thức chung đã có ở file chủ đề hoặc Rule (index cột WHERE/JOIN/FK, composite, covering, N+1, keyset, batch insert, transaction ngắn, thứ tự lock, SKIP LOCKED, pooling, least privilege, partition); con số và ngưỡng cấu hình (công thức `max_connections`, `pool_size`, "> 100M dòng") vì ngưỡng lấy từ NFR và đo thực tế; khuyến nghị lỗi thời (`uuid_generate_v7()` của extension `pg_uuidv7`, nay có `uuidv7()` từ PG 18); `hashtext()` làm khoá advisory (hàm nội bộ, không có trong tài liệu). Sửa: `idle_session_timeout` không bật cho kết nối qua pooler (tài liệu PostgreSQL cảnh báo). Không lấy code minh hoạ.
 
+> Đối chiếu với aisoft-backend 2026-11-20 (`docker-compose.yml`: `postgres:15-alpine`; `stack` khai `database: postgresql@15`): file viết cho PostgreSQL 13–18; điều đánh dấu "from PG 16/17/18" hoặc "PG ≥ 16" không dùng được trên 15, xem §0.
+
 > Reference for Skill `database-design`. Load only when the chosen DBMS is PostgreSQL, and only the section for the current step. Principles live in the topic file; this file states only PostgreSQL-specific syntax, limits and versions. Always check the project's version.
+
+## 0. Version notes for PostgreSQL 15
+
+Applies when `stack` has `database: postgresql@15`. Check `SELECT version();` before relying on a feature newer than 15.
+
+- Not available on 15: `uuidv7()` and skip scan (PG 18); any item below marked "from PG 16", "from PG 17" or "from PG 18". Generate UUIDv7 in the application, or use `uuid` with `gen_random_uuid()` (core since PG 13).
+- Available on 15 and used by this file: `idle_session_timeout` (14), `hash_mem_multiplier` default 2.0 (15), `pg_stat_statements` columns `total_exec_time`/`mean_exec_time` (13), `MERGE` (15), `UNIQUE NULLS NOT DISTINCT` (15), `CREATE` on schema `public` revoked by default (15, only for databases created on 15; a database upgraded from older keeps its old grant, check it).
+- PostgreSQL 15 reaches end of life in November 2027; an upgrade is an architecture decision, not part of a feature Task.
 
 ## 1. Key characteristics
 

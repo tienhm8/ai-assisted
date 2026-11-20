@@ -3,7 +3,7 @@
 > Nguồn: github.com/prisma/skills, skill `prisma-client-api` v7.9.1 và `prisma-upgrade-v7` (chỉ phần khác biệt v6 → v7) @ a6f1929 · Ngày lấy: 2026-11-15 · Áp dụng cho: Prisma ORM 7.x (đối chiếu `prisma`, `@prisma/client`, `@prisma/adapter-pg`, `@prisma/config` 7.10.1; dự án chưa chốt phiên bản ở system-architecture §4, rà lại khi chốt)
 > Đã điều chỉnh: chỉ giữ lỗi AI hay mắc khi dùng Prisma Client (khởi tạo client, `undefined` trong `where`, `select`/`omit`, Decimal/JSON null, transaction, raw SQL, mã lỗi) và API v6 đã bỏ ở v7. Bỏ: bảng liệt kê method, toán tử lọc, phân trang, quan hệ, aggregate (kiến thức chung); singleton qua `globalThis` và pattern Next.js (quyết định kiến trúc, NestJS dùng DI); log `console.log` qua `$on` (không có correlation ID, trái `coding-rules` 12; log query có thể lộ tham số `secret`); Accelerate, SQL commenter, `queryPlanCacheMaxSize`, Bun, ESM/tsconfig (hạ tầng); lệnh `npm install` adapter/dotenv (trái `project-rules` 6); ví dụ soft delete bằng extension (quy ước dự án chưa chốt). Sửa theo 7.10.1: mặc định `maxWait` 2000 ms, `timeout` 5000 ms (bản gốc ghi 5000/10000 như mặc định); thêm `tx.$transaction` lồng qua savepoint; pool do driver quyết định, `connection_limit` trong URL không có tác dụng với adapter. Không lấy code minh hoạ.
 
-Reference for Skill `backend-development`. Load only when the backend uses Prisma ORM, and only the section for the current step. Rules (`database-rules`, `security-rules`, `coding-rules`) and error-handling win over anything here; for NestJS wiring see `nestjs.md`.
+Reference for Skill `backend-development`. Load only when the backend uses Prisma ORM, and only the section for the current step. Rules (`database-rules`, `security-rules`, `coding-rules`) and error-handling win over anything here; for NestJS wiring see `nestjs-11.md` or `nestjs-12.md` (the one matching `stack`).
 
 ## 1. Version check and client construction (steps 2, 3)
 
@@ -31,7 +31,7 @@ Reference for Skill `backend-development`. Load only when the backend uses Prism
 
 ## 3. Transactions and concurrency (step 4)
 
-- Everything in an interactive transaction uses `tx`; `prisma.*` inside the callback runs on another connection outside the transaction (see `nestjs.md` §6). A service called from the callback must receive `tx`, per the pattern the codebase uses.
+- Everything in an interactive transaction uses `tx`; `prisma.*` inside the callback runs on another connection outside the transaction (see `nestjs-11.md` or `nestjs-12.md` §6). A service called from the callback must receive `tx`, per the pattern the codebase uses.
 - `tx.$transaction(...)` nests through a savepoint in 7.x (adapter must support savepoints). A new `prisma.$transaction` inside the callback is a separate transaction, not nested.
 - Defaults are `maxWait` 2000 ms, `timeout` 5000 ms; past `timeout` every further `tx` call fails with "expired transaction". Keep the transaction short (`database-rules` 24). Raising `timeout` needs a reason in the plan, not as a fix for slow work inside.
 - Array form `$transaction([q1, q2])` cannot use the result of one query in the next; use the interactive form for dependent steps.

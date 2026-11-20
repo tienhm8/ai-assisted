@@ -23,7 +23,7 @@ Chỉ lấy phần làm AI làm đúng hơn, không lấy kiến thức chung v�
 | Nội dung lấy từ skill bên ngoài | Đưa vào |
 | --- | --- |
 | Bước làm việc hoặc mục checklist tổng quát, không gắn công nghệ | `SKILL.md` của Skill tương ứng |
-| Cách làm riêng của một công nghệ (framework, ORM, CSDL) | `references/<công-nghệ>.md` trong thư mục Skill, ví dụ `backend-development/references/nestjs.md` |
+| Cách làm riêng của một công nghệ (framework, ORM, CSDL) | `references/<công-nghệ>.md` trong thư mục Skill, ví dụ `backend-development/references/nestjs-11.md` |
 | Điều bắt buộc (cấm, phải, ngưỡng) | `docs/03-engineering/` hoặc `.ai/rules/`, vì Skill không chép chuẩn |
 | Đoạn code minh hoạ | `examples.md` |
 

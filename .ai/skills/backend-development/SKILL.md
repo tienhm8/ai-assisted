@@ -16,13 +16,15 @@ If the manifest lacks something, look up the exact section, do not read the whol
 
 ## References
 
-Load the file matching ai-config.yaml `stack`; if `stack` lacks the entry, ask. Read only the listed sections.
+Load the file matching each ai-config.yaml `stack` entry (framework, `orm`, `odm`; a project may have both `orm` and `odm`, then load both); if `stack` lacks the entry, ask. Read only the listed sections.
 
 | File in `references/` | Load at step |
 | --- | --- |
-| `nestjs.md` (NestJS only) | Step 2: §1 · Step 3: §1, §2 · Step 4: §3, §5, §6 · Step 5: §4 · Step 8: §7 |
-| `prisma.md` (Prisma ORM only) | Step 2: §1 · Step 3: §1 · Step 4: §2, §3, §4 · Step 5: §5 |
-| `sequelize.md` (Sequelize only) | Step 2: §1 · Step 3: §1 · Step 4: §2, §3, §4 · Step 5: §5 |
+| `nestjs-11.md` (`backend: nestjs@11` only) | Step 2: §0, §1 · Step 3: §0, §1, §2 · Step 4: §3, §5, §6 · Step 5: §4 · Step 8: §7 |
+| `nestjs-12.md` (`backend: nestjs@12` only) | Step 2: §1 · Step 3: §1, §2 · Step 4: §3, §5, §6 · Step 5: §4 · Step 8: §7 |
+| `prisma.md` (`orm: prisma` only) | Step 2: §1 · Step 3: §1 · Step 4: §2, §3, §4 · Step 5: §5 |
+| `sequelize.md` (`orm: sequelize@6` only) | Step 2: §1 · Step 3: §1 · Step 4: §2, §3, §4 · Step 5: §5 |
+| `mongoose-9.md` (`odm: mongoose@9` only) | Step 2: §1 · Step 3: §1 · Step 4: §2, §3, §4 · Step 5: §5 · Step 8: §6 |
 
 ## Procedure
 
