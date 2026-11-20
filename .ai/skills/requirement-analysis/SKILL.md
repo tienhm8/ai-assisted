@@ -24,8 +24,8 @@ Read: existing vision, scope, BRD, features, product-backlog (Epic, User Story),
 
 1. **Context:** problem, goals, users, scope and out of scope, constraints. Record goals in the BRD.
 2. **Actors:** roles, responsibilities, permissions; do not assume all actors have the same permissions.
-3. **Feature, Epic, User Story:** Features in `01-requirements/features.md`; Epics and User Stories ("Là <vai>, tôi muốn…, để…", roles from the glossary) in `04-project-management/product-backlog.md`. Do not invent any of them without a BRQ; do not create Goals (owner's decision), only propose them as open questions.
-4. **FR:** write into the FR table of `FR/<MODULE>/<FEAT-NN>-<name>/FR.md` (create the Feature folder if missing and add a row to the Feature/Module summary table in `FR/README.md`), one sentence per FR. Only high-risk or ambiguous FRs get extra detail (preconditions, main flow, error flows) below the table.
+3. **Feature, Epic, User Story:** Features in `01-requirements/features.md`; Epics and User Stories ("Là <vai>, tôi muốn…, để…", roles from the glossary) in `04-project-management/product-backlog.md`. When adding a Feature, create its folder `FR/<MODULE>/<FEAT-NN>-<name>/` at once (only `open-questions.md` if there is no FR yet) and add a row to the Feature/Module summary table in `FR/README.md`. Do not invent any of them without a BRQ; do not create Goals (owner's decision), only propose them as open questions.
+4. **FR:** write into the FR table of `FR/<MODULE>/<FEAT-NN>-<name>/FR.md` (create the Feature folder if missing, as in step 3), one sentence per FR. Only high-risk or ambiguous FRs get extra detail (preconditions, main flow, error flows) below the table.
 5. **Business rule:** write into business-rules only with an approved source, stating the source. Without a source, record an open question.
 6. **NFR:** each NFR has a metric and how to measure; if not measurable, record an open question.
 7. **AC:** Given / When / Then form, observable results; include error flows and boundary values.
