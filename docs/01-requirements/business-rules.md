@@ -3,9 +3,7 @@
 | Thuộc tính | Giá trị |
 | --- | --- |
 | Trạng thái | Draft |
-| Người phụ trách |  |
-| Người duyệt (dự án) | PO/BA |
-| Phiên bản · Ngày |  |
+| Người duyệt | PO/BA |
 | Tài liệu liên quan | FR/, acceptance-criteria.md, ../../.ai/skills/requirement-analysis/SKILL.md |
 
 > **Mục đích.** Quy tắc nghiệp vụ. Mã: BR-<MODULE>-<NN>. AI không tự tạo hoặc tự chốt quy tắc nghiệp vụ.

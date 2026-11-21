@@ -2,8 +2,8 @@
 
 | Thuộc tính | Giá trị |
 | --- | --- |
-| Trạng thái | Draft |
-| Người duyệt (dự án) | Tech Lead |
+| Trạng thái | Approved |
+| Người duyệt | Tech Lead |
 | Tài liệu liên quan | ../../.ai/rules/project-rules.md, ../../PROJECT.md §2, gates-and-rigor.md |
 
 > **Mục đích.** Giải thích vì sao và ở mức nào AI bị kiểm soát: việc cần người duyệt, năm rủi ro cần quản lý. Điều bắt buộc với AI nằm ở [project-rules](../../.ai/rules/project-rules.md); file này chỉ là phần giải thích cho người đọc.

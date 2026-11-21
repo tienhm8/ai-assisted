@@ -35,7 +35,7 @@ Số FR phát hành: · Lỗi lọt sau phát hành của bản trước:
 ## 4. Rollback
 - Điều kiện kích hoạt:
 - Các bước:
-- Người quyết định rollback:
+- Người duyệt rollback:
 - Đã thử trên môi trường không phải production: có / không
 
 ## 5. Theo dõi sau phát hành

@@ -14,3 +14,4 @@ Tài liệu giải thích khung cho người đọc; AI không nạp khi làm Ta
 | [external-skills.md](external-skills.md) | Tiếp nhận Skill bên ngoài theo quy trình nào? |
 | [framework-evolution.md](framework-evolution.md) | Project đề xuất lên Framework và đánh giá thứ bên ngoài theo luồng nào? |
 | [glossary.md](glossary.md) | Thuật ngữ của khung nghĩa là gì? |
+| [open-questions.md](open-questions.md) | Chọn sổ nào (sổ chung, Module, Feature) cho câu hỏi mở `OQ-<NN>`? |

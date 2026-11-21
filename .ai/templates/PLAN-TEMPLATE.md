@@ -49,7 +49,7 @@ Quyết định thiết kế chung cho nhiều Task; file của từng Task nằ
 Mỗi AC ứng với test nào, Task nào chạy, lệnh nào (trùng với `acceptance_criteria[].check` của manifest). Cổng kiểm tra chung chạy ở bước 6 trên kết quả gộp.
 
 ## 8. Rủi ro và điểm cần người quyết
-Điểm cần người quyết ghi mã `OQ-<NN>` kèm bản tóm tắt đủ để quyết theo `project-rules` 21 (vấn đề, mỗi phương án một dòng được/mất, đề xuất, nếu chưa quyết); chi tiết và lịch sử ở [open-questions](../../docs/00-project-overview/open-questions.md).
+Điểm cần người quyết ghi mã `OQ-<NN>` kèm bản tóm tắt đủ để quyết theo `project-rules` 21 (vấn đề, mỗi phương án một dòng được/mất, đề xuất, nếu chưa quyết); chi tiết và lịch sử ở sổ OQ đúng cấp ([FR/README](../../docs/01-requirements/FR/README.md)).
 
 ## 9. Kết quả (điền sau khi xong)
 Đầu ra của từng Task, lệch kế hoạch ở đâu, Task nào phải nâng mức (tóm tắt từ `runs.md`), bằng chứng test, trạng thái tiêu chí hoàn thành §2.

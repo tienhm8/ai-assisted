@@ -2,17 +2,14 @@
 
 | Thuộc tính | Giá trị |
 | --- | --- |
-| Trạng thái | Draft |
-| Người phụ trách |  |
-| Người duyệt (dự án) | PO/BA |
-| Phiên bản · Ngày |  |
+| Người duyệt | PO/BA |
 | Tài liệu liên quan | ../00-project-overview/vision.md, features.md, FR/, NFR.md, business-rules.md, ../../.ai/skills/requirement-review/SKILL.md |
 
 > **Mục đích.** Yêu cầu nghiệp vụ ở mức mục tiêu và giá trị để suy ra FR/NFR.
 >
-> **Người quyết định:** PO/BA.
+> **Người duyệt:** PO/BA.
 >
-> **Điều kiện duyệt (chung với FR/NFR/BR và AC):** mọi FR trong phạm vi có AC kiểm thử được; QA đã rà khả năng kiểm thử; điểm chưa rõ ghi vào đúng sổ OQ theo cấp (xem [open-questions.md](../00-project-overview/open-questions.md)), mã `OQ-<NN>`.
+> **Điều kiện duyệt (chung với FR/NFR/BR và AC):** mọi FR trong phạm vi có AC kiểm thử được; QA đã rà khả năng kiểm thử; điểm chưa rõ ghi vào đúng sổ OQ theo cấp (xem [FR/README](FR/README.md)), mã `OQ-<NN>`.
 
 ## 1. Bối cảnh và mục tiêu nghiệp vụ
 <!-- Điền theo từng dự án: tham chiếu vision.md §1, §3; chỉ bổ sung chi tiết nghiệp vụ, không chép lại. -->

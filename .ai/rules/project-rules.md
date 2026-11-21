@@ -5,7 +5,7 @@
 
 1. Before working: read the Task and the documents it points to; do not load the whole project.
 2. No specification and acceptance criteria (AC), or no Approved design: do not code; stop and report.
-3. Do not invent business logic. Unclear points and assumptions go into the open-question list (`OQ-<NN>`); do not answer them yourself and do not implement on guesses.
+3. Do not invent business logic. Unclear points and assumptions go into the open-question list (`OQ-<NN>`) at the right scope (Feature, Module, or project-wide; see [open-questions guide](../guide/open-questions.md)); do not answer them yourself and do not implement on guesses.
 4. Do not move a document to Approved yourself; only an authorized person does that. Do not approve changes you wrote.
 5. Do not change an Approved architecture without approval; propose it as a draft ADR.
 6. Do not add a new dependency until the reason is in the PR and it is approved.

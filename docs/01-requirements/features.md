@@ -3,14 +3,12 @@
 | Thuộc tính | Giá trị |
 | --- | --- |
 | Trạng thái | Draft |
-| Người phụ trách |  |
-| Người duyệt (dự án) | PO/BA |
-| Phiên bản · Ngày |  |
+| Người duyệt | PO/BA |
 | Tài liệu liên quan | BRD.md, FR/, ../../.ai/guide/work-model.md, ../04-project-management/product-backlog.md |
 
 > **Mục đích.** Đặc tả sản phẩm ở mức chức năng: hệ thống cần có chức năng gì. Mỗi Feature được chi tiết hoá bằng nhiều FR (bảng FR ghi Feature của từng FR). Khái niệm và liên kết: [work-model](../../.ai/guide/work-model.md).
 >
-> **Người quyết định:** PO/BA.
+> **Người duyệt:** PO/BA.
 
 Mã `FEAT-<NN>`. Một Feature có thể đáp ứng nhiều BRQ, một BRQ có thể liên quan nhiều Feature: ghi danh sách mã ở cột BRQ. Tra FR của một Feature thì lọc cột "Feature" của bảng FR; tra User Story chạm Feature thì lọc [product-backlog](../04-project-management/product-backlog.md) §2.
 

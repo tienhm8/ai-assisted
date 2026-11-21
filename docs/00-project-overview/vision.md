@@ -2,17 +2,14 @@
 
 | Thuộc tính | Giá trị |
 | --- | --- |
-| Trạng thái | Draft |
-| Người phụ trách |  |
-| Người duyệt (dự án) | PO |
-| Phiên bản · Ngày |  |
-| Tài liệu liên quan | scope.md, glossary.md, open-questions.md, ../01-requirements/BRD.md |
+| Người duyệt | PO |
+| Tài liệu liên quan | scope.md, glossary.md, ../01-requirements/BRD.md |
 
 > **Mục đích.** Dự án giải quyết vấn đề gì, dành cho ai, đầu ra giai đoạn 1.
 >
-> **Người quyết định:** PO.
+> **Người duyệt:** PO.
 >
-> **Điều kiện sang 01-requirements:** vision, scope trạng thái Approved; câu hỏi mở chặn phạm vi đã được xử lý (xem open-questions.md).
+> **Điều kiện sang 01-requirements:** vision, scope trạng thái Approved; câu hỏi mở chặn phạm vi đã được xử lý (xem sổ OQ đúng cấp).
 
 ## 1. Vấn đề cần giải quyết
 <!-- Điền theo từng dự án -->

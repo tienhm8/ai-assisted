@@ -2,10 +2,7 @@
 
 | Thuộc tính | Giá trị |
 | --- | --- |
-| Trạng thái | Draft |
-| Người phụ trách |  |
-| Người duyệt (dự án) | Owner |
-| Phiên bản · Ngày |  |
+| Người duyệt | Owner |
 | Tài liệu liên quan | monitoring.md, backup-recovery.md, ../02-architecture/system-architecture.md, ../02-architecture/database-design.md, ../01-requirements/NFR.md, ../../.ai/workflows/release-workflow.md, ../../.ai/skills/deployment/SKILL.md |
 
 > **Mục đích.** Triển khai hệ thống: môi trường, CI/CD, phát hành, rollback. **Người quyết phát hành: Owner (tham khảo Tech Lead).** Điều kiện: cổng Vận hành ở [gates-and-rigor](../../.ai/guide/gates-and-rigor.md) §1.
@@ -77,7 +74,7 @@ Chi tiết từng bước triển khai (trước · trong · sau), người th�
 - Điều kiện kích hoạt rollback:
 - Cách rollback ứng dụng:
 - Cách rollback dữ liệu/migration:
-- Người quyết định rollback:
+- Người duyệt rollback:
 
 ## 11. Post-deployment Verification
 - Smoke test:

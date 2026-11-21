@@ -2,11 +2,9 @@
 
 | Thuộc tính | Giá trị |
 | --- | --- |
-| Trạng thái | Draft |
-| Người phụ trách |  |
-| Người duyệt (khung) | Tech Lead |
-| Phiên bản · Ngày |  |
-| Tài liệu liên quan | work-model.md, gates-and-rigor.md, ../../docs/01-requirements/README.md, ../../docs/00-project-overview/open-questions.md, ../../docs/04-project-management/product-backlog.md, ../skills/requirement-analysis/SKILL.md, ../skills/requirement-review/SKILL.md, ../workflows/task-types.md |
+| Trạng thái | Approved |
+| Người duyệt | Tech Lead |
+| Tài liệu liên quan | work-model.md, gates-and-rigor.md, ../../docs/01-requirements/README.md, ../../docs/04-project-management/product-backlog.md, ../skills/requirement-analysis/SKILL.md, ../skills/requirement-review/SKILL.md, ../workflows/task-types.md |
 
 > **Mục đích.** Giải thích Requirements Engineering (RE) trong vòng đời phát triển phần mềm và chỉ ra từng nhóm công việc RE được khung này thực hiện ở đâu: tài liệu nào chứa kết quả, Skill nào hỗ trợ, ai quyết. Tài liệu cho người đọc; AI không nạp khi làm Task. Khái niệm BRQ, Epic, Feature, User Story ở [work-model](work-model.md); cổng duyệt ở [gates-and-rigor](gates-and-rigor.md).
 
@@ -37,7 +35,7 @@ Khám phá sản phẩm ─▶ [2.1 Thu thập] ─▶ [2.2 Phân tích & mô h�
 | Phỏng vấn, workshop, quan sát quy trình, phân tích tài liệu nghiệp vụ | Việc của người (PO/BA, Đầu mối dự án). Kết quả được lưu thành nguồn `SRC-<NN>` thì AI mới dùng được |
 | Thu thập business rules | Ghi vào [business-rules](../../docs/01-requirements/business-rules.md) (`BR-<MODULE>-<NN>`); phải có nguồn đã duyệt, AI không tự tạo |
 | Thu thập yêu cầu chức năng, phi chức năng ban đầu | FR ở `FR/FR-<MODULE>.md`; NFR ở [NFR](../../docs/01-requirements/NFR.md) |
-| Xác định assumptions và constraints | Ghi vào [open-questions](../../docs/00-project-overview/open-questions.md) với loại `Input`/`Clarify`/`Decision`; assumption có hạn rà soát |
+| Xác định assumptions và constraints | Ghi vào sổ OQ theo cấp ([FR/README](../../docs/01-requirements/FR/README.md)) với loại `Input`/`Clarify`/`Decision`; assumption có hạn rà soát |
 
 **Sản phẩm:** Stakeholder Requirements và Business Requirements (BRQ trong [BRD](../../docs/01-requirements/BRD.md)); FR và NFR ban đầu; Business Rules.
 
@@ -154,4 +152,4 @@ Khung chưa có tài liệu riêng cho Use Case Model, Business Process Model ha
 | Rà soát | QA rà khả năng kiểm thử | `requirement-review` báo cáo, khuyến nghị |
 | Duyệt, sign-off, đổi ưu tiên | PO/BA (và Đại diện khách hàng qua Đầu mối) | Không duyệt, không tự đặt `Approved` |
 
-Điểm chưa rõ, giả định, mâu thuẫn luôn ghi vào [open-questions](../../docs/00-project-overview/open-questions.md); AI không tự trả lời và không làm theo phỏng đoán.
+Điểm chưa rõ, giả định, mâu thuẫn luôn ghi vào sổ OQ theo cấp ([FR/README](../../docs/01-requirements/FR/README.md)); AI không tự trả lời và không làm theo phỏng đoán.

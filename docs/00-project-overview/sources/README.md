@@ -2,10 +2,9 @@
 
 | Thuộc tính | Giá trị |
 | --- | --- |
-| Trạng thái | Draft |
 | Người phụ trách | BA |
-| Người duyệt (dự án) | PO |
-| Tài liệu liên quan | ../open-questions.md, ../vision.md, ../../01-requirements/README.md, ../../../PROJECT.md §3 |
+| Người duyệt | PO |
+| Tài liệu liên quan | ../vision.md, ../../01-requirements/README.md, ../../../PROJECT.md §3 |
 
 > **Mục đích.** Nơi lưu và đánh mã tài liệu đầu vào do khách hàng, PO hoặc bên liên quan cung cấp (quy trình nghiệp vụ, biểu mẫu, biên bản họp, câu trả lời làm rõ). Yêu cầu trong `docs/` trỏ về mã `SRC-<NN>` để truy được nguồn. AI chỉ đọc tài liệu đã có trong bảng dưới, không lấy nguồn ngoài bảng.
 
