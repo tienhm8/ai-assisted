@@ -32,7 +32,7 @@
 
     Before sending, self-check: could someone who opened no file choose? If not, write more.
 22. Language: instruction files in `.ai/` are in English to save tokens. Everything written for humans is in Vietnamese: replies, questions (rule 21), plans, reports, open questions, PR descriptions, documents in `docs/`. Keep the Vietnamese wording of business terms from the glossary; do not translate them.
-23. Write choices with the scale words above, never codes. Codes are kept only for object IDs (FR-, BR-, NFR-, OQ-, SRC-, BRQ-, EPIC-, FEAT-, US-, GOAL-, PLAN-, ADR-, Task <KEY>-<N>). The first time an object ID appears in text for humans, say what kind of object it is.
+23. Write choices with the scale words above, never codes. Codes are kept only for object IDs (FR-, BR-, NFR-, OQ-, SRC-, GXN-, BRQ-, EPIC-, FEAT-, US-, GOAL-, PLAN-, ADR-, Task <KEY>-<N>). The first time an object ID appears in text for humans, say what kind of object it is.
 
 ## Shared scales (Thang dùng chung)
 
