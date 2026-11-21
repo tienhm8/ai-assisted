@@ -3,7 +3,9 @@
 
 > **Dùng khi:** cần khách hàng xem và chốt phạm vi, quy trình, màn hình, quy tắc, câu hỏi trước khi qua cổng Yêu cầu. AI soạn `Draft` từ `SRC-<NN>`, BA (Đầu mối) rà rồi xuất file gửi khách hàng.
 >
-> **Xuất file:** `python3 -I .ai/scripts/export-pack.py <gói>.md --pdf` tạo một file HTML tự chứa (kèm PDF nếu máy có Chrome). Phần nằm giữa hai dấu `internal` (như khối này) bị bỏ khi xuất.
+> **Nơi lưu:** `docs/00-project-overview/confirmation-packs/GXN-<NN>-<tên-ngắn>.md`, đăng ký ở bảng Danh mục trong [README của thư mục](../../docs/00-project-overview/confirmation-packs/README.md).
+>
+> **Xuất file:** `python3 -I .ai/scripts/export-pack.py docs/00-project-overview/confirmation-packs/GXN-<NN>-<tên-ngắn>.md --pdf` tạo một file HTML tự chứa (kèm PDF nếu máy có Chrome). Phần nằm giữa hai dấu `internal` (như khối này) bị bỏ khi xuất.
 >
 > **Viết cho khách hàng:** ngôn ngữ nghiệp vụ, không mã nội bộ (FR, mức rủi ro, mức tự chủ…). Chỉ giữ mã `OQ-<NN>` và `SRC-<NN>` để đối chiếu. Chưa ẩn danh thì không đưa dữ liệu thật vào ví dụ: dùng tên và số giả.
 >
