@@ -15,6 +15,7 @@
 ├── scope.md
 ├── glossary.md
 ├── open-questions.md
+├── confirmation-packs/   gói xác nhận yêu cầu gửi khách hàng (GXN-<NN>)
 ├── luong-ba-yeu-cau.html   sơ đồ các bước BA từ product-backlog đến khi code được
 └── sources/          tài liệu đầu vào từ khách hàng, PO (SRC-<NN>)
 ```
@@ -28,6 +29,7 @@
 | [scope.md](scope.md) | Ranh giới dự án: trong phạm vi, ngoài phạm vi, ràng buộc |
 | [glossary.md](glossary.md) | Thuật ngữ thống nhất cho người và AI; AI không tự đặt nghĩa mới |
 | [open-questions.md](open-questions.md) | Sổ câu hỏi mở cấp dự án (`OQ-<NN>`) |
+| [confirmation-packs/](confirmation-packs/README.md) | Gói xác nhận yêu cầu gửi khách hàng (`GXN-<NN>`): bản nguồn `.md` và bản xuất HTML/PDF; câu trả lời của khách lưu ở `sources/` |
 | [luong-ba-yeu-cau.html](luong-ba-yeu-cau.html) | Sơ đồ các bước BA từ nhập User Story vào product-backlog đến khi developer code được; mở bằng trình duyệt |
 | [sources/](sources/README.md) | Tài liệu đầu vào từ khách hàng, PO, bên liên quan (`SRC-<NN>`), đã ẩn danh; câu trả lời làm rõ cũng lưu ở đây |
 
