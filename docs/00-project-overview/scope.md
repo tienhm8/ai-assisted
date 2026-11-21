@@ -2,17 +2,14 @@
 
 | Thuộc tính | Giá trị |
 | --- | --- |
-| Trạng thái | Draft |
-| Người phụ trách |  |
-| Người duyệt (dự án) | PO |
-| Phiên bản · Ngày |  |
-| Tài liệu liên quan | vision.md, open-questions.md, ../01-requirements/BRD.md |
+| Người duyệt | PO |
+| Tài liệu liên quan | vision.md, ../01-requirements/BRD.md |
 
-> **Mục đích.** Ranh giới dự án: trong phạm vi, ngoài phạm vi, ràng buộc; câu hỏi mở ghi ở [open-questions.md](open-questions.md).
+> **Mục đích.** Ranh giới dự án: trong phạm vi, ngoài phạm vi, ràng buộc; câu hỏi mở ghi ở sổ OQ đúng cấp ([FR/README](../01-requirements/FR/README.md)).
 >
-> **Người quyết định:** PO.
+> **Người duyệt:** PO.
 >
-> **Điều kiện sang 01-requirements:** vision, scope trạng thái Approved; câu hỏi mở chặn phạm vi đã được xử lý (xem open-questions.md).
+> **Điều kiện sang 01-requirements:** vision, scope trạng thái Approved; câu hỏi mở chặn phạm vi đã được xử lý (xem sổ OQ đúng cấp).
 
 ## 1. Trong phạm vi
 

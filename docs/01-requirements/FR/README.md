@@ -1,8 +1,26 @@
 # Functional Requirements (FR)
 
-Mỗi module một file: `FR-<MODULE>.md` (ví dụ `FR-AUTH.md`). Mã định danh: `FR-<MODULE>-<NN>`; tiêu chí nghiệm thu: `<FR>-AC<N>`.
+Mỗi Feature một thư mục, trong thư mục của Module:
 
-## Bảng FR (mẫu cho mỗi file module)
+```text
+FR/<MODULE>/open-questions.md                  # câu hỏi chung của Module
+FR/<MODULE>/<FEAT-NN>-<tên>/FR.md              # bảng FR của Feature
+FR/<MODULE>/<FEAT-NN>-<tên>/open-questions.md  # câu hỏi của Feature, FR, BR, AC
+```
+
+Tên thư mục Feature: không dấu, chữ thường, nối bằng gạch ngang (ví dụ `FEAT-03-dang-ky-work-study`). Thư mục Feature được tạo ngay khi Feature đã có mã `FEAT-<NN>` ở [features](../features.md), kể cả chưa có FR; lúc đó thư mục chỉ có `open-questions.md`, `FR.md` thêm khi có FR. Mã định danh: `FR-<MODULE>-<NN>`; tiêu chí nghiệm thu: `<FR>-AC<N>`.
+
+**Đổi tên, chuyển, đổi cấp:** đổi tên hoặc chuyển thư mục Feature sang Module khác thì cập nhật trong cùng thay đổi bảng tổng hợp Feature/Module dưới đây và mọi đường dẫn trỏ tới thư mục đó. Câu hỏi nằm sai sổ hoặc đổi cấp thì giữ nguyên mã `OQ-<NN>`, chuyển nguyên dòng và phần chi tiết sang sổ đúng, không mở OQ mới.
+
+## Tổng hợp Feature / Module
+
+Cái nhìn một chỗ cho toàn bộ FR; thêm một dòng khi tạo thư mục Feature. Chỉ liệt kê và trỏ, không chép trạng thái FR (trạng thái chỉ nằm ở bảng FR của Feature).
+
+| Module | Feature | Thư mục | Số FR | Sổ câu hỏi |
+| --- | --- | --- | --- | --- |
+| `<MODULE>` | FEAT-<NN> | `<MODULE>/<FEAT-NN>-<tên>/` | | `<MODULE>/open-questions.md`, `<MODULE>/<FEAT-NN>-<tên>/open-questions.md` |
+
+## Bảng FR (mẫu cho `FR.md` của mỗi Feature)
 
 | ID | Mô tả | BRQ nguồn | Feature | BR áp dụng | Ưu tiên | Trạng thái | Bằng chứng (plan/Task + commit) |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -12,7 +30,7 @@ Mỗi module một file: `FR-<MODULE>.md` (ví dụ `FR-AUTH.md`). Mã định d
 
 **Mô tả FR** viết ngắn, một câu, đủ để kiến trúc sư, Tech Lead và developer hiểu hệ thống phải làm gì.
 
-Điểm chưa rõ ghi `OQ-<NN>` ([open-questions.md](../../00-project-overview/open-questions.md)), không đoán.
+Điểm chưa rõ ghi `OQ-<NN>` vào sổ của Feature (hoặc Module), không đoán.
 
 Trạng thái: `☐` chưa làm · `◐ <lý do>` đang làm/lệch plan · `◐ chưa nghiệm thu` · `☑` có code + test + review theo mức rủi ro.
 
@@ -21,7 +39,7 @@ Trạng thái: `☐` chưa làm · `◐ <lý do>` đang làm/lệch plan · `◐
 Trạng thái hoàn thành của FR **chỉ nằm ở bảng này**; nơi khác chỉ tham chiếu (nguyên tắc một nơi). Sửa FR phải có lịch sử thay đổi, không sửa lặng lẽ.
 
 ## Chi tiết FR (tuỳ chọn, chỉ cho FR rủi ro cao hoặc mơ hồ)
-Đặt ngay dưới bảng trong file module; FR đơn giản thì bỏ qua.
+Đặt ngay dưới bảng trong `FR.md` của Feature; FR đơn giản thì bỏ qua.
 
 ```text
 ### FR-<MODULE>-<NN>

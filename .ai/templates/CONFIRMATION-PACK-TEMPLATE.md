@@ -52,7 +52,7 @@ note: 2 | Hệ thống tự đóng vị trí khi hết hạn.
 
 - [ ] Mỗi màn hình trả lời: ai dùng, làm việc gì, dữ liệu nào tự điền, bước tiếp theo.
 - [ ] Mỗi điểm chưa chắc đã đánh số trên màn hình và có câu hỏi ở mục 5.
-- [ ] Mọi `OQ-<NN>` trong gói có trong `open-questions.md` (trạng thái chuyển `Asked` sau khi gửi).
+- [ ] Mọi `OQ-<NN>` trong gói có trong sổ OQ đúng cấp (trạng thái chuyển `Asked` sau khi gửi).
 - [ ] Không có họ tên, mã sinh viên, số tài khoản, số giấy tờ thật.
 - [ ] Đã xuất thử file, xem lại bằng mắt.
 

@@ -79,7 +79,7 @@ Applies when all hold: the Plan has a single `low`-risk Task whose risk and auto
 - The session runs at the first item of `try` for the Task's main Skill (ai-config.yaml `tasks`) and loads only the main Skill.
 - One error: at most 3 rounds in this session (`project-rules` 18); no escalation inside the session. Past that: stop and ask a human to open a session at a higher level or move to the full lane.
 - Steps 6–7 unchanged; the handoff report fills only sections with content.
-- Step 8: the human opens a new session at the `code-review` level (`sessions.review` in ai-config.yaml) with the `pr-review` opening line in getting-started §5.3; never in the coding session. Input: the handoff report and the commit range `git diff <base>..<head>`; no PR needed.
+- Step 8: the human opens a new session at the `code-review` level (`sessions.review` in ai-config.yaml) with the `pr-review` opening line in getting-started §6.3; never in the coding session. Input: the handoff report and the commit range `git diff <base>..<head>`; no PR needed.
 
 If a condition outside the fast lane arises: stop, go back to step 3.
 

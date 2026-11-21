@@ -43,7 +43,7 @@ Tóm tắt và mã báo cáo kiểm thử. Phân biệt pass / fail / skipped / 
 ## 4. Giả định, quyết định, câu hỏi mở
 - Giả định:
 - Quyết định đã đưa ra:
-- Câu hỏi mở (`OQ-<NN>`) chưa giải quyết, mỗi mã kèm bản tóm tắt đủ để quyết theo `project-rules` 21 (vấn đề, mỗi phương án một dòng được/mất, đề xuất, nếu chưa quyết); chi tiết và lịch sử ở open-questions:
+- Câu hỏi mở (`OQ-<NN>`) chưa giải quyết, mỗi mã kèm bản tóm tắt đủ để quyết theo `project-rules` 21 (vấn đề, mỗi phương án một dòng được/mất, đề xuất, nếu chưa quyết); chi tiết và lịch sử ở sổ OQ đúng cấp:
 
 ## 5. Hành động cần người thực hiện
 (duyệt, merge, deploy, cấp quyền...). Chỉ việc người phải làm; câu hỏi cần quyết ghi ở mục 4 dưới dạng `OQ-<NN>`.

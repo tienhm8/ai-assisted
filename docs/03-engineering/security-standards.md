@@ -2,10 +2,7 @@
 
 | Thuộc tính | Giá trị |
 | --- | --- |
-| Trạng thái | Draft |
-| Người phụ trách |  |
-| Người duyệt (dự án) | Tech Lead |
-| Phiên bản · Ngày |  |
+| Người duyệt | Tech Lead |
 | Tài liệu liên quan | coding-standards.md, error-handling.md, testing-strategy.md, ../02-architecture/system-architecture.md, ../02-architecture/api-design.md, ../02-architecture/database-design.md, ../../.ai/rules/security-rules.md, ../../.ai/skills/security-review/SKILL.md, ../../.ai/skills/authentication-rbac/SKILL.md |
 
 > **Mục đích.** Chuẩn bảo mật: nguyên tắc, Authentication & Authorization (quy tắc), kiểm tra đầu vào, bảo vệ dữ liệu, secret, API, logging, dependency, ánh xạ OWASP Top 10 và mức ASVS. Sàn không hạ được.

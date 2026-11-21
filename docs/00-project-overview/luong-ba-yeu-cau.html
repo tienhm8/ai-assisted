@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="vi">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Luồng BA đến khi code</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Layout: one column; header, legend, one scrollable flow SVG (steps and gates), notes. */
+:root{
+  --bg:#f6f7f9; --fg:#1b2430; --muted:#5b6675; --line:#8a95a5;
+  --ba:#dbe8f7; --ba-ink:#16406e; --ai:#e4f1e6; --ai-ink:#1f5a2c; --ot:#efe6d8; --ot-ink:#6b4a14;
+  --out:#ffffff; --accent:#c2410c; --card:#ffffff; --rule:#d5dae1;
+  --font-display:"Space Grotesk",system-ui,sans-serif; --font-body:"Inter",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#12171e; --fg:#e6eaf0; --muted:#9aa5b4; --line:#6f7b8c;
+  --ba:#1d3350; --ba-ink:#a9c9ee; --ai:#1b3322; --ai-ink:#a5d6af; --ot:#3a2f1c; --ot-ink:#e3c48d;
+  --out:#1a212b; --accent:#fb923c; --card:#1a212b; --rule:#2b3441; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#12171e; --fg:#e6eaf0; --muted:#9aa5b4; --line:#6f7b8c;
+  --ba:#1d3350; --ba-ink:#a9c9ee; --ai:#1b3322; --ai-ink:#a5d6af; --ot:#3a2f1c; --ot-ink:#e3c48d;
+  --out:#1a212b; --accent:#fb923c; --card:#1a212b; --rule:#2b3441; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);line-height:1.55;
+  padding-block:28px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+main{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+h1{font-family:var(--font-display);font-size:1.6rem;margin:0;text-wrap:balance}
+h2{font-family:var(--font-display);font-size:1.05rem;margin:0 0 6px}
+p{margin:6px 0 0;max-width:65ch;color:var(--muted)}
+.scroll{overflow-x:auto;background:var(--card);border:1px solid var(--rule);border-radius:8px;padding:12px}
+figure{margin:0;min-width:680px}
+figcaption{font-size:.85rem;color:var(--muted);margin-top:8px;max-width:65ch}
+svg{display:block;width:100%;height:auto;color:var(--fg)}
+.legend{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:.85rem}
+.legend span::before{content:"";display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.l-ba::before{background:var(--ba);border:1px solid var(--ba-ink)}
+.l-ai::before{background:var(--ai);border:1px solid var(--ai-ink)}
+.l-ot::before{background:var(--ot);border:1px solid var(--ot-ink)}
+.l-out::before{background:var(--out);border:1px dashed var(--line)}
+.l-gate::before{border:1.5px solid var(--accent)}
+ul{margin:0;padding-left:1.1rem;display:flex;flex-direction:column;gap:6px;max-width:70ch}
+.notes{background:var(--card);border:1px solid var(--rule);border-radius:8px;padding:14px 16px;min-width:0}
+</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Space+Grotesk:wght@600&display=swap">
+<main>
+  <header>
+    <h1>Từ product-backlog đến khi developer code được</h1>
+    <p>Mười một bước, bốn cổng duyệt. Mỗi bước ghi ai làm, làm ở file nào và để lại gì. Khung ở bước 1 là điều kiện đứng trước: vision và scope phải Approved.</p>
+  </header>
+  <div class="legend" aria-hidden="true">
+    <span class="l-ba">BA làm</span><span class="l-ai">AI soạn, người ghi dưới duyệt</span><span class="l-ot">Người khác làm</span><span class="l-out">File, mã để lại</span><span class="l-gate">Cổng duyệt</span>
+  </div>
+  <div class="scroll">
+  <figure>
+  <svg viewBox="0 0 800 1572" role="img" aria-label="Mười một bước từ nhập User Story vào product-backlog đến khi developer bắt tay vào code, qua bốn cổng duyệt, có vòng lặp khi khách hàng trả lời sinh câu hỏi mới" font-family="Inter,system-ui,sans-serif">
+<defs>
+<marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker>
+<marker id="arrA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="var(--accent)"/></marker>
+</defs>
+<g font-size="11" fill="currentColor" opacity=".65" letter-spacing=".6"><text x="10" y="14">AI HAY BA</text><text x="140" y="14">VIỆC PHẢI LÀM</text><text x="500" y="14">ĐỂ LẠI</text></g>
+<g transform="translate(0,26)">
+<rect x="10" y="26.0" width="104" height="36" rx="18" fill="var(--ba)" stroke="var(--ba-ink)"/>
+<text x="62" y="49.0" text-anchor="middle" font-size="12.5" font-weight="600" fill="var(--ba-ink)">BA</text>
+<rect x="140" y="0" width="340" height="88" rx="8" fill="none" stroke="currentColor"/>
+<text x="154" y="24" font-size="14" font-weight="600" fill="currentColor">1. Đăng ký nguồn</text>
+<text x="154" y="44" font-size="12" fill="currentColor">Lưu tài liệu đã ẩn danh, thêm một dòng</text>
+<text x="154" y="60" font-size="12" fill="currentColor">vào bảng Danh mục.</text>
+<rect x="500" y="0" width="290" height="88" rx="8" fill="var(--out)" stroke="var(--line)" stroke-dasharray="4 3"/>
+<text x="514" y="24" font-size="13" font-weight="600" fill="var(--accent)">SRC-&lt;NN&gt;</text>
+<text x="514" y="44" font-size="12" fill="currentColor">sources/README.md</text>
+<text x="514" y="60" font-size="12" fill="currentColor">Chưa ẩn danh thì AI không mở.</text>
+</g>
+<line x1="305" y1="116" x2="305" y2="136" stroke="currentColor" stroke-width="1.5" marker-end="url(#arr)"/>
+<g transform="translate(0,138)"><rect x="10" y="0" width="780" height="58" rx="8" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+<text x="24" y="22" font-size="12.5" font-weight="400" fill="currentColor">Cổng Phạm vi: vision, scope đã Approved. Chưa qua thì chưa nhập User Story chính thức. Người duyệt:</text>
+<text x="24" y="39" font-size="12.5" font-weight="400" fill="currentColor">PO.</text>
+</g>
+<line x1="305" y1="198" x2="305" y2="218" stroke="currentColor" stroke-width="1.5" marker-end="url(#arr)"/>
+<g transform="translate(0,220)">
+<rect x="10" y="18.0" width="104" height="52" rx="18" fill="var(--ba)" stroke="var(--ba-ink)"/>
+<text x="62" y="40.0" text-anchor="middle" font-size="12.5" font-weight="600" fill="var(--ba-ink)">BA soạn</text><text x="62" y="57.0" text-anchor="middle" font-size="10.5" fill="var(--ba-ink)">PO duyệt</text>
+<rect x="140" y="0" width="340" height="88" rx="8" fill="none" stroke="currentColor"/>
+<text x="154" y="24" font-size="14" font-weight="600" fill="currentColor">2. Nhập vào product-backlog</text>
+<text x="154" y="44" font-size="12" fill="currentColor">Epic ở §1, User Story ở §2: Là (vai), Tôi</text>
+<text x="154" y="60" font-size="12" fill="currentColor">muốn, Để. Vai đúng tên ở glossary.</text>
+<text x="154" y="76" font-size="12" fill="currentColor">Ghi SRC làm căn cứ.</text>
+<rect x="500" y="0" width="290" height="88" rx="8" fill="var(--out)" stroke="var(--line)" stroke-dasharray="4 3"/>
+<text x="514" y="24" font-size="13" font-weight="600" fill="var(--accent)">EPIC-&lt;NN&gt;, US-&lt;MODULE&gt;-&lt;NN&gt;</text>
+<text x="514" y="44" font-size="12" fill="currentColor">docs/04-project-management/</text>
+<text x="514" y="60" font-size="12" fill="currentColor">product-backlog.md</text>
+</g>
+<line x1="305" y1="310" x2="305" y2="330" stroke="currentColor" stroke-width="1.5" marker-end="url(#arr)"/>
+<g transform="translate(0,332)">
+<rect x="10" y="26.0" width="104" height="36" rx="18" fill="var(--ba)" stroke="var(--ba-ink)"/>
+<text x="62" y="49.0" text-anchor="middle" font-size="12.5" font-weight="600" fill="var(--ba-ink)">BA</text>
+<rect x="140" y="0" width="340" height="88" rx="8" fill="none" stroke="currentColor"/>
+<text x="154" y="24" font-size="14" font-weight="600" fill="currentColor">3. Gắn Feature và BRQ</text>
+<text x="154" y="44" font-size="12" fill="currentColor">Mỗi User Story truy được về BRQ.</text>
+<text x="154" y="60" font-size="12" fill="currentColor">Feature mới thì tạo thư mục Feature.</text>
+<rect x="500" y="0" width="290" height="88" rx="8" fill="var(--out)" stroke="var(--line)" stroke-dasharray="4 3"/>
+<text x="514" y="24" font-size="13" font-weight="600" fill="var(--accent)">FEAT-&lt;NN&gt;, BRQ-&lt;NN&gt;</text>
+<text x="514" y="44" font-size="12" fill="currentColor">features.md, BRD.md</text>
+<text x="514" y="60" font-size="12" fill="currentColor">FR/&lt;MODULE&gt;/&lt;FEAT-NN&gt;-&lt;tên&gt;/</text>
+</g>
+<line x1="305" y1="422" x2="305" y2="442" stroke="currentColor" stroke-width="1.5" marker-end="url(#arr)"/>
+<g transform="translate(0,444)">
+<rect x="10" y="18.0" width="104" height="52" rx="18" fill="var(--ai)" stroke="var(--ai-ink)"/>
+<text x="62" y="40.0" text-anchor="middle" font-size="12.5" font-weight="600" fill="var(--ai-ink)">AI soạn</text><text x="62" y="57.0" text-anchor="middle" font-size="10.5" fill="var(--ai-ink)">BA duyệt</text>
+<rect x="140" y="0" width="340" height="88" rx="8" fill="none" stroke="currentColor"/>
+<text x="154" y="24" font-size="14" font-weight="600" fill="currentColor">4. Phân tích (requirement-analysis)</text>
+<text x="154" y="44" font-size="12" fill="currentColor">Tách User Story thành FR, BR, AC.</text>
+<text x="154" y="60" font-size="12" fill="currentColor">Chỗ chưa rõ ghi thành OQ, không đoán.</text>
+<rect x="500" y="0" width="290" height="88" rx="8" fill="var(--out)" stroke="var(--line)" stroke-dasharray="4 3"/>
+<text x="514" y="24" font-size="13" font-weight="600" fill="var(--accent)">FR-, BR-, AC, OQ-&lt;NN&gt;</text>
+<text x="514" y="44" font-size="12" fill="currentColor">FR.md, business-rules.md,</text>
+<text x="514" y="60" font-size="12" fill="currentColor">acceptance-criteria.md, open-questions.md</text>
+</g>
+<line x1="305" y1="534" x2="305" y2="554" stroke="currentColor" stroke-width="1.5" marker-end="url(#arr)"/>
+<g transform="translate(0,556)">
+<rect x="10" y="18.0" width="104" height="52" rx="18" fill="var(--ai)" stroke="var(--ai-ink)"/>
+<text x="62" y="40.0" text-anchor="middle" font-size="12.5" font-weight="600" fill="var(--ai-ink)">AI soạn</text><text x="62" y="57.0" text-anchor="middle" font-size="10.5" fill="var(--ai-ink)">BA rà</text>
+<rect x="140" y="0" width="340" height="88" rx="8" fill="none" stroke="currentColor"/>
+<text x="154" y="24" font-size="14" font-weight="600" fill="currentColor">5. Rà soát (requirement-review)</text>
+<text x="154" y="44" font-size="12" fill="currentColor">Kiểm đủ, rõ, nhất quán, kiểm thử được,</text>
+<text x="154" y="60" font-size="12" fill="currentColor">truy vết được. Chỉ khuyến nghị.</text>
+<rect x="500" y="0" width="290" height="88" rx="8" fill="var(--out)" stroke="var(--line)" stroke-dasharray="4 3"/>
+<text x="514" y="24" font-size="13" font-weight="600" fill="var(--accent)">Báo cáo review</text>
+<text x="514" y="44" font-size="12" fill="currentColor">BA sửa tài liệu hoặc thêm OQ</text>
+<text x="514" y="60" font-size="12" fill="currentColor">theo khuyến nghị.</text>
+</g>
+<line x1="305" y1="646" x2="305" y2="666" stroke="currentColor" stroke-width="1.5" marker-end="url(#arr)"/>
+<g transform="translate(0,668)">
+<rect x="10" y="18.0" width="104" height="52" rx="18" fill="var(--ai)" stroke="var(--ai-ink)"/>
+<text x="62" y="40.0" text-anchor="middle" font-size="12.5" font-weight="600" fill="var(--ai-ink)">AI soạn</text><text x="62" y="57.0" text-anchor="middle" font-size="10.5" fill="var(--ai-ink)">BA rà</text>
+<rect x="140" y="0" width="340" height="88" rx="8" fill="none" stroke="currentColor"/>
+<text x="154" y="24" font-size="14" font-weight="600" fill="currentColor">6. Soạn Gói xác nhận yêu cầu</text>
+<text x="154" y="44" font-size="12" fill="currentColor">Mỗi gói một chủ đề: phạm vi, quy trình,</text>
+<text x="154" y="60" font-size="12" fill="currentColor">wireframe, quy tắc, các OQ đang mở.</text>
+<rect x="500" y="0" width="290" height="88" rx="8" fill="var(--out)" stroke="var(--line)" stroke-dasharray="4 3"/>
+<text x="514" y="24" font-size="13" font-weight="600" fill="var(--accent)">Gói .md, xuất HTML/PDF</text>
+<text x="514" y="44" font-size="12" fill="currentColor">confirmation-packs/GXN-&lt;NN&gt;-&lt;tên&gt;.md</text>
+<text x="514" y="60" font-size="12" fill="currentColor">export-pack.py &lt;gói&gt;.md --pdf</text>
+</g>
+<line x1="305" y1="758" x2="305" y2="778" stroke="currentColor" stroke-width="1.5" marker-end="url(#arr)"/>
+<g transform="translate(0,780)">
+<rect x="10" y="26.0" width="104" height="36" rx="18" fill="var(--ba)" stroke="var(--ba-ink)"/>
+<text x="62" y="49.0" text-anchor="middle" font-size="12.5" font-weight="600" fill="var(--ba-ink)">BA</text>
+<rect x="140" y="0" width="340" height="88" rx="8" fill="none" stroke="currentColor"/>
+<text x="154" y="24" font-size="14" font-weight="600" fill="currentColor">7. Gửi khách hàng, nhận trả lời</text>
+<text x="154" y="44" font-size="12" fill="currentColor">Gửi qua Đầu mối, chuyển OQ sang Asked.</text>
+<text x="154" y="60" font-size="12" fill="currentColor">Trả lời lưu thành SRC mới, ghi vào OQ.</text>
+<rect x="500" y="0" width="290" height="88" rx="8" fill="var(--out)" stroke="var(--line)" stroke-dasharray="4 3"/>
+<text x="514" y="24" font-size="13" font-weight="600" fill="var(--accent)">SRC-&lt;NN&gt; mới, OQ Closed</text>
+<text x="514" y="44" font-size="12" fill="currentColor">Câu trả lời sinh câu hỏi mới thì</text>
+<text x="514" y="60" font-size="12" fill="currentColor">mở OQ mới và quay lại bước 4.</text>
+</g>
+<line x1="305" y1="870" x2="305" y2="890" stroke="currentColor" stroke-width="1.5" marker-end="url(#arr)"/>
+<g transform="translate(0,892)"><rect x="10" y="0" width="780" height="58" rx="8" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+<text x="24" y="22" font-size="12.5" font-weight="400" fill="currentColor">Cổng Yêu cầu: mọi FR trong phạm vi có AC kiểm thử được, truy về SRC và BRQ. PO/BA duyệt, QA rà,</text>
+<text x="24" y="39" font-size="12.5" font-weight="400" fill="currentColor">khách duyệt qua Đầu mối. Có SRC mới chuyển Approved.</text>
+</g>
+<line x1="305" y1="952" x2="305" y2="972" stroke="currentColor" stroke-width="1.5" marker-end="url(#arr)"/>
+<g transform="translate(0,974)">
+<rect x="10" y="18.0" width="104" height="52" rx="18" fill="var(--ai)" stroke="var(--ai-ink)"/>
+<text x="62" y="40.0" text-anchor="middle" font-size="12.5" font-weight="600" fill="var(--ai-ink)">AI soạn</text><text x="62" y="57.0" text-anchor="middle" font-size="10.5" fill="var(--ai-ink)">Kiến trúc sư duyệt</text>
+<rect x="140" y="0" width="340" height="88" rx="8" fill="none" stroke="currentColor"/>
+<text x="154" y="24" font-size="14" font-weight="600" fill="currentColor">8. Thiết kế</text>
+<text x="154" y="44" font-size="12" fill="currentColor">Kiến trúc, module, DB, API, ADR cho phạm vi</text>
+<text x="154" y="60" font-size="12" fill="currentColor">đang làm. Security duyệt nếu có tiền, phân</text>
+<text x="154" y="76" font-size="12" fill="currentColor">quyền, dữ liệu cá nhân, migration.</text>
+<rect x="500" y="0" width="290" height="88" rx="8" fill="var(--out)" stroke="var(--line)" stroke-dasharray="4 3"/>
+<text x="514" y="24" font-size="13" font-weight="600" fill="var(--accent)">02-architecture/, ADR</text>
+<text x="514" y="44" font-size="12" fill="currentColor">Chưa Approved thì không code tính năng.</text>
+</g>
+<line x1="305" y1="1064" x2="305" y2="1084" stroke="currentColor" stroke-width="1.5" marker-end="url(#arr)"/>
+<g transform="translate(0,1086)"><rect x="10" y="0" width="780" height="58" rx="8" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+<text x="24" y="22" font-size="12.5" font-weight="400" fill="currentColor">Cổng Thiết kế: thiết kế của phạm vi đã duyệt, có ADR cho quyết định quan trọng. Người duyệt: Kiến</text>
+<text x="24" y="39" font-size="12.5" font-weight="400" fill="currentColor">trúc sư.</text>
+</g>
+<line x1="305" y1="1146" x2="305" y2="1166" stroke="currentColor" stroke-width="1.5" marker-end="url(#arr)"/>
+<g transform="translate(0,1168)">
+<rect x="10" y="26.0" width="104" height="36" rx="18" fill="var(--ot)" stroke="var(--ot-ink)"/>
+<text x="62" y="49.0" text-anchor="middle" font-size="12.5" font-weight="600" fill="var(--ot-ink)">Tech Lead</text>
+<rect x="140" y="0" width="340" height="88" rx="8" fill="none" stroke="currentColor"/>
+<text x="154" y="24" font-size="14" font-weight="600" fill="currentColor">9. Chuẩn kỹ thuật (một lần cho dự án)</text>
+<text x="154" y="44" font-size="12" fill="currentColor">Chuẩn code, bảo mật, lỗi, test ở 03-engineering</text>
+<text x="154" y="60" font-size="12" fill="currentColor">và PROJECT.md đã Approved. Thường đã xong.</text>
+<rect x="500" y="0" width="290" height="88" rx="8" fill="var(--out)" stroke="var(--line)" stroke-dasharray="4 3"/>
+<text x="514" y="24" font-size="13" font-weight="600" fill="var(--accent)">03-engineering/, PROJECT.md</text>
+<text x="514" y="44" font-size="12" fill="currentColor">Đã Approved thì bỏ qua bước này.</text>
+</g>
+<line x1="305" y1="1258" x2="305" y2="1278" stroke="currentColor" stroke-width="1.5" marker-end="url(#arr)"/>
+<g transform="translate(0,1280)">
+<rect x="10" y="18.0" width="104" height="52" rx="18" fill="var(--ai)" stroke="var(--ai-ink)"/>
+<text x="62" y="40.0" text-anchor="middle" font-size="12.5" font-weight="600" fill="var(--ai-ink)">AI soạn</text><text x="62" y="57.0" text-anchor="middle" font-size="10.5" fill="var(--ai-ink)">Tech Lead duyệt</text>
+<rect x="140" y="0" width="340" height="88" rx="8" fill="none" stroke="currentColor"/>
+<text x="154" y="24" font-size="14" font-weight="600" fill="currentColor">10. Lập Plan và Task</text>
+<text x="154" y="44" font-size="12" fill="currentColor">Nguồn là User Story. Mỗi Task có Objective,</text>
+<text x="154" y="60" font-size="12" fill="currentColor">phạm vi in/out, AC, rủi ro, mức tự chủ.</text>
+<text x="154" y="76" font-size="12" fill="currentColor">Tech Lead duyệt Plan, PO quyết ưu tiên.</text>
+<rect x="500" y="0" width="290" height="88" rx="8" fill="var(--out)" stroke="var(--line)" stroke-dasharray="4 3"/>
+<text x="514" y="24" font-size="13" font-weight="600" fill="var(--accent)">Plan, Task Manifest</text>
+<text x="514" y="44" font-size="12" fill="currentColor">.ai/plans/&lt;plan&gt;/</text>
+<text x="514" y="60" font-size="12" fill="currentColor">task-backlog.md</text>
+</g>
+<line x1="305" y1="1370" x2="305" y2="1390" stroke="currentColor" stroke-width="1.5" marker-end="url(#arr)"/>
+<g transform="translate(0,1392)"><rect x="10" y="0" width="780" height="58" rx="8" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+<text x="24" y="22" font-size="12.5" font-weight="400" fill="currentColor">Cổng Sẵn sàng giao việc: chuẩn đã Approved, mỗi Task có Objective, phạm vi, AC, rủi ro, mức tự chủ.</text>
+<text x="24" y="39" font-size="12.5" font-weight="400" fill="currentColor">Người duyệt: Tech Lead.</text>
+</g>
+<line x1="305" y1="1452" x2="305" y2="1472" stroke="currentColor" stroke-width="1.5" marker-end="url(#arr)"/>
+<g transform="translate(0,1474)">
+<rect x="10" y="18.0" width="104" height="52" rx="18" fill="var(--ai)" stroke="var(--ai-ink)"/>
+<text x="62" y="40.0" text-anchor="middle" font-size="12.5" font-weight="600" fill="var(--ai-ink)">Dev + AI</text><text x="62" y="57.0" text-anchor="middle" font-size="10.5" fill="var(--ai-ink)">Dev rà</text>
+<rect x="140" y="0" width="340" height="88" rx="8" fill="none" stroke="currentColor"/>
+<text x="154" y="24" font-size="14" font-weight="600" fill="currentColor">11. Bắt tay vào code</text>
+<text x="154" y="44" font-size="12" fill="currentColor">Giao Task theo getting-started §6. Mỗi Task</text>
+<text x="154" y="60" font-size="12" fill="currentColor">chạy một Run riêng, rồi test, review, bàn giao.</text>
+<rect x="500" y="0" width="290" height="88" rx="8" fill="var(--out)" stroke="var(--line)" stroke-dasharray="4 3"/>
+<text x="514" y="24" font-size="13" font-weight="600" fill="var(--accent)">Diff, báo cáo bàn giao</text>
+<text x="514" y="44" font-size="12" fill="currentColor">Việc nhỏ rủi ro thấp: làm theo fast lane,</text>
+<text x="514" y="60" font-size="12" fill="currentColor">không cần file Plan.</text>
+</g>
+<path d="M140 824.0 H127 V488.0 H138" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arrA)"/>
+</svg>
+  <figcaption>Đường nét đứt cam: câu trả lời của khách sinh câu hỏi mới thì mở OQ mới và quay lại bước 4, không sửa OQ cũ. Bước 1 đến 7 là phần BA làm việc với khách hàng; bước 8 trở đi do kiến trúc sư và Tech Lead dẫn, BA vẫn xác nhận yêu cầu khi cần.</figcaption>
+  </figure>
+  </div>
+  <section class="notes">
+    <h2>Cần nhớ khi làm</h2>
+    <ul>
+      <li>Tài liệu có họ tên, mã sinh viên, số điện thoại thật phải ẩn danh trước khi lưu và trước khi đưa vào AI.</li>
+      <li>Gói gửi khách dùng ngôn ngữ nghiệp vụ, chỉ giữ mã <b>OQ-&lt;NN&gt;</b> và <b>SRC-&lt;NN&gt;</b>. Không dùng mã FR hay mức rủi ro.</li>
+      <li>Mỗi OQ nằm ở đúng một sổ: sổ dự án, sổ Module hoặc sổ Feature.</li>
+      <li>Task chỉ giao cho AI khi có FR, BR, AC đã duyệt, thiết kế đã Approved, và đã gán rủi ro, mức tự chủ.</li>
+      <li>Không cần viết kín mọi tài liệu cho cả dự án. Cổng Yêu cầu và cổng Thiết kế chỉ xét phạm vi đang làm, bắt đầu từ mốc đầu tiên của roadmap.</li>
+      <li>AI không tự chuyển tài liệu sang Approved. Kết quả duyệt phải có SRC mới được tính là qua cổng.</li>
+    </ul>
+  </section>
+</main>

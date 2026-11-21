@@ -12,9 +12,6 @@
 | Thuộc tính | Giá trị |
 | --- | --- |
 | Trạng thái | Draft |
-| Người phụ trách |  |
-| Người duyệt |  |
-| Phiên bản · Ngày | 0.1 ·  |
 
 ## 1. Thông tin dự án
 | Hạng mục | Nội dung |
@@ -41,14 +38,16 @@ Xem rule 8 của [project-rules](.ai/rules/project-rules.md). Mặc định khô
 | 🔴 | `.ai/rules/`, `.ai/skills/`, `.ai/workflows/`, `.ai/templates/`, `.ai/agents/`, `.ai/guide/`, các file README trong `.ai/` | Rule, Skill, workflow của AI; sửa cần Task riêng và Tech Lead duyệt |
 
 ## 3. Dữ liệu của dự án theo mức (công khai, nội bộ, nhạy cảm, bí mật)
-Xử lý dữ liệu theo mức ở [security-standards](docs/03-engineering/security-standards.md) §1.
+Xử lý dữ liệu theo mức ở [security-standards](.ai/rules/project-rules.md) dòng 59.
 
-Mặc định: Nhạy cảm
+Dữ liệu theo mức: Công khai
 
 ## 4. Độ nghiêm ngặt và mức ASVS
-Xem "Độ nghiêm ngặt quy trình" ở [gates-and-rigor](.ai/guide/gates-and-rigor.md).
+Xem "Độ nghiêm ngặt quy trình" ở [gates-and-rigor](.ai/guide/gates-and-rigor.md), "Yêu cầu bảo mật của sản phẩm" ở [security-standards](docs/03-engineering/security-standards.md)
 
-Mặc định: Chuẩn
+Độ nghiêm ngặt quy trình: Chuẩn
+
+Yêu cầu bảo mật của sản phẩm: L1
 
 ## 5. Vai trò
 Một người có thể giữ nhiều vai. Dự án không có khách hàng bên ngoài thì ghi "Không áp dụng" ở hai dòng cuối.
@@ -57,23 +56,17 @@ Một người có thể giữ nhiều vai. Dự án không có khách hàng bê
 | Tech Lead | |
 | Product Owner (PO) | |
 | Business Analyst (BA) | |
-| Kiến trúc sư | |
-| Security | |
-| QA | |
-| DevOps | |
 | Owner | |
-| Đại diện khách hàng | |
-| Đầu mối với khách hàng | |
 
 ## 6. Lựa chọn áp dụng khung (Tailoring)
 Ghi lý do khi gộp, bỏ hoặc đổi cách dùng tài liệu cho phù hợp quy mô dự án.
 | Hạng mục | Lựa chọn | Lý do |
 | --- | --- | --- |
-| Phạm vi file AC | Một file hoặc đặt trong `FR/FR-<MODULE>.md` ([acceptance-criteria](docs/01-requirements/acceptance-criteria.md)) | |
+| Phạm vi file AC | Một file hoặc đặt trong `FR/<MODULE>/<FEAT-NN>-<tên>/FR.md` ([acceptance-criteria](docs/01-requirements/acceptance-criteria.md)) | |
 | Tài liệu gộp / bỏ | | |
 
 ## 7. Miễn trừ (Waiver)
-Miễn trừ có thời hạn một yêu cầu của khung. Ví dụ: chưa có CI/CD thì chạy cổng tự động cục bộ.
+Mặc định: Không có
 | Yêu cầu được miễn | Lý do | Người duyệt | Hết hạn | Kế hoạch khắc phục |
 | --- | --- | --- | --- | --- |
 |  | | | | |

@@ -2,10 +2,8 @@
 
 | Thuộc tính | Giá trị |
 | --- | --- |
-| Trạng thái | Draft |
-| Người phụ trách | TienHM |
-| Người duyệt (dự án) | Tech Lead |
-| Phiên bản · Ngày | 0.1 · 2026-11-16 |
+| Trạng thái | Approved |
+| Người duyệt | Tech Lead |
 | Tài liệu liên quan | ../../README.md, ../../PROJECT.md, gates-and-rigor.md, task-breakdown.md, ai-tools.md |
 
 > **Mục đích.** Tài liệu hướng dẫn sử dụng framework. AI không nạp file này khi làm Task.
@@ -14,15 +12,15 @@
 
 | Bạn đang… | Đọc |
 | --- | --- |
-| Bắt đầu một dự án chưa có code | §2, rồi §3 |
-| Đưa khung vào một dự án đã có code, đang chạy hoặc đang bảo trì | §2, rồi §4 |
-| Đã áp dụng xong, cần giao việc cho AI hằng ngày | §5 |
-| Gặp tình huống lạ | §6 |
+| Bắt đầu một dự án chưa có code | §2, §3, rồi §5 |
+| Đưa khung vào một dự án đã có code, đang chạy hoặc đang bảo trì | §2, §4, rồi §5 |
+| Đã áp dụng xong, cần giao việc cho AI hằng ngày | §6 |
+| Gặp tình huống lạ | §7 |
 | Gặp mã định danh không hiểu (FR-, OQ-, SRC-…) | §2, mục "Mã định danh" |
-| Cần biết mỗi giai đoạn nhận gì, ra gì, ai kiểm soát | §3.4 |
-| Chọn model, effort trước khi mở phiên AI | §5.2 |
-| Cần mẫu prompt cho một tình huống | §5.3 |
-| Nhận tài liệu, hỏi lại khách hàng | [sources](../../docs/00-project-overview/sources/README.md), [open-questions](../../docs/00-project-overview/open-questions.md) mục "Hỏi khách hàng qua đầu mối" |
+| Cần biết mỗi giai đoạn nhận gì, ra gì, ai kiểm soát (dự án mới và cũ) | §5.1 |
+| Chọn model, effort trước khi mở phiên AI | §6.2 |
+| Cần mẫu prompt cho một tình huống | §6.3 |
+| Nhận tài liệu, hỏi lại khách hàng | [sources](../../docs/00-project-overview/sources/README.md), sổ OQ theo cấp ([open-questions](open-questions.md)) |
 | Chọn công cụ AI | [ai-tools](ai-tools.md) §1 |
 | Tạo symlink cho công cụ AI | [ai-tools](ai-tools.md) §2 |
 | Khai báo giá trị riêng của dự án | [PROJECT.md](../../PROJECT.md) |
@@ -47,7 +45,7 @@
 | Mã | Nghĩa |
 | --- | --- |
 | `SRC-<NN>` | Tài liệu nguồn từ khách hàng hoặc PO ([sources](../../docs/00-project-overview/sources/README.md)) |
-| `OQ-<NN>` | Câu hỏi mở, giả định, đầu vào còn thiếu ([open-questions](../../docs/00-project-overview/open-questions.md)) |
+| `OQ-<NN>` | Câu hỏi mở, giả định, đầu vào còn thiếu ([open-questions](open-questions.md)) |
 | `OUT-<NN>` · `BRQ-<NN>` | Kết quả đo được của dự án (vision) · Yêu cầu nghiệp vụ (BRD) |
 | `EPIC-<NN>` · `FEAT-<NN>` · `US-<MODULE>-<NN>` | Epic (nhóm công việc lớn) · Function/Feature (chức năng hệ thống) · User Story (nhu cầu người dùng) |
 | `FR-<MODULE>-<NN>` · `BR-…` · `NFR-<NN>` | Yêu cầu chức năng · Quy tắc nghiệp vụ · Yêu cầu phi chức năng |
@@ -70,33 +68,7 @@ Muốn AI điền giúp: yêu cầu *"Tạo PROJECT.md cho dự án …"* kèm t
 ### 3.3 Nối công cụ AI
 Chọn công cụ và tạo symlink theo [ai-tools](ai-tools.md) §1–§2, rồi khai báo ở §3–§4 của file đó. Chạy thử một Task nhỏ (ví dụ một Task chỉ sửa tài liệu) để chắc công cụ đã đọc `AGENTS.md`.
 
-### 3.4 Đi qua các giai đoạn trước khi code
-
-Mỗi dòng là một hoặc nhiều Task; AI soạn `Draft`, người ở cột "Duyệt" chuyển `Approved`. Đầu ra của bước trước là đầu vào của bước sau; AI chỉ dùng đầu vào đã `Approved` (bước 0 không cần duyệt, chỉ cần đã ẩn danh).
-
-| Bước | Đầu vào (người cung cấp) | Loại Task giao AI | Đầu ra AI soạn (`Draft`) | Duyệt | Cổng |
-| --- | --- | --- | --- | --- | --- |
-| 0 | Tài liệu của khách hàng, PO: quy trình nghiệp vụ, biểu mẫu, biên bản (Đầu mối lưu, ẩn danh) | chỉ sửa tài liệu | Danh mục [sources](../../docs/00-project-overview/sources/README.md) `SRC-<NN>`; câu hỏi `Input` cho phần còn thiếu | Đầu mối với khách hàng | — |
-| 1 | `SRC-<NN>`; câu trả lời của khách hàng | tính năng mới (Skill `product-discovery`) hoặc chỉ sửa tài liệu | [00-project-overview](../../docs/00-project-overview/README.md): vision, scope, glossary, open-questions; gói câu hỏi gửi khách hàng | PO | cổng Phạm vi |
-| 2 | Bước 1 `Approved`; `SRC-<NN>`; OQ đã `Closed` | tính năng mới (phần yêu cầu), rà bằng rà soát yêu cầu | [01-requirements](../../docs/01-requirements/README.md): BRD, Feature, FR, NFR, BR, AC; Epic, User Story ở [product-backlog](../../docs/04-project-management/product-backlog.md); báo cáo rà soát | PO/BA, QA rà | cổng Yêu cầu |
-| 3 | Bước 2 `Approved`; code hiện có (dự án cũ, nền sẵn có) | tính năng mới (phần thiết kế) hoặc đổi kiến trúc | [02-architecture](../../docs/02-architecture/README.md): kiến trúc, module, DB, API, ADR | Kiến trúc sư (+ Security nếu có tiền, phân quyền, dữ liệu cá nhân, migration) | cổng Thiết kế |
-| 4 | Chuẩn của công ty; công cụ AI được phép | chỉ sửa tài liệu | [03-engineering](../../docs/03-engineering/README.md): chuẩn code, bảo mật, lỗi, test, [ai-tools](ai-tools.md) | Tech Lead | cổng Sẵn sàng giao việc |
-| 5 | Bước 2–3 `Approved`; ưu tiên của PO | tính năng mới (Skill `task-planning`) | [04-project-management](../../docs/04-project-management/README.md): roadmap, goals, product-backlog, task-backlog, Task (mẫu [task-breakdown](task-breakdown.md) §4) | Tech Lead; PO quyết ưu tiên | cổng Sẵn sàng giao việc |
-| 6 | Hạ tầng, quy định vận hành (DevOps) | chỉ sửa tài liệu, có thể làm song song từ bước 3 | [05-operations](../../docs/05-operations/README.md): deployment, monitoring, backup | Owner, tham khảo Tech Lead | trước cổng Vận hành |
-
-Từ bước 5 trở đi, công việc đi qua [task-execution](../workflows/task-execution.md) theo mô hình **Plan → Task → Run** ([work-model](work-model.md)): Plan là kế hoạch thực hiện, tạo từ một Nguồn (Goal, Epic, User Story hoặc yêu cầu độc lập), có thể phục vụ nhiều Goal, gồm nhiều Task; mỗi Task chạy trong một phiên hoặc subagent riêng với model·effort riêng; mỗi lần chạy là một Run. Đầu vào và đầu ra:
-
-| Bước | Đầu vào | Đầu ra | Người kiểm soát |
-| --- | --- | --- | --- |
-| Lập Plan | Nguồn (Goal, Epic, User Story hoặc yêu cầu độc lập); User Story, FR/BR/AC, thiết kế `Approved` | Plan theo [PLAN-TEMPLATE](../templates/PLAN-TEMPLATE.md) và một Task Manifest cho mỗi Task ([mẫu](../templates/TASK-MANIFEST-TEMPLATE.yaml)) ở `.ai/plans/<plan>/` | Tech Lead duyệt Plan: rủi ro, mức tự chủ, các mức model/effort thử, ngân sách, phạm vi của từng Task |
-| Chạy Task | Plan đã duyệt | Diff hoặc tài liệu; `runs.md` ghi từng lần chạy, nâng mức, chi phí; kết quả test thật ([TEST-REPORT](../templates/TEST-REPORT-TEMPLATE.md)) | Orchestrator đánh giá bằng lệnh kiểm; cổng tự động (lint, test, build) |
-| Bàn giao | Diff, kết quả test | [DELIVERY-REPORT](../templates/DELIVERY-REPORT-TEMPLATE.md); PR theo [PR-TEMPLATE](../templates/PR-TEMPLATE.md) | Reviewer (phiên AI khác hoặc người); rủi ro cao thêm reviewer độc lập |
-| Phát hành | PR đã merge | [RELEASE-REPORT](../templates/RELEASE-REPORT-TEMPLATE.md) nháp | Owner quyết; DevOps thực hiện; AI không deploy |
-
-Bạn không cần viết kín mọi tài liệu cho cả dự án trước khi code. Cổng Yêu cầu và cổng Thiết kế chỉ xét **phạm vi đang làm**: viết đủ cho mốc đầu tiên của roadmap, làm xong mốc đó rồi mở rộng.
-
-### 3.5 Task đầu tiên
-Khi qua cổng Sẵn sàng giao việc, giao Task theo §5. Thường bắt đầu bằng một Task làm tính năng nhỏ, rủi ro thấp hoặc vừa, để cả nhóm quen các điểm dừng.
+Xong §3.1–§3.3 thì đi tiếp §5 (các giai đoạn trước khi code).
 
 ## 4. Dự án cũ
 
@@ -135,6 +107,8 @@ Làm theo [CHECKLIST.md](../../CHECKLIST.md) như §3.2. Các điểm riêng c�
 
 Không có miễn trừ thì AI sẽ dừng ở yêu cầu đó và xin miễn trừ ([project-rules](../rules/project-rules.md) 12). Khai báo trước giúp tránh việc này.
 
+Xong §4.1–§4.4 thì lập hồ sơ hiện trạng của module sắp làm (§4.5–§4.7), rồi đi tiếp §5.
+
 ### 4.5 Lập hồ sơ hiện trạng
 Mỗi dòng là một Task chỉ sửa tài liệu (rủi ro thấp, làm trọn Task là đủ vì chỉ viết tài liệu, không sửa code). Làm cho **module sắp có việc trước**, không cần theo thứ tự cả hệ thống.
 
@@ -149,7 +123,7 @@ Mỗi dòng là một Task chỉ sửa tài liệu (rủi ro thấp, làm trọn
 
 Yêu cầu chung cho Task lập hồ sơ:
 - Mỗi điều mô tả ghi nguồn `file:line` để người duyệt kiểm được.
-- Chỗ code và tài liệu cũ mâu thuẫn, hành vi trông như lỗi, logic không rõ lý do: ghi `OQ-<NN>` vào [open-questions](../../docs/00-project-overview/open-questions.md), không đoán.
+- Chỗ code và tài liệu cũ mâu thuẫn, hành vi trông như lỗi, logic không rõ lý do: ghi `OQ-<NN>` vào sổ OQ đúng cấp ([open-questions](open-questions.md)), không đoán.
 - Lỗi đã chắc chắn: lập bug theo [BUG-TEMPLATE](../templates/BUG-TEMPLATE.md) để sửa ở Task sửa lỗi riêng, không sửa trong Task tài liệu.
 
 Mẫu Task (điền vào mẫu đầy đủ ở [task-breakdown](task-breakdown.md) §4):
@@ -190,14 +164,49 @@ Module chưa có test thì Task đầu tiên vào module đó nên là Task **ch
 | Viết hoặc sửa tài liệu | chỉ sửa tài liệu | — |
 | Sự cố production | sự cố production | — |
 
-## 5. Giao việc hằng ngày (dùng chung)
+## 5. Các giai đoạn trước khi code (dùng chung cho dự án mới và cũ)
 
-### 5.1 Giao việc lớn hoặc Task
+Dự án mới đi từ bước 0 sau khi qua cổng Khai báo dự án (§3). Dự án cũ đi cùng các bước này cho phần cần làm, sau khi đã lập hồ sơ hiện trạng của module (§4.5): bước nào hồ sơ đã `Approved` thì không làm lại.
+
+### 5.1 Đi qua các giai đoạn
+
+Sơ đồ các bước từ nhập User Story đến khi code được, kèm cổng duyệt: [luong-ba-yeu-cau.html](../../docs/00-project-overview/luong-ba-yeu-cau.html) (tải file về và mở bằng trình duyệt).
+
+Mỗi dòng là một hoặc nhiều Task; AI soạn `Draft`, người ở cột "Duyệt" chuyển `Approved`. Đầu ra của bước trước là đầu vào của bước sau; AI chỉ dùng đầu vào đã `Approved` (bước 0 không cần duyệt, chỉ cần đã ẩn danh).
+
+| Bước | Đầu vào (người cung cấp) | Loại Task giao AI | Đầu ra AI soạn (`Draft`) | Duyệt | Cổng |
+| --- | --- | --- | --- | --- | --- |
+| 0 | Tài liệu của khách hàng, PO: quy trình nghiệp vụ, biểu mẫu, biên bản (Đầu mối lưu, ẩn danh) | chỉ sửa tài liệu | Danh mục [sources](../../docs/00-project-overview/sources/README.md) `SRC-<NN>` (User Story thường xuất phát từ các tài liệu này); câu hỏi `Input` cho phần còn thiếu | Đầu mối với khách hàng | — |
+| 1 | `SRC-<NN>`; câu trả lời của khách hàng | tính năng mới (Skill `product-discovery`) hoặc chỉ sửa tài liệu | [00-project-overview](../../docs/00-project-overview/README.md): vision, scope, glossary; gói câu hỏi gửi khách hàng | PO | cổng Phạm vi |
+| 2 | Bước 1 `Approved`; `SRC-<NN>`; OQ đã `Closed` | tính năng mới (phần yêu cầu), rà bằng rà soát yêu cầu | [01-requirements](../../docs/01-requirements/README.md): BRD, Feature, FR, NFR, BR, AC; Epic, User Story ở [product-backlog](../../docs/04-project-management/product-backlog.md) §2 (ID `US-<MODULE>-<NN>`, Là (vai), Tôi muốn, Để, Epic, Feature, FR, ưu tiên; vai dùng đúng tên ở glossary; FR liên kết là đầu ra của cùng bước); báo cáo rà soát | PO/BA, QA rà | cổng Yêu cầu |
+| 3 | Bước 2 `Approved`; code hiện có (dự án cũ, nền sẵn có) | tính năng mới (phần thiết kế) hoặc đổi kiến trúc | [02-architecture](../../docs/02-architecture/README.md): kiến trúc, module, DB, API, ADR | Kiến trúc sư (+ Security nếu có tiền, phân quyền, dữ liệu cá nhân, migration) | cổng Thiết kế |
+| 4 | Chuẩn của công ty; công cụ AI được phép | chỉ sửa tài liệu | [03-engineering](../../docs/03-engineering/README.md): chuẩn code, bảo mật, lỗi, test, [ai-tools](ai-tools.md) | Tech Lead | cổng Sẵn sàng giao việc |
+| 5 | Bước 2–3 `Approved`; ưu tiên của PO | tính năng mới (Skill `task-planning`) | [04-project-management](../../docs/04-project-management/README.md): roadmap, goals, product-backlog, task-backlog, Task (mẫu [task-breakdown](task-breakdown.md) §4) | Tech Lead; PO quyết ưu tiên | cổng Sẵn sàng giao việc |
+| 6 | Hạ tầng, quy định vận hành (DevOps) | chỉ sửa tài liệu, có thể làm song song từ bước 3 | [05-operations](../../docs/05-operations/README.md): deployment, monitoring, backup | Owner, tham khảo Tech Lead | trước cổng Vận hành |
+
+Từ bước 5 trở đi, công việc đi qua [task-execution](../workflows/task-execution.md) theo mô hình **Plan → Task → Run** ([work-model](work-model.md)): Plan là kế hoạch thực hiện, tạo từ một Nguồn (Goal, Epic, User Story hoặc yêu cầu độc lập), có thể phục vụ nhiều Goal, gồm nhiều Task; mỗi Task chạy trong một phiên hoặc subagent riêng với model·effort riêng; mỗi lần chạy là một Run. Đầu vào và đầu ra:
+
+| Bước | Đầu vào | Đầu ra | Người kiểm soát |
+| --- | --- | --- | --- |
+| Lập Plan | Nguồn (Goal, Epic, User Story hoặc yêu cầu độc lập); User Story, FR/BR/AC, thiết kế `Approved` | Plan theo [PLAN-TEMPLATE](../templates/PLAN-TEMPLATE.md) và một Task Manifest cho mỗi Task ([mẫu](../templates/TASK-MANIFEST-TEMPLATE.yaml)) ở `.ai/plans/<plan>/` | Tech Lead duyệt Plan: rủi ro, mức tự chủ, các mức model/effort thử, ngân sách, phạm vi của từng Task |
+| Chạy Task | Plan đã duyệt | Diff hoặc tài liệu; `runs.md` ghi từng lần chạy, nâng mức, chi phí; kết quả test thật ([TEST-REPORT](../templates/TEST-REPORT-TEMPLATE.md)) | Orchestrator đánh giá bằng lệnh kiểm; cổng tự động (lint, test, build) |
+| Bàn giao | Diff, kết quả test | [DELIVERY-REPORT](../templates/DELIVERY-REPORT-TEMPLATE.md); PR theo [PR-TEMPLATE](../templates/PR-TEMPLATE.md) | Reviewer (phiên AI khác hoặc người); rủi ro cao thêm reviewer độc lập |
+| Phát hành | PR đã merge | [RELEASE-REPORT](../templates/RELEASE-REPORT-TEMPLATE.md) nháp | Owner quyết; DevOps thực hiện; AI không deploy |
+
+Bạn không cần viết kín mọi tài liệu cho cả dự án trước khi code. Cổng Yêu cầu và cổng Thiết kế chỉ xét **phạm vi đang làm**: viết đủ cho mốc đầu tiên của roadmap, làm xong mốc đó rồi mở rộng.
+
+### 5.2 Task đầu tiên
+Khi qua cổng Sẵn sàng giao việc, giao Task theo §6. Thường bắt đầu bằng một Task làm tính năng nhỏ, rủi ro thấp hoặc vừa, để cả nhóm quen các điểm dừng.
+
+## 6. Giao việc hằng ngày (dùng chung)
+
+### 6.1 Giao việc lớn hoặc Task
 - **Việc lớn:** nêu Nguồn: Goal (kết quả muốn đạt, tiêu chí hoàn thành), Epic, User Story hoặc yêu cầu độc lập, kèm căn cứ FR/thiết kế. AI chia thành Plan và Task, đề xuất rủi ro, mức tự chủ, mức model·effort cho từng Task; bạn duyệt Plan là cấp các giá trị đó.
 - **Việc nhỏ:** viết một Task theo mẫu ở [task-breakdown](task-breakdown.md) §4; Task chỉ giao AI khi đạt điều kiện sẵn sàng ở §7 của file đó. Ghi đủ: loại Task (danh sách ở [task-types](../workflows/task-types.md) §1), rủi ro, mức tự chủ. Task rủi ro thấp đủ điều kiện fast lane thì chạy ngay, không cần Plan.
 - Một Task một việc: không gộp sửa lỗi với refactor lớn.
+- **Nhập User Story (dự án mới và dự án cũ):** User Story nhập vào bảng §2 của [product-backlog](../../docs/04-project-management/product-backlog.md), thuộc bước 2 (Yêu cầu) ở §5.1; PO duyệt, BA soạn. Thứ tự: (0) tài liệu của khách hàng hoặc PO được đăng ký thành `SRC-<NN>` ở [sources](../../docs/00-project-overview/sources/README.md); (1) vision và scope `Approved` (cổng Phạm vi); (2) nhập User Story, ghi `SRC` làm căn cứ, rồi viết FR, BR, AC liên kết với User Story đó. Chưa qua bước 1 thì chưa nhập User Story chính thức. Điểm chưa rõ của User Story ghi thành OQ ở sổ của Feature hoặc Module ([open-questions](open-questions.md)), không tự đoán. Có User Story rồi mới nêu `US-<MODULE>-<NN>` làm Nguồn khi giao việc lớn.
 
-### 5.2 Mở phiên AI
+### 6.2 Mở phiên AI
 Mở phiên ở thư mục gốc repo cha. Chọn model, effort **trước khi gõ câu mở đầu**:
 
 | Phiên | Mức | Nghĩa |
@@ -229,18 +238,19 @@ Task PRJ-12 (sửa lỗi · rủi ro thấp · làm trọn Task). Làm theo AGEN
 
 **Nguyên tắc viết prompt.** Prompt chỉ mang **việc gì** (Task, đầu vào, điều kiện riêng của lần này). **Làm thế nào** đã nằm trong Rule, Skill, workflow; không chép lại vào prompt, không viết "hãy cẩn thận", "đừng bịa". Muốn AI làm khác đi thì sửa Rule hoặc Skill bằng Task riêng, không vá bằng prompt. Không dán dữ liệu bí mật (gồm, dữ liệu cá nhân) vào prompt.
 
-### 5.3 Mẫu prompt theo tình huống
+### 6.3 Mẫu prompt theo tình huống
 
-Thay phần `<...>`. Mã Task, loại, rủi ro, mức tự chủ lấy từ Task đã viết theo §5.1.
+Thay phần `<...>`. Mã Task, loại, rủi ro, mức tự chủ lấy từ Task đã viết theo §6.1.
 
 | Tình huống | Prompt |
 | --- | --- |
 | Khai báo dự án | `Tạo PROJECT.md cho dự án <tên>. Loại: <nội bộ / gia công / bảo trì>. Quy mô: <số người, thời gian>. Dữ liệu xử lý: <mô tả>. Khách hàng: <có / không; đại diện là ai, đầu mối là ai>. Mục nào bạn không biết thì để trống và hỏi.` |
 | Nhận tài liệu từ khách hàng | `Task <KEY>-<N> (chỉ sửa tài liệu · rủi ro thấp · duyệt từng bước). Đăng ký tài liệu nguồn vào docs/00-project-overview/sources/: <đường dẫn các file đã ẩn danh>. Người cung cấp: <tên>, ngày nhận: <ngày>. Liệt kê tài liệu còn thiếu thành OQ loại Input.` |
 | Khám phá sản phẩm từ tài liệu nguồn | `Task <KEY>-<N> (tính năng mới · rủi ro <thấp/vừa/cao> · duyệt từng bước). Soạn vision, scope, glossary cho module <tên> từ SRC-<NN>, SRC-<NN>. Soạn gói câu hỏi gửi khách hàng cho các điểm chưa rõ.` |
+| Nhập User Story (bước 2, trước khi viết FR) | `Task <KEY>-<N> (chỉ sửa tài liệu · rủi ro thấp · duyệt từng bước). Nhập User Story vào docs/04-project-management/product-backlog.md §2 từ SRC-<NN>: <dán hoặc trỏ tới nội dung>. Căn cứ: vision, scope đã Approved. Gắn Epic, Feature; điểm chưa rõ thành OQ, không đoán.` |
 | Phân tích yêu cầu | `Task <KEY>-<N> (tính năng mới · rủi ro <thấp/vừa/cao> · duyệt từng bước). Viết BRD, FR, BR, AC cho module <tên>. Căn cứ: vision, scope đã Approved; SRC-<NN>; OQ đã Closed.` |
 | Soạn gói xác nhận gửi khách hàng | `Task <KEY>-<N> (chỉ sửa tài liệu · rủi ro thấp · duyệt từng bước). Soạn gói xác nhận cho <quy trình> theo CONFIRMATION-PACK-TEMPLATE từ SRC-<NN>: phạm vi, quy trình, wireframe từng màn hình, quy tắc, câu hỏi. Điểm chưa rõ thành OQ, không đoán.` Sau đó BA chạy `python3 -I .ai/scripts/export-pack.py <gói>.md --pdf` để gửi |
-| Khách hàng đã trả lời | `Khách hàng trả lời các câu hỏi OQ-<NN>, OQ-<NN> (đã lưu SRC-<NN>). Cập nhật open-questions và các tài liệu bị ảnh hưởng; câu trả lời sinh câu hỏi mới thì mở OQ mới.` |
+| Khách hàng đã trả lời | `Khách hàng trả lời các câu hỏi OQ-<NN>, OQ-<NN> (đã lưu SRC-<NN>). Cập nhật sổ OQ và các tài liệu bị ảnh hưởng; câu trả lời sinh câu hỏi mới thì mở OQ mới.` |
 | Rà soát yêu cầu | `Task <KEY>-<N> (rà soát yêu cầu · rủi ro thấp · chỉ đọc). Rà soát FR-<MODULE>-* và AC trước khi trình PO duyệt.` |
 | Thiết kế | `Task <KEY>-<N> (tính năng mới · rủi ro <thấp/vừa/cao> · duyệt từng bước). Thiết kế module <tên> trên nền <hệ thống sẵn có, đường dẫn code>. Căn cứ: FR-<MODULE>-* đã Approved.` |
 | Lập Plan | `Lập Plan từ <GOAL-<NN> | EPIC-<NN> | US-<MODULE>-<NN> | yêu cầu: …>; phục vụ Goal <GOAL-<NN> hoặc không>. Căn cứ FR-<MODULE>-*, thiết kế đã Approved. Chia thành Plan và Task kèm manifest; đề xuất rủi ro, mức tự chủ, mức model·effort cho từng Task.` |
@@ -253,7 +263,7 @@ Thay phần `<...>`. Mã Task, loại, rủi ro, mức tự chủ lấy từ Tas
 | Duyệt tài liệu | `<Vai> <tên> duyệt, chuyển <file> sang Approved.` |
 | Trả lời câu hỏi cần quyết | `OQ-<NN>: chọn phương án <A/B>, lý do <...>.` hoặc `Chưa quyết OQ-<NN>, làm tiếp phần không bị chặn.` |
 
-### 5.4 Việc của bạn ở từng điểm dừng
+### 6.4 Việc của bạn ở từng điểm dừng
 Các bước AI thực hiện ở [task-execution](../workflows/task-execution.md).
 
 | Khi AI… | Bạn làm |
@@ -269,12 +279,12 @@ Các bước AI thực hiện ở [task-execution](../workflows/task-execution.m
 | Mở PR (hoặc trước khi mở PR) | Review có thể chạy trên máy trước khi có PR, dựa trên báo cáo bàn giao và dải commit. Review bằng **một phiên AI khác** (Task review PR) hoặc người khác; Task rủi ro cao cần thêm một reviewer độc lập |
 | Chờ merge, phát hành | Người merge; AI không tự merge, tag hay deploy |
 
-### 5.5 Duyệt tài liệu
+### 6.5 Duyệt tài liệu
 Chỉ người có thẩm quyền (cột "Người duyệt" ở [README](../../README.md), mục Giai đoạn và người duyệt) đổi `Draft` sang `Approved`, ghi tên và ngày vào bảng thuộc tính của tài liệu. Có thể tự sửa tay hoặc bảo AI: *"Tech Lead duyệt, chuyển … sang Approved"*. AI không tự chuyển.
 
 Tài liệu cần khách hàng duyệt: Đầu mối gửi khách hàng → khách hàng duyệt, báo Đầu mối → Đầu mối lưu kết quả thành `SRC-<NN>` ([sources](../../docs/00-project-overview/sources/README.md)) → mới chuyển `Approved`, ghi mã `SRC` cạnh tên người duyệt. Khách hàng yêu cầu sửa: ghi thành OQ, AI sửa bản `Draft`, gửi lại.
 
-## 6. Tình huống thường gặp
+## 7. Tình huống thường gặp
 
 | Tình huống | Nguyên nhân | Xử lý |
 | --- | --- | --- |
