@@ -33,27 +33,27 @@ Mỗi màn hình là một khối mã mở bằng ba dấu huyền và chữ `wi
 Ví dụ:
 
 ```wireframe
-screen: Đăng tuyển vị trí
+screen: Đặt lịch hẹn
 id: M-00
-role: Supervisor
+role: Khách đặt lịch
 device: desktop
 style: wireframe
-topbar: Work-Study ; Vị trí của tôi ; Hồ sơ
-title: Đăng tuyển vị trí mới
-cols: select: Vị trí * = PASS Leader #1 ; date: Hạn đăng tuyển * #2
-input: Số lượng * = 2
-textarea: Mô tả công việc [auto]
-alert: Sau khi gửi, Phòng Công tác sinh viên sẽ duyệt trước khi đăng.
-button: Gửi duyệt (primary)
+topbar: Dịch vụ ; Lịch hẹn của tôi ; Hồ sơ
+title: Đặt lịch hẹn mới
+cols: select: Loại dịch vụ * = Tư vấn #1 ; date: Ngày hẹn * #2
+input: Số người tham dự * = 2
+textarea: Ghi chú [auto]
+alert: Sau khi gửi, bộ phận phụ trách sẽ xác nhận trước khi lịch có hiệu lực.
+button: Gửi yêu cầu (primary)
 button: Lưu nháp
-note: 1 | Danh sách vị trí do Phòng Công tác sinh viên khai sẵn.
-note: 2 | Hệ thống tự đóng vị trí khi hết hạn.
+note: 1 | Danh sách loại dịch vụ do bộ phận phụ trách khai sẵn.
+note: 2 | Hệ thống tự đóng lịch trống khi quá hạn đặt.
 ```
 
 ## Trước khi gửi
 
 - [ ] Mỗi màn hình trả lời: ai dùng, làm việc gì, dữ liệu nào tự điền, bước tiếp theo.
-- [ ] Mỗi điểm chưa chắc đã đánh số trên màn hình và có câu hỏi ở mục 5.
+- [ ] Mỗi điểm chưa chắc đã đánh số trên màn hình và có câu hỏi ở mục 6.
 - [ ] Mọi `OQ-<NN>` trong gói có trong sổ OQ đúng cấp (trạng thái chuyển `Asked` sau khi gửi).
 - [ ] Không có họ tên, mã sinh viên, số tài khoản, số giấy tờ thật.
 - [ ] Đã xuất thử file, xem lại bằng mắt.
@@ -80,8 +80,8 @@ note: 2 | Hệ thống tự đóng vị trí khi hết hạn.
 
 Gói này tóm tắt những gì chúng tôi hiểu về <quy trình>, kèm bản phác màn hình, để anh/chị xác nhận hoặc chỉnh trước khi triển khai.
 
-- Mục 2, 3, 4: đọc và đánh dấu **Đúng**, **Sửa** hoặc **Bỏ** ở cột "Trả lời" của bảng; chỗ sửa ghi ngắn ở cột "Ghi chú".
-- Mục 5: trả lời trực tiếp vào cột "Trả lời".
+- Mục 2, 3, 4, 5: đọc và đánh dấu **Đúng**, **Sửa** hoặc **Bỏ** ở cột "Trả lời" của bảng; chỗ sửa ghi ngắn ở cột "Ghi chú".
+- Mục 6: trả lời trực tiếp vào cột "Trả lời".
 - Số tròn cam trên màn hình (①②…) trỏ tới câu hỏi hoặc chú thích cùng số.
 - Màn hình trong gói là **bản phác** về bố cục và nội dung, chưa phải giao diện cuối. Chữ trong ô là ví dụ.
 - Trả lời qua <kênh> trước <ngày>. Chỗ nào chưa chắc, ghi "chưa chốt" và ai sẽ quyết.
@@ -97,9 +97,9 @@ Gói này tóm tắt những gì chúng tôi hiểu về <quy trình>, kèm bả
 
 <Một đoạn mô tả ngắn, rồi bảng các bước theo người làm.>
 
-| Bước | Ai làm | Việc | Hệ thống làm gì | Thời hạn | Trả lời (Đúng / Sửa) | Ghi chú |
-| --- | --- | --- | --- | --- | --- | --- |
-| 1 | | | | | | |
+| Bước | Ai làm | Việc | Hệ thống làm gì | Thông báo tự động (gửi ai, khi nào; "Không có" nếu không gửi) | Thời hạn | Trả lời (Đúng / Sửa) | Ghi chú |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 | | | | | | | |
 
 ## 4. Màn hình đề xuất
 
